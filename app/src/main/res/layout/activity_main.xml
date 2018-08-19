@@ -6,16 +6,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cz.mendelu.tomas.graphpef.MainActivity">
+    tools:context="cz.mendelu.tomas.graphpef.MainActivity"
+    android:background="@color/blueDark">
 
 
     <Button
         android:id="@+id/button3"
+        style="@android:style/Widget.Material.Light.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="56dp"
         android:text="Start App" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/textView"
+        android:layout_alignParentStart="true"
+        app:srcCompat="@drawable/logo_pef_biele"
+        android:layout_marginBottom="56dp"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="GraphPEF"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textColor="@color/white" />
 
 
 </RelativeLayout>

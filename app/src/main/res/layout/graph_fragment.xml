@@ -85,21 +85,21 @@
 
             <ImageButton
                 android:id="@+id/buttonUp"
-                android:layout_marginTop="18dp"
-                style="@android:style/Widget.ImageButton"
+                style="@android:style/Widget.Material.Light.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/buttonDown"
+                android:layout_marginTop="18dp"
                 app:srcCompat="@drawable/ic_arrow_upward_black_24dp" />
 
             <ImageButton
                 android:id="@+id/buttonDown"
-                style="@android:style/Widget.ImageButton"
-                android:layout_marginTop="18dp"
-                android:layout_below="@id/buttonUp"
+                style="@android:style/Widget.Material.Light.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/buttonUp"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="18dp"
                 app:srcCompat="@drawable/ic_arrow_downward_black_24dp" />
         </RelativeLayout>
 
