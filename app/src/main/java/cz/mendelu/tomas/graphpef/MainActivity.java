@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         mainScreen.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Log.d(TAG,"onClick: Clicked button mainScreen");
+                //Log.d(TAG,"onClick: Clicked button mainScreen");
                 Intent intent = new Intent(MainActivity.this,MainScreenController.class);
                 startActivity(intent);
             }

@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -18,13 +19,17 @@ import java.util.HashMap;
 
 public class MainScreenController extends AppCompatActivity{
 
+    private static final String TAG = "MainScreenController";
+
     private  SectionsPagerAdapter mSectionsPagerAdapter;
 
     private ViewPager mViewPager;
 
     private HashMap<GraphEnum, GraphHelperObject> graphsDatabase;
 
-    private static GraphEnum chosenGraph = GraphEnum.MarketDS;
+    private static GraphEnum chosenGraph = GraphEnum.ProductionLimit;
+
+    private static Boolean graphChanged = false;
 
     public static LineEnum getChosenLine() {
         return chosenLine;
@@ -85,25 +90,32 @@ public class MainScreenController extends AppCompatActivity{
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_multiline_chart_black_24dp);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_info_black_24dp);
 
+        Log.d(TAG, "onCreate" + graphChanged.toString());
+        if (graphChanged == true){
+            graphChanged = false;
+            onChosenGraphChange();
+        }
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MenuFragment());
-        adapter.addFragment(GraphFragment.newInstance(graphsDatabase.get(GraphEnum.MarketDS)));
+        adapter.addFragment(GraphFragment.newInstance(graphsDatabase.get(chosenGraph)));
         adapter.addFragment(new InfoFragment());
         viewPager.setAdapter(adapter);
     }
 
     private void populateGraphDatabase(){
         //MarketDS
-        GraphHelperObject newGraph = new GraphHelperObject();
+        GraphHelperObject marketDS = new GraphHelperObject();
+        GraphHelperObject productionLimit = new GraphHelperObject();
 
-        newGraph.setTitle("MarketDS");
-        newGraph.setLabelX("Quantity");
-        newGraph.setLabelY("Price");
-        newGraph.setGraphEnum(GraphEnum.MarketDS);
-        ArrayList<Integer> values = new ArrayList<Integer>(), values2 = new ArrayList<Integer>(), values3 = new ArrayList<Integer>();
+        marketDS.setTitle("MarketDS");
+        marketDS.setLabelX("Quantity");
+        marketDS.setLabelY("Price");
+        marketDS.setGraphEnum(GraphEnum.MarketDS);
+        ArrayList<Integer> values = new ArrayList<>(), values2 = new ArrayList<>(), values3 = new ArrayList<>();
         HashMap<MainScreenController.LineEnum,ArrayList<Integer>> map = new HashMap<>();
 
         //series 1 - Supply
@@ -128,30 +140,57 @@ public class MainScreenController extends AppCompatActivity{
         map.put(LineEnum.Price,values3);
 
 
-        newGraph.setSeries( map );
+        marketDS.setSeries( map );
 
-        newGraph.setCalculateEqulibrium(true);
+        marketDS.setCalculateEqulibrium(true);
         ArrayList<LineEnum> equilibriumCurves = new ArrayList<>();
         equilibriumCurves.add(LineEnum.Demand);
         equilibriumCurves.add(LineEnum.Supply);
-        newGraph.setEquilibriumCurves(equilibriumCurves);
+        marketDS.setEquilibriumCurves(equilibriumCurves);
 
         ArrayList<LineEnum> equilibriumDependantCurves = new ArrayList<>();
         equilibriumDependantCurves.add(LineEnum.Price);
-        newGraph.setDependantCurveOnEquilibrium(equilibriumDependantCurves);
+        marketDS.setDependantCurveOnEquilibrium(equilibriumDependantCurves);
 
-        graphsDatabase.put(GraphEnum.MarketDS,newGraph);
+        graphsDatabase.put(GraphEnum.MarketDS,marketDS);
+
+
+        // ProductionLimit
+
+        productionLimit.setTitle("ProductionLimit");
+        productionLimit.setLabelX("Unit X");
+        productionLimit.setLabelY("Unit Y");
+        productionLimit.setGraphEnum(GraphEnum.ProductionLimit);
+        HashMap<MainScreenController.LineEnum,ArrayList<Integer>> newMap = new HashMap<>();
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(0);//X^3
+        arrayList.add(0);//X^2
+        arrayList.add(0);//x^1
+        arrayList.add(0);//x^0
+        newMap.put(LineEnum.ProductionCapabilities,arrayList);
+        productionLimit.setCalculateEqulibrium(false);
+        productionLimit.setSeries(newMap);
+
+
+        graphsDatabase.put(GraphEnum.ProductionLimit,productionLimit);
     }
 
     public static GraphEnum getChosenGraph() {
         return chosenGraph;
     }
 
-    public void setChosenGraph(GraphEnum chosenGraph) {
-        MainScreenController.chosenGraph = chosenGraph;
+    public static void setChosenGraph(String string){
+        Log.d(TAG, "setChosenGraph" + string);
+        chosenGraph = GraphEnum.valueOf(string);
+        graphChanged = true;
+    }
+
+    public void onChosenGraphChange() {
+        Log.d(TAG, "onChosenGraphChange");
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        GraphFragment graphFragment = GraphFragment.newInstance(graphsDatabase.get(chosenGraph));
+        GraphFragment graphFragment = GraphFragment.newInstance(graphsDatabase.get(chosenGraph ));
         ft.replace(R.id.graph_fragment,graphFragment);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
     }
 

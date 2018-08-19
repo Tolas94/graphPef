@@ -110,7 +110,8 @@ public class GraphFragment extends Fragment{
         graph.getGridLabelRenderer().setHighlightZeroLines(true);
         graph.getGridLabelRenderer().setNumHorizontalLabels(4);
         graph.getGridLabelRenderer().setNumVerticalLabels(4);
-        graph.getViewport().setMaxX(12);
+        graph.getViewport().setMaxX(15);
+        graph.getViewport().setMaxY(15);
         graph.getViewport().setXAxisBoundsManual(true);
         lineGraphSeriesMap = new HashMap<>();
 
@@ -128,16 +129,16 @@ public class GraphFragment extends Fragment{
     private void moveCurve(Boolean boolUp, MainScreenController.LineEnum seriesID,int identificator, int color) {
 
         int change = graphHelperObject.getLineChangeIdentificatorByLineEnum(seriesID).get(identificator);
-        Log.d(TAG, "Line: " + seriesID.toString() + " Change before: " + change + " on x" + identificator);
+        //Log.d(TAG, "Line: " + seriesID.toString() + " Change before: " + change + " on x" + identificator);
         ArrayList<Integer> arrayList = new ArrayList<>();
         for(int i = 0; i<4; i++ ){
             if (i == identificator){
                 if (boolUp){
                     arrayList.add( change + 1 );
-                    Log.d(TAG,"posunKrivku:  hore, new change: " + arrayList.get(identificator) );
+                    //Log.d(TAG,"posunKrivku:  hore, new change: " + arrayList.get(identificator) );
                 } else {
                     arrayList.add( change - 1 );
-                    Log.d(TAG, "posunKrivku: dole, new change: " + arrayList.get(identificator) );
+                    //Log.d(TAG, "posunKrivku: dole, new change: " + arrayList.get(identificator) );
                 }
             }else{
                 arrayList.add(graphHelperObject.getLineChangeIdentificatorByLineEnum(seriesID).get(i));
@@ -170,16 +171,23 @@ public class GraphFragment extends Fragment{
             initializeChangeIdentificator();
         }
         ArrayList<Integer> identChanges = graphHelperObject.getLineChangeIdentificatorByLineEnum(line);
-        Log.d(TAG,  identChanges.get(3) + " * " + x3 + " * x^3 +"
-                + identChanges.get(2) + " * " + x2 + " * x^2 +"
-                + identChanges.get(1) + " * " + x1 + " * x^1 +"
-                + x0 + " + " + identChanges.get(0) );
+        //Log.d(TAG,  identChanges.get(3) + " * " + x3 + " * x^3 +"
+                //+ identChanges.get(2) + " * " + x2 + " * x^2 +"
+                //+ identChanges.get(1) + " * " + x1 + " * x^1 +"
+               // + x0 + " + " + identChanges.get(0) );
 
-
-        for( int i=0; i<500; i++){
-            x = x + precision;
-            y = identChanges.get(3) * x3 * x * x * x + identChanges.get(2) * x2 * x * x + identChanges.get(1) * x1 * x + x0 + identChanges.get(0);
-            seriesLocal.appendData( new DataPoint(x,y), true, 500 );
+        if( line == MainScreenController.LineEnum.ProductionCapabilities){
+            for (double t = 0.5 * Math.PI; t > 0; t -= 0.05 ) { // <- or different step
+                x = 8 * Math.cos(t);
+                y = 8 * Math.sin(t);
+                seriesLocal.appendData( new DataPoint(x,y), true, 500 );
+            }
+        }else{
+            for( int i=0; i<500; i++){
+                x = x + precision;
+                y = identChanges.get(3) * x3 * x * x * x + identChanges.get(2) * x2 * x * x + identChanges.get(1) * x1 * x + x0 + identChanges.get(0);
+                seriesLocal.appendData( new DataPoint(x,y), true, 500 );
+            }
         }
         seriesLocal.setColor(color);
         graph.addSeries(seriesLocal);
@@ -226,7 +234,7 @@ public class GraphFragment extends Fragment{
 
                 int counter = (int) ((maxX - minX)/precision);
 
-                Log.d(TAG, "calculateEqulibrium: minX[" + minX + "] maxX[" + maxX + "] counter[" + counter + "]");
+                //Log.d(TAG, "calculateEqulibrium: minX[" + minX + "] maxX[" + maxX + "] counter[" + counter + "]");
                 x = minX;
                 pointX = minX;
                 pointY = 0;
@@ -255,10 +263,10 @@ public class GraphFragment extends Fragment{
                 if (diff < precision){
                     equiPoints.add(pointX);
                     equiPoints.add(pointY);
-                    Log.d(TAG, "calculateEqulibrium: calculated!");
+                    //Log.d(TAG, "calculateEqulibrium: calculated!");
                     return equiPoints;
                 }else{
-                    Log.d(TAG, "calculateEqulibrium: not found!");
+                    //Log.d(TAG, "calculateEqulibrium: not found!");
                 }
             }
         }
@@ -266,13 +274,13 @@ public class GraphFragment extends Fragment{
     }
 
     private void createShape(ArrayList<DataPoint> arrayList){
-        //TODO create shape for are to be shown to user
+        //TODO create shape for to be shown to user
         // probably will not be able to do so
         // possible solution is to draw backgroung with color on curve and white on the lower one
     }
 
     private void updateMenuTitles() {
-        Log.d(TAG,"UpdateMenuTitles");
+        //Log.d(TAG,"UpdateMenuTitles");
         menu.clear();
         for (final MainScreenController.LineEnum line:graphHelperObject.getSeries().keySet()) {
             MenuItem menuItem = menu.add(line.toString());
@@ -280,7 +288,7 @@ public class GraphFragment extends Fragment{
             menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    Log.d(TAG, "onMenuItemClick: " + line.toString());
+                    //Log.d(TAG, "onMenuItemClick: " + line.toString());
                     MainScreenController.setChosenLine(line);
                     return false;
                 }
@@ -302,7 +310,7 @@ public class GraphFragment extends Fragment{
         if (graphHelperObject.getCalculateEqulibrium())
         {
             ArrayList<Double> equiPoints,equiPoints2;
-            Log.d(TAG,"Equilibrium being calculated");
+            //Log.d(TAG,"Equilibrium being calculated");
             equiPoints = calculateEqulibrium(graphHelperObject.getEquilibriumCurves().get(0),graphHelperObject.getEquilibriumCurves().get(1));
             if( !equiPoints.isEmpty() ){
                 text1.setText("EQ point " + graphHelperObject.getLabelX() + " = " + String.format( "%.2f", equiPoints.get(0)));
@@ -310,7 +318,7 @@ public class GraphFragment extends Fragment{
             }
             for (MainScreenController.LineEnum keySetLine:graphHelperObject.getSeries().keySet()) {
                 for (MainScreenController.LineEnum dependantLine:graphHelperObject.getDependantCurveOnequilibrium()){
-                    Log.d(TAG,"recalculateEquilibrium: " + keySetLine.toString() + " " + " " + dependantLine.toString());
+                    //Log.d(TAG,"recalculateEquilibrium: " + keySetLine.toString() + " " + " " + dependantLine.toString());
                     if (keySetLine == dependantLine){
                         equiPoints2 = calculateEqulibrium(keySetLine,graphHelperObject.getEquilibriumCurves().get(1));
                         if (equiPoints2.isEmpty()){
@@ -320,8 +328,8 @@ public class GraphFragment extends Fragment{
                             text3.setText("State is stable");
                         }else{
                             text3.setText("State is NOT stable");
-                            Log.d(TAG,"equiPoints2.get(0) == equiPoints.get(0) && equiPoints2.get(1) == equiPoints.get(1))"
-                                    + equiPoints2.get(0)+ " " + equiPoints.get(0)+ " " + equiPoints2.get(1)  + " " + equiPoints.get(1) );
+                            //Log.d(TAG,"equiPoints2.get(0) == equiPoints.get(0) && equiPoints2.get(1) == equiPoints.get(1))"
+                             //       + equiPoints2.get(0)+ " " + equiPoints.get(0)+ " " + equiPoints2.get(1)  + " " + equiPoints.get(1) );
                         }
                     }
                 }
@@ -330,9 +338,9 @@ public class GraphFragment extends Fragment{
     }
 
     private Boolean compareDoubleWithPrecision(Double firstValue, Double secondValue){
-        Log.d(TAG,"compareDoubleWithPrecision: " + precision + " > " + abs(firstValue-secondValue));
+        //Log.d(TAG,"compareDoubleWithPrecision: " + precision + " > " + abs(firstValue-secondValue));
         if ( precision > abs(firstValue-secondValue)){
-            Log.d(TAG,"compareDoubleWithPrecision: return true");
+            //Log.d(TAG,"compareDoubleWithPrecision: return true");
             return true;
         }
         return false;

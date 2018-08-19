@@ -1,5 +1,6 @@
 package cz.mendelu.tomas.graphpef;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -26,19 +28,26 @@ public class MenuFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstances) {
         View view = inflater.inflate(R.layout.menu_fragment,container,false);
-        Log.d(TAG,"onCreateView init");
+        //Log.d(TAG,"onCreateView init");
 
 
         ListView graphMenu = view.findViewById(R.id.listOfGraphs);
 
         ArrayList<String> graphNames = new ArrayList<>();
-        Log.d(TAG,"graphNames init");
+        //Log.d(TAG,"graphNames init");
         for(MainScreenController.GraphEnum graphEnum: MainScreenController.GraphEnum.values()){
             graphNames.add(graphEnum.toString());
         }
-        Log.d(TAG,"graphNames size[" + graphNames.size() + "] e.g " /*+ graphNames.get(0)*/);
+        //Log.d(TAG,"graphNames size[" + graphNames.size() + "] e.g " /*+ graphNames.get(0)*/);
         MenuListAdapter adapter = new MenuListAdapter(getActivity(), R.layout.graph_menu_item_layout, graphNames);
         graphMenu.setAdapter(adapter);
+        graphMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MainScreenController.setChosenGraph((String) parent.getItemAtPosition(position));
+
+            }
+        });
         return view;
     }
 
