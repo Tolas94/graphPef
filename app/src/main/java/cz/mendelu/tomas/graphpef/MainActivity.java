@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //TODO add signing via FireBase
+
     }
 
 

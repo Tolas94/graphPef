@@ -3,6 +3,7 @@ package cz.mendelu.tomas.graphpef;
 import android.content.ClipData;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by tomas on 12.08.2018.
@@ -110,16 +112,9 @@ public class GraphFragment extends Fragment{
             calculateData(line, Color.BLACK);
         }
 
-
-        if (graphHelperObject.getCalculateEqulibrium())
-        {
-            Log.d(TAG,"Equilibrium being calculated");
-            text1.setText(graphHelperObject.getEquilibriumCurves().get(0).toString() + " = ");
-            text2.setText(graphHelperObject.getEquilibriumCurves().get(1).toString() + " = ");
-            calculateEqulibrium(graphHelperObject.getEquilibriumCurves().get(0),graphHelperObject.getEquilibriumCurves().get(1));
-        }
         menu = toolbar.getMenu();
         updateMenuTitles();
+        recalculateEquilibrium();
 
         return view;
     }
@@ -144,6 +139,7 @@ public class GraphFragment extends Fragment{
         }
         graphHelperObject.changeLineChangeIdentificator(seriesID,arrayList);
         calculateData(seriesID,color);
+        recalculateEquilibrium();
     }
 
     private void calculateData(MainScreenController.LineEnum line, int color) {
@@ -168,8 +164,6 @@ public class GraphFragment extends Fragment{
             initializeChangeIdentificator();
         }
         ArrayList<Integer> identChanges = graphHelperObject.getLineChangeIdentificatorByLineEnum(line);
-
-
         Log.d(TAG,  identChanges.get(3) + " * " + x3 + " * x^3 +"
                 + identChanges.get(2) + " * " + x2 + " * x^2 +"
                 + identChanges.get(1) + " * " + x1 + " * x^1 +"
@@ -195,11 +189,15 @@ public class GraphFragment extends Fragment{
         this.precision = precision;
     }
 
-    private void calculateEqulibrium(MainScreenController.LineEnum curve1,MainScreenController.LineEnum curve2){
-
-        //TODO calculate equi point
+    private ArrayList<Double> calculateEqulibrium(MainScreenController.LineEnum curve1,MainScreenController.LineEnum curve2){
+        ArrayList<Double> equiPoints = new ArrayList<>();
         LineGraphSeries<DataPoint> data1 = lineGraphSeriesMap.get(curve1);
         LineGraphSeries<DataPoint> data2 = lineGraphSeriesMap.get(curve2);
+        double pointX, pointY, diff;
+        int x3, x2, x1, x0,x3_2, x2_2, x1_2, x0_2;
+        HashMap<MainScreenController.LineEnum,ArrayList<Integer>> seriesSource = graphHelperObject.getSeries();
+        ArrayList<Integer> identChanges1 = graphHelperObject.getLineChangeIdentificatorByLineEnum(curve1);
+        ArrayList<Integer> identChanges2 = graphHelperObject.getLineChangeIdentificatorByLineEnum(curve2);
 
         // check if they intersect each other
         if (data1.getHighestValueX() > data2.getLowestValueX()
@@ -208,12 +206,57 @@ public class GraphFragment extends Fragment{
             if (data1.getHighestValueY() > data2.getLowestValueY()
                     && data2.getHighestValueY() > data1.getLowestValueY())
             {
+                double minX, maxX, x, y1,y2;
+                if (data1.getLowestValueX() > data2.getLowestValueX()){
+                    minX = data1.getLowestValueX();
+                }else{
+                    minX = data2.getLowestValueX();
+                }
+                if (data1.getHighestValueX() < data2.getHighestValueX()){
+                    maxX = data1.getHighestValueX();
+                }else{
+                    maxX = data2.getHighestValueX();
+                }
 
+                int counter = (int) ((maxX - minX)/precision);
+
+                Log.d(TAG, "calculateEqulibrium: minX[" + minX + "] maxX[" + maxX + "] counter[" + counter + "]");
+                x = minX;
+                pointX = minX;
+                pointY = 0;
+                diff = 10000;
+                x3 = seriesSource.get(curve1).get(0);
+                x2 = seriesSource.get(curve1).get(1);
+                x1 = seriesSource.get(curve1).get(2);
+                x0 = seriesSource.get(curve1).get(3);
+                x3_2 = seriesSource.get(curve2).get(0);
+                x2_2 = seriesSource.get(curve2).get(1);
+                x1_2 = seriesSource.get(curve2).get(2);
+                x0_2 = seriesSource.get(curve2).get(3);
+                for (int i = 0; i < counter; i++ ){
+                    x = x + precision;
+                    y1 = identChanges1.get(3) * x3 * x * x * x + identChanges1.get(2) * x2 * x * x + identChanges1.get(1) * x1 * x + x0 + identChanges1.get(0);
+                    y2 = identChanges2.get(3) * x3_2 * x * x * x + identChanges2.get(2) * x2_2 * x * x + identChanges2.get(1) * x1_2 * x + x0_2 + identChanges2.get(0);
+                    Log.d(TAG, "calculateEqulibrium: abs(y1-y2)[" + Math.abs( y1 - y2 ) + "]");
+                    if (diff > Math.abs( y1 - y2 )){
+                        diff = Math.abs( y1 - y2 );
+                        pointX = x;
+                        pointY = (y1+y2)/2;
+                        Log.d(TAG, "calculateEqulibrium: pointX[" + pointX + "] pointY[" + pointY + "]");
+                    }
+                }
+                ArrayList<Double> arrayList = new ArrayList<>();
+                if (diff < precision){
+                    equiPoints.add(pointX);
+                    equiPoints.add(pointY);
+                    Log.d(TAG, "calculateEqulibrium: calculated!");
+                    return equiPoints;
+                }else{
+                    Log.d(TAG, "calculateEqulibrium: not found!");
+                }
             }
         }
-
-
-
+        return equiPoints;
     }
 
     private void createShape(ArrayList<DataPoint> arrayList){
@@ -244,6 +287,19 @@ public class GraphFragment extends Fragment{
                 arrayList.add(1);
             }
             graphHelperObject.addLineChangeIdentificator(line,arrayList);
+        }
+    }
+
+    private void recalculateEquilibrium(){
+        if (graphHelperObject.getCalculateEqulibrium())
+        {
+            ArrayList<Double> equiPoints = new ArrayList<>();
+            Log.d(TAG,"Equilibrium being calculated");
+            equiPoints = calculateEqulibrium(graphHelperObject.getEquilibriumCurves().get(0),graphHelperObject.getEquilibriumCurves().get(1));
+            if( !equiPoints.isEmpty() ){
+                text1.setText(graphHelperObject.getLabelX() + " = " + String.format( "%.2f", equiPoints.get(0)));
+                text2.setText(graphHelperObject.getLabelY() + " = " + String.format( "%.2f", equiPoints.get(1)));
+            }
         }
     }
 }
