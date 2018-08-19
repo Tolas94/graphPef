@@ -17,7 +17,10 @@ public class GraphHelperObject implements Serializable{
     private String title, labelX, labelY;
     private Boolean calculateEqulibrium;
     private ArrayList<MainScreenController.LineEnum> equilibriumCurves;
+    private ArrayList<MainScreenController.LineEnum> dependantCurveOnequilibrium;
     private HashMap<MainScreenController.LineEnum, ArrayList<Integer>> lineChangeIdentificator;
+
+    //TODO add dependant LINEs connection e.g. TC MC or TR MT
 
 
 
@@ -111,5 +114,14 @@ public class GraphHelperObject implements Serializable{
     public Boolean isLineChangeIdentEmpty(){
         return lineChangeIdentificator.isEmpty();
     }
+
+    public ArrayList<MainScreenController.LineEnum> getDependantCurveOnequilibrium() {
+        return dependantCurveOnequilibrium;
+    }
+
+    public void setDependantCurveOnEquilibrium(ArrayList<MainScreenController.LineEnum> dependantCurveOnequilibrium) {
+        this.dependantCurveOnequilibrium = dependantCurveOnequilibrium;
+    }
+
 
 }

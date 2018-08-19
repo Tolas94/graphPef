@@ -57,7 +57,6 @@ public class MainScreenController extends AppCompatActivity{
         Taxes,
         Equilibrium,
         TotalUtility
-
     }
 
 
@@ -125,13 +124,18 @@ public class MainScreenController extends AppCompatActivity{
         values3.add(5);//x^0
         map.put(LineEnum.Price,values3);
 
+
         newGraph.setSeries( map );
 
         newGraph.setCalculateEqulibrium(true);
-        ArrayList<LineEnum> arrayList = new ArrayList<>();
-        arrayList.add(LineEnum.Demand);
-        arrayList.add(LineEnum.Supply);
-        newGraph.setEquilibriumCurves(arrayList);
+        ArrayList<LineEnum> equilibriumCurves = new ArrayList<>();
+        equilibriumCurves.add(LineEnum.Demand);
+        equilibriumCurves.add(LineEnum.Supply);
+        newGraph.setEquilibriumCurves(equilibriumCurves);
+
+        ArrayList<LineEnum> equilibriumDependantCurves = new ArrayList<>();
+        equilibriumDependantCurves.add(LineEnum.Price);
+        newGraph.setDependantCurveOnEquilibrium(equilibriumDependantCurves);
 
         graphsDatabase.put(GraphEnum.MarketDS,newGraph);
     }

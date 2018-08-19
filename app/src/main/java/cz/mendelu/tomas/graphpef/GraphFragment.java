@@ -15,7 +15,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -25,6 +27,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+
+import static java.lang.Math.abs;
 
 /**
  * Created by tomas on 12.08.2018.
@@ -95,6 +99,8 @@ public class GraphFragment extends Fragment{
 
         HashMap<MainScreenController.LineEnum, ArrayList<Integer>> seriesSource = graphHelperObject.getSeries();
         Log.d(TAG, "Title " + graphHelperObject.getTitle() + " Size " + seriesSource.size());
+        TextView title = (TextView) view.findViewById(R.id.title);
+        title.setText(graphHelperObject.getTitle());
 
         //Graph styling settings
         graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.BOTH );
@@ -237,12 +243,12 @@ public class GraphFragment extends Fragment{
                     x = x + precision;
                     y1 = identChanges1.get(3) * x3 * x * x * x + identChanges1.get(2) * x2 * x * x + identChanges1.get(1) * x1 * x + x0 + identChanges1.get(0);
                     y2 = identChanges2.get(3) * x3_2 * x * x * x + identChanges2.get(2) * x2_2 * x * x + identChanges2.get(1) * x1_2 * x + x0_2 + identChanges2.get(0);
-                    Log.d(TAG, "calculateEqulibrium: abs(y1-y2)[" + Math.abs( y1 - y2 ) + "]");
-                    if (diff > Math.abs( y1 - y2 )){
-                        diff = Math.abs( y1 - y2 );
+                    //Log.d(TAG, "calculateEqulibrium: abs(y1-y2)[" + Math.abs( y1 - y2 ) + "]");
+                    if (diff > abs( y1 - y2 )){
+                        diff = abs( y1 - y2 );
                         pointX = x;
                         pointY = (y1+y2)/2;
-                        Log.d(TAG, "calculateEqulibrium: pointX[" + pointX + "] pointY[" + pointY + "]");
+                        //Log.d(TAG, "calculateEqulibrium: pointX[" + pointX + "] pointY[" + pointY + "]");
                     }
                 }
                 ArrayList<Double> arrayList = new ArrayList<>();
@@ -293,13 +299,40 @@ public class GraphFragment extends Fragment{
     private void recalculateEquilibrium(){
         if (graphHelperObject.getCalculateEqulibrium())
         {
-            ArrayList<Double> equiPoints = new ArrayList<>();
+            ArrayList<Double> equiPoints,equiPoints2;
             Log.d(TAG,"Equilibrium being calculated");
             equiPoints = calculateEqulibrium(graphHelperObject.getEquilibriumCurves().get(0),graphHelperObject.getEquilibriumCurves().get(1));
             if( !equiPoints.isEmpty() ){
-                text1.setText(graphHelperObject.getLabelX() + " = " + String.format( "%.2f", equiPoints.get(0)));
-                text2.setText(graphHelperObject.getLabelY() + " = " + String.format( "%.2f", equiPoints.get(1)));
+                text1.setText("EQ point " + graphHelperObject.getLabelX() + " = " + String.format( "%.2f", equiPoints.get(0)));
+                text2.setText("EQ point " + graphHelperObject.getLabelY() + " = " + String.format( "%.2f", equiPoints.get(1)));
+            }
+            for (MainScreenController.LineEnum keySetLine:graphHelperObject.getSeries().keySet()) {
+                for (MainScreenController.LineEnum dependantLine:graphHelperObject.getDependantCurveOnequilibrium()){
+                    Log.d(TAG,"recalculateEquilibrium: " + keySetLine.toString() + " " + " " + dependantLine.toString());
+                    if (keySetLine == dependantLine){
+                        equiPoints2 = calculateEqulibrium(keySetLine,graphHelperObject.getEquilibriumCurves().get(1));
+                        if (equiPoints2.isEmpty()){
+                            Log.d(TAG,"recalculateEquilibrium: error");
+                        }else if ( compareDoubleWithPrecision(equiPoints2.get(0),equiPoints.get(0)) &&
+                                    compareDoubleWithPrecision(equiPoints2.get(1),equiPoints.get(1))){
+                            text3.setText("State is stable");
+                        }else{
+                            text3.setText("State is NOT stable");
+                            Log.d(TAG,"equiPoints2.get(0) == equiPoints.get(0) && equiPoints2.get(1) == equiPoints.get(1))"
+                                    + equiPoints2.get(0)+ " " + equiPoints.get(0)+ " " + equiPoints2.get(1)  + " " + equiPoints.get(1) );
+                        }
+                    }
+                }
             }
         }
+    }
+
+    private Boolean compareDoubleWithPrecision(Double firstValue, Double secondValue){
+        Log.d(TAG,"compareDoubleWithPrecision: " + precision + " > " + abs(firstValue-secondValue));
+        if ( precision > abs(firstValue-secondValue)){
+            Log.d(TAG,"compareDoubleWithPrecision: return true");
+            return true;
+        }
+        return false;
     }
 }

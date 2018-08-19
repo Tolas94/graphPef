@@ -12,7 +12,7 @@
 
     <Button
         android:id="@+id/button3"
-        style="@android:style/Widget.Material.Light.Button"
+        style="@android:style/Widget.Material.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
@@ -36,7 +36,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="GraphPEF"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textAppearance="@android:style/TextAppearance.Material.Display3"
         android:textColor="@color/white" />
 
 
