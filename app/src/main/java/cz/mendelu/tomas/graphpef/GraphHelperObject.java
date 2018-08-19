@@ -1,6 +1,8 @@
 package cz.mendelu.tomas.graphpef;
 
 
+import android.text.BoringLayout;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ public class GraphHelperObject implements Serializable{
     private String title, labelX, labelY;
     private Boolean calculateEqulibrium;
     private ArrayList<MainScreenController.LineEnum> equilibriumCurves;
+    private HashMap<MainScreenController.LineEnum, ArrayList<Integer>> lineChangeIdentificator;
 
 
 
@@ -24,6 +27,7 @@ public class GraphHelperObject implements Serializable{
         title = "";
         labelX = "";
         labelY = "";
+        lineChangeIdentificator = new HashMap<>();
 
     }
 
@@ -85,6 +89,27 @@ public class GraphHelperObject implements Serializable{
 
     public void setEquilibriumCurves(ArrayList<MainScreenController.LineEnum> equilibriumCurves) {
         this.equilibriumCurves = equilibriumCurves;
+    }
+
+    public ArrayList<Integer> getLineChangeIdentificatorByLineEnum(MainScreenController.LineEnum lineEnum) {
+        return lineChangeIdentificator.get(lineEnum);
+    }
+
+    public void addLineChangeIdentificator(MainScreenController.LineEnum lineEnum, ArrayList<Integer> identificators) {
+        lineChangeIdentificator.put(lineEnum,identificators);
+    }
+
+    public void clearLineChangeIdentificator() {
+        lineChangeIdentificator.clear();
+    }
+
+    public void changeLineChangeIdentificator(MainScreenController.LineEnum lineEnum, ArrayList<Integer> identificators) {
+        lineChangeIdentificator.get(lineEnum).clear();
+        lineChangeIdentificator.put(lineEnum,identificators);
+    }
+
+    public Boolean isLineChangeIdentEmpty(){
+        return lineChangeIdentificator.isEmpty();
     }
 
 }

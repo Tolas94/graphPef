@@ -34,17 +34,6 @@ public class MainScreenController extends AppCompatActivity{
 
     private static LineEnum chosenLine = LineEnum.Demand;
 
-    public static GraphEnum getChosenGraph() {
-        return chosenGraph;
-    }
-
-    public void setChosenGraph(GraphEnum chosenGraph) {
-        MainScreenController.chosenGraph = chosenGraph;
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        GraphFragment graphFragment = GraphFragment.newInstance(graphsDatabase.get(chosenGraph));
-        ft.replace(R.id.graph_fragment,graphFragment);
-        ft.commit();
-    }
     public enum GraphEnum {
         MarketDS,
         ProductionLimit,
@@ -147,5 +136,16 @@ public class MainScreenController extends AppCompatActivity{
         graphsDatabase.put(GraphEnum.MarketDS,newGraph);
     }
 
+    public static GraphEnum getChosenGraph() {
+        return chosenGraph;
+    }
+
+    public void setChosenGraph(GraphEnum chosenGraph) {
+        MainScreenController.chosenGraph = chosenGraph;
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        GraphFragment graphFragment = GraphFragment.newInstance(graphsDatabase.get(chosenGraph));
+        ft.replace(R.id.graph_fragment,graphFragment);
+        ft.commit();
+    }
 
 }

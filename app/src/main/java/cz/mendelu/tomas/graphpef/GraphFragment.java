@@ -44,8 +44,6 @@ public class GraphFragment extends Fragment{
 
     double precision;
 
-    int zmena;
-
     public static GraphFragment newInstance(GraphHelperObject graphHelperObject){
         GraphFragment graphFragment = new GraphFragment();
         Bundle bundle = new Bundle();
@@ -73,10 +71,6 @@ public class GraphFragment extends Fragment{
         text5 = view.findViewById(R.id.graphText5);
 
         graphHelperObject = (GraphHelperObject) getArguments().getSerializable(GRAPH_KEY);
-        double y,x;
-        x = 1;
-        zmena = 0;
-
 
         //todo get precision from activity
         precision = 0.02;
@@ -85,7 +79,7 @@ public class GraphFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Log.d(TAG,"onClick: Clicked button Up");
-                moveCurve(true, MainScreenController.getChosenLine(),Color.GREEN);
+                moveCurve(true, MainScreenController.getChosenLine(),0,Color.GREEN);
             }
         });
 
@@ -93,7 +87,7 @@ public class GraphFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 Log.d(TAG,"onClick: Clicked button Down");
-                moveCurve(false,MainScreenController.getChosenLine(),Color.RED);
+                moveCurve(false,MainScreenController.getChosenLine(),0,Color.RED);
             }
         });
 
@@ -130,16 +124,25 @@ public class GraphFragment extends Fragment{
         return view;
     }
 
-    private void moveCurve(Boolean boolUp, MainScreenController.LineEnum seriesID, int color) {
-        double x,y;
-        x = 1;
-        if (boolUp){
-            Log.d(TAG,"posunKrivku:  hore");
-            zmena+= + 1;
-        }else {
-            Log.d(TAG, "posunKrivku: dole");
-            zmena += -1;
+    private void moveCurve(Boolean boolUp, MainScreenController.LineEnum seriesID,int identificator, int color) {
+
+        int change = graphHelperObject.getLineChangeIdentificatorByLineEnum(seriesID).get(identificator);
+        Log.d(TAG, "Line: " + seriesID.toString() + " Change before: " + change + " on x" + identificator);
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for(int i = 0; i<4; i++ ){
+            if (i == identificator){
+                if (boolUp){
+                    arrayList.add( change + 1 );
+                    Log.d(TAG,"posunKrivku:  hore, new change: " + arrayList.get(identificator) );
+                } else {
+                    arrayList.add( change - 1 );
+                    Log.d(TAG, "posunKrivku: dole, new change: " + arrayList.get(identificator) );
+                }
+            }else{
+                arrayList.add(graphHelperObject.getLineChangeIdentificatorByLineEnum(seriesID).get(i));
+            }
         }
+        graphHelperObject.changeLineChangeIdentificator(seriesID,arrayList);
         calculateData(seriesID,color);
     }
 
@@ -160,11 +163,22 @@ public class GraphFragment extends Fragment{
         LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<DataPoint>();
         lineGraphSeriesMap.remove(line);
 
-        Log.d(TAG, x3 + " * x * x * x + "+ x2 +" * x * x + "+x1+" * x + "+x0+" + " + zmena );
+        if(graphHelperObject.isLineChangeIdentEmpty())
+        {
+            initializeChangeIdentificator();
+        }
+        ArrayList<Integer> identChanges = graphHelperObject.getLineChangeIdentificatorByLineEnum(line);
+
+
+        Log.d(TAG,  identChanges.get(3) + " * " + x3 + " * x^3 +"
+                + identChanges.get(2) + " * " + x2 + " * x^2 +"
+                + identChanges.get(1) + " * " + x1 + " * x^1 +"
+                + x0 + " + " + identChanges.get(0) );
+
 
         for( int i=0; i<500; i++){
             x = x + precision;
-            y = x3 * x * x * x + x2 * x * x + x1 * x + x0 + zmena;
+            y = identChanges.get(3) * x3 * x * x * x + identChanges.get(2) * x2 * x * x + identChanges.get(1) * x1 * x + x0 + identChanges.get(0);
             seriesLocal.appendData( new DataPoint(x,y), true, 500 );
         }
         seriesLocal.setColor(color);
@@ -220,6 +234,16 @@ public class GraphFragment extends Fragment{
                     return false;
                 }
             });
+        }
+    }
+
+    private void initializeChangeIdentificator(){
+        for (final MainScreenController.LineEnum line:graphHelperObject.getSeries().keySet()) {
+            ArrayList<Integer> arrayList = new ArrayList<>();
+            for (int i=0; i < 4; i++){
+                arrayList.add(1);
+            }
+            graphHelperObject.addLineChangeIdentificator(line,arrayList);
         }
     }
 }
