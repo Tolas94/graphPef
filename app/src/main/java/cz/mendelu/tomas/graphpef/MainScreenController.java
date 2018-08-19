@@ -6,6 +6,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,7 +70,7 @@ public class MainScreenController extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_screen_layout);
-        graphsDatabase = new HashMap<GraphEnum, GraphHelperObject>();
+        graphsDatabase = new HashMap<>();
         populateGraphDatabase();
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -82,6 +84,7 @@ public class MainScreenController extends AppCompatActivity{
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_menu_black_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_multiline_chart_black_24dp);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_info_black_24dp);
+
     }
 
     private void setupViewPager(ViewPager viewPager) {

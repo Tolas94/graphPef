@@ -267,6 +267,8 @@ public class GraphFragment extends Fragment{
 
     private void createShape(ArrayList<DataPoint> arrayList){
         //TODO create shape for are to be shown to user
+        // probably will not be able to do so
+        // possible solution is to draw backgroung with color on curve and white on the lower one
     }
 
     private void updateMenuTitles() {

@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-    <Button
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:id="@+id/BTNtest1"
-        android:text="TESTBTN 1"
-        android:layout_centerHorizontal="true"/>
+        android:id="@+id/imageRelativeMenu"
+        android:background="@color/blueDark">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:textSize="25sp"
-        android:text="Tab1"
-        android:id="@+id/textTab1"
-        android:layout_margin="40dp"
-        />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/logo_pef_biele" />
+    </RelativeLayout>
 
-
+    <ListView
+        android:id="@+id/listOfGraphs"
+        style="@android:style/Widget.Material.ListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/imageRelativeMenu"
+        android:padding="24dp" />
 
 </RelativeLayout>
