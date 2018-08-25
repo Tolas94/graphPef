@@ -83,6 +83,7 @@ public class MainScreenController extends AppCompatActivity{
         mViewPager = (ViewPager) findViewById(R.id.container);
         setupViewPager(mViewPager);
 
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
@@ -101,7 +102,8 @@ public class MainScreenController extends AppCompatActivity{
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MenuFragment());
-        adapter.addFragment(GraphFragment.newInstance(graphsDatabase.get(chosenGraph)));
+        adapter.addFragment(new GraphFragment());
+        //adapter.addFragment(GraphFragment.newInstance(graphsDatabase.get(chosenGraph)));
         adapter.addFragment(new InfoFragment());
         viewPager.setAdapter(adapter);
     }
@@ -179,6 +181,10 @@ public class MainScreenController extends AppCompatActivity{
         return chosenGraph;
     }
 
+    public ViewPager getViewPager() {
+        return mViewPager;
+    }
+
     public static void setChosenGraph(String string){
         Log.d(TAG, "setChosenGraph" + string);
         chosenGraph = GraphEnum.valueOf(string);
@@ -187,11 +193,23 @@ public class MainScreenController extends AppCompatActivity{
 
     public void onChosenGraphChange() {
         Log.d(TAG, "onChosenGraphChange");
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        GraphFragment graphFragment = GraphFragment.newInstance(graphsDatabase.get(chosenGraph ));
-        ft.replace(R.id.graph_fragment,graphFragment);
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.commit();
+        if (graphsDatabase != null && graphChanged) {
+
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            GraphFragment graphFragment = GraphFragment.newInstance(graphsDatabase.get(chosenGraph));
+            ft.replace(R.id.graph_fragment,graphFragment);
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            ft.addToBackStack(null);
+            ft.commit();
+
+                /*
+            SectionsPagerAdapter adapter =(SectionsPagerAdapter)mViewPager.getAdapter();
+            adapter.setFragmetAtPosition(1,GraphFragment.newInstance(graphsDatabase.get(chosenGraph)));
+            */
+        }else{
+            Log.d(TAG, "onChosenGraphChange: null or graphChanged == false");
+        }
+
     }
 
 }

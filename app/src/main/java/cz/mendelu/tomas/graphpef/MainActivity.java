@@ -23,11 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        Button mainScreen = (Button) findViewById(R.id.button3);
+        Button mainScreenButton = (Button) findViewById(R.id.button3);
 
 
 
-        mainScreen.setOnClickListener(new View.OnClickListener(){
+        mainScreenButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 //Log.d(TAG,"onClick: Clicked button mainScreen");

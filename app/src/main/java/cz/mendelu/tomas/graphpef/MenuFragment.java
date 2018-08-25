@@ -44,8 +44,9 @@ public class MenuFragment extends Fragment{
         graphMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MainScreenController.setChosenGraph((String) parent.getItemAtPosition(position));
-
+                GraphChooseHelper chooseHelper = new GraphChooseHelper(getActivity(),(String) parent.getItemAtPosition(position));
+                chooseHelper.setChoosenGraph();
+                Log.d(TAG,"OnItemClickListener end");
             }
         });
         return view;

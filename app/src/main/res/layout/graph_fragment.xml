@@ -21,7 +21,7 @@
                 android:id="@+id/graphComponent"
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
-
+                android:visibility="invisible"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="23dp" />
 
@@ -31,7 +31,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:text="TextView"
                 android:textAppearance="@android:style/TextAppearance.Material.Title" />
         </RelativeLayout>
 
@@ -51,7 +50,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="23dp"
-                android:text="Text 1"
                 android:textAppearance="@android:style/TextAppearance.Material" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -62,7 +60,6 @@
                 android:layout_below="@+id/graphText1"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:text="Text 2"
                 android:textAppearance="@android:style/TextAppearance.Material" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -73,7 +70,6 @@
                 android:layout_below="@+id/graphText2"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:text="Text 3"
                 android:textAppearance="@android:style/TextAppearance.Material" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -84,7 +80,6 @@
                 android:layout_below="@+id/graphText3"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:text="Text 4"
                 android:textAppearance="@android:style/TextAppearance.Material" />
 
             <android.support.v7.widget.AppCompatTextView
@@ -95,7 +90,6 @@
                 android:layout_below="@+id/graphText4"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:text="Text 5"
                 android:textAppearance="@android:style/TextAppearance.Material" />
 
 

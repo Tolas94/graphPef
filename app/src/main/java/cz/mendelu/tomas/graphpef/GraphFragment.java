@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -47,10 +48,16 @@ public class GraphFragment extends Fragment{
 
     private GraphHelperObject graphHelperObject;
     private final static String GRAPH_KEY = "GRAPH_KEY";
+    private static boolean init = false;
 
-    double precision;
+    double precision = 0.1;
+    int maxDataPoints = 100;
 
     public static GraphFragment newInstance(GraphHelperObject graphHelperObject){
+        if (!init){
+            Log.d(TAG,"change intit to true");
+            init = true;
+        }
         GraphFragment graphFragment = new GraphFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("GRAPH_KEY",graphHelperObject);
@@ -63,66 +70,70 @@ public class GraphFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstances) {
 
         View view = inflater.inflate(R.layout.graph_fragment,container,false);
-        ImageButton up = (ImageButton) view.findViewById(R.id.buttonUp);
-        ImageButton down = (ImageButton) view.findViewById(R.id.buttonDown);
-        graph = (GraphView) view.findViewById(R.id.graphComponent);
-        toolbar = (BottomNavigationView) view.findViewById(R.id.toolbarBottom);
-        BottomNavigationViewHelper.disableShiftMode(toolbar);
+
+        if(init){
+            ImageButton up = (ImageButton) view.findViewById(R.id.buttonUp);
+            ImageButton down = (ImageButton) view.findViewById(R.id.buttonDown);
+            graph = (GraphView) view.findViewById(R.id.graphComponent);
+            toolbar = (BottomNavigationView) view.findViewById(R.id.toolbarBottom);
+            BottomNavigationViewHelper.disableShiftMode(toolbar);
 
 
-        text1 = view.findViewById(R.id.graphText1);
-        text2 = view.findViewById(R.id.graphText2);
-        text3 = view.findViewById(R.id.graphText3);
-        text4 = view.findViewById(R.id.graphText4);
-        text5 = view.findViewById(R.id.graphText5);
+            text1 = view.findViewById(R.id.graphText1);
+            text2 = view.findViewById(R.id.graphText2);
+            text3 = view.findViewById(R.id.graphText3);
+            text4 = view.findViewById(R.id.graphText4);
+            text5 = view.findViewById(R.id.graphText5);
 
-        graphHelperObject = (GraphHelperObject) getArguments().getSerializable(GRAPH_KEY);
+            graphHelperObject = (GraphHelperObject) getArguments().getSerializable(GRAPH_KEY);
 
-        //todo get precision from activity
-        precision = 0.02;
+            //todo get precision from activity
 
-        up.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG,"onClick: Clicked button Up");
-                moveCurve(true, MainScreenController.getChosenLine(),0,Color.GREEN);
+            up.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    Log.d(TAG,"onClick: Clicked button Up");
+                    moveCurve(true, MainScreenController.getChosenLine(),0,Color.GREEN);
+                }
+            });
+
+            down.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    Log.d(TAG,"onClick: Clicked button Down");
+                    moveCurve(false,MainScreenController.getChosenLine(),0,Color.RED);
+                }
+            });
+
+            HashMap<MainScreenController.LineEnum, ArrayList<Integer>> seriesSource = graphHelperObject.getSeries();
+            Log.d(TAG, "Title " + graphHelperObject.getTitle() + " Size " + seriesSource.size());
+            TextView title = (TextView) view.findViewById(R.id.title);
+            title.setText(graphHelperObject.getTitle());
+
+            //Graph styling settings
+            graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.BOTH );
+            graph.getGridLabelRenderer().setHorizontalAxisTitle(graphHelperObject.getLabelX());
+            graph.getGridLabelRenderer().setHumanRounding(true);
+            graph.getGridLabelRenderer().setVerticalAxisTitle(graphHelperObject.getLabelY());
+            graph.getGridLabelRenderer().setHighlightZeroLines(true);
+            graph.getGridLabelRenderer().setNumHorizontalLabels(4);
+            graph.getGridLabelRenderer().setNumVerticalLabels(4);
+            graph.getViewport().setMaxX(15);
+            graph.getViewport().setMaxY(15);
+            graph.getViewport().setXAxisBoundsManual(true);
+            graph.setVisibility(View.VISIBLE);
+            lineGraphSeriesMap = new HashMap<>();
+
+            for (MainScreenController.LineEnum line:seriesSource.keySet()) {
+                calculateData(line, Color.BLACK);
             }
-        });
 
-        down.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG,"onClick: Clicked button Down");
-                moveCurve(false,MainScreenController.getChosenLine(),0,Color.RED);
-            }
-        });
-
-        HashMap<MainScreenController.LineEnum, ArrayList<Integer>> seriesSource = graphHelperObject.getSeries();
-        Log.d(TAG, "Title " + graphHelperObject.getTitle() + " Size " + seriesSource.size());
-        TextView title = (TextView) view.findViewById(R.id.title);
-        title.setText(graphHelperObject.getTitle());
-
-        //Graph styling settings
-        graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.BOTH );
-        graph.getGridLabelRenderer().setHorizontalAxisTitle(graphHelperObject.getLabelX());
-        graph.getGridLabelRenderer().setHumanRounding(true);
-        graph.getGridLabelRenderer().setVerticalAxisTitle(graphHelperObject.getLabelY());
-        graph.getGridLabelRenderer().setHighlightZeroLines(true);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(4);
-        graph.getGridLabelRenderer().setNumVerticalLabels(4);
-        graph.getViewport().setMaxX(15);
-        graph.getViewport().setMaxY(15);
-        graph.getViewport().setXAxisBoundsManual(true);
-        lineGraphSeriesMap = new HashMap<>();
-
-        for (MainScreenController.LineEnum line:seriesSource.keySet()) {
-            calculateData(line, Color.BLACK);
+            menu = toolbar.getMenu();
+            updateMenuTitles();
+            recalculateEquilibrium();
+        }else{
+            Log.d(TAG,"return clean View");
         }
-
-        menu = toolbar.getMenu();
-        updateMenuTitles();
-        recalculateEquilibrium();
-
         return view;
     }
 
@@ -180,13 +191,13 @@ public class GraphFragment extends Fragment{
             for (double t = 0.5 * Math.PI; t > 0; t -= 0.05 ) { // <- or different step
                 x = 8 * Math.cos(t);
                 y = 8 * Math.sin(t);
-                seriesLocal.appendData( new DataPoint(x,y), true, 500 );
+                seriesLocal.appendData( new DataPoint(x,y), true, maxDataPoints );
             }
         }else{
-            for( int i=0; i<500; i++){
+            for( int i=0; i<maxDataPoints; i++){
                 x = x + precision;
                 y = identChanges.get(3) * x3 * x * x * x + identChanges.get(2) * x2 * x * x + identChanges.get(1) * x1 * x + x0 + identChanges.get(0);
-                seriesLocal.appendData( new DataPoint(x,y), true, 500 );
+                seriesLocal.appendData( new DataPoint(x,y), true, maxDataPoints );
             }
         }
         seriesLocal.setColor(color);
