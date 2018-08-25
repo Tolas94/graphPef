@@ -24,8 +24,9 @@ Graph of perfect competition market to be shown with DEMAND and SUPPLY curve. Bo
 
 option to add:
 
->price limit of market
->  -show if intersection is on market prace and therefore if situaion is stable
+- price limit of market -> show if intersection is on market prace and therefore if situaion is stable
+- world price - text input
+- Duty - text input
 
 ### Session 4
 Seminar theme: Indifferent analysis
@@ -49,6 +50,12 @@ Curves to be shown:
 - product Demand (d)
 - product Price (p)
 
+> AVC = AC / Q
+
+> MC = dx/dy AC
+
+> p = min(AC)
+
 text output:
 - if stable situaion long-term
 - if stable situaion short-term
@@ -70,7 +77,10 @@ show with color
 
 
 ### Session 8
-/TODO
+Seminar theme: Imprefect markets
+
+To be shown monopol, oligopol, mopolistic competition
+//TODO
 
 ## Sources:
 
