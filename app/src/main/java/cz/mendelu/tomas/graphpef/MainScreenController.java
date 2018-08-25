@@ -11,7 +11,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+
+import cz.mendelu.tomas.graphpef.graphs.DefaultGraph;
+import cz.mendelu.tomas.graphpef.graphs.perfectMarketGraph;
 
 /**
  * Created by tomas on 11.08.2018.
@@ -25,7 +29,7 @@ public class MainScreenController extends AppCompatActivity{
 
     private ViewPager mViewPager;
 
-    private HashMap<GraphEnum, GraphHelperObject> graphsDatabase;
+    private HashMap<GraphEnum, DefaultGraph> graphsDatabase;
 
     private static GraphEnum chosenGraph = GraphEnum.ProductionLimit;
 
@@ -57,8 +61,10 @@ public class MainScreenController extends AppCompatActivity{
         Supply,
         TotalCost,
         MarginalCost,
+        AverageCost,
         TotalRevenue,
         MarginalRevenue,
+        AverageRevenue,
         Quantity,
         ProductionCapabilities,
         Taxes,
@@ -66,8 +72,28 @@ public class MainScreenController extends AppCompatActivity{
         TotalUtility
     }
 
+    public enum Direction {
+        up,
+        down,
+        left,
+        right
+    }
 
-    public GraphHelperObject getGraphByEnum(GraphEnum graphEnum){
+    static double precision = 0.1;
+    static int maxDataPoints = 100;
+
+    public static double getPrecision() {
+        return precision;
+    }
+
+    public static int getMaxDataPoints() {
+        return maxDataPoints;
+    }
+
+    private HashMap<LineEnum,ArrayList<LineEnum>> mlineDependancy;
+
+
+    public DefaultGraph getGraphByEnum(GraphEnum graphEnum){
         return graphsDatabase.get(graphEnum);
     }
 
@@ -109,40 +135,25 @@ public class MainScreenController extends AppCompatActivity{
     }
 
     private void populateGraphDatabase(){
+        //line dependancy
+        for(MainScreenController.LineEnum lineEnum: MainScreenController.LineEnum.values()){
+            mlineDependancy.put(lineEnum,new ArrayList<LineEnum>());
+        }
+
         //MarketDS
         GraphHelperObject marketDS = new GraphHelperObject();
+        /*
         GraphHelperObject productionLimit = new GraphHelperObject();
-
-        marketDS.setTitle("MarketDS");
+        GraphHelperObject perfectMarket = new GraphHelperObject();
+*/
+        marketDS.setTitle("Market - Demand Supply");
         marketDS.setLabelX("Quantity");
         marketDS.setLabelY("Price");
         marketDS.setGraphEnum(GraphEnum.MarketDS);
-        ArrayList<Integer> values = new ArrayList<>(), values2 = new ArrayList<>(), values3 = new ArrayList<>();
-        HashMap<MainScreenController.LineEnum,ArrayList<Integer>> map = new HashMap<>();
+        marketDS.addToSeries(LineEnum.Supply,   new ArrayList<>(Arrays.asList(0,0,1,0)));
+        marketDS.addToSeries(LineEnum.Demand,   new ArrayList<>(Arrays.asList(0,0,-1,10)));
+        marketDS.addToSeries(LineEnum.Price,    new ArrayList<>(Arrays.asList(0,0,0,5)));
 
-        //series 1 - Supply
-        values.add(0);//X^3
-        values.add(0);//X^2
-        values.add(1);//x^1
-        values.add(0);//x^0
-        map.put(LineEnum.Supply,values);
-
-        //series 2 - Demand
-        values2.add(0);//X^3
-        values2.add(0);//X^2
-        values2.add(-1);//x^1
-        values2.add(10);//x^0
-        map.put(LineEnum.Demand,values2);
-
-        // series 3 - Price
-        values3.add(0);//X^3
-        values3.add(0);//X^2
-        values3.add(0);//x^1
-        values3.add(5);//x^0
-        map.put(LineEnum.Price,values3);
-
-
-        marketDS.setSeries( map );
 
         marketDS.setCalculateEqulibrium(true);
         ArrayList<LineEnum> equilibriumCurves = new ArrayList<>();
@@ -154,27 +165,34 @@ public class MainScreenController extends AppCompatActivity{
         equilibriumDependantCurves.add(LineEnum.Price);
         marketDS.setDependantCurveOnEquilibrium(equilibriumDependantCurves);
 
-        graphsDatabase.put(GraphEnum.MarketDS,marketDS);
+        graphsDatabase.put(GraphEnum.MarketDS, new perfectMarketGraph(
+                new ArrayList<String>(),
+                new ArrayList<String>(),
+                0,
+                marketDS.,
+                new ArrayList<String>(),
+                marketDS));
 
-
+/*
         // ProductionLimit
 
-        productionLimit.setTitle("ProductionLimit");
+        productionLimit.setTitle("Production Limit");
         productionLimit.setLabelX("Unit X");
         productionLimit.setLabelY("Unit Y");
         productionLimit.setGraphEnum(GraphEnum.ProductionLimit);
-        HashMap<MainScreenController.LineEnum,ArrayList<Integer>> newMap = new HashMap<>();
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        arrayList.add(0);//X^3
-        arrayList.add(0);//X^2
-        arrayList.add(0);//x^1
-        arrayList.add(0);//x^0
-        newMap.put(LineEnum.ProductionCapabilities,arrayList);
+        productionLimit.addToSeries(LineEnum.ProductionCapabilities, new ArrayList<>(Arrays.asList(0,0,0,0)));
         productionLimit.setCalculateEqulibrium(false);
-        productionLimit.setSeries(newMap);
-
-
         graphsDatabase.put(GraphEnum.ProductionLimit,productionLimit);
+
+        // Perfect Market competition
+
+        perfectMarket.setTitle("Perfect Market");
+        perfectMarket.setLabelX("Quantity");
+        perfectMarket.setLabelY("Price");
+        perfectMarket.setGraphEnum(GraphEnum.PerfectMarket);
+        perfectMarket.addToSeries(LineEnum.MarginalCost,new ArrayList<>(Arrays.asList(0,0,0,0)));
+        perfectMarket.addToSeries(LineEnum.AverageCost,new ArrayList<>(Arrays.asList(0,0,0,0)));
+*/
     }
 
     public static GraphEnum getChosenGraph() {
@@ -201,15 +219,19 @@ public class MainScreenController extends AppCompatActivity{
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.addToBackStack(null);
             ft.commit();
-
-                /*
-            SectionsPagerAdapter adapter =(SectionsPagerAdapter)mViewPager.getAdapter();
-            adapter.setFragmetAtPosition(1,GraphFragment.newInstance(graphsDatabase.get(chosenGraph)));
-            */
         }else{
             Log.d(TAG, "onChosenGraphChange: null or graphChanged == false");
         }
 
+    }
+
+    private void addLineDependancy(LineEnum baseLine,LineEnum dependantLine){
+        mlineDependancy.get(baseLine).add(dependantLine);
+    }
+
+    public boolean isLineDependant(LineEnum baseLine, LineEnum dependantLine){
+        return mlineDependancy.get(baseLine).contains(dependantLine) ||
+               mlineDependancy.get(dependantLine).contains(baseLine);
     }
 
 }
