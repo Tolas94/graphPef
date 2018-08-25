@@ -21,12 +21,12 @@ public class DefaultGraph implements GraphIfc,Serializable{
     private ArrayList<String> texts;
     private ArrayList<String> movableObjects;
     private int movableIndex;
-    private HashMap<MainScreenController.LineEnum,LineGraphSeries<DataPoint>> series;
+    private HashMap<MainScreenController.LineEnum,ArrayList<Integer> > series;
     private ArrayList<String> optionsLabels;
     private GraphHelperObject graphHelperObject;
     private HashMap<MainScreenController.LineEnum,LineGraphSeries<DataPoint>> lineGraphSeriesMap;
 
-    public DefaultGraph(ArrayList<String> texts, ArrayList<String> movableObjects, int movableIndex, HashMap<MainScreenController.LineEnum, LineGraphSeries<DataPoint>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
+    public DefaultGraph(ArrayList<String> texts, ArrayList<String> movableObjects, int movableIndex, HashMap<MainScreenController.LineEnum, ArrayList<Integer> > series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         this.texts = texts;
         this.movableObjects = movableObjects;
         this.movableIndex = movableIndex;
@@ -47,7 +47,7 @@ public class DefaultGraph implements GraphIfc,Serializable{
 
     @Override
     public LineGraphSeries<DataPoint> CalculateData(MainScreenController.LineEnum line, int color) {
-        return null;
+        return new LineGraphSeries<>();
     }
 
     @Override
@@ -70,10 +70,14 @@ public class DefaultGraph implements GraphIfc,Serializable{
     }
 
     @Override
-    public HashMap<MainScreenController.LineEnum, LineGraphSeries<DataPoint>> getSeries() {
+    public HashMap<MainScreenController.LineEnum, ArrayList<Integer> > getSeries() {
         return series;
     }
 
+    @Override
+    public HashMap<MainScreenController.LineEnum,LineGraphSeries<DataPoint>> getLineGraphSeries(){
+        return lineGraphSeriesMap;
+    }
     @Override
     public ArrayList<String> getOptionsLabels() {
         return optionsLabels;

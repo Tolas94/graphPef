@@ -21,7 +21,7 @@ import static java.lang.Math.abs;
 public class perfectMarketGraph extends DefaultGraph {
     private static final String TAG = "perfectMarketGraph";
 
-    public perfectMarketGraph(ArrayList<String> texts, ArrayList<String> movableObjects, int movableIndex, HashMap<MainScreenController.LineEnum, LineGraphSeries<DataPoint>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
+    public perfectMarketGraph(ArrayList<String> texts, ArrayList<String> movableObjects, int movableIndex, HashMap<MainScreenController.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         super(texts, movableObjects, movableIndex, series, optionsLabels, graphHelperObject);
     }
 
@@ -31,8 +31,8 @@ public class perfectMarketGraph extends DefaultGraph {
 
         ArrayList<Double> equiPoints = new ArrayList<>();
 
-        LineGraphSeries<DataPoint> data1 = getSeries().get(curve1);
-        LineGraphSeries<DataPoint> data2 = getSeries().get(curve2);;
+        LineGraphSeries<DataPoint> data1 = getLineGraphSeries().get(curve1);
+        LineGraphSeries<DataPoint> data2 = getLineGraphSeries().get(curve2);;
         double pointX, pointY, diff;
         int x3, x2, x1, x0,x3_2, x2_2, x1_2, x0_2;
         HashMap<MainScreenController.LineEnum,ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();

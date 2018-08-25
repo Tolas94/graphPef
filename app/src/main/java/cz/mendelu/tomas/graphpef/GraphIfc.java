@@ -24,7 +24,9 @@ public interface GraphIfc{
 
     void moveObject(MainScreenController.Direction dir);
 
-    HashMap<MainScreenController.LineEnum,LineGraphSeries<DataPoint>> getSeries();
+    HashMap<MainScreenController.LineEnum,ArrayList<Integer> > getSeries();
+
+    HashMap<MainScreenController.LineEnum,LineGraphSeries<DataPoint>> getLineGraphSeries();
 
     ArrayList<String> getOptionsLabels();
 

@@ -10,6 +10,9 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,7 +28,7 @@ public class MainScreenController extends AppCompatActivity{
 
     private static final String TAG = "MainScreenController";
 
-    private  SectionsPagerAdapter mSectionsPagerAdapter;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
 
     private ViewPager mViewPager;
 
@@ -129,17 +132,17 @@ public class MainScreenController extends AppCompatActivity{
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MenuFragment());
         adapter.addFragment(new GraphFragment());
-        //adapter.addFragment(GraphFragment.newInstance(graphsDatabase.get(chosenGraph)));
         adapter.addFragment(new InfoFragment());
         viewPager.setAdapter(adapter);
     }
 
     private void populateGraphDatabase(){
         //line dependancy
+        /*
         for(MainScreenController.LineEnum lineEnum: MainScreenController.LineEnum.values()){
             mlineDependancy.put(lineEnum,new ArrayList<LineEnum>());
         }
-
+*/
         //MarketDS
         GraphHelperObject marketDS = new GraphHelperObject();
         /*
@@ -169,7 +172,7 @@ public class MainScreenController extends AppCompatActivity{
                 new ArrayList<String>(),
                 new ArrayList<String>(),
                 0,
-                marketDS.,
+                marketDS.getSeries(),
                 new ArrayList<String>(),
                 marketDS));
 
