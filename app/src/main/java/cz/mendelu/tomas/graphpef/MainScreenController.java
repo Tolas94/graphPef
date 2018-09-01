@@ -56,6 +56,7 @@ public class MainScreenController extends AppCompatActivity{
         AverageRevenue,
         Quantity,
         ProductionCapabilities,
+        ProductionCapabilitiesDefault,
         Taxes,
         Equilibrium,
         TotalUtility
@@ -161,10 +162,11 @@ public class MainScreenController extends AppCompatActivity{
         // ProductionLimit
 
         productionLimit.setTitle("Production Limit");
-        productionLimit.setLabelX("Unit X");
-        productionLimit.setLabelY("Unit Y");
+        productionLimit.setLabelX("Production of Unit X");
+        productionLimit.setLabelY("Production of Unit Y");
         productionLimit.setGraphEnum(GraphEnum.ProductionLimit);
         productionLimit.addToSeries(LineEnum.ProductionCapabilities, new ArrayList<>(Arrays.asList(0,0,0,0)));
+        productionLimit.addToSeries(LineEnum.ProductionCapabilitiesDefault, new ArrayList<>(Arrays.asList(0,0,0,0)));
         productionLimit.setCalculateEqulibrium(false);
         graphsDatabase.put(GraphEnum.ProductionLimit,new ProductionLimit(
                 new ArrayList<String>(),
@@ -185,6 +187,7 @@ public class MainScreenController extends AppCompatActivity{
 */
     }
 
+    //TODO show chosen graph in menu fragment
     public static GraphEnum getChosenGraph() {
         return chosenGraph;
     }

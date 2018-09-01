@@ -25,8 +25,6 @@ public class ProductionLimit extends DefaultGraph {
                 MainScreenController.Direction.down,
                 MainScreenController.Direction.left,
                 MainScreenController.Direction.right)));
-
-
     }
 
     @Override
@@ -47,6 +45,7 @@ public class ProductionLimit extends DefaultGraph {
         }
         seriesLocal.setColor(color);
         getLineGraphSeries().put(line, seriesLocal);
+        updateTexts();
         return seriesLocal;
     }
 
@@ -64,5 +63,39 @@ public class ProductionLimit extends DefaultGraph {
             case right: identChanges.set(0,identChanges.get(0) - 1);
                 break;
         }
+    }
+
+    private double getMaxX(){
+        return getLineGraphSeries().get(MainScreenController.LineEnum.ProductionCapabilities).getHighestValueX();
+    }
+
+    private double getMaxY(){
+        return getLineGraphSeries().get(MainScreenController.LineEnum.ProductionCapabilities).getHighestValueY();
+    }
+
+    private void updateTexts(){
+        String text4,text5;
+        text4 = "";
+        text5 = "";
+        if ((int) Math.round(getMaxX()) > 9 ){
+            text4 = "Production capability(X) has been extended";
+        }else if ((int) Math.round(getMaxX()) == 9 ){
+            text4 = "Production capability(X) is on default values";
+        }else if ((int) Math.round(getMaxX()) < 9 ){
+            text4 = "Production capability(X) has been lowered";
+        }
+        if ((int) Math.round(getMaxY()) > 9 ){
+            text5 = "Production capability(Y) has been extended";
+        }else if ((int) Math.round(getMaxY()) == 9 ){
+            text5 = "Production capability(Y) is on default values";
+        }else if ((int) Math.round(getMaxY()) < 9 ){
+            text5 = "Production capability(Y) has been lowered";
+        }
+        setTexts(new ArrayList<>(Arrays.asList(
+                "Max " + getLabelX() + " = " + (int) Math.round(getMaxX()),
+                "Max " + getLabelY() + " = " + (int) Math.round(getMaxY()),
+                "Default Max Production [9,9]",
+                text4,
+                text5)));
     }
 }

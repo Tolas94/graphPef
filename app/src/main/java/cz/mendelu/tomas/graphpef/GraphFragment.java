@@ -1,6 +1,8 @@
 package cz.mendelu.tomas.graphpef;
 
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -171,7 +174,21 @@ public class GraphFragment extends Fragment{
         if (graphIfc.getLineGraphSeries().get(line) != null){
             graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
         }
-        graph.addSeries(graphIfc.calculateData(line,color));
+        LineGraphSeries lineSeries = graphIfc.calculateData(line,color);
+        if (line == MainScreenController.LineEnum.ProductionCapabilitiesDefault){
+            Paint paint = new Paint();
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(3);
+            paint.setPathEffect(new DashPathEffect(new float[]{8,5},0));
+            lineSeries.setDrawAsPath(true);
+            lineSeries.setCustomPaint(paint);
+            lineSeries.setThickness(1);
+
+        }else{
+            lineSeries.setThickness(5);
+        }
+        graph.addSeries(lineSeries);
+        updateTexts();
     }
 
     private void createShape(ArrayList<DataPoint> arrayList){
@@ -195,6 +212,35 @@ public class GraphFragment extends Fragment{
                     return false;
                 }
             });
+        }
+    }
+
+    private void updateTexts(){
+        Log.d(TAG, "updateTexts: ");
+        for (int i = 0; i < graphIfc.getTexts().size(); ++i){
+            Log.d(TAG, "setText: " + i);
+            switch(i){
+                case 0:
+                    text1.setText(graphIfc.getTexts().get(0));
+                    text1.setVisibility(View.VISIBLE);
+                    break;
+                case 1:
+                    text2.setText(graphIfc.getTexts().get(1));
+                    text2.setVisibility(View.VISIBLE);
+                    break;
+                case 2:
+                    text3.setText(graphIfc.getTexts().get(2));
+                    text3.setVisibility(View.VISIBLE);
+                    break;
+                case 3:
+                    text4.setText(graphIfc.getTexts().get(3));
+                    text4.setVisibility(View.VISIBLE);
+                    break;
+                case 4:
+                    text5.setText(graphIfc.getTexts().get(4));
+                    text5.setVisibility(View.VISIBLE);
+                    break;
+            }
         }
     }
 
