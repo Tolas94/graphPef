@@ -33,6 +33,7 @@ public class DefaultGraph implements GraphIfc,Serializable{
         this.series = series;
         this.optionsLabels = optionsLabels;
         this.graphHelperObject = graphHelperObject;
+        this.lineGraphSeriesMap = new HashMap<>();
     }
 
     @Override
@@ -90,7 +91,23 @@ public class DefaultGraph implements GraphIfc,Serializable{
 
     @Override
     public void setMovable(String movableName) {
-        movableIndex = movableObjects.indexOf(movableName);
+        if (movableObjects != null)
+            movableIndex = movableObjects.indexOf(movableName);
+    }
+
+    @Override
+    public String getTitle() {
+        return graphHelperObject.getTitle();
+    }
+
+    @Override
+    public String getLabelX() {
+        return null;
+    }
+
+    @Override
+    public String getLabelY() {
+        return null;
     }
 
     private Boolean compareDoubleWithPrecision(Double firstValue, Double secondValue, Double precision){
@@ -108,10 +125,6 @@ public class DefaultGraph implements GraphIfc,Serializable{
 
     public void setGraphHelperObject(GraphHelperObject graphHelperObject) {
         this.graphHelperObject = graphHelperObject;
-    }
-
-    public HashMap<MainScreenController.LineEnum, LineGraphSeries<DataPoint>> getLineGraphSeriesMap() {
-        return lineGraphSeriesMap;
     }
 
     public void setLineGraphSeriesMap(HashMap<MainScreenController.LineEnum, LineGraphSeries<DataPoint>> lineGraphSeriesMap) {

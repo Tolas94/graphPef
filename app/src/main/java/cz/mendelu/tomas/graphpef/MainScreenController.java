@@ -38,16 +38,6 @@ public class MainScreenController extends AppCompatActivity{
 
     private static Boolean graphChanged = false;
 
-    public static LineEnum getChosenLine() {
-        return chosenLine;
-    }
-
-    public static void setChosenLine(LineEnum chosenLine) {
-        MainScreenController.chosenLine = chosenLine;
-    }
-
-    private static LineEnum chosenLine = LineEnum.Demand;
-
     public enum GraphEnum {
         MarketDS,
         ProductionLimit,
@@ -170,7 +160,7 @@ public class MainScreenController extends AppCompatActivity{
 
         graphsDatabase.put(GraphEnum.MarketDS, new perfectMarketGraph(
                 new ArrayList<String>(),
-                new ArrayList<String>(),
+                new ArrayList<String>(Arrays.asList(LineEnum.Supply.toString(),LineEnum.Demand.toString())),
                 0,
                 marketDS.getSeries(),
                 new ArrayList<String>(),

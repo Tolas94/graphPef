@@ -6,6 +6,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import cz.mendelu.tomas.graphpef.GraphHelperObject;
@@ -23,6 +24,10 @@ public class perfectMarketGraph extends DefaultGraph {
 
     public perfectMarketGraph(ArrayList<String> texts, ArrayList<String> movableObjects, int movableIndex, HashMap<MainScreenController.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         super(texts, movableObjects, movableIndex, series, optionsLabels, graphHelperObject);
+
+        for (MainScreenController.LineEnum line:graphHelperObject.getSeries().keySet()) {
+            graphHelperObject.addLineChangeIdentificator(line,new ArrayList<>(Arrays.asList(1,1,1,0)));
+        }
     }
 
     @Override
@@ -114,7 +119,8 @@ public class perfectMarketGraph extends DefaultGraph {
         x0 = seriesSource.get(line).get(3);
 
         LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<DataPoint>();
-        getLineGraphSeriesMap().remove(line);
+        if (getLineGraphSeries() != null)
+            getLineGraphSeries().remove(line);
 
         ArrayList<Integer> identChanges = getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line);
         //Log.d(TAG,  identChanges.get(3) + " * " + x3 + " * x^3 +"
@@ -122,21 +128,13 @@ public class perfectMarketGraph extends DefaultGraph {
         //+ identChanges.get(1) + " * " + x1 + " * x^1 +"
         // + x0 + " + " + identChanges.get(0) );
 
-        if( line == MainScreenController.LineEnum.ProductionCapabilities){
-            for (double t = 0.5 * Math.PI; t > 0; t -= 0.05 ) { // <- or different step
-                x = 8 * Math.cos(t);
-                y = 8 * Math.sin(t);
-                seriesLocal.appendData( new DataPoint(x,y), true, maxDataPoints );
-            }
-        }else{
-            for( int i=0; i<maxDataPoints; i++){
-                x = x + precision;
-                y = identChanges.get(3) * x3 * x * x * x + identChanges.get(2) * x2 * x * x + identChanges.get(1) * x1 * x + x0 + identChanges.get(0);
-                seriesLocal.appendData( new DataPoint(x,y), true, maxDataPoints );
-            }
+        for( int i=0; i<maxDataPoints; i++){
+            x = x + precision;
+            y = identChanges.get(3) * x3 * x * x * x + identChanges.get(2) * x2 * x * x + identChanges.get(1) * x1 * x + x0 + identChanges.get(0);
+            seriesLocal.appendData( new DataPoint(x,y), true, maxDataPoints );
         }
         seriesLocal.setColor(color);
-        getLineGraphSeriesMap().put(line, seriesLocal);
+        getLineGraphSeries().put(line, seriesLocal);
         return seriesLocal;
     }
 

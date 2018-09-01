@@ -34,4 +34,10 @@ public interface GraphIfc{
 
     void setMovable(String movableName);
 
+    String getTitle();
+
+    String getLabelX();
+
+    String getLabelY();
+
 }

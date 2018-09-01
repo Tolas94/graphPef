@@ -33,16 +33,12 @@ import static java.lang.Math.abs;
 
 public class GraphFragment extends Fragment{
     private static final String TAG = "GraphFragment";
-    //line name and datapoints
-    private HashMap<MainScreenController.LineEnum,LineGraphSeries<DataPoint>> lineGraphSeriesMap;
-
 
     private Menu menu;
     private GraphView graph;
     private BottomNavigationView toolbar;
     private AppCompatTextView text1, text2, text3, text4, text5;
 
-    private GraphHelperObject graphHelperObject;
     private GraphIfc graphIfc;
     private final static String GRAPH_KEY = "GRAPH_KEY";
     private static boolean init = false;
@@ -67,10 +63,10 @@ public class GraphFragment extends Fragment{
         View view = inflater.inflate(R.layout.graph_fragment,container,false);
 
         if(init){
-            ImageButton up = (ImageButton) view.findViewById(R.id.buttonUp);
-            ImageButton down = (ImageButton) view.findViewById(R.id.buttonDown);
-            graph = (GraphView) view.findViewById(R.id.graphComponent);
-            toolbar = (BottomNavigationView) view.findViewById(R.id.toolbarBottom);
+            ImageButton up = view.findViewById(R.id.buttonUp);
+            ImageButton down = view.findViewById(R.id.buttonDown);
+            graph = view.findViewById(R.id.graphComponent);
+            toolbar = view.findViewById(R.id.toolbarBottom);
             BottomNavigationViewHelper.disableShiftMode(toolbar);
 
 
@@ -80,14 +76,14 @@ public class GraphFragment extends Fragment{
             text4 = view.findViewById(R.id.graphText4);
             text5 = view.findViewById(R.id.graphText5);
 
-            //graphHelperObject = (GraphHelperObject) getArguments().getSerializable(GRAPH_KEY);
             graphIfc = (GraphIfc) getArguments().getSerializable(GRAPH_KEY);
+
 
             up.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button Up");
-                    moveCurve(true, MainScreenController.getChosenLine(),0,Color.GREEN);
+                    moveCurve(MainScreenController.Direction.up,0,Color.GREEN);
                 }
             });
 
@@ -95,20 +91,20 @@ public class GraphFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button Down");
-                    moveCurve(false,MainScreenController.getChosenLine(),0,Color.RED);
+                    moveCurve(MainScreenController.Direction.down,0,Color.RED);
                 }
             });
 
-            HashMap<MainScreenController.LineEnum, ArrayList<Integer>> seriesSource = graphHelperObject.getSeries();
-            //Log.d(TAG, "Title " + graphHelperObject.getTitle() + " Size " + seriesSource.size());
-            TextView title = (TextView) view.findViewById(R.id.title);
-            title.setText(graphHelperObject.getTitle());
+            HashMap<MainScreenController.LineEnum, ArrayList<Integer>> seriesSource = graphIfc.getSeries();
+            //Log.d(TAG, "Title " + graphIfc.getTitle() + " Size " + seriesSource.size());
+            TextView title = view.findViewById(R.id.title);
+            title.setText(graphIfc.getTitle());
 
             //Graph styling settings
             graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.BOTH );
-            graph.getGridLabelRenderer().setHorizontalAxisTitle(graphHelperObject.getLabelX());
+            graph.getGridLabelRenderer().setHorizontalAxisTitle(graphIfc.getLabelX());
             graph.getGridLabelRenderer().setHumanRounding(true);
-            graph.getGridLabelRenderer().setVerticalAxisTitle(graphHelperObject.getLabelY());
+            graph.getGridLabelRenderer().setVerticalAxisTitle(graphIfc.getLabelY());
             graph.getGridLabelRenderer().setHighlightZeroLines(true);
             graph.getGridLabelRenderer().setNumHorizontalLabels(4);
             graph.getGridLabelRenderer().setNumVerticalLabels(4);
@@ -116,7 +112,6 @@ public class GraphFragment extends Fragment{
             graph.getViewport().setMaxY(15);
             graph.getViewport().setXAxisBoundsManual(true);
             graph.setVisibility(View.VISIBLE);
-            lineGraphSeriesMap = new HashMap<>();
 
             for (MainScreenController.LineEnum line:seriesSource.keySet()) {
                 calculateData(line, Color.BLACK);
@@ -131,9 +126,11 @@ public class GraphFragment extends Fragment{
         return view;
     }
 
-    private void moveCurve(Boolean boolUp, MainScreenController.LineEnum seriesID, int identificator, int color) {
+    private void moveCurve(MainScreenController.Direction dir, int identificator, int color) {
 
+        /*
         int change = graphHelperObject.getLineChangeIdentificatorByLineEnum(seriesID).get(identificator);
+
         //Log.d(TAG, "Line: " + seriesID.toString() + " Change before: " + change + " on x" + identificator);
         ArrayList<Integer> arrayList = new ArrayList<>();
         for(int i = 0; i<4; i++ ){
@@ -152,11 +149,13 @@ public class GraphFragment extends Fragment{
         graphHelperObject.changeLineChangeIdentificator(seriesID,arrayList);
         calculateData(seriesID,color);
         //recalculateEquilibrium();
+        */
+        graphIfc.moveObject(dir);
     }
 
     private void calculateData(MainScreenController.LineEnum line, int color) {
-        if (lineGraphSeriesMap.get(line) != null){
-            graph.removeSeries(lineGraphSeriesMap.get(line));
+        if (graphIfc.getLineGraphSeries().get(line) != null){
+            graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
         }
         graph.addSeries(graphIfc.CalculateData(line,Color.BLACK));
     }
@@ -168,16 +167,17 @@ public class GraphFragment extends Fragment{
     }
 
     private void updateMenuTitles() {
-        //Log.d(TAG,"UpdateMenuTitles");
+        Log.d(TAG,"UpdateMenuTitles");
         menu.clear();
-        for (final MainScreenController.LineEnum line:graphHelperObject.getSeries().keySet()) {
-            MenuItem menuItem = menu.add(line.toString());
+        for (final String line:graphIfc.getMovableObjects()) {
+            Log.d(TAG, "updateMenuTitles: " + line);
+            MenuItem menuItem = menu.add(line);
             menuItem.setIcon(R.drawable.ic_multiline_chart_black_24dp);
             menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    //Log.d(TAG, "onMenuItemClick: " + line.toString());
-                    MainScreenController.setChosenLine(line);
+                    Log.d(TAG, "onMenuItemClick: " + line);
+                    graphIfc.setMovable(line);
                     return false;
                 }
             });
