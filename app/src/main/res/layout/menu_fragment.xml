@@ -25,6 +25,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/imageRelativeMenu"
-        android:padding="24dp" />
+        android:padding="8dp" />
 
 </RelativeLayout>

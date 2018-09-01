@@ -12,15 +12,15 @@ import java.util.HashMap;
 
 public interface GraphIfc{
 
-    Integer getTextCount();
-
     ArrayList<String> getTexts();
 
-    LineGraphSeries<DataPoint> CalculateData(MainScreenController.LineEnum line, int color);
+    LineGraphSeries<DataPoint> calculateData(MainScreenController.LineEnum line, int color);
 
     ArrayList<Double> calculateEqulibrium(MainScreenController.LineEnum curve1,MainScreenController.LineEnum curve2);
 
-    ArrayList<String> getMovableObjects();
+    ArrayList<MainScreenController.LineEnum> getMovableObjects();
+
+    ArrayList<MainScreenController.Direction> getMovableDirections();
 
     void moveObject(MainScreenController.Direction dir);
 
@@ -32,12 +32,14 @@ public interface GraphIfc{
 
     String getMovableLabel();
 
-    void setMovable(String movableName);
+    void setMovable(MainScreenController.LineEnum movableEnum);
 
     String getTitle();
 
     String getLabelX();
 
     String getLabelY();
+
+    MainScreenController.LineEnum getMovableEnum();
 
 }
