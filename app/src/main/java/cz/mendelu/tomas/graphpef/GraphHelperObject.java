@@ -1,8 +1,6 @@
 package cz.mendelu.tomas.graphpef;
 
 
-import android.text.BoringLayout;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +15,7 @@ public class GraphHelperObject implements Serializable{
     private String title, labelX, labelY;
     private Boolean calculateEqulibrium;
     private ArrayList<MainScreenController.LineEnum> equilibriumCurves;
-    private ArrayList<MainScreenController.LineEnum> dependantCurveOnequilibrium;
+    private ArrayList<MainScreenController.LineEnum> dependantCurveOnEquilibrium;
     private HashMap<MainScreenController.LineEnum, ArrayList<Integer>> lineChangeIdentificator;
 
     //TODO add dependant LINEs connection e.g. TC MC or TR MT
@@ -26,7 +24,7 @@ public class GraphHelperObject implements Serializable{
 
     public GraphHelperObject() {
         graphEnum = null;
-        series = null;
+        series = new HashMap<>();
         title = "";
         labelX = "";
         labelY = "";
@@ -52,6 +50,10 @@ public class GraphHelperObject implements Serializable{
 
     public void setSeries(HashMap<MainScreenController.LineEnum,ArrayList<Integer>> series) {
         this.series = series;
+    }
+
+    public void addToSeries(MainScreenController.LineEnum lineEnum,ArrayList<Integer> array){
+        series.put(lineEnum,array);
     }
 
     public String getTitle() {
@@ -115,12 +117,12 @@ public class GraphHelperObject implements Serializable{
         return lineChangeIdentificator.isEmpty();
     }
 
-    public ArrayList<MainScreenController.LineEnum> getDependantCurveOnequilibrium() {
-        return dependantCurveOnequilibrium;
+    public ArrayList<MainScreenController.LineEnum> getDependantCurveOnEquilibrium() {
+        return dependantCurveOnEquilibrium;
     }
 
     public void setDependantCurveOnEquilibrium(ArrayList<MainScreenController.LineEnum> dependantCurveOnequilibrium) {
-        this.dependantCurveOnequilibrium = dependantCurveOnequilibrium;
+        this.dependantCurveOnEquilibrium = dependantCurveOnequilibrium;
     }
 
 

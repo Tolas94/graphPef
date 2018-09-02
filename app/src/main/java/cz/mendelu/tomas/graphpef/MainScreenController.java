@@ -7,11 +7,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+
+import cz.mendelu.tomas.graphpef.graphs.DefaultGraph;
+import cz.mendelu.tomas.graphpef.graphs.MarketDS;
+import cz.mendelu.tomas.graphpef.graphs.ProductionLimit;
 
 /**
  * Created by tomas on 11.08.2018.
@@ -21,25 +24,15 @@ public class MainScreenController extends AppCompatActivity{
 
     private static final String TAG = "MainScreenController";
 
-    private  SectionsPagerAdapter mSectionsPagerAdapter;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
 
     private ViewPager mViewPager;
 
-    private HashMap<GraphEnum, GraphHelperObject> graphsDatabase;
+    private HashMap<GraphEnum, DefaultGraph> graphsDatabase;
 
     private static GraphEnum chosenGraph = GraphEnum.ProductionLimit;
 
     private static Boolean graphChanged = false;
-
-    public static LineEnum getChosenLine() {
-        return chosenLine;
-    }
-
-    public static void setChosenLine(LineEnum chosenLine) {
-        MainScreenController.chosenLine = chosenLine;
-    }
-
-    private static LineEnum chosenLine = LineEnum.Demand;
 
     public enum GraphEnum {
         MarketDS,
@@ -57,18 +50,34 @@ public class MainScreenController extends AppCompatActivity{
         Supply,
         TotalCost,
         MarginalCost,
+        AverageCost,
         TotalRevenue,
         MarginalRevenue,
+        AverageRevenue,
         Quantity,
         ProductionCapabilities,
+        ProductionCapabilitiesDefault,
         Taxes,
         Equilibrium,
         TotalUtility
     }
 
+    public enum Direction {
+        up,
+        down,
+        left,
+        right
+    }
 
-    public GraphHelperObject getGraphByEnum(GraphEnum graphEnum){
-        return graphsDatabase.get(graphEnum);
+    static double precision = 0.1;
+    static int maxDataPoints = 100;
+
+    public static double getPrecision() {
+        return precision;
+    }
+
+    public static int getMaxDataPoints() {
+        return maxDataPoints;
     }
 
     @Override
@@ -80,11 +89,11 @@ public class MainScreenController extends AppCompatActivity{
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
 
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_menu_black_24dp);
@@ -103,46 +112,23 @@ public class MainScreenController extends AppCompatActivity{
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MenuFragment());
         adapter.addFragment(new GraphFragment());
-        //adapter.addFragment(GraphFragment.newInstance(graphsDatabase.get(chosenGraph)));
         adapter.addFragment(new InfoFragment());
         viewPager.setAdapter(adapter);
     }
 
     private void populateGraphDatabase(){
-        //MarketDS
+
         GraphHelperObject marketDS = new GraphHelperObject();
         GraphHelperObject productionLimit = new GraphHelperObject();
+        GraphHelperObject perfectMarketFirm = new GraphHelperObject();
 
-        marketDS.setTitle("MarketDS");
+        marketDS.setTitle("Market - Demand Supply");
         marketDS.setLabelX("Quantity");
         marketDS.setLabelY("Price");
         marketDS.setGraphEnum(GraphEnum.MarketDS);
-        ArrayList<Integer> values = new ArrayList<>(), values2 = new ArrayList<>(), values3 = new ArrayList<>();
-        HashMap<MainScreenController.LineEnum,ArrayList<Integer>> map = new HashMap<>();
+        marketDS.addToSeries(LineEnum.Supply,   new ArrayList<>(Arrays.asList(0,0,1,0)));
+        marketDS.addToSeries(LineEnum.Demand,   new ArrayList<>(Arrays.asList(0,0,-1,10)));
 
-        //series 1 - Supply
-        values.add(0);//X^3
-        values.add(0);//X^2
-        values.add(1);//x^1
-        values.add(0);//x^0
-        map.put(LineEnum.Supply,values);
-
-        //series 2 - Demand
-        values2.add(0);//X^3
-        values2.add(0);//X^2
-        values2.add(-1);//x^1
-        values2.add(10);//x^0
-        map.put(LineEnum.Demand,values2);
-
-        // series 3 - Price
-        values3.add(0);//X^3
-        values3.add(0);//X^2
-        values3.add(0);//x^1
-        values3.add(5);//x^0
-        map.put(LineEnum.Price,values3);
-
-
-        marketDS.setSeries( map );
 
         marketDS.setCalculateEqulibrium(true);
         ArrayList<LineEnum> equilibriumCurves = new ArrayList<>();
@@ -152,31 +138,47 @@ public class MainScreenController extends AppCompatActivity{
 
         ArrayList<LineEnum> equilibriumDependantCurves = new ArrayList<>();
         equilibriumDependantCurves.add(LineEnum.Price);
+        equilibriumDependantCurves.add(LineEnum.Quantity);
         marketDS.setDependantCurveOnEquilibrium(equilibriumDependantCurves);
 
-        graphsDatabase.put(GraphEnum.MarketDS,marketDS);
+        graphsDatabase.put(GraphEnum.MarketDS, new MarketDS(
+                new ArrayList<String>(),
+                new ArrayList<>(Arrays.asList(LineEnum.Supply,LineEnum.Demand)),
+                LineEnum.Supply,
+                marketDS.getSeries(),
+                new ArrayList<String>(),
+                marketDS));
 
 
         // ProductionLimit
 
-        productionLimit.setTitle("ProductionLimit");
-        productionLimit.setLabelX("Unit X");
-        productionLimit.setLabelY("Unit Y");
+        productionLimit.setTitle("Production Limit");
+        productionLimit.setLabelX("Production of Unit X");
+        productionLimit.setLabelY("Production of Unit Y");
         productionLimit.setGraphEnum(GraphEnum.ProductionLimit);
-        HashMap<MainScreenController.LineEnum,ArrayList<Integer>> newMap = new HashMap<>();
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        arrayList.add(0);//X^3
-        arrayList.add(0);//X^2
-        arrayList.add(0);//x^1
-        arrayList.add(0);//x^0
-        newMap.put(LineEnum.ProductionCapabilities,arrayList);
+        productionLimit.addToSeries(LineEnum.ProductionCapabilities, new ArrayList<>(Arrays.asList(0,0,0,0)));
+        productionLimit.addToSeries(LineEnum.ProductionCapabilitiesDefault, new ArrayList<>(Arrays.asList(0,0,0,0)));
         productionLimit.setCalculateEqulibrium(false);
-        productionLimit.setSeries(newMap);
+        graphsDatabase.put(GraphEnum.ProductionLimit,new ProductionLimit(
+                new ArrayList<String>(),
+                new ArrayList<>(Arrays.asList(LineEnum.ProductionCapabilities)),
+                LineEnum.ProductionCapabilities,
+                productionLimit.getSeries(),
+                new ArrayList<String>(),
+                productionLimit));
+/*
+        // Perfect Market competition
 
-
-        graphsDatabase.put(GraphEnum.ProductionLimit,productionLimit);
+        perfectMarket.setTitle("Perfect Market");
+        perfectMarket.setLabelX("Quantity");
+        perfectMarket.setLabelY("Price");
+        perfectMarket.setGraphEnum(GraphEnum.PerfectMarket);
+        perfectMarket.addToSeries(LineEnum.MarginalCost,new ArrayList<>(Arrays.asList(0,0,0,0)));
+        perfectMarket.addToSeries(LineEnum.AverageCost,new ArrayList<>(Arrays.asList(0,0,0,0)));
+*/
     }
 
+    //TODO show chosen graph in menu fragment
     public static GraphEnum getChosenGraph() {
         return chosenGraph;
     }
@@ -194,22 +196,20 @@ public class MainScreenController extends AppCompatActivity{
     public void onChosenGraphChange() {
         Log.d(TAG, "onChosenGraphChange");
         if (graphsDatabase != null && graphChanged) {
-
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+            InfoFragment infoFragment = InfoFragment.newInstance(graphsDatabase.get(chosenGraph));
+            ft.replace(R.id.info_fragment,infoFragment);
+
             GraphFragment graphFragment = GraphFragment.newInstance(graphsDatabase.get(chosenGraph));
             ft.replace(R.id.graph_fragment,graphFragment);
+
+
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.addToBackStack(null);
             ft.commit();
-
-                /*
-            SectionsPagerAdapter adapter =(SectionsPagerAdapter)mViewPager.getAdapter();
-            adapter.setFragmetAtPosition(1,GraphFragment.newInstance(graphsDatabase.get(chosenGraph)));
-            */
         }else{
             Log.d(TAG, "onChosenGraphChange: null or graphChanged == false");
         }
-
     }
-
 }
