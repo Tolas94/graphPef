@@ -25,10 +25,10 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     private MainScreenController.LineEnum movableEnum;
     private HashMap<MainScreenController.LineEnum,ArrayList<Integer> > series;
     private ArrayList<String> optionsLabels;
+    private ArrayList<String> infoTexts;
     private GraphHelperObject graphHelperObject;
     private HashMap<MainScreenController.LineEnum,LineGraphSeries<DataPoint>> lineGraphSeriesMap;
     private ArrayList<MainScreenController.Direction> movableDirections;
-    private InfoHelper infoHelper;
 
     public DefaultGraph(ArrayList<String> graphTexts, ArrayList<MainScreenController.LineEnum> movableObjects, MainScreenController.LineEnum movableEnum, HashMap<MainScreenController.LineEnum, ArrayList<Integer> > series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         this.graphTexts = graphTexts;
@@ -39,7 +39,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
         this.graphHelperObject = graphHelperObject;
         this.lineGraphSeriesMap = new HashMap<>();
         for (MainScreenController.LineEnum line:graphHelperObject.getSeries().keySet()) {
-            graphHelperObject.addLineChangeIdentificator(line,new ArrayList<>(Arrays.asList(1,1,1,0)));
+            graphHelperObject.addLineChangeIdentificator(line,new ArrayList<>(Arrays.asList(0,0)));
         }
     }
 
@@ -96,18 +96,18 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
                 pointX = minX;
                 pointY = 0;
                 diff = 10000;
-                x3 = seriesSource.get(curve1).get(0);
-                x2 = seriesSource.get(curve1).get(1);
-                x1 = seriesSource.get(curve1).get(2);
-                x0 = seriesSource.get(curve1).get(3);
-                x3_2 = seriesSource.get(curve2).get(0);
-                x2_2 = seriesSource.get(curve2).get(1);
-                x1_2 = seriesSource.get(curve2).get(2);
-                x0_2 = seriesSource.get(curve2).get(3);
+                //x3 = seriesSource.get(curve1).get(0);
+                //x2 = seriesSource.get(curve1).get(1);
+                x1 = seriesSource.get(curve1).get(0);//2);
+                x0 = seriesSource.get(curve1).get(1);//3);
+                //x3_2 = seriesSource.get(curve2).get(0);
+                //x2_2 = seriesSource.get(curve2).get(1);
+                x1_2 = seriesSource.get(curve2).get(0);//2);
+                x0_2 = seriesSource.get(curve2).get(1);//3);
                 for (int i = 0; i < counter; i++ ){
                     x = x + precision;
-                    y1 = x3   * x * x * x +  x2   * x * x + x1   * x + x0   + identChanges1.get(0);
-                    y2 = x3_2 * x * x * x +  x2_2 * x * x + x1_2 * x + x0_2 + identChanges2.get(0);
+                    y1 = /*x3   * x * x * x +  x2   * x * x +*/ x1   * x + x0   + identChanges1.get(0);
+                    y2 = /*x3_2 * x * x * x +  x2_2 * x * x +*/ x1_2 * x + x0_2 + identChanges2.get(0);
                     //Log.d(TAG, "calculateEqulibrium: abs(y1-y2)[" + Math.abs( y1 - y2 ) + "]");
                     if (diff > abs( y1 - y2 )){
                         diff = abs( y1 - y2 );
@@ -188,9 +188,6 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
         return false;
     }
 
-    protected void setInfoHelper(InfoHelper infoHelper) {
-        this.infoHelper = infoHelper;
-    }
 
     public GraphHelperObject getGraphHelperObject() {
         return graphHelperObject;
@@ -235,7 +232,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     }
 
     @Override
-    public InfoHelper getInfoHelper() {
+    public ArrayList<String> getInfoTexts() {
         return null;
     }
 }

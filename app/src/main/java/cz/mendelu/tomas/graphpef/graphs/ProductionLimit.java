@@ -1,5 +1,8 @@
 package cz.mendelu.tomas.graphpef.graphs;
 
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
+
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -31,17 +34,36 @@ public class ProductionLimit extends DefaultGraph {
         int maxDataPoints = MainScreenController.getMaxDataPoints();
         double x,y = 1;
 
-        LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<DataPoint>();
+        int x0, y0;
+        LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<>();
+
+        HashMap<MainScreenController.LineEnum,ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
+
+        x0 = seriesSource.get(line).get(0);
+        y0 = seriesSource.get(line).get(1);
 
         if (getLineGraphSeries() != null)
             getLineGraphSeries().remove(line);
 
         for (double t = 0.5 * Math.PI; y>=0; t -= precision ) { // <- or different step
-            x = (8 + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0)) * Math.cos(t);
-            y = (8 + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(1)) * Math.sin(t);
+            x = (x0 + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0)) * Math.cos(t);
+            y = (y0 + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(1)) * Math.sin(t);
             seriesLocal.appendData( new DataPoint(x,y), true, maxDataPoints );
         }
         seriesLocal.setColor(color);
+
+        if (line == MainScreenController.LineEnum.ProductionCapabilitiesDefault){
+            Paint paint = new Paint();
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(3);
+            paint.setPathEffect(new DashPathEffect(new float[]{8,5},0));
+            seriesLocal.setDrawAsPath(true);
+            seriesLocal.setCustomPaint(paint);
+            seriesLocal.setThickness(1);
+
+        }else{
+            seriesLocal.setThickness(5);
+        }
         getLineGraphSeries().put(line, seriesLocal);
         updateTexts();
         return seriesLocal;
@@ -105,9 +127,9 @@ public class ProductionLimit extends DefaultGraph {
 
     @Override
     public ArrayList<Double> calculateEqulibrium() {
-        if (getGraphHelperObject().getCalculateEqulibrium()){
+        if (getGraphHelperObject().getCalculateEqulibrium())
             return super.calculateEqulibrium();
-        }else
+        else
             return null;
     }
 }

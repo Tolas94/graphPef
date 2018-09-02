@@ -32,6 +32,8 @@ public interface GraphIfc{
 
     ArrayList<String> getOptionsLabels();
 
+    ArrayList<String> getInfoTexts();
+
     String getMovableLabel();
 
     void setMovable(MainScreenController.LineEnum movableEnum);
@@ -44,6 +46,6 @@ public interface GraphIfc{
 
     MainScreenController.LineEnum getMovableEnum();
 
-    InfoHelper getInfoHelper();
+
 
 }

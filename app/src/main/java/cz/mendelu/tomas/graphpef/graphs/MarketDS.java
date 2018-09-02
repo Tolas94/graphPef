@@ -5,6 +5,7 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 
 import com.jjoe64.graphview.series.DataPoint;
@@ -30,7 +31,7 @@ public class MarketDS extends DefaultGraph {
     public MarketDS(ArrayList<String> texts, ArrayList<MainScreenController.LineEnum> movableObjects, MainScreenController.LineEnum movableEnum, HashMap<MainScreenController.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         super(texts, movableObjects, movableEnum, series, optionsLabels, graphHelperObject);
 
-        setMovableDirections(new ArrayList<MainScreenController.Direction>(Arrays.asList(MainScreenController.Direction.up,MainScreenController.Direction.down)));
+        setMovableDirections(new ArrayList<>(Arrays.asList(MainScreenController.Direction.up,MainScreenController.Direction.down)));
     }
 
     @Override
@@ -50,30 +51,36 @@ public class MarketDS extends DefaultGraph {
         int maxDataPoints = MainScreenController.getMaxDataPoints();
         double x,y;
         x = 1;
-        int x3, x2, x1, x0;
+        int x0,x1;
         HashMap<MainScreenController.LineEnum,ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
 
-        x3 = seriesSource.get(line).get(0);
-        x2 = seriesSource.get(line).get(1);
-        x1 = seriesSource.get(line).get(2);
-        x0 = seriesSource.get(line).get(3);
+        x0 = seriesSource.get(line).get(1);
+        x1 = seriesSource.get(line).get(0);
 
         LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<DataPoint>();
         if (getLineGraphSeries() != null)
             getLineGraphSeries().remove(line);
 
         ArrayList<Integer> identChanges = getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line);
-        /*Log.d(TAG,  identChanges.get(3) + " * " + x3 + " * x^3 +"
-        + identChanges.get(2) + " * " + x2 + " * x^2 +"
-        + identChanges.get(1) + " * " + x1 + " * x^1 +"
-         + x0 + " + " + identChanges.get(0) );*/
 
         for( int i=0; i<maxDataPoints; i++){
             x = x + precision;
-            y = identChanges.get(3) * x3 * x * x * x + identChanges.get(2) * x2 * x * x + identChanges.get(1) * x1 * x + x0 + identChanges.get(0);
+            y = x1 * x + x0 + identChanges.get(0);
             seriesLocal.appendData( new DataPoint(x,y), true, maxDataPoints );
         }
-        seriesLocal.setColor(color);
+        if (line == MainScreenController.LineEnum.SupplyDefault || line == MainScreenController.LineEnum.DemandDefault){
+            Paint paint = new Paint();
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(3);
+            paint.setPathEffect(new DashPathEffect(new float[]{1,1},0));
+            seriesLocal.setDrawAsPath(true);
+            seriesLocal.setCustomPaint(paint);
+            seriesLocal.setThickness(1);
+            seriesLocal.setColor(Color.BLUE);
+        }else{
+            seriesLocal.setThickness(5);
+            seriesLocal.setColor(color);
+        }
         getLineGraphSeries().put(line, seriesLocal);
         return seriesLocal;
     }
@@ -87,6 +94,9 @@ public class MarketDS extends DefaultGraph {
             ArrayList<MainScreenController.LineEnum> lineEnumArrayList = getGraphHelperObject().getDependantCurveOnEquilibrium();
             calculateData(lineEnumArrayList.get(0),Color.BLACK,retVal.get(0),false,retVal);
             calculateData(lineEnumArrayList.get(1),Color.BLACK,retVal.get(1),true,retVal);
+            populateTexts(true,retVal);
+        }else{
+            populateTexts(false,retVal);
         }
         return retVal;
     }
@@ -111,8 +121,22 @@ public class MarketDS extends DefaultGraph {
         seriesLocal.setDrawAsPath(true);
         seriesLocal.setCustomPaint(paint);
         seriesLocal.setThickness(1);
-
         getLineGraphSeries().put(line,seriesLocal);
+    }
 
+    private void populateTexts(boolean equilibriumExists,ArrayList<Double> equilibrium){
+        Log.d(TAG,"populateTexts");
+        ArrayList texts = new ArrayList();
+        if(equilibriumExists){
+            texts.add("Eq " + getGraphHelperObject().getDependantCurveOnEquilibrium().get(0) + " = " + String.format( "%.1f", equilibrium.get(0) ));
+            texts.add("Eq " + getGraphHelperObject().getDependantCurveOnEquilibrium().get(1) + " = " + String.format( "%.1f", equilibrium.get(1) ));
+        }else{
+            texts.add("Eq cannot be calculated");
+        }
+        for(MainScreenController.LineEnum line:getMovableObjects()){
+            texts.add("Line " + line.toString() + " changed by " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
+        }
+
+        setGraphTexts(texts);
     }
 }

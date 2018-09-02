@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.zip.Inflater;
 
 import cz.mendelu.tomas.graphpef.graphs.DefaultGraph;
@@ -54,8 +56,10 @@ public class InfoFragment extends Fragment{
         return view;
     }
 
-    private void populateTexts(){
-
-        //graphIfc.getInfo();
+    public void populateTexts(){
+        if(graphIfc != null){
+            ArrayList<String> texts = graphIfc.getInfoTexts();
+            title.setText(graphIfc.getTitle());
+        }
     }
 }

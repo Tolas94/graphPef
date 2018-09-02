@@ -46,7 +46,9 @@ public class MainScreenController extends AppCompatActivity{
     }
     public enum LineEnum {
         Demand,
+        DemandDefault,
         Price,
+        SupplyDefault,
         Supply,
         TotalCost,
         MarginalCost,
@@ -59,7 +61,8 @@ public class MainScreenController extends AppCompatActivity{
         ProductionCapabilitiesDefault,
         Taxes,
         Equilibrium,
-        TotalUtility
+        TotalUtility,
+        AverageVariableCost
     }
 
     public enum Direction {
@@ -123,12 +126,13 @@ public class MainScreenController extends AppCompatActivity{
         GraphHelperObject perfectMarketFirm = new GraphHelperObject();
 
         marketDS.setTitle("Market - Demand Supply");
-        marketDS.setLabelX("Quantity");
-        marketDS.setLabelY("Price");
+        marketDS.setLabelX("Quantity [Units]");
+        marketDS.setLabelY("Price [Czk]");
         marketDS.setGraphEnum(GraphEnum.MarketDS);
-        marketDS.addToSeries(LineEnum.Supply,   new ArrayList<>(Arrays.asList(0,0,1,0)));
-        marketDS.addToSeries(LineEnum.Demand,   new ArrayList<>(Arrays.asList(0,0,-1,10)));
-
+        marketDS.addToSeries(LineEnum.Supply,   new ArrayList<>(Arrays.asList(1,0)));
+        marketDS.addToSeries(LineEnum.Demand,   new ArrayList<>(Arrays.asList(-1,10)));
+        marketDS.addToSeries(LineEnum.SupplyDefault,   new ArrayList<>(Arrays.asList(1,0)));
+        marketDS.addToSeries(LineEnum.DemandDefault,   new ArrayList<>(Arrays.asList(-1,10)));
 
         marketDS.setCalculateEqulibrium(true);
         ArrayList<LineEnum> equilibriumCurves = new ArrayList<>();
@@ -153,11 +157,11 @@ public class MainScreenController extends AppCompatActivity{
         // ProductionLimit
 
         productionLimit.setTitle("Production Limit");
-        productionLimit.setLabelX("Production of Unit X");
-        productionLimit.setLabelY("Production of Unit Y");
+        productionLimit.setLabelX("Production of X [Units]");
+        productionLimit.setLabelY("Production of Y [Units]");
         productionLimit.setGraphEnum(GraphEnum.ProductionLimit);
-        productionLimit.addToSeries(LineEnum.ProductionCapabilities, new ArrayList<>(Arrays.asList(0,0,0,0)));
-        productionLimit.addToSeries(LineEnum.ProductionCapabilitiesDefault, new ArrayList<>(Arrays.asList(0,0,0,0)));
+        productionLimit.addToSeries(LineEnum.ProductionCapabilities, new ArrayList<>(Arrays.asList(8,8)));
+        productionLimit.addToSeries(LineEnum.ProductionCapabilitiesDefault, new ArrayList<>(Arrays.asList(8,8)));
         productionLimit.setCalculateEqulibrium(false);
         graphsDatabase.put(GraphEnum.ProductionLimit,new ProductionLimit(
                 new ArrayList<String>(),
@@ -166,16 +170,20 @@ public class MainScreenController extends AppCompatActivity{
                 productionLimit.getSeries(),
                 new ArrayList<String>(),
                 productionLimit));
-/*
+
         // Perfect Market competition
 
-        perfectMarket.setTitle("Perfect Market");
-        perfectMarket.setLabelX("Quantity");
-        perfectMarket.setLabelY("Price");
-        perfectMarket.setGraphEnum(GraphEnum.PerfectMarket);
-        perfectMarket.addToSeries(LineEnum.MarginalCost,new ArrayList<>(Arrays.asList(0,0,0,0)));
-        perfectMarket.addToSeries(LineEnum.AverageCost,new ArrayList<>(Arrays.asList(0,0,0,0)));
-*/
+        perfectMarketFirm.setTitle("Perfect Market");
+        perfectMarketFirm.setLabelX("Quantity [Units]");
+        perfectMarketFirm.setLabelY("Price [Czk]");
+        perfectMarketFirm.setGraphEnum(GraphEnum.PerfectMarket);
+        perfectMarketFirm.addToSeries(LineEnum.MarginalCost, new ArrayList<>(Arrays.asList(0,0,0)));
+        perfectMarketFirm.addToSeries(LineEnum.AverageCost, new ArrayList<>(Arrays.asList(0,0,0)));
+        perfectMarketFirm.addToSeries(LineEnum.AverageVariableCost, new ArrayList<>(Arrays.asList(0,0,0)));
+
+
+
+
     }
 
     //TODO show chosen graph in menu fragment

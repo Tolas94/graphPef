@@ -82,6 +82,9 @@ public class GraphFragment extends Fragment{
 
             graphIfc = (GraphIfc) getArguments().getSerializable(GRAPH_KEY);
 
+            if (graphIfc == null)
+                return view;
+
             for(MainScreenController.Direction dir: graphIfc.getMovableDirections()){
                 switch(dir){
                     case up: up.setVisibility(View.VISIBLE);
@@ -137,11 +140,16 @@ public class GraphFragment extends Fragment{
             //Graph styling settings
             graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.BOTH );
             graph.getGridLabelRenderer().setHorizontalAxisTitle(graphIfc.getLabelX());
-            graph.getGridLabelRenderer().setHumanRounding(true);
+            //graph.getGridLabelRenderer().setHumanRounding(true);
             graph.getGridLabelRenderer().setVerticalAxisTitle(graphIfc.getLabelY());
             graph.getGridLabelRenderer().setHighlightZeroLines(true);
-            graph.getGridLabelRenderer().setNumHorizontalLabels(4);
-            graph.getGridLabelRenderer().setNumVerticalLabels(4);
+            graph.getGridLabelRenderer().setNumHorizontalLabels(1);
+            graph.getGridLabelRenderer().setNumVerticalLabels(1);
+            graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+            graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
+
+
+            //graph.getGridLabelRenderer().setNumVerticalLabels(4);
             graph.getViewport().setMinX(0);
             graph.getViewport().setMinY(0);
             graph.getViewport().setMaxX(15);
@@ -175,18 +183,6 @@ public class GraphFragment extends Fragment{
             graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
         }
         LineGraphSeries lineSeries = graphIfc.calculateData(line,color);
-        if (line == MainScreenController.LineEnum.ProductionCapabilitiesDefault){
-            Paint paint = new Paint();
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(3);
-            paint.setPathEffect(new DashPathEffect(new float[]{8,5},0));
-            lineSeries.setDrawAsPath(true);
-            lineSeries.setCustomPaint(paint);
-            lineSeries.setThickness(1);
-
-        }else{
-            lineSeries.setThickness(5);
-        }
         graph.addSeries(lineSeries);
         updateTexts();
     }
@@ -217,6 +213,13 @@ public class GraphFragment extends Fragment{
 
     private void updateTexts(){
         Log.d(TAG, "updateTexts: ");
+        text1.setVisibility(View.INVISIBLE);
+        text2.setVisibility(View.INVISIBLE);
+        text3.setVisibility(View.INVISIBLE);
+        text4.setVisibility(View.INVISIBLE);
+        text5.setVisibility(View.INVISIBLE);
+
+
         for (int i = 0; i < graphIfc.getGraphTexts().size(); ++i){
             Log.d(TAG, "setText: " + i);
             switch(i){
@@ -255,6 +258,7 @@ public class GraphFragment extends Fragment{
         }
 
         graphIfc.calculateEqulibrium();
+        updateTexts();
 
         for(MainScreenController.LineEnum line: graphIfc.getEqDependantCurves()){
             //Log.d(TAG, "calculateEquilibrium: " + line.toString());
