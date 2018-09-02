@@ -12,11 +12,11 @@ import java.util.HashMap;
 
 public interface GraphIfc{
 
-    ArrayList<String> getTexts();
+    ArrayList<String> getGraphTexts();
 
     LineGraphSeries<DataPoint> calculateData(MainScreenController.LineEnum line, int color);
 
-    ArrayList<Double> calculateEqulibrium(MainScreenController.LineEnum curve1,MainScreenController.LineEnum curve2);
+    ArrayList<Double> calculateEqulibrium();
 
     ArrayList<MainScreenController.LineEnum> getMovableObjects();
 
@@ -27,6 +27,8 @@ public interface GraphIfc{
     HashMap<MainScreenController.LineEnum,ArrayList<Integer> > getSeries();
 
     HashMap<MainScreenController.LineEnum,LineGraphSeries<DataPoint>> getLineGraphSeries();
+
+    ArrayList<MainScreenController.LineEnum> getEqDependantCurves();
 
     ArrayList<String> getOptionsLabels();
 
@@ -41,5 +43,7 @@ public interface GraphIfc{
     String getLabelY();
 
     MainScreenController.LineEnum getMovableEnum();
+
+    InfoHelper getInfoHelper();
 
 }

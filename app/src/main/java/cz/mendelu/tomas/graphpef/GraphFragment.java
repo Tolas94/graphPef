@@ -64,7 +64,7 @@ public class GraphFragment extends Fragment{
 
         View view = inflater.inflate(R.layout.graph_fragment,container,false);
 
-        if(init){
+        if(getArguments() != null){
             ImageButton up = view.findViewById(R.id.buttonUp);
             ImageButton down = view.findViewById(R.id.buttonDown);
             ImageButton left = view.findViewById(R.id.buttonLeft);
@@ -99,7 +99,7 @@ public class GraphFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button Up");
-                    moveCurve(MainScreenController.Direction.up, Color.GREEN);
+                    moveCurve(MainScreenController.Direction.up, Color.BLACK);
                 }
             });
 
@@ -108,7 +108,7 @@ public class GraphFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button Down");
-                    moveCurve(MainScreenController.Direction.down, Color.RED);
+                    moveCurve(MainScreenController.Direction.down, Color.BLACK);
                 }
             });
 
@@ -116,7 +116,7 @@ public class GraphFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button Up");
-                    moveCurve(MainScreenController.Direction.left, Color.GREEN);
+                    moveCurve(MainScreenController.Direction.left, Color.BLACK);
                 }
             });
 
@@ -124,7 +124,7 @@ public class GraphFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button Down");
-                    moveCurve(MainScreenController.Direction.right, Color.RED);
+                    moveCurve(MainScreenController.Direction.right, Color.BLACK);
                 }
             });
 
@@ -157,7 +157,7 @@ public class GraphFragment extends Fragment{
             menu = toolbar.getMenu();
             updateMenuTitles();
 
-            //recalculateEquilibrium();
+            calculateEquilibrium();
         }else{
             Log.d(TAG,"return clean View");
         }
@@ -167,7 +167,7 @@ public class GraphFragment extends Fragment{
     private void moveCurve(MainScreenController.Direction dir, int color) {
         graphIfc.moveObject(dir);
         calculateData(graphIfc.getMovableEnum(),color);
-        //recalculateEquilibrium();
+        calculateEquilibrium();
     }
 
     private void calculateData(MainScreenController.LineEnum line, int color) {
@@ -217,29 +217,50 @@ public class GraphFragment extends Fragment{
 
     private void updateTexts(){
         Log.d(TAG, "updateTexts: ");
-        for (int i = 0; i < graphIfc.getTexts().size(); ++i){
+        for (int i = 0; i < graphIfc.getGraphTexts().size(); ++i){
             Log.d(TAG, "setText: " + i);
             switch(i){
                 case 0:
-                    text1.setText(graphIfc.getTexts().get(0));
+                    text1.setText(graphIfc.getGraphTexts().get(0));
                     text1.setVisibility(View.VISIBLE);
                     break;
                 case 1:
-                    text2.setText(graphIfc.getTexts().get(1));
+                    text2.setText(graphIfc.getGraphTexts().get(1));
                     text2.setVisibility(View.VISIBLE);
                     break;
                 case 2:
-                    text3.setText(graphIfc.getTexts().get(2));
+                    text3.setText(graphIfc.getGraphTexts().get(2));
                     text3.setVisibility(View.VISIBLE);
                     break;
                 case 3:
-                    text4.setText(graphIfc.getTexts().get(3));
+                    text4.setText(graphIfc.getGraphTexts().get(3));
                     text4.setVisibility(View.VISIBLE);
                     break;
                 case 4:
-                    text5.setText(graphIfc.getTexts().get(4));
+                    text5.setText(graphIfc.getGraphTexts().get(4));
                     text5.setVisibility(View.VISIBLE);
                     break;
+            }
+        }
+    }
+
+    private void calculateEquilibrium(){
+        //Log.d(TAG, "calculateEquilibrium: ");
+        for(MainScreenController.LineEnum line: graphIfc.getEqDependantCurves()){
+            if (graphIfc.getLineGraphSeries().get(line) != null){
+                Log.d(TAG, "calculateEquilibrium: delete[" + line.toString() + "]");
+                graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
+                graphIfc.getLineGraphSeries().remove(line);
+            }
+        }
+
+        graphIfc.calculateEqulibrium();
+
+        for(MainScreenController.LineEnum line: graphIfc.getEqDependantCurves()){
+            //Log.d(TAG, "calculateEquilibrium: " + line.toString());
+            if (graphIfc.getLineGraphSeries().get(line) != null){
+                Log.d(TAG, "calculateEquilibrium: create[" + line.toString() + "]");
+                graph.addSeries(graphIfc.getLineGraphSeries().get(line));
             }
         }
     }

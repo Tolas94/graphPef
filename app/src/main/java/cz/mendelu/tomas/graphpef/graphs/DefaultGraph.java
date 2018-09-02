@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import cz.mendelu.tomas.graphpef.GraphHelperObject;
 import cz.mendelu.tomas.graphpef.GraphIfc;
+import cz.mendelu.tomas.graphpef.InfoHelper;
 import cz.mendelu.tomas.graphpef.MainScreenController;
 
 import static java.lang.Math.abs;
@@ -19,7 +20,7 @@ import static java.lang.Math.abs;
  */
 
 public abstract class DefaultGraph implements GraphIfc,Serializable{
-    private ArrayList<String> texts;
+    private ArrayList<String> graphTexts;
     private ArrayList<MainScreenController.LineEnum> movableObjects;
     private MainScreenController.LineEnum movableEnum;
     private HashMap<MainScreenController.LineEnum,ArrayList<Integer> > series;
@@ -27,9 +28,10 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     private GraphHelperObject graphHelperObject;
     private HashMap<MainScreenController.LineEnum,LineGraphSeries<DataPoint>> lineGraphSeriesMap;
     private ArrayList<MainScreenController.Direction> movableDirections;
+    private InfoHelper infoHelper;
 
-    public DefaultGraph(ArrayList<String> texts, ArrayList<MainScreenController.LineEnum> movableObjects, MainScreenController.LineEnum movableEnum, HashMap<MainScreenController.LineEnum, ArrayList<Integer> > series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
-        this.texts = texts;
+    public DefaultGraph(ArrayList<String> graphTexts, ArrayList<MainScreenController.LineEnum> movableObjects, MainScreenController.LineEnum movableEnum, HashMap<MainScreenController.LineEnum, ArrayList<Integer> > series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
+        this.graphTexts = graphTexts;
         this.movableObjects = movableObjects;
         this.movableEnum = movableEnum;
         this.series = series;
@@ -43,8 +45,8 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
 
 
     @Override
-    public ArrayList<String> getTexts() {
-        return texts;
+    public ArrayList<String> getGraphTexts() {
+        return graphTexts;
     }
 
     @Override
@@ -53,13 +55,15 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     }
 
     @Override
-    public ArrayList<Double> calculateEqulibrium(MainScreenController.LineEnum curve1,MainScreenController.LineEnum curve2){
+    public ArrayList<Double> calculateEqulibrium(){
         double precision = MainScreenController.getPrecision();
+        MainScreenController.LineEnum curve1 = graphHelperObject.getEquilibriumCurves().get(0);
+        MainScreenController.LineEnum curve2 = graphHelperObject.getEquilibriumCurves().get(1);
 
         ArrayList<Double> equiPoints = new ArrayList<>();
 
         LineGraphSeries<DataPoint> data1 = getLineGraphSeries().get(curve1);
-        LineGraphSeries<DataPoint> data2 = getLineGraphSeries().get(curve2);;
+        LineGraphSeries<DataPoint> data2 = getLineGraphSeries().get(curve2);
         double pointX, pointY, diff;
         int x3, x2, x1, x0,x3_2, x2_2, x1_2, x0_2;
         HashMap<MainScreenController.LineEnum,ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
@@ -184,6 +188,10 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
         return false;
     }
 
+    protected void setInfoHelper(InfoHelper infoHelper) {
+        this.infoHelper = infoHelper;
+    }
+
     public GraphHelperObject getGraphHelperObject() {
         return graphHelperObject;
     }
@@ -214,7 +222,20 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
         this.optionsLabels = optionsLabels;
     }
 
-    public void setTexts(ArrayList<String> texts) {
-        this.texts = texts;
+    public void setGraphTexts(ArrayList<String> graphTexts) {
+        this.graphTexts = graphTexts;
+    }
+
+    @Override
+    public ArrayList<MainScreenController.LineEnum> getEqDependantCurves() {
+        if (graphHelperObject.getCalculateEqulibrium())
+            return graphHelperObject.getDependantCurveOnEquilibrium();
+        else
+            return new ArrayList<>();
+    }
+
+    @Override
+    public InfoHelper getInfoHelper() {
+        return null;
     }
 }

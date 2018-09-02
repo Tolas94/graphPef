@@ -1,6 +1,8 @@
 package cz.mendelu.tomas.graphpef.graphs;
 
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -76,39 +78,41 @@ public class MarketDS extends DefaultGraph {
         return seriesLocal;
     }
 
-    private void recalculateEquilibrium(){
-        if (getGraphHelperObject().getCalculateEqulibrium())
-        {
-            ArrayList<Double> equiPoints,equiPoints2;
-            //Log.d(TAG,"Equilibrium being calculated");
-            equiPoints = calculateEqulibrium(getGraphHelperObject().getEquilibriumCurves().get(0),getGraphHelperObject().getEquilibriumCurves().get(1));
-
-            //TODO create texts
-            /*
-            if( !equiPoints.isEmpty() ){
-                text1.setText("EQ point " + graphHelperObject.getLabelX() + " = " + String.format( "%.2f", equiPoints.get(0)));
-                text2.setText("EQ point " + graphHelperObject.getLabelY() + " = " + String.format( "%.2f", equiPoints.get(1)));
-            }
-
-            for (MainScreenController.LineEnum keySetLine:graphHelperObject.getSeries().keySet()) {
-                for (MainScreenController.LineEnum dependantLine:graphHelperObject.getDependantCurveOnEquilibrium()){
-                    //Log.d(TAG,"recalculateEquilibrium: " + keySetLine.toString() + " " + " " + dependantLine.toString());
-                    if (keySetLine == dependantLine){
-                        equiPoints2 = calculateEqulibrium(keySetLine,graphHelperObject.getEquilibriumCurves().get(1));
-                        if (equiPoints2.isEmpty()){
-                            Log.d(TAG,"recalculateEquilibrium: error");
-                        }else if ( compareDoubleWithPrecision(equiPoints2.get(0),equiPoints.get(0)) &&
-                                compareDoubleWithPrecision(equiPoints2.get(1),equiPoints.get(1))){
-                            text3.setText("State is stable");
-                        }else{
-                            text3.setText("State is NOT stable");
-                            //Log.d(TAG,"equiPoints2.get(0) == equiPoints.get(0) && equiPoints2.get(1) == equiPoints.get(1))"
-                            //       + equiPoints2.get(0)+ " " + equiPoints.get(0)+ " " + equiPoints2.get(1)  + " " + equiPoints.get(1) );
-                        }
-                    }
-                }
-            }
-            */
+    @Override
+    public ArrayList<Double> calculateEqulibrium() {
+        Log.d(TAG,"calculateEqulibrium");
+        ArrayList<Double> retVal;
+        retVal = super.calculateEqulibrium();
+        if (!retVal.isEmpty()){
+            ArrayList<MainScreenController.LineEnum> lineEnumArrayList = getGraphHelperObject().getDependantCurveOnEquilibrium();
+            calculateData(lineEnumArrayList.get(0),Color.BLACK,retVal.get(0),false,retVal);
+            calculateData(lineEnumArrayList.get(1),Color.BLACK,retVal.get(1),true,retVal);
         }
+        return retVal;
+    }
+
+    public void calculateData(MainScreenController.LineEnum line, int color, Double limit, boolean vertical, ArrayList<Double> equilibrium) {
+
+        LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<DataPoint>();
+        Log.d(TAG,"calculateData eq line[" + line.toString() + "] limit [" + limit + "]");
+
+        if (vertical){
+            seriesLocal.appendData(new DataPoint(equilibrium.get(0),0),false,2);
+            seriesLocal.appendData(new DataPoint(equilibrium.get(0),limit),false,2);
+        }else{
+            seriesLocal.appendData(new DataPoint(0,equilibrium.get(1)),false,2);
+            seriesLocal.appendData(new DataPoint(limit,equilibrium.get(1)),false,2);
+        }
+
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(3);
+        paint.setPathEffect(new DashPathEffect(new float[]{3,3},0));
+        seriesLocal.setDrawAsPath(true);
+        seriesLocal.setCustomPaint(paint);
+        seriesLocal.setThickness(1);
+
+        getLineGraphSeries().put(line,seriesLocal);
+
     }
 }

@@ -1,7 +1,5 @@
 package cz.mendelu.tomas.graphpef.graphs;
 
-import android.view.View;
-
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -66,11 +64,17 @@ public class ProductionLimit extends DefaultGraph {
     }
 
     private double getMaxX(){
-        return getLineGraphSeries().get(MainScreenController.LineEnum.ProductionCapabilities).getHighestValueX();
+        if (getLineGraphSeries().get(MainScreenController.LineEnum.ProductionCapabilities) != null)
+            return getLineGraphSeries().get(MainScreenController.LineEnum.ProductionCapabilities).getHighestValueX();
+        else
+            return 0.0;
     }
 
     private double getMaxY(){
-        return getLineGraphSeries().get(MainScreenController.LineEnum.ProductionCapabilities).getHighestValueY();
+        if (getLineGraphSeries().get(MainScreenController.LineEnum.ProductionCapabilities) != null)
+            return getLineGraphSeries().get(MainScreenController.LineEnum.ProductionCapabilities).getHighestValueY();
+        else
+            return 0.0;
     }
 
     private void updateTexts(){
@@ -91,11 +95,19 @@ public class ProductionLimit extends DefaultGraph {
         }else if ((int) Math.round(getMaxY()) < 9 ){
             text5 = "Production capability(Y) has been lowered";
         }
-        setTexts(new ArrayList<>(Arrays.asList(
+        setGraphTexts(new ArrayList<>(Arrays.asList(
                 "Max " + getLabelX() + " = " + (int) Math.round(getMaxX()),
                 "Max " + getLabelY() + " = " + (int) Math.round(getMaxY()),
                 "Default Max Production [9,9]",
                 text4,
                 text5)));
+    }
+
+    @Override
+    public ArrayList<Double> calculateEqulibrium() {
+        if (getGraphHelperObject().getCalculateEqulibrium()){
+            return super.calculateEqulibrium();
+        }else
+            return null;
     }
 }

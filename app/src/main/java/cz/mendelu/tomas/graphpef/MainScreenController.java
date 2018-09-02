@@ -80,10 +80,6 @@ public class MainScreenController extends AppCompatActivity{
         return maxDataPoints;
     }
 
-    public DefaultGraph getGraphByEnum(GraphEnum graphEnum){
-        return graphsDatabase.get(graphEnum);
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,12 +117,7 @@ public class MainScreenController extends AppCompatActivity{
     }
 
     private void populateGraphDatabase(){
-        //line dependancy
-        /*
-        for(MainScreenController.LineEnum lineEnum: MainScreenController.LineEnum.values()){
-            mlineDependancy.put(lineEnum,new ArrayList<LineEnum>());
-        }
-*/
+
         GraphHelperObject marketDS = new GraphHelperObject();
         GraphHelperObject productionLimit = new GraphHelperObject();
         GraphHelperObject perfectMarketFirm = new GraphHelperObject();
@@ -137,7 +128,6 @@ public class MainScreenController extends AppCompatActivity{
         marketDS.setGraphEnum(GraphEnum.MarketDS);
         marketDS.addToSeries(LineEnum.Supply,   new ArrayList<>(Arrays.asList(0,0,1,0)));
         marketDS.addToSeries(LineEnum.Demand,   new ArrayList<>(Arrays.asList(0,0,-1,10)));
-        marketDS.addToSeries(LineEnum.Price,    new ArrayList<>(Arrays.asList(0,0,0,5)));
 
 
         marketDS.setCalculateEqulibrium(true);
@@ -148,6 +138,7 @@ public class MainScreenController extends AppCompatActivity{
 
         ArrayList<LineEnum> equilibriumDependantCurves = new ArrayList<>();
         equilibriumDependantCurves.add(LineEnum.Price);
+        equilibriumDependantCurves.add(LineEnum.Quantity);
         marketDS.setDependantCurveOnEquilibrium(equilibriumDependantCurves);
 
         graphsDatabase.put(GraphEnum.MarketDS, new MarketDS(
@@ -205,17 +196,20 @@ public class MainScreenController extends AppCompatActivity{
     public void onChosenGraphChange() {
         Log.d(TAG, "onChosenGraphChange");
         if (graphsDatabase != null && graphChanged) {
-
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+            InfoFragment infoFragment = InfoFragment.newInstance(graphsDatabase.get(chosenGraph));
+            ft.replace(R.id.info_fragment,infoFragment);
+
             GraphFragment graphFragment = GraphFragment.newInstance(graphsDatabase.get(chosenGraph));
             ft.replace(R.id.graph_fragment,graphFragment);
+
+
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.addToBackStack(null);
             ft.commit();
         }else{
             Log.d(TAG, "onChosenGraphChange: null or graphChanged == false");
         }
-
     }
-
 }
