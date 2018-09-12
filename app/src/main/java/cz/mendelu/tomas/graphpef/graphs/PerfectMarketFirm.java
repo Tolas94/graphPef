@@ -1,18 +1,75 @@
 package cz.mendelu.tomas.graphpef.graphs;
 
+import android.util.Log;
+
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
-import cz.mendelu.tomas.graphpef.GraphHelperObject;
-import cz.mendelu.tomas.graphpef.MainScreenController;
+import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
 
 /**
  * Created by tomas on 02.09.2018.
  */
 
 public class PerfectMarketFirm extends DefaultGraph {
-    public PerfectMarketFirm(ArrayList<String> graphTexts, ArrayList<MainScreenController.LineEnum> movableObjects, MainScreenController.LineEnum movableEnum, HashMap<MainScreenController.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
+    private static final String TAG = "PerfectMarketFirm";
+
+    public PerfectMarketFirm(ArrayList<String> graphTexts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         super(graphTexts, movableObjects, movableEnum, series, optionsLabels, graphHelperObject);
 
+        setMovableDirections(new ArrayList<>(Arrays.asList(MainScreenControllerActivity.Direction.up, MainScreenControllerActivity.Direction.down)));
+    }
+
+    @Override
+    public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color) {
+        if (getLineGraphSeries().get(line) == null) {
+            double precision = MainScreenControllerActivity.getPrecision();
+            int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints();
+            double x, y;
+            x = 1;
+            int x0, x1, x2, x3, x_1;
+            HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
+
+            x_1 = seriesSource.get(line).get(4);
+            x0 = seriesSource.get(line).get(3);
+            x1 = seriesSource.get(line).get(2);
+            x2 = seriesSource.get(line).get(1);
+            x3 = seriesSource.get(line).get(0);
+
+            LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<>();
+        /*
+        if (getLineGraphSeries() != null) {
+            getLineGraphSeries().remove(line);
+        }*/
+
+            for (int i = 0; i < maxDataPoints; i++) {
+                x = x + precision;
+                if (x_1 != 0) {
+                    if (i == 0)
+                        Log.d(TAG, "y = (" + x3 + "x^3/3 + " + x2 + "x^2 +" + x1 + "x + " + x0 + " )/" + x_1 + "x");
+                    y = ((x3 * x * x * x) / 3 + x2 * x * x + x1 * x + x0) / (x_1 * x);
+                } else if (x0 == 0 ) {
+                    if (i == 0)
+                        Log.d(TAG, "y = (" + x2 + " + x)^2 +" + x1 + "x + " + x0 + " )");
+                    y = ((x + x2) * (x + x2) + x1 * x + x0);
+                } else {
+                    if (i == 0)
+                        Log.d(TAG, "y = " + x0 + "  ");
+                    y = x0;
+                }
+                seriesLocal.appendData(new DataPoint(x, y), true, maxDataPoints);
+            }
+            Log.d(TAG, "MinY [" + seriesLocal.getLowestValueY() + "] maxY[" + seriesLocal.getHighestValueY() + "]");
+            Log.d(TAG, "MinX [" + seriesLocal.getLowestValueX() + "] maxX[" + seriesLocal.getHighestValueX() + "]");
+            getLineGraphSeries().put(line, seriesLocal);
+            return seriesLocal;
+        }else{
+            return getLineGraphSeries().get(line);
+        }
     }
 }

@@ -32,6 +32,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:textAppearance="@android:style/TextAppearance.Material.Title" />
+
         </RelativeLayout>
 
 
@@ -145,9 +146,6 @@
 
     </RelativeLayout>
 
-
-
-
     //Bottom Bar
     <RelativeLayout
         android:layout_width="match_parent"
@@ -161,8 +159,8 @@
                 android:id="@+id/toolbarBottom"
                 android:background="@drawable/white_grey_border_top"
                 app:menu="@menu/graph_menu"
-                app:itemIconTint="@color/black"
-                app:itemTextColor="@color/black"
+                app:itemIconTint="@color/bnv_tab_item_foreground"
+                app:itemTextColor="@color/bnv_tab_item_foreground"
                 >
 
             </android.support.design.widget.BottomNavigationView>

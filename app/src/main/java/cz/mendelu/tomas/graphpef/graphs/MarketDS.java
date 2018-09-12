@@ -4,9 +4,6 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -15,9 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import cz.mendelu.tomas.graphpef.GraphHelperObject;
-import cz.mendelu.tomas.graphpef.MainScreenController;
-import cz.mendelu.tomas.graphpef.R;
+import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
 
 import static java.lang.Math.abs;
 
@@ -28,61 +24,65 @@ import static java.lang.Math.abs;
 public class MarketDS extends DefaultGraph {
     private static final String TAG = "MarketDS";
 
-    public MarketDS(ArrayList<String> texts, ArrayList<MainScreenController.LineEnum> movableObjects, MainScreenController.LineEnum movableEnum, HashMap<MainScreenController.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
+    public MarketDS(ArrayList<String> texts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         super(texts, movableObjects, movableEnum, series, optionsLabels, graphHelperObject);
 
-        setMovableDirections(new ArrayList<>(Arrays.asList(MainScreenController.Direction.up,MainScreenController.Direction.down)));
+        setMovableDirections(new ArrayList<>(Arrays.asList(MainScreenControllerActivity.Direction.up, MainScreenControllerActivity.Direction.down)));
     }
-
+/*
     @Override
-    public void moveObject(MainScreenController.Direction dir) {
+    public void moveObject(MainScreenControllerActivity.Direction dir) {
         //Log.d(TAG, "moveObject");
         ArrayList<Integer> identChanges = getGraphHelperObject().getLineChangeIdentificatorByLineEnum(getMovableEnum());
-        if (dir == MainScreenController.Direction.up){
+        if (dir == MainScreenControllerActivity.Direction.up){
             identChanges.set(0,identChanges.get(0) + 1);
-        }else if (dir == MainScreenController.Direction.down){
+        }else if (dir == MainScreenControllerActivity.Direction.down){
             identChanges.set(0,identChanges.get(0) - 1);
         }
     }
-
+*/
     @Override
-    public LineGraphSeries<DataPoint> calculateData(MainScreenController.LineEnum line, int color) {
-        double precision = MainScreenController.getPrecision();
-        int maxDataPoints = MainScreenController.getMaxDataPoints();
-        double x,y;
-        x = 1;
-        int x0,x1;
-        HashMap<MainScreenController.LineEnum,ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
+        public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color) {
+        if (getLineGraphSeries().get(line) == null) {
+            double precision = MainScreenControllerActivity.getPrecision();
+            int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints();
+            double x,y;
+            x = 1;
+            int x0,x1;
+            HashMap<MainScreenControllerActivity.LineEnum,ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
 
-        x0 = seriesSource.get(line).get(1);
-        x1 = seriesSource.get(line).get(0);
+            x0 = seriesSource.get(line).get(1);
+            x1 = seriesSource.get(line).get(0);
 
-        LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<DataPoint>();
-        if (getLineGraphSeries() != null)
-            getLineGraphSeries().remove(line);
+            LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<DataPoint>();
+            if (getLineGraphSeries() != null)
+                getLineGraphSeries().remove(line);
 
-        ArrayList<Integer> identChanges = getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line);
+            ArrayList<Integer> identChanges = getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line);
 
-        for( int i=0; i<maxDataPoints; i++){
-            x = x + precision;
-            y = x1 * x + x0 + identChanges.get(0);
-            seriesLocal.appendData( new DataPoint(x,y), true, maxDataPoints );
-        }
-        if (line == MainScreenController.LineEnum.SupplyDefault || line == MainScreenController.LineEnum.DemandDefault){
-            Paint paint = new Paint();
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(3);
-            paint.setPathEffect(new DashPathEffect(new float[]{1,1},0));
-            seriesLocal.setDrawAsPath(true);
-            seriesLocal.setCustomPaint(paint);
-            seriesLocal.setThickness(1);
-            seriesLocal.setColor(Color.BLUE);
+            for( int i=0; i<maxDataPoints; i++){
+                x = x + precision;
+                y = x1 * x + x0 + identChanges.get(0);
+                seriesLocal.appendData( new DataPoint(x,y), true, maxDataPoints );
+            }
+            if (line == MainScreenControllerActivity.LineEnum.SupplyDefault || line == MainScreenControllerActivity.LineEnum.DemandDefault){
+                Paint paint = new Paint();
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeWidth(3);
+                paint.setPathEffect(new DashPathEffect(new float[]{1,1},0));
+                seriesLocal.setDrawAsPath(true);
+                seriesLocal.setCustomPaint(paint);
+                seriesLocal.setThickness(1);
+                seriesLocal.setColor(Color.BLUE);
+            }else{
+                seriesLocal.setThickness(5);
+                seriesLocal.setColor(color);
+            }
+            getLineGraphSeries().put(line, seriesLocal);
+            return seriesLocal;
         }else{
-            seriesLocal.setThickness(5);
-            seriesLocal.setColor(color);
+            return getLineGraphSeries().get(line);
         }
-        getLineGraphSeries().put(line, seriesLocal);
-        return seriesLocal;
     }
 
     @Override
@@ -91,7 +91,7 @@ public class MarketDS extends DefaultGraph {
         ArrayList<Double> retVal;
         retVal = super.calculateEqulibrium();
         if (!retVal.isEmpty()){
-            ArrayList<MainScreenController.LineEnum> lineEnumArrayList = getGraphHelperObject().getDependantCurveOnEquilibrium();
+            ArrayList<MainScreenControllerActivity.LineEnum> lineEnumArrayList = getGraphHelperObject().getDependantCurveOnEquilibrium();
             calculateData(lineEnumArrayList.get(0),Color.BLACK,retVal.get(0),false,retVal);
             calculateData(lineEnumArrayList.get(1),Color.BLACK,retVal.get(1),true,retVal);
             populateTexts(true,retVal);
@@ -101,7 +101,7 @@ public class MarketDS extends DefaultGraph {
         return retVal;
     }
 
-    public void calculateData(MainScreenController.LineEnum line, int color, Double limit, boolean vertical, ArrayList<Double> equilibrium) {
+    public void calculateData(MainScreenControllerActivity.LineEnum line, int color, Double limit, boolean vertical, ArrayList<Double> equilibrium) {
 
         LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<DataPoint>();
         Log.d(TAG,"calculateData eq line[" + line.toString() + "] limit [" + limit + "]");
@@ -133,7 +133,7 @@ public class MarketDS extends DefaultGraph {
         }else{
             texts.add("Eq cannot be calculated");
         }
-        for(MainScreenController.LineEnum line:getMovableObjects()){
+        for(MainScreenControllerActivity.LineEnum line:getMovableObjects()){
             texts.add("Line " + line.toString() + " changed by " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
         }
 
