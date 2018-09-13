@@ -19,6 +19,7 @@ import cz.mendelu.tomas.graphpef.fragments.GraphFragment;
 import cz.mendelu.tomas.graphpef.fragments.InfoFragment;
 import cz.mendelu.tomas.graphpef.fragments.SectionsPagerAdapter;
 import cz.mendelu.tomas.graphpef.graphs.DefaultGraph;
+import cz.mendelu.tomas.graphpef.graphs.IndifferentAnalysis;
 import cz.mendelu.tomas.graphpef.graphs.MarketDS;
 import cz.mendelu.tomas.graphpef.graphs.PerfectMarketFirm;
 import cz.mendelu.tomas.graphpef.graphs.ProductionLimit;
@@ -45,6 +46,7 @@ public class MainScreenControllerActivity extends AppCompatActivity{
         MarketDS,
         ProductionLimit,
         PerfectMarket,
+        IndifferentAnalysis,
         MonopolisticMarket,
         Oligopol,
         Monopol,
@@ -54,6 +56,7 @@ public class MainScreenControllerActivity extends AppCompatActivity{
     public enum LineEnum {
         Demand,
         DemandDefault,
+        PriceLevel,
         Price,
         SupplyDefault,
         Supply,
@@ -69,7 +72,9 @@ public class MainScreenControllerActivity extends AppCompatActivity{
         Taxes,
         Equilibrium,
         TotalUtility,
-        AverageVariableCost
+        AverageVariableCost,
+        BudgetLine,
+        IndifferentCurve
     }
 
     public enum Direction {
@@ -98,7 +103,8 @@ public class MainScreenControllerActivity extends AppCompatActivity{
         populateGraphDatabase();
         setChosenGraph(getIntent().getExtras().getString("GRAPH_KEY"));
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(getIntent().getExtras().getString("GRAPH_KEY"));
+        actionBar.setTitle(graphsDatabase.get(chosenGraph).getTitle());
+        //actionBar.setTitle(getIntent().getExtras().getString("GRAPH_KEY"));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
@@ -137,6 +143,7 @@ public class MainScreenControllerActivity extends AppCompatActivity{
         GraphHelperObject marketDS = new GraphHelperObject();
         GraphHelperObject productionLimit = new GraphHelperObject();
         GraphHelperObject perfectMarketFirm = new GraphHelperObject();
+        GraphHelperObject indiferrentAnalysis = new GraphHelperObject();
 
         marketDS.setTitle("Market - Demand Supply");
         marketDS.setLabelX("Quantity [Units]");
@@ -148,15 +155,8 @@ public class MainScreenControllerActivity extends AppCompatActivity{
         marketDS.addToSeries(LineEnum.DemandDefault,   new ArrayList<>(Arrays.asList(-1,10)));
 
         marketDS.setCalculateEqulibrium(true);
-        ArrayList<LineEnum> equilibriumCurves = new ArrayList<>();
-        equilibriumCurves.add(LineEnum.Demand);
-        equilibriumCurves.add(LineEnum.Supply);
-        marketDS.setEquilibriumCurves(equilibriumCurves);
-
-        ArrayList<LineEnum> equilibriumDependantCurves = new ArrayList<>();
-        equilibriumDependantCurves.add(LineEnum.Price);
-        equilibriumDependantCurves.add(LineEnum.Quantity);
-        marketDS.setDependantCurveOnEquilibrium(equilibriumDependantCurves);
+        marketDS.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.Demand, LineEnum.Supply)));
+        marketDS.setDependantCurveOnEquilibrium(new ArrayList<>(Arrays.asList(LineEnum.Price, LineEnum.Quantity)));
 
         graphsDatabase.put(GraphEnum.MarketDS, new MarketDS(
                 new ArrayList<String>(),
@@ -193,8 +193,8 @@ public class MainScreenControllerActivity extends AppCompatActivity{
         perfectMarketFirm.addToSeries(LineEnum.MarginalCost, new ArrayList<>(Arrays.asList(0,-2,0,2,0)));
         perfectMarketFirm.addToSeries(LineEnum.AverageCost, new ArrayList<>(Arrays.asList(1,-2,6,0,1)));
         //perfectMarketFirm.addToSeries(LineEnum.AverageVariableCost, new ArrayList<>(Arrays.asList(3,-10,11,-1,1)));
-        perfectMarketFirm.addToSeries(LineEnum.Price, new ArrayList<>(Arrays.asList(0,0,0,4,0)));
-        //todo implement eq
+        perfectMarketFirm.addToSeries(LineEnum.PriceLevel, new ArrayList<>(Arrays.asList(0,0,0,4,0)));
+
         perfectMarketFirm.setCalculateEqulibrium(true);
 
         ArrayList<LineEnum> equilibriumCurves2 = new ArrayList<>();
@@ -202,18 +202,36 @@ public class MainScreenControllerActivity extends AppCompatActivity{
         equilibriumCurves2.add(LineEnum.AverageCost);
         perfectMarketFirm.setEquilibriumCurves(equilibriumCurves2);
 
-        perfectMarketFirm.setDependantCurveOnEquilibrium(equilibriumDependantCurves);
+        perfectMarketFirm.setDependantCurveOnEquilibrium(new ArrayList<>(Arrays.asList(LineEnum.Price, LineEnum.Quantity)));
+        HashMap<MainScreenControllerActivity.LineEnum, ArrayList<MainScreenControllerActivity.LineEnum>> hashMap = new HashMap<>();
+        hashMap.put(LineEnum.AverageCost, new ArrayList<>(Arrays.asList(LineEnum.MarginalCost)));
+        perfectMarketFirm.setDependantCurveOnCurve(hashMap);
 
         graphsDatabase.put(GraphEnum.PerfectMarket,new PerfectMarketFirm(
                 new ArrayList<String>(),
-                new ArrayList<>(Arrays.asList(LineEnum.Price,LineEnum.AverageCost)),
-                LineEnum.Price,
+                new ArrayList<>(Arrays.asList(LineEnum.PriceLevel,LineEnum.AverageCost)),
+                LineEnum.PriceLevel,
                 perfectMarketFirm.getSeries(),
                 new ArrayList<String>(),
                 perfectMarketFirm));
 
 
+        indiferrentAnalysis.setTitle("Indifferent Analysis");
+        indiferrentAnalysis.setLabelX("estate X [Units]");
+        indiferrentAnalysis.setLabelY("estate Y [Units]");
+        indiferrentAnalysis.setGraphEnum(GraphEnum.IndifferentAnalysis);
+        indiferrentAnalysis.addToSeries(LineEnum.BudgetLine, new ArrayList<>(Arrays.asList(8,8,0)));
+        indiferrentAnalysis.addToSeries(LineEnum.IndifferentCurve, new ArrayList<>(Arrays.asList(3,3,1)));
+        indiferrentAnalysis.setCalculateEqulibrium(true);
+        indiferrentAnalysis.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.BudgetLine, LineEnum.IndifferentCurve)));
 
+        graphsDatabase.put(GraphEnum.IndifferentAnalysis, new IndifferentAnalysis(
+                new ArrayList<String>(),//texty
+                new ArrayList<LineEnum>(Arrays.asList(LineEnum.BudgetLine,LineEnum.IndifferentCurve)), //krivky na posun
+                LineEnum.BudgetLine,
+                indiferrentAnalysis.getSeries(),
+                new ArrayList<String>(),
+                indiferrentAnalysis));
     }
 
     //TODO show chosen graph in menu fragment

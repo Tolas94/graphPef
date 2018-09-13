@@ -74,13 +74,20 @@ public class ProductionLimit extends DefaultGraph {
         //Log.d(TAG, "moveObject");
         ArrayList<Integer> identChanges = getGraphHelperObject().getLineChangeIdentificatorByLineEnum(getMovableEnum());
         switch(dir){
-            case up:    identChanges.set(1,identChanges.get(1) + 1);
+            case up:
+             identChanges.set(1,identChanges.get(1) + 1);
                 break;
-            case down:  identChanges.set(1,identChanges.get(1) - 1);
+            case down:
+                if (identChanges.get(1) > -7 ) {
+                    identChanges.set(1, identChanges.get(1) - 1);
+                }
                 break;
-            case left:  identChanges.set(0,identChanges.get(0) + 1);
+            case right:  identChanges.set(0,identChanges.get(0) + 1);
                 break;
-            case right: identChanges.set(0,identChanges.get(0) - 1);
+            case left:
+            if (identChanges.get(0) > -7 ) {
+                identChanges.set(0, identChanges.get(0) - 1);
+            }
                 break;
         }
     }
@@ -103,24 +110,24 @@ public class ProductionLimit extends DefaultGraph {
         String text4,text5;
         text4 = "";
         text5 = "";
-        if ((int) Math.round(getMaxX()) > 9 ){
+        if ((int) Math.round(getMaxX()) > 8 ){
             text4 = "Production capability(X) has been extended";
-        }else if ((int) Math.round(getMaxX()) == 9 ){
+        }else if ((int) Math.round(getMaxX()) == 8 ){
             text4 = "Production capability(X) is on default values";
-        }else if ((int) Math.round(getMaxX()) < 9 ){
+        }else if ((int) Math.round(getMaxX()) < 8 ){
             text4 = "Production capability(X) has been lowered";
         }
-        if ((int) Math.round(getMaxY()) > 9 ){
+        if ((int) Math.round(getMaxY()) > 8 ){
             text5 = "Production capability(Y) has been extended";
-        }else if ((int) Math.round(getMaxY()) == 9 ){
+        }else if ((int) Math.round(getMaxY()) == 8 ){
             text5 = "Production capability(Y) is on default values";
-        }else if ((int) Math.round(getMaxY()) < 9 ){
+        }else if ((int) Math.round(getMaxY()) < 8 ){
             text5 = "Production capability(Y) has been lowered";
         }
         setGraphTexts(new ArrayList<>(Arrays.asList(
                 "Max " + getLabelX() + " = " + (int) Math.round(getMaxX()),
                 "Max " + getLabelY() + " = " + (int) Math.round(getMaxY()),
-                "Default Max Production [9,9]",
+                "Default Max Production [8,8]",
                 text4,
                 text5)));
     }

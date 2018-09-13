@@ -27,12 +27,8 @@ public class GraphMenuListActivity extends AppCompatActivity {
     public enum GraphEnum {
         MarketDS,
         ProductionLimit,
-        PerfectMarket,
-        MonopolisticMarket,
-        Oligopol,
-        Monopol,
-        AdmMonopol,
-        Utility
+        IndifferentAnalysis,
+        PerfectMarket
     }
 
     @Override

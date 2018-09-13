@@ -8,9 +8,13 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
+
+import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.MarginalCost;
+import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.PriceLevel;
 
 /**
  * Created by tomas on 02.09.2018.
@@ -32,6 +36,9 @@ public class PerfectMarketFirm extends DefaultGraph {
             int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints();
             double x, y;
             x = 1;
+            if (line == PriceLevel){
+                x = 0;
+            }
             int x0, x1, x2, x3, x_1;
             HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
 
@@ -42,25 +49,23 @@ public class PerfectMarketFirm extends DefaultGraph {
             x3 = seriesSource.get(line).get(0);
 
             LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<>();
-        /*
-        if (getLineGraphSeries() != null) {
-            getLineGraphSeries().remove(line);
-        }*/
 
             for (int i = 0; i < maxDataPoints; i++) {
                 x = x + precision;
-                if (x_1 != 0) {
+                if (line == MainScreenControllerActivity.LineEnum.AverageCost) {
                     if (i == 0)
                         Log.d(TAG, "y = (" + x3 + "x^3/3 + " + x2 + "x^2 +" + x1 + "x + " + x0 + " )/" + x_1 + "x");
                     y = ((x3 * x * x * x) / 3 + x2 * x * x + x1 * x + x0) / (x_1 * x);
-                } else if (x0 == 0 ) {
+                } else if (line == MainScreenControllerActivity.LineEnum.MarginalCost) {
                     if (i == 0)
                         Log.d(TAG, "y = (" + x2 + " + x)^2 +" + x1 + "x + " + x0 + " )");
                     y = ((x + x2) * (x + x2) + x1 * x + x0);
-                } else {
+                } else if (line == PriceLevel){
                     if (i == 0)
                         Log.d(TAG, "y = " + x0 + "  ");
                     y = x0;
+                }else{
+                    y=0;
                 }
                 seriesLocal.appendData(new DataPoint(x, y), true, maxDataPoints);
             }
@@ -70,6 +75,22 @@ public class PerfectMarketFirm extends DefaultGraph {
             return seriesLocal;
         }else{
             return getLineGraphSeries().get(line);
+        }
+    }
+
+    @Override
+    public void moveObject(MainScreenControllerActivity.Direction dir) {
+        super.moveObject(dir);
+        if (getMovableEnum() == MainScreenControllerActivity.LineEnum.AverageCost){
+            if (dir == MainScreenControllerActivity.Direction.up){
+                super.moveObject(MainScreenControllerActivity.Direction.right);
+                super.moveObject(MainScreenControllerActivity.Direction.up,MarginalCost);
+                super.moveObject(MainScreenControllerActivity.Direction.right,MarginalCost);
+            }else if (dir == MainScreenControllerActivity.Direction.down){
+                super.moveObject(MainScreenControllerActivity.Direction.left);
+                super.moveObject(MainScreenControllerActivity.Direction.down,MarginalCost);
+                super.moveObject(MainScreenControllerActivity.Direction.left,MarginalCost);
+            }
         }
     }
 }

@@ -120,7 +120,7 @@ public class GraphFragment extends Fragment{
             left.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                    //Log.d(TAG,"onClick: Clicked button Up");
+                    //Log.d(TAG,"onClick: Clicked button left");
                     moveCurve(MainScreenControllerActivity.Direction.left, Color.BLACK);
                 }
             });
@@ -128,7 +128,7 @@ public class GraphFragment extends Fragment{
             right.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                    //Log.d(TAG,"onClick: Clicked button Down");
+                    //Log.d(TAG,"onClick: Clicked button right");
                     moveCurve(MainScreenControllerActivity.Direction.right, Color.BLACK);
                 }
             });
@@ -136,11 +136,9 @@ public class GraphFragment extends Fragment{
 
             HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> seriesSource = graphIfc.getSeries();
             //Log.d(TAG, "Title " + graphIfc.getTitle() + " Size " + seriesSource.size());
-            TextView title = view.findViewById(R.id.title);
-            title.setText(graphIfc.getTitle());
 
             //Graph styling settings
-            graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.BOTH );
+            graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.BOTH);
             graph.getGridLabelRenderer().setHorizontalAxisTitle(graphIfc.getLabelX());
             graph.getGridLabelRenderer().setHumanRounding(true);
             graph.getGridLabelRenderer().setVerticalAxisTitle(graphIfc.getLabelY());
@@ -177,9 +175,19 @@ public class GraphFragment extends Fragment{
     private void moveCurve(MainScreenControllerActivity.Direction dir, int color) {
         if (graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()) != null){
             graph.removeSeries(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()));
+            if (graphIfc.getDependantCurves(graphIfc.getMovableEnum()) != null){
+                for (MainScreenControllerActivity.LineEnum line:graphIfc.getDependantCurves(graphIfc.getMovableEnum())) {
+                    graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
+                }
+            }
         }
         graphIfc.moveObject(dir);
-        calculateData(graphIfc.getMovableEnum(),Color.BLACK);
+        calculateData(graphIfc.getMovableEnum(),color);
+        if (graphIfc.getDependantCurves(graphIfc.getMovableEnum()) != null){
+            for (MainScreenControllerActivity.LineEnum line:graphIfc.getDependantCurves(graphIfc.getMovableEnum())) {
+                calculateData(line,color);
+            }
+        }
         calculateEquilibrium();
     }
 
@@ -250,23 +258,27 @@ public class GraphFragment extends Fragment{
     }
 
     private void calculateEquilibrium(){
-        //Log.d(TAG, "calculateEquilibrium: ");
-        for(MainScreenControllerActivity.LineEnum line: graphIfc.getEqDependantCurves()){
-            if (graphIfc.getLineGraphSeries().get(line) != null){
-                Log.d(TAG, "calculateEquilibrium: delete[" + line.toString() + "]");
-                graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
-                graphIfc.getLineGraphSeries().remove(line);
+        Log.d(TAG, "calculateEquilibrium: ");
+        if( graphIfc.getEqDependantCurves() != null){
+            for(MainScreenControllerActivity.LineEnum line: graphIfc.getEqDependantCurves()){
+                if (graphIfc.getLineGraphSeries().get(line) != null){
+                    Log.d(TAG, "calculateEquilibrium: delete[" + line.toString() + "]");
+                    graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
+                    graphIfc.getLineGraphSeries().remove(line);
+                }
             }
         }
 
         graphIfc.calculateEqulibrium();
         updateTexts();
 
-        for(MainScreenControllerActivity.LineEnum line: graphIfc.getEqDependantCurves()){
-            //Log.d(TAG, "calculateEquilibrium: " + line.toString());
-            if (graphIfc.getLineGraphSeries().get(line) != null){
-                Log.d(TAG, "calculateEquilibrium: create[" + line.toString() + "]");
-                graph.addSeries(graphIfc.getLineGraphSeries().get(line));
+        if( graphIfc.getEqDependantCurves() != null) {
+            for (MainScreenControllerActivity.LineEnum line : graphIfc.getEqDependantCurves()) {
+                Log.d(TAG, "calculateEquilibrium: " + line.toString());
+                if (graphIfc.getLineGraphSeries().get(line) != null) {
+                    Log.d(TAG, "calculateEquilibrium: create[" + line.toString() + "]");
+                    graph.addSeries(graphIfc.getLineGraphSeries().get(line));
+                }
             }
         }
     }

@@ -18,6 +18,8 @@ public interface GraphIfc{
 
     LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color);
 
+    LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color, Double limit, boolean vertical, ArrayList<Double> equilibrium);
+
     ArrayList<Double> calculateEqulibrium();
 
     ArrayList<MainScreenControllerActivity.LineEnum> getMovableObjects();
@@ -26,11 +28,15 @@ public interface GraphIfc{
 
     void moveObject(MainScreenControllerActivity.Direction dir);
 
+    void moveObject(MainScreenControllerActivity.Direction dir, MainScreenControllerActivity.LineEnum line);
+
     HashMap<MainScreenControllerActivity.LineEnum,ArrayList<Integer> > getSeries();
 
     HashMap<MainScreenControllerActivity.LineEnum,LineGraphSeries<DataPoint>> getLineGraphSeries();
 
     ArrayList<MainScreenControllerActivity.LineEnum> getEqDependantCurves();
+
+    ArrayList<MainScreenControllerActivity.LineEnum> getDependantCurves(MainScreenControllerActivity.LineEnum line);
 
     ArrayList<String> getOptionsLabels();
 
