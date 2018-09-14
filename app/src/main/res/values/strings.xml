@@ -1,3 +1,4 @@
 <resources>
+    <!-- https://stackoverflow.com/questions/2397613/are-parameters-in-strings-xml-possible -->
     <string name="app_name">graphPef</string>
 </resources>

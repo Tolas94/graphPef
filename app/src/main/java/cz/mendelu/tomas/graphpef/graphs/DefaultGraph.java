@@ -210,17 +210,17 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
 
     @Override
     public void moveObject(MainScreenControllerActivity.Direction dir) {
-        moveObject(dir,movableEnum);
+        moveObject(dir,movableEnum, 1);
     }
 
     @Override
-    public void moveObject(MainScreenControllerActivity.Direction dir, MainScreenControllerActivity.LineEnum line) {
+    public void moveObject(MainScreenControllerActivity.Direction dir, MainScreenControllerActivity.LineEnum line, int precisionModificator) {
         Log.d(TAG,"line " + line.toString() + " dir " + dir.toString());
         int changeX = 0;
         int changeY = 0;
-        int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints();
-        double originX = 0;
-        double originY = 0;
+        int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints() * precisionModificator;
+        double originX;
+        double originY;
         ArrayList<Integer> identChanges = getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line);
 
         if(dir == MainScreenControllerActivity.Direction.up){

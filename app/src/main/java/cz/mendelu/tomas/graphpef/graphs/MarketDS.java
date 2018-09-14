@@ -99,7 +99,6 @@ public class MarketDS extends DefaultGraph {
         for(MainScreenControllerActivity.LineEnum line:getMovableObjects()){
             texts.add("Line " + line.toString() + " changed by " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
         }
-
         setGraphTexts(texts);
     }
 }

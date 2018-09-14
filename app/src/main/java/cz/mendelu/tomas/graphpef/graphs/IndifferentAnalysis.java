@@ -85,12 +85,14 @@ public class IndifferentAnalysis extends DefaultGraph{
     public void moveObject(MainScreenControllerActivity.Direction dir) {
 
         if (getMovableEnum() == MainScreenControllerActivity.LineEnum.IndifferentCurve){
-            if (dir == MainScreenControllerActivity.Direction.up){
-                super.moveObject(dir);
-                super.moveObject(MainScreenControllerActivity.Direction.right);
-            }else if (dir == MainScreenControllerActivity.Direction.down){
-                super.moveObject(dir);
-                super.moveObject(MainScreenControllerActivity.Direction.left);
+            if (dir == MainScreenControllerActivity.Direction.up
+                || dir == MainScreenControllerActivity.Direction.right){
+                super.moveObject(MainScreenControllerActivity.Direction.up,getMovableEnum(),100);
+                super.moveObject(MainScreenControllerActivity.Direction.right,getMovableEnum(),100);
+            }else if (dir == MainScreenControllerActivity.Direction.down
+                || dir == MainScreenControllerActivity.Direction.left){
+                super.moveObject(MainScreenControllerActivity.Direction.down,getMovableEnum(),100);
+                super.moveObject(MainScreenControllerActivity.Direction.left,getMovableEnum(),100);
             }
         }else if (getMovableEnum() == MainScreenControllerActivity.LineEnum.BudgetLine) {
             LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<>();
@@ -98,9 +100,9 @@ public class IndifferentAnalysis extends DefaultGraph{
             float arg0 = getSeries().get(BudgetLine).get(0);
             float arg1 = getSeries().get(BudgetLine).get(1);
             if (dir == MainScreenControllerActivity.Direction.up){
-                identChanges.set(0,identChanges.get(0) - 1);
-            } else if (dir == MainScreenControllerActivity.Direction.down){
                 identChanges.set(0,identChanges.get(0) + 1);
+            } else if (dir == MainScreenControllerActivity.Direction.down){
+                identChanges.set(0,identChanges.get(0) - 1);
 
             } else if (dir == MainScreenControllerActivity.Direction.left){
                 identChanges.set(1,identChanges.get(1) - 1);
@@ -113,7 +115,7 @@ public class IndifferentAnalysis extends DefaultGraph{
 
             double precision = MainScreenControllerActivity.getPrecision() /100;
             int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints()*100;
-            float m = ( (float)identChanges.get(0) - arg0 )/(arg1 + (float)identChanges.get(1));
+            float m = ( -(float)identChanges.get(0) - arg0 )/(arg1 + (float)identChanges.get(1));
             double x = 0, y;
             Log.d(TAG,"moveObject: m =" + m);
 
@@ -124,6 +126,43 @@ public class IndifferentAnalysis extends DefaultGraph{
             }
             getLineGraphSeries().put(getMovableEnum(), seriesLocal);
         }
+    }
+
+    @Override
+    public ArrayList<Double> calculateEqulibrium() {
+        ArrayList<Double> retVal = super.calculateEqulibrium();
+        Log.d(TAG,"calculateEqulibrium arraySize["+retVal.size()+"]" );
+        if (retVal.size() != 0){
+            if (retVal.size() == 2){
+                populateTexts(1,retVal);
+            } else if (retVal.size() == 4){
+                populateTexts(2,retVal);
+            }
+        }else{
+            populateTexts(0,retVal);
+        }
+        return retVal;
+    }
+
+    private void populateTexts(int  numberOfEquilibriums, ArrayList<Double> equilibrium){
+        Log.d(TAG,"populateTexts");
+        ArrayList texts = new ArrayList();
+        for(MainScreenControllerActivity.LineEnum line:getMovableObjects()){
+            texts.add("Line " + line.toString() + " changed by " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
+            if (line == BudgetLine){
+                texts.add("Line " + line.toString() + " changed by " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(1));
+            }
+        }
+        if(numberOfEquilibriums == 1){
+            texts.add("Equilibrium is [" + String.format( "%.1f",equilibrium.get(0)) + "][" + String.format( "%.1f",equilibrium.get(1))+ "]");
+        }else if (numberOfEquilibriums == 2){
+            texts.add("Equilibrium is [" + String.format( "%.1f",equilibrium.get(0)) + "][" + String.format( "%.1f",equilibrium.get(1))+ "] " +
+                    "and [" + String.format( "%.1f",equilibrium.get(2)) + "][" + String.format( "%.1f",equilibrium.get(3)) + "]" );
+        }else if (numberOfEquilibriums == 0){
+            texts.add("Eq cannot be calculated");
+        }
+
+        setGraphTexts(texts);
     }
 
 }

@@ -28,7 +28,7 @@ public interface GraphIfc{
 
     void moveObject(MainScreenControllerActivity.Direction dir);
 
-    void moveObject(MainScreenControllerActivity.Direction dir, MainScreenControllerActivity.LineEnum line);
+    void moveObject(MainScreenControllerActivity.Direction dir, MainScreenControllerActivity.LineEnum line, int precisionModificator);
 
     HashMap<MainScreenControllerActivity.LineEnum,ArrayList<Integer> > getSeries();
 

@@ -8,7 +8,6 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
@@ -84,12 +83,12 @@ public class PerfectMarketFirm extends DefaultGraph {
         if (getMovableEnum() == MainScreenControllerActivity.LineEnum.AverageCost){
             if (dir == MainScreenControllerActivity.Direction.up){
                 super.moveObject(MainScreenControllerActivity.Direction.right);
-                super.moveObject(MainScreenControllerActivity.Direction.up,MarginalCost);
-                super.moveObject(MainScreenControllerActivity.Direction.right,MarginalCost);
+                super.moveObject(MainScreenControllerActivity.Direction.up,MarginalCost, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.right,MarginalCost, 1);
             }else if (dir == MainScreenControllerActivity.Direction.down){
                 super.moveObject(MainScreenControllerActivity.Direction.left);
-                super.moveObject(MainScreenControllerActivity.Direction.down,MarginalCost);
-                super.moveObject(MainScreenControllerActivity.Direction.left,MarginalCost);
+                super.moveObject(MainScreenControllerActivity.Direction.down,MarginalCost, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.left,MarginalCost, 1);
             }
         }
     }
