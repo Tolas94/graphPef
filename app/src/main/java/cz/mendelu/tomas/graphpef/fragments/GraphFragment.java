@@ -13,12 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.PointsGraphSeries;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +42,7 @@ public class GraphFragment extends Fragment{
     private GraphView graph;
     private BottomNavigationView toolbar;
     private AppCompatTextView text1, text2, text3, text4, text5;
+    private PointsGraphSeries<DataPoint> eqpoints;
 
     private GraphIfc graphIfc;
     private final static String GRAPH_KEY = "GRAPH_KEY";
@@ -201,6 +202,7 @@ public class GraphFragment extends Fragment{
         //TODO create shape for to be shown to user
         // probably will not be able to do so
         // possible solution is to draw backgroung with color on curve and white on the lower one
+            //will overdraw grid??
     }
 
     private void updateMenuTitles() {
@@ -259,6 +261,16 @@ public class GraphFragment extends Fragment{
 
     private void calculateEquilibrium(){
         Log.d(TAG, "calculateEquilibrium: ");
+
+        clearBeforeCalculationOfEQ();
+
+        graphIfc.calculateEqulibrium();
+        updateTexts();
+
+        addSeriesToGraphAfterEQCalculation();
+    }
+
+    private void clearBeforeCalculationOfEQ(){
         if( graphIfc.getEqDependantCurves() != null){
             for(MainScreenControllerActivity.LineEnum line: graphIfc.getEqDependantCurves()){
                 if (graphIfc.getLineGraphSeries().get(line) != null){
@@ -268,10 +280,23 @@ public class GraphFragment extends Fragment{
                 }
             }
         }
+        if (eqpoints != null){
+            graph.removeSeries(eqpoints);
+        }
+        eqpoints = new PointsGraphSeries<>();
+    }
 
-        graphIfc.calculateEqulibrium();
-        updateTexts();
-
+    private void addSeriesToGraphAfterEQCalculation(){
+        if (graphIfc.getEquiPoints() != null && graphIfc.getEquiPoints().size() != 0){
+            Log.d(TAG, "calculateEquilibrium: create EQ points size[" + graphIfc.getEquiPoints().size() + "]");
+            if (graphIfc.getEquiPoints().size() == 4 && MainScreenControllerActivity.getChosenGraph() == MainScreenControllerActivity.GraphEnum.IndifferentAnalysis){
+                eqpoints.appendData(new DataPoint(graphIfc.getEquiPoints().get(0),graphIfc.getEquiPoints().get(1)),false,4);
+                eqpoints.appendData(new DataPoint(graphIfc.getEquiPoints().get(2),graphIfc.getEquiPoints().get(3)),false,4);
+            }else{
+                eqpoints.appendData(new DataPoint(graphIfc.getEquiPoints().get(0),graphIfc.getEquiPoints().get(1)),false,2);
+            }
+            graph.addSeries(eqpoints);
+        }
         if( graphIfc.getEqDependantCurves() != null) {
             for (MainScreenControllerActivity.LineEnum line : graphIfc.getEqDependantCurves()) {
                 Log.d(TAG, "calculateEquilibrium: " + line.toString());

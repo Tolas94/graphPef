@@ -14,6 +14,7 @@ import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
 
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.BudgetLine;
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.PriceLevel;
+import static java.lang.Double.NaN;
 
 /**
  * Created by tomas on 12.09.2018.
@@ -35,29 +36,32 @@ public class IndifferentAnalysis extends DefaultGraph{
     @Override
     public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color) {
         if (getLineGraphSeries().get(line) == null) {
-            double precision = MainScreenControllerActivity.getPrecision();
-            int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints();
-            double x, y;
-            x = 1;
-            int arg0,arg1,arg2;
+            double precision = MainScreenControllerActivity.getPrecision() / 100;
+            int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints() * 100;
+            Double x,y;
+            x = 0.0;
+            int arg0,arg1;
             HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
 
 
             arg0 = seriesSource.get(line).get(0);
             arg1 = seriesSource.get(line).get(1);
-            arg2 = seriesSource.get(line).get(2);
 
             LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<>();
 
                 if (line == MainScreenControllerActivity.LineEnum.IndifferentCurve) {
                     for (int i = 0; i < maxDataPoints; i++) {
-                        x = x + precision;
-                        Log.d(TAG,"y = "+ arg0 + "  / ((x - " + arg2 +  " ) * (x - arg0) * (x - arg0)) + " + arg1);
-                        y = arg0 / ((x - arg2) * (x - arg2) * (x - arg2)) + arg1 + 0.2;
+                        x = x + precision; // 3 3 1
+                        //Log.d(TAG,"calculateData y = 1 / (sqrt( x +" + arg1 + ") + " + arg0);
+                        y = 1 /  (Math.sqrt(x + arg1) ) + arg0 + 0.2;
+                        if (Double.isNaN(y)){
+                            y = 200.0;
+                        }
+                        //Log.d(TAG,"calculateData x = " + x + " y = " + y);
                         seriesLocal.appendData(new DataPoint(x, y), true, maxDataPoints);
                     }
                 } else if (line == MainScreenControllerActivity.LineEnum.BudgetLine) {
-                    x = 0;
+
                     //http://www.coolmath.com/algebra/08-lines/12-finding-equation-two-points-01
                     float m = ( - arg0 )/arg1;
 
@@ -68,8 +72,8 @@ public class IndifferentAnalysis extends DefaultGraph{
                     }
                 }
 
-            Log.d(TAG, "MinY [" + seriesLocal.getLowestValueY() + "] maxY[" + seriesLocal.getHighestValueY() + "]");
-            Log.d(TAG, "MinX [" + seriesLocal.getLowestValueX() + "] maxX[" + seriesLocal.getHighestValueX() + "]");
+            Log.d(TAG, "calculateData: MinY [" + seriesLocal.getLowestValueY() + "] maxY[" + seriesLocal.getHighestValueY() + "]");
+            Log.d(TAG, "calculateData: MinX [" + seriesLocal.getLowestValueX() + "] maxX[" + seriesLocal.getHighestValueX() + "]");
             getLineGraphSeries().put(line, seriesLocal);
             return seriesLocal;
         }else{
@@ -107,8 +111,8 @@ public class IndifferentAnalysis extends DefaultGraph{
             Log.d(TAG,"moveObject: arg0["+arg0+"] arg1[" + arg1 + "]");
             Log.d(TAG,"moveObject: ident0["+identChanges.get(0)+"] ident1[" + identChanges.get(1) + "]");
 
-            double precision = MainScreenControllerActivity.getPrecision();
-            int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints() + 500;
+            double precision = MainScreenControllerActivity.getPrecision() /100;
+            int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints()*100;
             float m = ( (float)identChanges.get(0) - arg0 )/(arg1 + (float)identChanges.get(1));
             double x = 0, y;
             Log.d(TAG,"moveObject: m =" + m);

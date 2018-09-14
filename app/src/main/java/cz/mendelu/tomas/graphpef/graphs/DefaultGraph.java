@@ -35,6 +35,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     private GraphHelperObject graphHelperObject;
     private HashMap<MainScreenControllerActivity.LineEnum,LineGraphSeries<DataPoint>> lineGraphSeriesMap;
     private ArrayList<MainScreenControllerActivity.Direction> movableDirections;
+    private ArrayList<Double> equiPoints;
 
     public DefaultGraph(ArrayList<String> graphTexts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer> > series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         this.graphTexts = graphTexts;
@@ -86,8 +87,16 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
                data2 != null){
                 Log.d(TAG, "calculateEqulibrium: data not null");
 
-                double precision = MainScreenControllerActivity.getPrecision();
-                double pointX, pointY, diff;
+                double precision = MainScreenControllerActivity.getPrecision() ;
+                double pointX, pointY, diff, diff2, pointX2, pointY2;
+                Log.d(TAG, "calculateEqulibrium: " + data1.getHighestValueX()
+                        + " " + data1.getLowestValueX()
+                        + " " + data2.getHighestValueX()
+                        + " " + data2.getLowestValueX());
+                Log.d(TAG, "calculateEqulibrium: " + data1.getHighestValueY()
+                        + " " + data1.getLowestValueY()
+                        + " " + data2.getHighestValueY()
+                        + " " + data2.getLowestValueY());
                 if (data1.getHighestValueX() > data2.getLowestValueX()
                         && data2.getHighestValueX() > data1.getLowestValueX())
                 {
@@ -109,8 +118,13 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
                         Iterator<DataPoint> dataIt1 = data1.getValues(minX,maxX);
                         Iterator<DataPoint> dataIt2 = data2.getValues(minX,maxX);
                         diff = 10000;
-                        pointX = minX;
+                        diff2 = 10001;
+                        pointX = 0;
                         pointY = 0;
+                        pointX2 = 0;
+                        pointY2 = 0;
+                        Log.d(TAG, "minX[" + minX + "] maxX[" + maxX + "]");
+
                         while ( dataIt1.hasNext() && dataIt2.hasNext()) {
                             DataPoint dataPoint1 = dataIt1.next();
                             DataPoint dataPoint2 = dataIt2.next();
@@ -118,17 +132,55 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
                             //Log.d(TAG, "data 2 x[" + dataPoint2.getX() + "] data 1 x[" +dataPoint1.getX()+ "]");
                             //Log.d(TAG, "data 2 y[" + dataPoint2.getY() + "] data 1 y[" +dataPoint1.getY()+ "]");
                             //Log.d(TAG, "calculateEqulibrium: diff [" + diff + "] abs [" + abs( dataPoint1.getY() - dataPoint2.getY() ) + "]");
-                            if (diff > abs( dataPoint1.getY() - dataPoint2.getY() )){
-                                diff = abs( dataPoint1.getY() - dataPoint2.getY() );
-                                pointX = dataPoint2.getX();
-                                pointY = (dataPoint1.getY() + dataPoint2.getY())/2;
-                                //Log.d(TAG, "calculateEqulibrium: pointX[" + pointX + "] pointY[" + pointY + "]");
+
+                            if ( abs( dataPoint1.getY() - dataPoint2.getY()) < precision*2) {
+                                //Log.d(TAG, "calculateEqulibrium: pointX [" + dataPoint1.getX() + "] pointY [" + dataPoint1.getY() + "]");
+                                if (diff2 > abs(dataPoint1.getY() - dataPoint2.getY())) {
+                                    if (diff > abs(dataPoint1.getY() - dataPoint2.getY())) {
+                                        if (abs(dataPoint1.getX() - pointX) > 0.3) {
+                                            diff2 = diff;
+                                            pointX2 = pointX;
+                                            pointY2 = pointY;
+                                        }
+                                        diff = abs(dataPoint1.getY() - dataPoint2.getY());
+                                        pointX = dataPoint2.getX();
+                                        pointY = (dataPoint1.getY() + dataPoint2.getY()) / 2;
+                                        Log.d(TAG, "calculateEqulibrium: pointX[" + pointX + "] pointY[" + pointY + "]");
+                                    } else {
+                                        if (abs(dataPoint1.getX() - pointX) > 0.5) {
+                                            diff2 = abs(dataPoint1.getY() - dataPoint2.getY());
+                                            pointX2 = dataPoint2.getX();
+                                            pointY2 = (dataPoint1.getY() + dataPoint2.getY()) / 2;
+                                        }
+                                    } // end diff 1
+
+                                } //end diff 2
+                                //Log.d(TAG, "calculateEqulibrium: diff [" + diff + "] diff2 [" + diff2 + "]");
+                            } //end if precision
+                        } // end while
+                        //Log.d(TAG, "calculateEqulibrium: pointX[" + pointX + "] pointY[" + pointY + "]");
+                        //Log.d(TAG, "calculateEqulibrium: calculated!");
+                        if ( pointX != 0 ){
+                            if ( pointX2 != 0 ) {
+                                if (pointX < pointX2) {
+                                    equiPoints.add(pointX);
+                                    equiPoints.add(pointY);
+                                    equiPoints.add(pointX2);
+                                    equiPoints.add(pointY2);
+                                } else {
+                                    equiPoints.add(pointX2);
+                                    equiPoints.add(pointY2);
+                                    equiPoints.add(pointX);
+                                    equiPoints.add(pointY);
+                                }
+                            }else{
+                                equiPoints.add(pointX);
+                                equiPoints.add(pointY);
                             }
-                        }
-                        if (diff < precision){
-                            equiPoints.add(pointX);
-                            equiPoints.add(pointY);
-                            Log.d(TAG, "calculateEqulibrium: pointX[" + pointX + "] pointY[" + pointY + "]");
+                            Log.d(TAG, "calculateEqulibrium: pointX [" + pointX + "] pointY [" + pointY + "]");
+                            Log.d(TAG, "calculateEqulibrium: pointX2[" + pointX2 + "] pointY2[" + pointY2 + "]");
+                            //Log.d(TAG, "calculateEqulibrium: pointX [" + pointX + "] pointY [" + pointY + "]");
+                            //Log.d(TAG, "calculateEqulibrium: pointX2[" + pointX2 + "] pointY2[" + pointY2 + "]");
                             Log.d(TAG, "calculateEqulibrium: calculated!");
                         }else{
                             Log.d(TAG, "calculateEqulibrium: not found!");
@@ -147,6 +199,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
                 }
             }
         }
+        this.equiPoints = equiPoints;
         return equiPoints;
     }
 
@@ -325,5 +378,10 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
             return graphHelperObject.getDependantCurveOnCurve().get(line);
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public ArrayList<Double> getEquiPoints() {
+        return equiPoints;
     }
 }

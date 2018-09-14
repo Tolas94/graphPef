@@ -220,8 +220,8 @@ public class MainScreenControllerActivity extends AppCompatActivity{
         indiferrentAnalysis.setLabelX("estate X [Units]");
         indiferrentAnalysis.setLabelY("estate Y [Units]");
         indiferrentAnalysis.setGraphEnum(GraphEnum.IndifferentAnalysis);
-        indiferrentAnalysis.addToSeries(LineEnum.BudgetLine, new ArrayList<>(Arrays.asList(8,8,0)));
-        indiferrentAnalysis.addToSeries(LineEnum.IndifferentCurve, new ArrayList<>(Arrays.asList(3,3,1)));
+        indiferrentAnalysis.addToSeries(LineEnum.BudgetLine, new ArrayList<>(Arrays.asList(8,8)));
+        indiferrentAnalysis.addToSeries(LineEnum.IndifferentCurve, new ArrayList<>(Arrays.asList(3,-3)));
         indiferrentAnalysis.setCalculateEqulibrium(true);
         indiferrentAnalysis.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.BudgetLine, LineEnum.IndifferentCurve)));
 

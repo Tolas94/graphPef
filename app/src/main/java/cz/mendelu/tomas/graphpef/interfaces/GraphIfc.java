@@ -54,6 +54,8 @@ public interface GraphIfc{
 
     MainScreenControllerActivity.LineEnum getMovableEnum();
 
+    ArrayList<Double> getEquiPoints();
+
 
 
 }

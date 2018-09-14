@@ -30,8 +30,8 @@ public class ProductionLimit extends DefaultGraph {
 
     @Override
     public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color) {
-        double precision = MainScreenControllerActivity.getPrecision();
-        int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints();
+        double precision = 0.1;
+        int maxDataPoints = 500;
         double x,y = 1;
 
         int x0, y0;
