@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
@@ -149,6 +150,9 @@ public class GraphFragment extends Fragment{
             //graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
             //graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
 
+            graph.getLegendRenderer().setVisible(true);
+            graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+
 
             //graph.getGridLabelRenderer().setNumVerticalLabels(4);
             graph.getViewport().setMinX(0);
@@ -158,9 +162,15 @@ public class GraphFragment extends Fragment{
             graph.getViewport().setXAxisBoundsManual(true);
             graph.getViewport().setYAxisBoundsManual(true);
             graph.setVisibility(View.VISIBLE);
-
+            ArrayList<Integer> colors = new ArrayList<>();
+            colors.add(R.color.blueDark);
+            colors.add(R.color.oceanDark);
+            colors.add(R.color.colorAccent);
+            colors.add(R.color.purpleMain);
+            int counter = 0;
             for (MainScreenControllerActivity.LineEnum line:seriesSource.keySet()) {
-                calculateData(line, Color.BLACK);
+                calculateData(line,colors.get(counter));
+                counter++;
             }
 
             menu = toolbar.getMenu();
@@ -194,6 +204,7 @@ public class GraphFragment extends Fragment{
 
     private void calculateData(MainScreenControllerActivity.LineEnum line, int color) {
         LineGraphSeries lineSeries = graphIfc.calculateData(line,color);
+        lineSeries.setTitle(line.toString());
         graph.addSeries(lineSeries);
         updateTexts();
     }
@@ -217,6 +228,7 @@ public class GraphFragment extends Fragment{
                 public boolean onMenuItemClick(MenuItem item) {
                     Log.d(TAG, "onMenuItemClick: " + line.toString());
                     graphIfc.setMovable(line);
+                    graphIfc.refreshInfoTexts();
                     return false;
                 }
             });
@@ -283,10 +295,12 @@ public class GraphFragment extends Fragment{
         if (eqpoints != null){
             graph.removeSeries(eqpoints);
         }
-        eqpoints = new PointsGraphSeries<>();
+
     }
 
     private void addSeriesToGraphAfterEQCalculation(){
+        eqpoints = new PointsGraphSeries<>();
+        eqpoints.setTitle(MainScreenControllerActivity.LineEnum.Equilibrium.toString());
         if (graphIfc.getEquiPoints() != null && graphIfc.getEquiPoints().size() != 0){
             Log.d(TAG, "calculateEquilibrium: create EQ points size[" + graphIfc.getEquiPoints().size() + "]");
             if (graphIfc.getEquiPoints().size() == 4 && MainScreenControllerActivity.getChosenGraph() == MainScreenControllerActivity.GraphEnum.IndifferentAnalysis){

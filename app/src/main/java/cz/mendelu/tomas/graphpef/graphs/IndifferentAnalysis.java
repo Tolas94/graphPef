@@ -10,11 +10,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.fragments.InfoFragment;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
 
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.BudgetLine;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.PriceLevel;
-import static java.lang.Double.NaN;
+import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.IndifferentCurve;
 
 /**
  * Created by tomas on 12.09.2018.
@@ -22,7 +22,7 @@ import static java.lang.Double.NaN;
 
 public class IndifferentAnalysis extends DefaultGraph{
     private static final String TAG = "IndifferentAnalysis";
-
+    private int numOfEqPoints;
     public IndifferentAnalysis(ArrayList<String> graphTexts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         super(graphTexts, movableObjects, movableEnum, series, optionsLabels, graphHelperObject);
         setMovableDirections(new ArrayList<>(Arrays.asList(
@@ -30,6 +30,7 @@ public class IndifferentAnalysis extends DefaultGraph{
                 MainScreenControllerActivity.Direction.down,
                 MainScreenControllerActivity.Direction.left,
                 MainScreenControllerActivity.Direction.right)));
+        numOfEqPoints = 0;
     }
 
 
@@ -134,23 +135,25 @@ public class IndifferentAnalysis extends DefaultGraph{
         Log.d(TAG,"calculateEqulibrium arraySize["+retVal.size()+"]" );
         if (retVal.size() != 0){
             if (retVal.size() == 2){
-                populateTexts(1,retVal);
+                numOfEqPoints = 1;
             } else if (retVal.size() == 4){
-                populateTexts(2,retVal);
+                numOfEqPoints = 2;
             }
         }else{
-            populateTexts(0,retVal);
+            numOfEqPoints = 0;
         }
+        populateTexts(numOfEqPoints,retVal);
         return retVal;
     }
 
     private void populateTexts(int  numberOfEquilibriums, ArrayList<Double> equilibrium){
         Log.d(TAG,"populateTexts");
+        refreshInfoTexts();
         ArrayList texts = new ArrayList();
         for(MainScreenControllerActivity.LineEnum line:getMovableObjects()){
-            texts.add("Line " + line.toString() + " changed by " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
+            texts.add(line.toString() + " changed by " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
             if (line == BudgetLine){
-                texts.add("Line " + line.toString() + " changed by " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(1));
+                texts.add(line.toString() + " changed by " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(1));
             }
         }
         if(numberOfEquilibriums == 1){
@@ -165,4 +168,36 @@ public class IndifferentAnalysis extends DefaultGraph{
         setGraphTexts(texts);
     }
 
+    @Override
+    public ArrayList<String> getSituationInfoTexts() {
+        Log.d(TAG,"getSituationInfoTexts");
+        //https://stackoverflow.com/questions/9290651/make-a-hyperlink-textview-in-android
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("Teorie spotřebitele je část mikroekonomické teorie, která zkoumá, " +
+                "jakým způsobem rozhoduje spotřebitel o umístění svého omezeného důchodu " +
+                "mezi různé statky.");
+        if (getMovableEnum() == BudgetLine){
+            arrayList.add("Linie rozpočtu neboli rozpočtová přímka je v ekonomické teorii " +
+                    "přímka, určující jakým způsobem může spotřebitel rozdělovat celý svůj " +
+                    "disponibilní důchod na nákup dvou statků. Je zobrazením rozpočtového " +
+                    "omezení.");
+        }else if (getMovableEnum() == IndifferentCurve){
+            arrayList.add("Indiferenční křivka znázorňuje kombinace " +
+                    "množství dvou statků, které poskytují spotřebiteli " +
+                    "stejný užitek. Tato křivka se používá v neoklasické " +
+                    "mikroekonomii při analýze chování spotřebitele. " +
+                    "Anglicky se nazývá indifference curve, a proto se často označuje IC.");
+        }
+        if (numOfEqPoints == 0){
+            //0 eq
+            arrayList.add("stuace.1");
+        }else if (numOfEqPoints == 1){
+            //1 eq
+            arrayList.add("stuace.2");
+        }else if (numOfEqPoints == 2) {
+            //2 eq
+            arrayList.add("stuace.3");
+        }
+        return arrayList;
+    }
 }

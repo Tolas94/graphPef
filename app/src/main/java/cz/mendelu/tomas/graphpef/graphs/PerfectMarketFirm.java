@@ -92,4 +92,22 @@ public class PerfectMarketFirm extends DefaultGraph {
             }
         }
     }
+
+    @Override
+    public ArrayList<String> getSituationInfoTexts() {
+        //https://stackoverflow.com/questions/9290651/make-a-hyperlink-textview-in-android
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("Dokonalý trh je takový trh, na kterém mají všichni kupující dokonalé " +
+                "informace o všech prodávajících a cenách, které nabízejí, při přechodu od " +
+                "jednoho prodávajícího k jinému mají nulové náklady a " +
+                "obchodovaný statek je homogenní.");
+
+        arrayList.add("TODO");
+
+
+        arrayList.add("TODO ");
+
+        arrayList.add("will add this later");
+        return arrayList;
+    }
 }

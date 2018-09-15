@@ -2,6 +2,7 @@ package cz.mendelu.tomas.graphpef.graphs;
 
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -12,6 +13,9 @@ import java.util.HashMap;
 
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
+
+import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Demand;
+import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Supply;
 
 /**
  * Created by tomas on 01.09.2018.
@@ -60,7 +64,6 @@ public class ProductionLimit extends DefaultGraph {
             seriesLocal.setDrawAsPath(true);
             seriesLocal.setCustomPaint(paint);
             seriesLocal.setThickness(1);
-
         }else{
             seriesLocal.setThickness(5);
         }
@@ -107,22 +110,23 @@ public class ProductionLimit extends DefaultGraph {
     }
 
     private void updateTexts(){
+        refreshInfoTexts();
         String text4,text5;
         text4 = "";
         text5 = "";
         if ((int) Math.round(getMaxX()) > 8 ){
-            text4 = "Production capability(X) has been extended";
+            text4 = "P(X) has been extended";
         }else if ((int) Math.round(getMaxX()) == 8 ){
-            text4 = "Production capability(X) is on default values";
+            text4 = "P(X) is on default values";
         }else if ((int) Math.round(getMaxX()) < 8 ){
-            text4 = "Production capability(X) has been lowered";
+            text4 = "P(X) has been lowered";
         }
         if ((int) Math.round(getMaxY()) > 8 ){
-            text5 = "Production capability(Y) has been extended";
+            text5 = "P(Y) has been extended";
         }else if ((int) Math.round(getMaxY()) == 8 ){
-            text5 = "Production capability(Y) is on default values";
+            text5 = "P(Y) is on default values";
         }else if ((int) Math.round(getMaxY()) < 8 ){
-            text5 = "Production capability(Y) has been lowered";
+            text5 = "P(Y) has been lowered";
         }
         setGraphTexts(new ArrayList<>(Arrays.asList(
                 "Max " + getLabelX() + " = " + (int) Math.round(getMaxX()),
@@ -138,5 +142,29 @@ public class ProductionLimit extends DefaultGraph {
             return super.calculateEqulibrium();
         else
             return null;
+    }
+
+    @Override
+    public ArrayList<String> getSituationInfoTexts() {
+        //https://stackoverflow.com/questions/9290651/make-a-hyperlink-textview-in-android
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("Hranice produkčních možností (anglicky: \"production-possibility" +
+                " frontier\" nebo-li PPF) vyjadřuje rozdílné kombinace dvou různých statků, které může" +
+                " výrobce produkovat při plném využití daných zdrojů a při dané technologii." +
+                " Vyjadřuje hranici mezi dosažitelnou a nedosažitelnou úrovní produkce.");
+
+        arrayList.add("PPF je kombinace statků, které může ekonomika při svých celkově " +
+                "omezených zdrojích vyrábět. Ve zjednodušeném modelu jde o kombinace dvou " +
+                "statků, přičemž hranice výrobních možností je vyjádřena konkávní křivkou " +
+                "v důsledku klesající mezní míry transformace produktu.");
+
+
+        arrayList.add("Při rozhodování CO a JAK vyrábět si ekonomický subjekt volí míru " +
+                "produkce tak, aby byla vždy dosažena hranice produkčních možností (PPF), " +
+                "čímž předchází neefektivnosti výroby. PPF zobrazuje všechny maximálně dostupné" +
+                " kombinace statků, které mohou být vyrobeny při 100% využití daných zdrojů ");
+
+        arrayList.add("will add this later");
+        return arrayList;
     }
 }

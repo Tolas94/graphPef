@@ -1,5 +1,6 @@
 package cz.mendelu.tomas.graphpef.graphs;
 
+import android.app.FragmentManager;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
@@ -14,7 +15,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.fragments.InfoFragment;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
 import cz.mendelu.tomas.graphpef.interfaces.GraphIfc;
 
@@ -248,6 +251,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
 
         lineGraphSeriesMap.remove(line);
         lineGraphSeriesMap.put(line,newLineGraphSeries);
+        refreshInfoTexts();
 
     }
 
@@ -343,7 +347,12 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     }
 
     @Override
-    public ArrayList<String> getInfoTexts() {
+    public ArrayList<String> getGraphInfoTexts() {
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getSituationInfoTexts() {
         return null;
     }
 
@@ -368,6 +377,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
         seriesLocal.setDrawAsPath(true);
         seriesLocal.setCustomPaint(paint);
         seriesLocal.setThickness(1);
+        seriesLocal.setTitle(line.toString());
         getLineGraphSeries().put(line,seriesLocal);
         return seriesLocal;
     }
@@ -383,5 +393,13 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     @Override
     public ArrayList<Double> getEquiPoints() {
         return equiPoints;
+    }
+
+    @Override
+    public void refreshInfoTexts(){
+        if( InfoFragment.getInstance() != null){
+            Log.d(TAG,"refreshInfoTexts InfoFragment.getInstance().populateTexts()");
+            InfoFragment.getInstance().populateTexts();
+        }
     }
 }

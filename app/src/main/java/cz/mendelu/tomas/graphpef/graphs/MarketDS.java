@@ -15,6 +15,10 @@ import java.util.HashMap;
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
 
+import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.BudgetLine;
+import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Demand;
+import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.IndifferentCurve;
+import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Supply;
 import static java.lang.Math.abs;
 
 /**
@@ -62,7 +66,7 @@ public class MarketDS extends DefaultGraph {
                 seriesLocal.setDrawAsPath(true);
                 seriesLocal.setCustomPaint(paint);
                 seriesLocal.setThickness(1);
-                seriesLocal.setColor(Color.BLUE);
+                seriesLocal.setColor(color);
             }else{
                 seriesLocal.setThickness(5);
                 seriesLocal.setColor(color);
@@ -89,6 +93,7 @@ public class MarketDS extends DefaultGraph {
 
     private void populateTexts(boolean equilibriumExists,ArrayList<Double> equilibrium){
         Log.d(TAG,"populateTexts");
+        refreshInfoTexts();
         ArrayList texts = new ArrayList();
         if(equilibriumExists){
             texts.add("Eq " + getGraphHelperObject().getDependantCurveOnEquilibrium().get(0) + " = " + String.format( "%.1f", equilibrium.get(0) ));
@@ -97,8 +102,31 @@ public class MarketDS extends DefaultGraph {
             texts.add("Eq cannot be calculated");
         }
         for(MainScreenControllerActivity.LineEnum line:getMovableObjects()){
-            texts.add("Line " + line.toString() + " changed by " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
+            texts.add(line.toString() + " changed by " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
         }
         setGraphTexts(texts);
+    }
+
+    @Override
+    public ArrayList<String> getSituationInfoTexts() {
+        Log.d(TAG,"getSituationInfoTexts");
+        //https://stackoverflow.com/questions/9290651/make-a-hyperlink-textview-in-android
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("Trh je v ekonomice prostor, kde dochází ke směně statků a služeb. Na trhu " +
+                "se setkávají nabízející, kteří chtějí směnit za peníze, a poptávající, kteří za " +
+                "ně chtějí získat nějaké nové zboží. Cílem prodejců je maximalizace ceny, zatímco " +
+                "kupující si přejí pravý opak, cenu co nejnižší.");
+        if (getMovableEnum() == Demand ){
+            arrayList.add("Poptávka (značí se D, z anglického demand) je křivka, jež vyjadřuje " +
+                    "závislost mezi množstvím zboží, které je kupující ochoten koupit, a cenou, " +
+                    "jakou je ochoten za zboží zaplatit v určitý čas na určitém místě.");
+        }else if (getMovableEnum() == Supply){
+            arrayList.add("Nabídka (značí se S, z anglického supply) je ekonomický pojem" +
+                    "vyjadřující objem výstupu výroby, který chce vyrábějící subjekt na " +
+                    "trhu prodat za určitou cenu.");
+        }
+
+        arrayList.add("wll add this later");
+        return arrayList;
     }
 }

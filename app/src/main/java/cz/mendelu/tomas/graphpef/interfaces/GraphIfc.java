@@ -40,7 +40,9 @@ public interface GraphIfc{
 
     ArrayList<String> getOptionsLabels();
 
-    ArrayList<String> getInfoTexts();
+    ArrayList<String> getGraphInfoTexts();
+
+    ArrayList<String> getSituationInfoTexts();
 
     String getMovableLabel();
 
@@ -56,6 +58,7 @@ public interface GraphIfc{
 
     ArrayList<Double> getEquiPoints();
 
+    void refreshInfoTexts();
 
 
 }

@@ -14,69 +14,63 @@
         android:visibility="invisible"
         android:id="@+id/testing_relative">
 
-        <TextView
-            android:id="@+id/titleTextInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="84dp"
-            android:text="Tab2"
-            android:textSize="25sp" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text1Relative"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="24dp"
-            android:text="TextView"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_marginTop="24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView3"
-            android:layout_below="@+id/textView3"
-            android:text="TextView"
-            android:layout_centerHorizontal="true"
-            android:textSize="18sp" />
-
-        <RelativeLayout
-            android:id="@+id/text1Relative"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/titleTextInfo"
-            android:layout_marginTop="24dp"
-            >
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/textView2"
-                app:srcCompat="@drawable/ic_priority_high_black_24dp" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="TextView"
-                android:textSize="18sp" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/titleTextInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="84dp"
+                    android:text="Tab2"
+                    android:textSize="25sp" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/textView4"
-            android:layout_centerHorizontal="true">
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_below="@id/titleTextInfo"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="TextView"
+                    android:textSize="18sp" />
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="24dp"
+                    android:text="TextView"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView3"
+                    android:text="TextView"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+        </ScrollView>
+
     </RelativeLayout>
 
 
