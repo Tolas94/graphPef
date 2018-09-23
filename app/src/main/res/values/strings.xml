@@ -1,4 +1,120 @@
 <resources>
     <!-- https://stackoverflow.com/questions/2397613/are-parameters-in-strings-xml-possible -->
-    <string name="app_name">graphPef</string>
+    <string name="app_name">Virtuálni průvodce Ekonomii</string>
+
+    <!-- Name of Graphs -->
+    <string name="MarketDS">Trh</string>
+    <string name="ProductionLimit">Hranice produkčních možností</string>
+    <string name="IndifferentAnalysis">Indiferenčni analýza</string>
+    <string name="CostCurves">Nákladové křivky</string>
+    <string name="PerfectMarket">Firma v dokonalé konkurenci</string>
+
+    <!-- Name of Lines -->
+    <string name="Demand">Poptávka</string>
+    <string name="DemandDefault">Původní poptávka</string>
+    <string name="PriceLevel">Cenová hladina</string>
+    <string name="Price">Cena</string>
+    <string name="SupplyDefault">Původní nabídka</string>
+    <string name="Supply">Nabídka</string>
+    <string name="TotalCost">Celkové náklady</string>
+    <string name="MarginalCost">Mezní náklady</string>
+    <string name="AverageCost">Průmerné náklady</string>
+    <string name="TotalRevenue">Celkový příjem</string>
+    <string name="MarginalRevenue">Mezní příjem</string>
+    <string name="AverageRevenue">Průmerný příjem</string>
+    <string name="Quantity">Množství</string>
+    <string name="ProductionCapabilities">PPF</string>
+    <string name="ProductionCapabilitiesDefault">Původní PPF</string>
+    <string name="Taxes">Dane</string>
+    <string name="Equilibrium">Rovnovážny bod/y</string>
+    <string name="TotalUtility">Celkový úžitek</string>
+    <string name="AverageVariableCost">Průmerné variabilný náklady</string>
+    <string name="BudgetLine">Linie rozpočtu</string>
+    <string name="IndifferentCurve">Indiferenční křivka</string>
+
+    //labels
+    <string name="DemandLabel">D`</string>
+    <string name="DemandDefaultLabel">D</string>
+    <string name="SupplyDefaultLabel">S</string>
+    <string name="SupplyLabel">S`</string>
+
+
+    <string name="PriceLevelLabel">P</string>
+    <string name="PriceLabel">P</string>
+
+    <string name="TotalCostLabel">TC</string>
+    <string name="MarginalCostLabel">MC</string>
+    <string name="AverageCostLabel">AC</string>
+    <string name="TotalRevenueLabel">TRm</string>
+    <string name="MarginalRevenueLabel">MR</string>
+    <string name="AverageRevenueLabel">AR</string>
+    <string name="QuantityLabel">Qí</string>
+    <string name="ProductionCapabilitiesLabel">PPF`</string>
+    <string name="ProductionCapabilitiesDefaultLabel">PPF</string>
+    <string name="TaxesLabel">Tx</string>
+    <string name="EquilibriumLabel">E</string>
+    <string name="TotalUtilityLabel">TU</string>
+    <string name="AverageVariableCostLabel">AVC</string>
+    <string name="BudgetLineLabel">BL</string>
+    <string name="IndifferentCurveLabel">IC</string>
+
+
+
+    <string name="and">a</string>
+    <!-- Info texts -->
+    <!-- indifferentAnalysis -->
+    <string name="indifferent_analysis_info_text_1">Teorie spotřebitele je část mikroekonomické teorie, která zkoumá, jakým způsobem rozhoduje spotřebitel o umístění svého omezeného důchodu mezi různé statky.</string>
+    <string name="indifferent_analysis_info_budget_line">Linie rozpočtu neboli rozpočtová přímka je v ekonomické teorii přímka, určující jakým způsobem může spotřebitel rozdělovat celý svůj disponibilní důchod na nákup dvou statků. Je zobrazením rozpočtového omezení.</string>
+    <string name="indifferent_analysis_info_indifferent_curve">Indiferenční křivka znázorňuje kombinace množství dvou statků, které poskytují spotřebiteli stejný užitek. Tato křivka se používá v neoklasické mikroekonomii při analýze chování spotřebitele. Anglicky se nazývá indifference curve, a proto se často označuje IC.</string>
+    <string name="indifferent_analysis_info_text_situation_1">Indiferenční křivka se nedotýka rozpočtové linie. Neexistuje taková kombinace statků, která by poskytla takovýto ůžitek.</string>
+    <string name="indifferent_analysis_info_text_situation_2">Indiferenční křivka se protína s rozpočtovou linii v jediném bode. Tento bod určuje kombinaci statků, která přinese spotřebiteli nejvyšši možný užitek v dané situaci.</string>
+    <string name="indifferent_analysis_info_text_situation_3">Indiferenční křivka se protína s rozpočtovou linii ve dvou bodech. Tyto body udavájí dve různe kombinace statků, které přinesou spotřebiteli stejné množství úžitku v dané situaci.</string>
+    <!-- market_dsetDS -->
+    <string name="marketDS_info_text_1">Trh je v ekonomice prostor, kde dochází ke směně statků a služeb. Na trhu se setkávají nabízející, kteří chtějí směnit za peníze, a poptávající, kteří za ně chtějí získat nějaké nové zboží. Cílem prodejců je maximalizace ceny, zatímco kupující si přejí pravý opak, cenu co nejnižší.</string>
+    <string name="marketDS_info_text_demand">Poptávka (značí se D, z anglického demand) je křivka, jež vyjadřuje závislost mezi množstvím zboží, které je kupující ochoten koupit, a cenou, jakou je ochoten za zboží zaplatit v určitý čas na určitém místě.</string>
+    <string name="marketDS_info_text_supply">Nabídka (značí se S, z anglického supply) je ekonomický pojem vyjadřující objem výstupu výroby, který chce vyrábějící subjekt na trhu prodat za určitou cenu.</string>
+    <string name="marketDS_info_text_situation">TODO - will be added later</string>
+    <!-- ppf PPF -->
+    <string name="production_limit_info_text_1">Hranice produkčních možností (anglicky: \"production-possibility frontier\" nebo-li PPF) vyjadřuje rozdílné kombinace dvou různých statků, které může výrobce produkovat při plném využití daných zdrojů a při dané technologii. Vyjadřuje hranici mezi dosažitelnou a nedosažitelnou úrovní produkce.</string>
+    <string name="production_limit_info_text_2">PPF je kombinace statků, které může ekonomika při svých celkově omezených zdrojích vyrábět. Ve zjednodušeném modelu jde o kombinace dvou statků, přičemž hranice výrobních možností je vyjádřena konkávní křivkou v důsledku klesající mezní míry transformace produktu.</string>
+    <string name="production_limit_info_text_3">Při rozhodování CO a JAK vyrábět si ekonomický subjekt volí míru produkce tak, aby byla vždy dosažena hranice produkčních možností (PPF), čímž předchází neefektivnosti výroby. PPF zobrazuje všechny maximálně dostupné kombinace statků, které mohou být vyrobeny při 100% využití daných zdrojů </string>
+    <string name="production_limit_info_text_4">TODO - will be added later</string>
+    <!-- perfectmarket -->
+    <string name="perfect_market_firm_info_text_1">Dokonalý trh je takový trh, na kterém mají všichni kupující dokonalé informace o všech prodávajících a cenách, které nabízejí, při přechodu od jednoho prodávajícího k jinému mají nulové náklady a obchodovaný statek je homogenní.</string>
+    <string name="perfect_market_firm_info_text_mc">Mezní náklady (řidčeji marginální náklady, z anglického marginal cost – MC) jsou náklady při výrobě dodatečné jednotky výstupu. Udávají přírůstek celkových nákladů, pokud se produkce (výstup) zvýší o jednotku nebo určitý počet jednotek.</string>
+    <string name="perfect_market_firm_info_text_ac">Průmerné náklady (z anglického avegrage cost - AC), někdy označované jako jednotkové náklady, jsou to celkové náklady(TC) delené množstvím produkce(Množství Q).</string>
+    <string name="perfect_market_firm_info_text_avc">Průmerné variabilní náklady (z anglického avegrage variable cost - AVC) jsou v mikroekonomii náklady, jejichž objem (a potažmo jejich výše, vyjádřená v penězích) je závislý na objememu výroby. Výrobci se přirozeně snaží variabilní náklady snižovat, neboť i malé snížení se vždy násobí počtem kusů a v absolutních číslech může představovat výrazné úspory. </string>
+
+
+
+
+    <string name="quantity">Množství</string>
+    <string name="price">Cena</string>
+    <string name="units">Jednotek</string>
+    <string name="currency">CZK</string>
+    <string name="production_of">produkce</string>
+    <string name="choose_graph">Vyberte si graf</string>
+    <string name="estate">statku</string>
+    <string name="changed_by">změnena o</string>
+    <string name="default_word">původní</string>
+    <string name="on_default_values">je na původních hodnotách</string>
+    <string name="value_extended">je vyšší než původní</string>
+    <string name="value_lowered">je nižší než původní</string>
+    <string name="equilibrium_is">Rovnovážny bod je</string>
+    <string name="equilibrium_are">Rovnovážne body sú</string>
+    <string name="equilibrium_cannot">Rovnovážny bod nie je možné vypočítať</string>
+    <string name="max_production">maximálni produkce</string>
+    <string name="start_app">Spustit aplikaci v testovacím režimu</string>
+    <string name="disclaimer_main_page">Aplikace doposud nebyla vydaná v plné verzi. V případe nejasností kontaktujte autora aplikace.</string>
+    <string name="start_app_showcase">start app</string>
+    <string name="graph_list_showcase">Na téhle obrazovce si zvolíte graf o kterém se chcete dozvědet více</string>
+    <string name="down_button_showcase">Pomoci tohle tlačidla posunute vybranou křivku dolů / zmenšíte hodnoty</string>
+    <string name="up_button_showcase">Pomoci tohle buttonu posunute vybranou křivku nahoru / zvetšíte hodnoty</string>
+    <string name="choose_curve_showcase">Pomoci spodného baru můžete vybrat křivku(nebo skupinu křivek) kteoru budete ovládat a získate k ní doplňujíci informacena na obrazovce vpravo</string>
+    <string name="graph_showcase">Graf zobrazuje křivky a posunuje na základe vaši vůle. Vpravo můžete videt legendu. Pomoci barev je možné jednotlivé křivky rozeznat</string>
+    <string name="graph_values_showcase">Zde můžete videt dodatečné informace ku grafu. Zejména to jsou rovnovážne body a jejich souradnice a hodnoty o které byli křivky posunuté.</string>
+    <string name="info_showcase"></string>
+    <string name="dismiss_showcase_text">Rozumím</string>
+    <string name="graph">Graf</string>
+    <string name="info">Informace</string>
 </resources>

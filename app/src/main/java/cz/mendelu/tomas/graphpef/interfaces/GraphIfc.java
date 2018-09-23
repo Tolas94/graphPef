@@ -1,5 +1,7 @@
 package cz.mendelu.tomas.graphpef.interfaces;
 
+import android.util.Pair;
+
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -7,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
+import cz.mendelu.tomas.graphpef.helperObjects.PositionPair;
 
 /**
  * Created by tomas on 25.08.2018.
@@ -32,7 +36,7 @@ public interface GraphIfc{
 
     HashMap<MainScreenControllerActivity.LineEnum,ArrayList<Integer> > getSeries();
 
-    HashMap<MainScreenControllerActivity.LineEnum,LineGraphSeries<DataPoint>> getLineGraphSeries();
+    HashMap<MainScreenControllerActivity.LineEnum, LineGraphSeriesSerialisable> getLineGraphSeries();
 
     ArrayList<MainScreenControllerActivity.LineEnum> getEqDependantCurves();
 
@@ -59,6 +63,10 @@ public interface GraphIfc{
     ArrayList<Double> getEquiPoints();
 
     void refreshInfoTexts();
+
+    PositionPair getLineLabelPosition(MainScreenControllerActivity.LineEnum line);
+
+    int getColorOf(MainScreenControllerActivity.LineEnum lineEnum);
 
 
 }

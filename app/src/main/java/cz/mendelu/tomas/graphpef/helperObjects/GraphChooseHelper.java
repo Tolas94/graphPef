@@ -3,13 +3,15 @@ package cz.mendelu.tomas.graphpef.helperObjects;
 import android.app.Activity;
 import android.util.Log;
 
+import java.io.Serializable;
+
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
 
 /**
  * Created by tomas on 25.08.2018.
  */
 
-public class GraphChooseHelper {
+public class GraphChooseHelper  implements Serializable {
     private static final String TAG = "GraphChooseHelper";
 
     private MainScreenControllerActivity activity;

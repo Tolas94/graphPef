@@ -1,23 +1,25 @@
 package cz.mendelu.tomas.graphpef.graphs;
 
-import android.graphics.Color;
+import android.content.Context;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.util.Log;
+import android.util.Pair;
 
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
+import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
 
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.BudgetLine;
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Demand;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.IndifferentCurve;
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Supply;
 import static java.lang.Math.abs;
 
@@ -25,7 +27,7 @@ import static java.lang.Math.abs;
  * Created by tomas on 25.08.2018.
  */
 
-public class MarketDS extends DefaultGraph {
+public class MarketDS extends DefaultGraph  implements Serializable {
     private static final String TAG = "MarketDS";
 
     public MarketDS(ArrayList<String> texts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
@@ -41,13 +43,14 @@ public class MarketDS extends DefaultGraph {
             int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints();
             double x,y;
             x = 1;
+            y = 0;
             int x0,x1;
             HashMap<MainScreenControllerActivity.LineEnum,ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
 
             x0 = seriesSource.get(line).get(1);
             x1 = seriesSource.get(line).get(0);
 
-            LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<DataPoint>();
+            LineGraphSeriesSerialisable seriesLocal = new LineGraphSeriesSerialisable();
             if (getLineGraphSeries() != null)
                 getLineGraphSeries().remove(line);
 
@@ -66,12 +69,12 @@ public class MarketDS extends DefaultGraph {
                 seriesLocal.setDrawAsPath(true);
                 seriesLocal.setCustomPaint(paint);
                 seriesLocal.setThickness(1);
-                seriesLocal.setColor(color);
             }else{
                 seriesLocal.setThickness(5);
-                seriesLocal.setColor(color);
             }
+            seriesLocal.setColor(color);
             getLineGraphSeries().put(line, seriesLocal);
+            calculateLabel(line,x,y);
             return seriesLocal;
         }else{
             return getLineGraphSeries().get(line);
@@ -96,13 +99,13 @@ public class MarketDS extends DefaultGraph {
         refreshInfoTexts();
         ArrayList texts = new ArrayList();
         if(equilibriumExists){
-            texts.add("Eq " + getGraphHelperObject().getDependantCurveOnEquilibrium().get(0) + " = " + String.format( "%.1f", equilibrium.get(0) ));
-            texts.add("Eq " + getGraphHelperObject().getDependantCurveOnEquilibrium().get(1) + " = " + String.format( "%.1f", equilibrium.get(1) ));
+            texts.add(getResources().getString(R.string.equilibrium_is) + " " + getStringFromLineEnum(getGraphHelperObject().getDependantCurveOnEquilibrium().get(0)) + " = " + String.format( "%.1f", equilibrium.get(0) ));
+            texts.add(getResources().getString(R.string.equilibrium_is) + " " + getStringFromLineEnum(getGraphHelperObject().getDependantCurveOnEquilibrium().get(1)) + " = " + String.format( "%.1f", equilibrium.get(1) ));
         }else{
-            texts.add("Eq cannot be calculated");
+            texts.add(getResources().getString(R.string.equilibrium_cannot));
         }
         for(MainScreenControllerActivity.LineEnum line:getMovableObjects()){
-            texts.add(line.toString() + " changed by " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
+            texts.add(getStringFromLineEnum(line) + " " + getResources().getString(R.string.changed_by) + " " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
         }
         setGraphTexts(texts);
     }
@@ -112,21 +115,14 @@ public class MarketDS extends DefaultGraph {
         Log.d(TAG,"getSituationInfoTexts");
         //https://stackoverflow.com/questions/9290651/make-a-hyperlink-textview-in-android
         ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("Trh je v ekonomice prostor, kde dochází ke směně statků a služeb. Na trhu " +
-                "se setkávají nabízející, kteří chtějí směnit za peníze, a poptávající, kteří za " +
-                "ně chtějí získat nějaké nové zboží. Cílem prodejců je maximalizace ceny, zatímco " +
-                "kupující si přejí pravý opak, cenu co nejnižší.");
+        arrayList.add(getResources().getString(R.string.marketDS_info_text_1));
         if (getMovableEnum() == Demand ){
-            arrayList.add("Poptávka (značí se D, z anglického demand) je křivka, jež vyjadřuje " +
-                    "závislost mezi množstvím zboží, které je kupující ochoten koupit, a cenou, " +
-                    "jakou je ochoten za zboží zaplatit v určitý čas na určitém místě.");
+            arrayList.add(getResources().getString(R.string.marketDS_info_text_demand));
         }else if (getMovableEnum() == Supply){
-            arrayList.add("Nabídka (značí se S, z anglického supply) je ekonomický pojem" +
-                    "vyjadřující objem výstupu výroby, který chce vyrábějící subjekt na " +
-                    "trhu prodat za určitou cenu.");
+            arrayList.add(getResources().getString(R.string.marketDS_info_text_supply));
         }
 
-        arrayList.add("wll add this later");
+        arrayList.add(getResources().getString(R.string.marketDS_info_text_situation));
         return arrayList;
     }
 }

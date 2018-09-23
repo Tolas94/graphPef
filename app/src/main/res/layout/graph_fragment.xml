@@ -29,70 +29,77 @@
         </RelativeLayout>
 
 
-        <RelativeLayout
+        <ScrollView
+            android:id="@+id/graphTextView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/graphComponentRelative"
-            android:layout_alignLeft="@id/buttonRelativeLayout"
+            android:layout_toRightOf="@id/buttonRelativeLayout"
             android:paddingRight="24dp">
 
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/graphText1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="10dp"
-                android:textAppearance="@android:style/TextAppearance.Material"
-                android:textSize="12sp" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/graphText2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/graphText1"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:textAppearance="@android:style/TextAppearance.Material"
-                android:textSize="12sp"/>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/graphText3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/graphText2"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:textAppearance="@android:style/TextAppearance.Material"
-                android:textSize="12sp"/>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/graphText4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/graphText3"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:textAppearance="@android:style/TextAppearance.Material"
-                android:textSize="12sp"/>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/graphText5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/graphText4"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:textAppearance="@android:style/TextAppearance.Material"
-                android:textSize="12sp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
 
-        </RelativeLayout>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/graphText1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp"
+                    android:textAppearance="@android:style/TextAppearance.Material"
+                    android:textSize="12sp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/graphText2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/graphText1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:textAppearance="@android:style/TextAppearance.Material"
+                    android:textSize="12sp"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/graphText3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/graphText2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:textAppearance="@android:style/TextAppearance.Material"
+                    android:textSize="12sp"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/graphText4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/graphText3"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:textAppearance="@android:style/TextAppearance.Material"
+                    android:textSize="12sp"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/graphText5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/graphText4"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:textAppearance="@android:style/TextAppearance.Material"
+                    android:textSize="12sp"/>
+
+            </RelativeLayout>
+
+        </ScrollView>
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -157,8 +164,8 @@
                 android:id="@+id/toolbarBottom"
                 android:background="@drawable/white_grey_border_top"
                 app:menu="@menu/graph_menu"
-                app:itemIconTint="@color/bnv_tab_item_foreground"
-                app:itemTextColor="@color/bnv_tab_item_foreground"
+                app:itemIconTint="@drawable/bottom_toolbar_selector"
+                app:itemTextColor="@drawable/bottom_toolbar_selector"
                 >
 
             </android.support.design.widget.BottomNavigationView>

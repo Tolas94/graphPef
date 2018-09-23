@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 
 
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class SectionsPagerAdapter extends FragmentPagerAdapter implements Serializable{
 
     private HashMap<Integer,Fragment> mFragmentMap = new HashMap<>();
 
@@ -40,5 +41,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         mFragmentMap.remove(position);
         mFragmentMap.put(position,fragment);
     }
+
 }
 

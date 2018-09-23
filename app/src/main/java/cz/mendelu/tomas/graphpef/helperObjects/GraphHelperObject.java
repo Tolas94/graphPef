@@ -1,6 +1,8 @@
 package cz.mendelu.tomas.graphpef.helperObjects;
 
 
+import android.util.Pair;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,10 +20,10 @@ public class GraphHelperObject implements Serializable{
     private Boolean calculateEqulibrium;
     private ArrayList<MainScreenControllerActivity.LineEnum> equilibriumCurves;
     private ArrayList<MainScreenControllerActivity.LineEnum> dependantCurveOnEquilibrium;
-    private HashMap<MainScreenControllerActivity.LineEnum,ArrayList<MainScreenControllerActivity.LineEnum>> dependantCurveOnCurve;
+    private HashMap<MainScreenControllerActivity.LineEnum, ArrayList<MainScreenControllerActivity.LineEnum>> dependantCurveOnCurve;
     private HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> lineChangeIdentificator;
-
-    //TODO add dependant LINEs connection e.g. TC MC or TR MT
+    private HashMap<MainScreenControllerActivity.LineEnum, PositionPair> lineLabelPosition;
+    private Boolean showEquilibrium = false;
 
 
 
@@ -32,7 +34,7 @@ public class GraphHelperObject implements Serializable{
         labelX = "";
         labelY = "";
         lineChangeIdentificator = new HashMap<>();
-
+        lineLabelPosition = new HashMap<>();
     }
 
     public MainScreenControllerActivity.GraphEnum getGraphEnum() {
@@ -89,6 +91,7 @@ public class GraphHelperObject implements Serializable{
 
     public void setCalculateEqulibrium(Boolean calculateEqulibrium) {
         this.calculateEqulibrium = calculateEqulibrium;
+        showEquilibrium = calculateEqulibrium;
     }
 
     public ArrayList<MainScreenControllerActivity.LineEnum> getEquilibriumCurves() {
@@ -142,5 +145,22 @@ public class GraphHelperObject implements Serializable{
 
     public void setLineChangeIdentificator(HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> lineChangeIdentificator) {
         this.lineChangeIdentificator = lineChangeIdentificator;
+    }
+
+    public PositionPair getLineLabelPosition(MainScreenControllerActivity.LineEnum line) {
+        return lineLabelPosition.get(line);
+    }
+
+    public void setLineLabelPosition(MainScreenControllerActivity.LineEnum line, PositionPair position) {
+        lineLabelPosition.remove(line);
+        lineLabelPosition.put(line,position);
+    }
+
+    public void setShowEquilibrium(Boolean showEquilibrium) {
+        this.showEquilibrium = showEquilibrium;
+    }
+
+    public Boolean getShowEquilibrium() {
+        return showEquilibrium;
     }
 }

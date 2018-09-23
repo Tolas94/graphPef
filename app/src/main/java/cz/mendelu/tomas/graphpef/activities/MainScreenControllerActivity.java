@@ -2,14 +2,24 @@ package cz.mendelu.tomas.graphpef.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.internal.BottomNavigationMenu;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
+import com.jjoe64.graphview.GraphView;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,19 +28,23 @@ import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.fragments.GraphFragment;
 import cz.mendelu.tomas.graphpef.fragments.InfoFragment;
 import cz.mendelu.tomas.graphpef.fragments.SectionsPagerAdapter;
+import cz.mendelu.tomas.graphpef.graphs.CostCurves;
 import cz.mendelu.tomas.graphpef.graphs.DefaultGraph;
 import cz.mendelu.tomas.graphpef.graphs.IndifferentAnalysis;
 import cz.mendelu.tomas.graphpef.graphs.MarketDS;
 import cz.mendelu.tomas.graphpef.graphs.PerfectMarketFirm;
 import cz.mendelu.tomas.graphpef.graphs.ProductionLimit;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
-import cz.mendelu.tomas.graphpef.interfaces.GraphIfc;
+import cz.mendelu.tomas.graphpef.helperObjects.PositionPair;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 /**
  * Created by tomas on 11.08.2018.
  */
 
-public class MainScreenControllerActivity extends AppCompatActivity{
+public class MainScreenControllerActivity extends AppCompatActivity implements Serializable{
 
     private static final String TAG = "MainScreenControllerActivity";
 
@@ -40,12 +54,13 @@ public class MainScreenControllerActivity extends AppCompatActivity{
 
     private HashMap<GraphEnum, DefaultGraph> graphsDatabase;
 
-    private static GraphEnum chosenGraph = GraphEnum.ProductionLimit;
+    private static GraphEnum chosenGraph;
 
     public enum GraphEnum {
         MarketDS,
         ProductionLimit,
         PerfectMarket,
+        CostCurves,
         IndifferentAnalysis,
         MonopolisticMarket,
         Oligopol,
@@ -63,6 +78,8 @@ public class MainScreenControllerActivity extends AppCompatActivity{
         TotalCost,
         MarginalCost,
         AverageCost,
+        FixedCost,
+        VariableCost,
         TotalRevenue,
         MarginalRevenue,
         AverageRevenue,
@@ -74,8 +91,9 @@ public class MainScreenControllerActivity extends AppCompatActivity{
         TotalUtility,
         AverageVariableCost,
         BudgetLine,
-        IndifferentCurve
+        IndifferentCurve,
     }
+    public static HashMap<LineEnum,LineEnum> lineLabels;
 
     public enum Direction {
         up,
@@ -84,8 +102,8 @@ public class MainScreenControllerActivity extends AppCompatActivity{
         right
     }
 
-    static double precision = 0.1;
-    static int maxDataPoints = 100;
+    static double precision = 0.05;
+    static int maxDataPoints = 200;
 
     public static double getPrecision() {
         return precision;
@@ -101,6 +119,7 @@ public class MainScreenControllerActivity extends AppCompatActivity{
         setContentView(R.layout.main_screen_layout);
         graphsDatabase = new HashMap<>();
         populateGraphDatabase();
+
         setChosenGraph(getIntent().getExtras().getString("GRAPH_KEY"));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(graphsDatabase.get(chosenGraph).getTitle());
@@ -118,8 +137,12 @@ public class MainScreenControllerActivity extends AppCompatActivity{
         tabLayout.setupWithViewPager(mViewPager);
 
         //tabLayout.getTabAt(0).setIcon(R.drawable.ic_menu_black_24dp);
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_multiline_chart_black_24dp);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_info_black_24dp);
+        //tabLayout.getTabAt(0).setIcon(R.drawable.ic_multiline_chart_black_24dp);
+        tabLayout.getTabAt(0).setText(R.string.graph);
+        tabLayout.setTabTextColors(getColor(R.color.colorPrimaryWhite),getColor(R.color.colorPrimaryDark));
+        //tabLayout.getTabAt(1).setIcon(R.drawable.ic_info_black_24dp);
+        tabLayout.getTabAt(1).setText(R.string.info);
+
 
     }
 
@@ -144,15 +167,21 @@ public class MainScreenControllerActivity extends AppCompatActivity{
         GraphHelperObject productionLimit = new GraphHelperObject();
         GraphHelperObject perfectMarketFirm = new GraphHelperObject();
         GraphHelperObject indiferrentAnalysis = new GraphHelperObject();
+        GraphHelperObject costCurveHelper = new GraphHelperObject();
 
-        marketDS.setTitle("Market - Demand Supply");
-        marketDS.setLabelX("Quantity [Units]");
-        marketDS.setLabelY("Price [Czk]");
+        marketDS.setTitle(getString(R.string.MarketDS));
+        marketDS.setLabelX(getString(R.string.quantity) + " [" + getString(R.string.units) + "]");
+        marketDS.setLabelY(getString(R.string.price)  + " [" + getString(R.string.currency) + "]");
         marketDS.setGraphEnum(GraphEnum.MarketDS);
         marketDS.addToSeries(LineEnum.Supply,   new ArrayList<>(Arrays.asList(1,0)));
         marketDS.addToSeries(LineEnum.Demand,   new ArrayList<>(Arrays.asList(-1,10)));
         marketDS.addToSeries(LineEnum.SupplyDefault,   new ArrayList<>(Arrays.asList(1,0)));
         marketDS.addToSeries(LineEnum.DemandDefault,   new ArrayList<>(Arrays.asList(-1,10)));
+
+        marketDS.setLineLabelPosition(LineEnum.Supply,new PositionPair(12.0,1.0));
+        marketDS.setLineLabelPosition(LineEnum.Demand,new PositionPair(12.0,3.0));
+        marketDS.setLineLabelPosition(LineEnum.SupplyDefault,new PositionPair(12.0,5.0));
+        marketDS.setLineLabelPosition(LineEnum.DemandDefault,new PositionPair(12.0,7.0));
 
         marketDS.setCalculateEqulibrium(true);
         marketDS.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.Demand, LineEnum.Supply)));
@@ -167,11 +196,12 @@ public class MainScreenControllerActivity extends AppCompatActivity{
                 marketDS));
 
 
+
         // ProductionLimit
 
-        productionLimit.setTitle("Production Limit");
-        productionLimit.setLabelX("Production of X [Units]");
-        productionLimit.setLabelY("Production of Y [Units]");
+        productionLimit.setTitle(getString(R.string.ProductionLimit));
+        productionLimit.setLabelX(getString(R.string.production_of) + " X [" + getString(R.string.units) + "]");
+        productionLimit.setLabelY(getString(R.string.production_of) + " Y [" + getString(R.string.units) + "]");
         productionLimit.setGraphEnum(GraphEnum.ProductionLimit);
         productionLimit.addToSeries(LineEnum.ProductionCapabilities, new ArrayList<>(Arrays.asList(8,8)));
         productionLimit.addToSeries(LineEnum.ProductionCapabilitiesDefault, new ArrayList<>(Arrays.asList(8,8)));
@@ -186,25 +216,23 @@ public class MainScreenControllerActivity extends AppCompatActivity{
 
         // Perfect Market competition
 
-        perfectMarketFirm.setTitle("Perfect Market");
-        perfectMarketFirm.setLabelX("Quantity [Units]");
-        perfectMarketFirm.setLabelY("Price [Czk]");
+        perfectMarketFirm.setTitle(getString(R.string.PerfectMarket));
+        perfectMarketFirm.setLabelX(getString(R.string.quantity) + " [" + getString(R.string.units) + "]");
+        perfectMarketFirm.setLabelY(getString(R.string.price)  + " [" + getString(R.string.currency) + "]");
         perfectMarketFirm.setGraphEnum(GraphEnum.PerfectMarket);
-        perfectMarketFirm.addToSeries(LineEnum.MarginalCost, new ArrayList<>(Arrays.asList(0,-2,0,2,0)));
-        perfectMarketFirm.addToSeries(LineEnum.AverageCost, new ArrayList<>(Arrays.asList(1,-2,6,0,1)));
-        //perfectMarketFirm.addToSeries(LineEnum.AverageVariableCost, new ArrayList<>(Arrays.asList(3,-10,11,-1,1)));
-        perfectMarketFirm.addToSeries(LineEnum.PriceLevel, new ArrayList<>(Arrays.asList(0,0,0,4,0)));
+        perfectMarketFirm.addToSeries(LineEnum.MarginalCost, new ArrayList<>(Arrays.asList(0,0,-4,6,0)));
+        perfectMarketFirm.addToSeries(LineEnum.AverageCost, new ArrayList<>(Arrays.asList(1,-2,6,15,1)));
+        perfectMarketFirm.addToSeries(LineEnum.AverageVariableCost, new ArrayList<>(Arrays.asList(1,-2,6,5,1)));
+        perfectMarketFirm.addToSeries(LineEnum.PriceLevel, new ArrayList<>(Arrays.asList(0,0,0,10,0)));
 
         perfectMarketFirm.setCalculateEqulibrium(true);
+        //perfectMarketFirm.setCalculateEqulibrium(false);
 
-        ArrayList<LineEnum> equilibriumCurves2 = new ArrayList<>();
-        equilibriumCurves2.add(LineEnum.MarginalCost);
-        equilibriumCurves2.add(LineEnum.AverageCost);
-        perfectMarketFirm.setEquilibriumCurves(equilibriumCurves2);
+        perfectMarketFirm.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.PriceLevel, LineEnum.MarginalCost)));
 
         perfectMarketFirm.setDependantCurveOnEquilibrium(new ArrayList<>(Arrays.asList(LineEnum.Price, LineEnum.Quantity)));
         HashMap<MainScreenControllerActivity.LineEnum, ArrayList<MainScreenControllerActivity.LineEnum>> hashMap = new HashMap<>();
-        hashMap.put(LineEnum.AverageCost, new ArrayList<>(Arrays.asList(LineEnum.MarginalCost)));
+        hashMap.put(LineEnum.AverageCost, new ArrayList<>(Arrays.asList(LineEnum.MarginalCost,LineEnum.AverageVariableCost)));
         perfectMarketFirm.setDependantCurveOnCurve(hashMap);
 
         graphsDatabase.put(GraphEnum.PerfectMarket,new PerfectMarketFirm(
@@ -216,9 +244,9 @@ public class MainScreenControllerActivity extends AppCompatActivity{
                 perfectMarketFirm));
 
 
-        indiferrentAnalysis.setTitle("Indifferent Analysis");
-        indiferrentAnalysis.setLabelX("estate X [Units]");
-        indiferrentAnalysis.setLabelY("estate Y [Units]");
+        indiferrentAnalysis.setTitle(getString(R.string.IndifferentAnalysis));
+        indiferrentAnalysis.setLabelX(getString(R.string.estate) + " X [" + getString(R.string.units) + "]");
+        indiferrentAnalysis.setLabelY(getString(R.string.estate) + " Y [" + getString(R.string.units) + "]");
         indiferrentAnalysis.setGraphEnum(GraphEnum.IndifferentAnalysis);
         indiferrentAnalysis.addToSeries(LineEnum.BudgetLine, new ArrayList<>(Arrays.asList(8,8)));
         indiferrentAnalysis.addToSeries(LineEnum.IndifferentCurve, new ArrayList<>(Arrays.asList(3,-3)));
@@ -227,11 +255,38 @@ public class MainScreenControllerActivity extends AppCompatActivity{
 
         graphsDatabase.put(GraphEnum.IndifferentAnalysis, new IndifferentAnalysis(
                 new ArrayList<String>(),//texty
-                new ArrayList<LineEnum>(Arrays.asList(LineEnum.BudgetLine,LineEnum.IndifferentCurve)), //krivky na posun
+                new ArrayList<>(Arrays.asList(LineEnum.BudgetLine,LineEnum.IndifferentCurve)), //krivky na posun
                 LineEnum.BudgetLine,
                 indiferrentAnalysis.getSeries(),
                 new ArrayList<String>(),
                 indiferrentAnalysis));
+
+        costCurveHelper.setTitle(getString(R.string.CostCurves));
+        costCurveHelper.setLabelX(getString(R.string.quantity) + " [" + getString(R.string.units) + "]");
+        costCurveHelper.setLabelY(getString(R.string.price)  + " [" + getString(R.string.currency) + "]");
+        costCurveHelper.setGraphEnum(GraphEnum.CostCurves);
+        costCurveHelper.addToSeries(LineEnum.MarginalCost, new ArrayList<>(Arrays.asList(0,0,-4,6,0)));
+        costCurveHelper.addToSeries(LineEnum.AverageCost, new ArrayList<>(Arrays.asList(1,-2,6,15,1)));
+        costCurveHelper.addToSeries(LineEnum.AverageVariableCost, new ArrayList<>(Arrays.asList(1,-2,6,5,1)));
+        costCurveHelper.addToSeries(LineEnum.Quantity, new ArrayList<>(Arrays.asList(0,0,0,5,0)));
+        costCurveHelper.setDependantCurveOnCurve(hashMap);
+
+        costCurveHelper.setCalculateEqulibrium(true);
+        costCurveHelper.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.Quantity, LineEnum.MarginalCost)));
+
+        costCurveHelper.setDependantCurveOnEquilibrium(new ArrayList<>(Arrays.asList(LineEnum.Price)));
+
+
+        graphsDatabase.put(GraphEnum.CostCurves,new CostCurves(
+                new ArrayList<String>(),
+                new ArrayList<>(Arrays.asList(LineEnum.Quantity)),
+                LineEnum.Quantity,
+                costCurveHelper.getSeries(),
+                new ArrayList<String>(),
+                costCurveHelper));
+
+
+
     }
 
     //TODO show chosen graph in menu fragment
@@ -267,4 +322,24 @@ public class MainScreenControllerActivity extends AppCompatActivity{
             Log.d(TAG, "onChosenGraphChange: null ");
         }
     }
+
+    private void presentShowcaseSequence() {
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(200); // half second between each showcase view
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this,TAG);
+        sequence.setOnItemShownListener(new MaterialShowcaseSequence.OnSequenceItemShownListener() {
+            @Override
+            public void onShow(MaterialShowcaseView itemView, int position) {
+            }
+        });
+        ImageButton up = findViewById(R.id.buttonUp);
+        ImageButton down = findViewById(R.id.buttonDown);
+        BottomNavigationView choose_curve = findViewById(R.id.toolbarBottom);
+        GraphView graph = findViewById(R.id.graphComponent);
+        ScrollView graph_values = findViewById(R.id.graphTextView);
+        sequence.setConfig(config);
+        //sequence.addSequenceItem(,getString(R.string.graph_list_showcase),getString(R.string.dismiss_showcase_text));
+        sequence.start();
+    }
+
 }

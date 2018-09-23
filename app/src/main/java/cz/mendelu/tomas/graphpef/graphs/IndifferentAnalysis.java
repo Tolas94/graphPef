@@ -1,17 +1,21 @@
 package cz.mendelu.tomas.graphpef.graphs;
 
+import android.content.Context;
 import android.util.Log;
+import android.util.Pair;
 
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
-import cz.mendelu.tomas.graphpef.fragments.InfoFragment;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
+import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
 
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.BudgetLine;
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.IndifferentCurve;
@@ -20,7 +24,7 @@ import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.
  * Created by tomas on 12.09.2018.
  */
 
-public class IndifferentAnalysis extends DefaultGraph{
+public class IndifferentAnalysis extends DefaultGraph  implements Serializable {
     private static final String TAG = "IndifferentAnalysis";
     private int numOfEqPoints;
     public IndifferentAnalysis(ArrayList<String> graphTexts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
@@ -41,6 +45,7 @@ public class IndifferentAnalysis extends DefaultGraph{
             int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints() * 100;
             Double x,y;
             x = 0.0;
+            y = 0.0;
             int arg0,arg1;
             HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
 
@@ -48,7 +53,7 @@ public class IndifferentAnalysis extends DefaultGraph{
             arg0 = seriesSource.get(line).get(0);
             arg1 = seriesSource.get(line).get(1);
 
-            LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<>();
+            LineGraphSeriesSerialisable seriesLocal = new LineGraphSeriesSerialisable();
 
                 if (line == MainScreenControllerActivity.LineEnum.IndifferentCurve) {
                     for (int i = 0; i < maxDataPoints; i++) {
@@ -59,7 +64,9 @@ public class IndifferentAnalysis extends DefaultGraph{
                             y = 200.0;
                         }
                         //Log.d(TAG,"calculateData x = " + x + " y = " + y);
-                        seriesLocal.appendData(new DataPoint(x, y), true, maxDataPoints);
+                        if (y < 13 && y > 0 && x > 0 && x < 13){
+                            seriesLocal.appendData(new DataPoint(x, y), true, maxDataPoints);
+                        }
                     }
                 } else if (line == MainScreenControllerActivity.LineEnum.BudgetLine) {
 
@@ -76,6 +83,8 @@ public class IndifferentAnalysis extends DefaultGraph{
             Log.d(TAG, "calculateData: MinY [" + seriesLocal.getLowestValueY() + "] maxY[" + seriesLocal.getHighestValueY() + "]");
             Log.d(TAG, "calculateData: MinX [" + seriesLocal.getLowestValueX() + "] maxX[" + seriesLocal.getHighestValueX() + "]");
             getLineGraphSeries().put(line, seriesLocal);
+            calculateLabel(line,x,y);
+            seriesLocal.setColor(color);
             return seriesLocal;
         }else{
             return getLineGraphSeries().get(line);
@@ -96,7 +105,7 @@ public class IndifferentAnalysis extends DefaultGraph{
                 super.moveObject(MainScreenControllerActivity.Direction.left,getMovableEnum(),100);
             }
         }else if (getMovableEnum() == MainScreenControllerActivity.LineEnum.BudgetLine) {
-            LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<>();
+            LineGraphSeriesSerialisable seriesLocal = new LineGraphSeriesSerialisable();
             ArrayList<Integer> identChanges = getGraphHelperObject().getLineChangeIdentificatorByLineEnum(getMovableEnum());
             float arg0 = getSeries().get(BudgetLine).get(0);
             float arg1 = getSeries().get(BudgetLine).get(1);
@@ -151,18 +160,18 @@ public class IndifferentAnalysis extends DefaultGraph{
         refreshInfoTexts();
         ArrayList texts = new ArrayList();
         for(MainScreenControllerActivity.LineEnum line:getMovableObjects()){
-            texts.add(line.toString() + " changed by " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
+            texts.add(getStringFromLineEnum(line) + " " + getResources().getString(R.string.changed_by) + " " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
             if (line == BudgetLine){
-                texts.add(line.toString() + " changed by " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(1));
+                texts.add(getStringFromLineEnum(line) + " " + getResources().getString(R.string.changed_by) + " " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(1));
             }
         }
         if(numberOfEquilibriums == 1){
-            texts.add("Equilibrium is [" + String.format( "%.1f",equilibrium.get(0)) + "][" + String.format( "%.1f",equilibrium.get(1))+ "]");
+            texts.add(getResources().getString(R.string.equilibrium_is) + " [" + String.format( "%.1f",equilibrium.get(0)) + "][" + String.format( "%.1f",equilibrium.get(1))+ "]");
         }else if (numberOfEquilibriums == 2){
-            texts.add("Equilibrium is [" + String.format( "%.1f",equilibrium.get(0)) + "][" + String.format( "%.1f",equilibrium.get(1))+ "] " +
-                    "and [" + String.format( "%.1f",equilibrium.get(2)) + "][" + String.format( "%.1f",equilibrium.get(3)) + "]" );
+            texts.add(getResources().getString(R.string.equilibrium_are) + " [" + String.format( "%.1f",equilibrium.get(0)) + "][" + String.format( "%.1f",equilibrium.get(1))+ "] " +
+                    getResources().getString(R.string.and) + " [" + String.format( "%.1f",equilibrium.get(2)) + "][" + String.format( "%.1f",equilibrium.get(3)) + "]" );
         }else if (numberOfEquilibriums == 0){
-            texts.add("Eq cannot be calculated");
+            texts.add(getResources().getString(R.string.equilibrium_cannot));
         }
 
         setGraphTexts(texts);
@@ -173,30 +182,21 @@ public class IndifferentAnalysis extends DefaultGraph{
         Log.d(TAG,"getSituationInfoTexts");
         //https://stackoverflow.com/questions/9290651/make-a-hyperlink-textview-in-android
         ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("Teorie spotřebitele je část mikroekonomické teorie, která zkoumá, " +
-                "jakým způsobem rozhoduje spotřebitel o umístění svého omezeného důchodu " +
-                "mezi různé statky.");
+        arrayList.add(getResources().getString(R.string.indifferent_analysis_info_text_1));
         if (getMovableEnum() == BudgetLine){
-            arrayList.add("Linie rozpočtu neboli rozpočtová přímka je v ekonomické teorii " +
-                    "přímka, určující jakým způsobem může spotřebitel rozdělovat celý svůj " +
-                    "disponibilní důchod na nákup dvou statků. Je zobrazením rozpočtového " +
-                    "omezení.");
+            arrayList.add(getResources().getString(R.string.indifferent_analysis_info_budget_line));
         }else if (getMovableEnum() == IndifferentCurve){
-            arrayList.add("Indiferenční křivka znázorňuje kombinace " +
-                    "množství dvou statků, které poskytují spotřebiteli " +
-                    "stejný užitek. Tato křivka se používá v neoklasické " +
-                    "mikroekonomii při analýze chování spotřebitele. " +
-                    "Anglicky se nazývá indifference curve, a proto se často označuje IC.");
+            arrayList.add(getResources().getString(R.string.indifferent_analysis_info_indifferent_curve));
         }
         if (numOfEqPoints == 0){
             //0 eq
-            arrayList.add("stuace.1");
+            arrayList.add(getResources().getString(R.string.indifferent_analysis_info_text_situation_1));
         }else if (numOfEqPoints == 1){
             //1 eq
-            arrayList.add("stuace.2");
+            arrayList.add(getResources().getString(R.string.indifferent_analysis_info_text_situation_2));
         }else if (numOfEqPoints == 2) {
             //2 eq
-            arrayList.add("stuace.3");
+            arrayList.add(getResources().getString(R.string.indifferent_analysis_info_text_situation_3));
         }
         return arrayList;
     }

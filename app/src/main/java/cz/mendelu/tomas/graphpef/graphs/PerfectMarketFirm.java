@@ -1,17 +1,27 @@
 package cz.mendelu.tomas.graphpef.graphs;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
+import android.util.Pair;
 
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 
+import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
+import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
 
+import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.AverageCost;
+import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.AverageVariableCost;
+import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Equilibrium;
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.MarginalCost;
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.PriceLevel;
 
@@ -19,12 +29,13 @@ import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.
  * Created by tomas on 02.09.2018.
  */
 
-public class PerfectMarketFirm extends DefaultGraph {
+public class PerfectMarketFirm extends DefaultGraph  implements Serializable {
     private static final String TAG = "PerfectMarketFirm";
 
-    public PerfectMarketFirm(ArrayList<String> graphTexts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
+    public PerfectMarketFirm(ArrayList<String> graphTexts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject ) {
         super(graphTexts, movableObjects, movableEnum, series, optionsLabels, graphHelperObject);
 
+        setLabelOnstartOfCurve(true);
         setMovableDirections(new ArrayList<>(Arrays.asList(MainScreenControllerActivity.Direction.up, MainScreenControllerActivity.Direction.down)));
     }
 
@@ -35,6 +46,7 @@ public class PerfectMarketFirm extends DefaultGraph {
             int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints();
             double x, y;
             x = 1;
+            y = 0;
             if (line == PriceLevel){
                 x = 0;
             }
@@ -47,29 +59,38 @@ public class PerfectMarketFirm extends DefaultGraph {
             x2 = seriesSource.get(line).get(1);
             x3 = seriesSource.get(line).get(0);
 
-            LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<>();
+            LineGraphSeriesSerialisable seriesLocal = new LineGraphSeriesSerialisable();
 
             for (int i = 0; i < maxDataPoints; i++) {
                 x = x + precision;
-                if (line == MainScreenControllerActivity.LineEnum.AverageCost) {
+                y = 0;
+                if (line == AverageCost || line == AverageVariableCost) {
                     if (i == 0)
                         Log.d(TAG, "y = (" + x3 + "x^3/3 + " + x2 + "x^2 +" + x1 + "x + " + x0 + " )/" + x_1 + "x");
+
                     y = ((x3 * x * x * x) / 3 + x2 * x * x + x1 * x + x0) / (x_1 * x);
-                } else if (line == MainScreenControllerActivity.LineEnum.MarginalCost) {
+                } else if (line == MarginalCost) {
                     if (i == 0)
                         Log.d(TAG, "y = (" + x2 + " + x)^2 +" + x1 + "x + " + x0 + " )");
-                    y = ((x + x2) * (x + x2) + x1 * x + x0);
+                    y = ((x * x)  + x1 * x + x0);
+
                 } else if (line == PriceLevel){
                     if (i == 0)
                         Log.d(TAG, "y = " + x0 + "  ");
-                    y = x0;
-                }else{
-                    y=0;
+
+                    y = x0 + 0.1;
+
                 }
-                seriesLocal.appendData(new DataPoint(x, y), true, maxDataPoints);
+                if ( i==0 ){
+                    calculateLabel(line,x,y);
+                }
+                if (y < 13 && y > 0 && x > 0 && x < 13){
+                    seriesLocal.appendData(new DataPoint(x, y), true, maxDataPoints);
+                }
             }
             Log.d(TAG, "MinY [" + seriesLocal.getLowestValueY() + "] maxY[" + seriesLocal.getHighestValueY() + "]");
             Log.d(TAG, "MinX [" + seriesLocal.getLowestValueX() + "] maxX[" + seriesLocal.getHighestValueX() + "]");
+            seriesLocal.setColor(color);
             getLineGraphSeries().put(line, seriesLocal);
             return seriesLocal;
         }else{
@@ -85,10 +106,14 @@ public class PerfectMarketFirm extends DefaultGraph {
                 super.moveObject(MainScreenControllerActivity.Direction.right);
                 super.moveObject(MainScreenControllerActivity.Direction.up,MarginalCost, 1);
                 super.moveObject(MainScreenControllerActivity.Direction.right,MarginalCost, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.up,AverageVariableCost, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.right,AverageVariableCost, 1);
             }else if (dir == MainScreenControllerActivity.Direction.down){
                 super.moveObject(MainScreenControllerActivity.Direction.left);
                 super.moveObject(MainScreenControllerActivity.Direction.down,MarginalCost, 1);
                 super.moveObject(MainScreenControllerActivity.Direction.left,MarginalCost, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.down,AverageVariableCost, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.left,AverageVariableCost, 1);
             }
         }
     }
@@ -97,17 +122,95 @@ public class PerfectMarketFirm extends DefaultGraph {
     public ArrayList<String> getSituationInfoTexts() {
         //https://stackoverflow.com/questions/9290651/make-a-hyperlink-textview-in-android
         ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("Dokonalý trh je takový trh, na kterém mají všichni kupující dokonalé " +
-                "informace o všech prodávajících a cenách, které nabízejí, při přechodu od " +
-                "jednoho prodávajícího k jinému mají nulové náklady a " +
-                "obchodovaný statek je homogenní.");
-
-        arrayList.add("TODO");
-
-
-        arrayList.add("TODO ");
-
-        arrayList.add("will add this later");
+        arrayList.add(getResources().getString(R.string.perfect_market_firm_info_text_1));
+        arrayList.add(getResources().getString(R.string.perfect_market_firm_info_text_mc));
+        arrayList.add(getResources().getString(R.string.perfect_market_firm_info_text_ac));
+        arrayList.add(getResources().getString(R.string.perfect_market_firm_info_text_avc));
         return arrayList;
+    }
+
+    private void populateTexts(boolean equilibriumExists, ArrayList<Double> equilibrium){
+        Log.d(TAG,"populateTexts");
+        refreshInfoTexts();
+        ArrayList texts = new ArrayList();
+        if (equilibriumExists){
+            if (getProfit() > 0){
+                texts.add("Zisk je " + String.format( "%.1f",getProfit()));
+            }else if (getProfit() < 0){
+                texts.add("Ztráta je " + String.format( "%.1f",getProfit()));
+            }else{
+                texts.add("Firma je v dlouhodobe rovnováze");
+            }
+            texts.add(getResources().getString(R.string.equilibrium_is) + " " + getStringFromLineEnum(getGraphHelperObject().getDependantCurveOnEquilibrium().get(1)) + " = " + String.format( "%.1f", equilibrium.get(0) ));
+            texts.add(getResources().getString(R.string.equilibrium_is) + " " + getStringFromLineEnum(getGraphHelperObject().getDependantCurveOnEquilibrium().get(0)) + " = " + String.format( "%.1f", equilibrium.get(1) ));
+        }else{
+            texts.add("Firma odchází");
+            texts.add(getResources().getString(R.string.equilibrium_cannot));
+        }
+
+        for(MainScreenControllerActivity.LineEnum line:getMovableObjects()){
+            texts.add(getStringFromLineEnum(line) + " " + getResources().getString(R.string.changed_by) + " " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
+        }
+        setGraphTexts(texts);
+    }
+
+    private double getProfit(){
+        ArrayList<Double> eqPoints = getEquiPoints();
+        double cost, price, retVal = 0;
+        if (!eqPoints.isEmpty()){
+            Iterator<DataPoint> itPrice = getLineGraphSeries().get(PriceLevel).getValues(eqPoints.get(0),eqPoints.get(0) + MainScreenControllerActivity.getPrecision());
+            Iterator<DataPoint> itCost = getLineGraphSeries().get(AverageCost).getValues(eqPoints.get(0),eqPoints.get(0) + MainScreenControllerActivity.getPrecision());
+            if(itCost.hasNext() && itPrice.hasNext()) {
+                price = itPrice.next().getY();
+                cost = itCost.next().getY();
+                retVal = price - cost;
+            }
+        }
+        return retVal;
+    }
+
+    @Override
+    public ArrayList<Double> calculateEqulibrium() {
+        Log.d(TAG,"calculateEqulibrium");
+        ArrayList<Double> retVal;
+        retVal = super.calculateEqulibrium();
+        if (!retVal.isEmpty()){
+            if (retVal.get(1) < getLineGraphSeries().get(AverageVariableCost).getLowestValueY()){
+                retVal = new ArrayList<>();
+                getGraphHelperObject().setShowEquilibrium(false);
+                populateTexts(false,retVal);
+            }else{
+                getGraphHelperObject().setShowEquilibrium(true);
+                populateTexts(true,retVal);
+            }
+        }else{
+            getGraphHelperObject().setShowEquilibrium(false);
+            populateTexts(false,retVal);
+        }
+        return retVal;
+    }
+
+    @Override
+    public int getColorOf(MainScreenControllerActivity.LineEnum lineEnum) {
+        if (lineEnum == Equilibrium){
+            double profit = round(getProfit(),1);
+                if (profit > 0){
+                    return getResources().getColor(R.color.colorGreenComplementary);
+                }else if (profit < 0){
+                    return getResources().getColor(R.color.red);
+                }else{
+                    return getResources().getColor(R.color.black);
+                }
+        }
+        return super.getColorOf(lineEnum);
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 }

@@ -6,13 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.Serializable;
+
 import cz.mendelu.tomas.graphpef.R;
 
 /**
  * Created by tomas on 14.09.2018.
  */
 
-public class TestingController extends AppCompatActivity {
+public class TestingController extends AppCompatActivity  implements Serializable {
     private static final String TAG = "MainActivity";
 
 
@@ -20,10 +22,6 @@ public class TestingController extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
-
 
     }
 }

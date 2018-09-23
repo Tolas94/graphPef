@@ -1,12 +1,13 @@
 package cz.mendelu.tomas.graphpef.helperObjects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by tomas on 02.09.2018.
  */
 
-public class InfoHelper {
+public class InfoHelper  implements Serializable {
     private String title;
     ArrayList<String> texts;
 

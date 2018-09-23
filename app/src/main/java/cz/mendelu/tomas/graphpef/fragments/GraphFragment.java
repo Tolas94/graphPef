@@ -1,6 +1,8 @@
 package cz.mendelu.tomas.graphpef.fragments;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
@@ -13,14 +15,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -36,7 +42,7 @@ import static java.lang.Math.abs;
  * Created by tomas on 12.08.2018.
  */
 
-public class GraphFragment extends Fragment{
+public class GraphFragment extends Fragment  implements Serializable {
     private static final String TAG = "GraphFragment";
 
     private Menu menu;
@@ -44,6 +50,7 @@ public class GraphFragment extends Fragment{
     private BottomNavigationView toolbar;
     private AppCompatTextView text1, text2, text3, text4, text5;
     private PointsGraphSeries<DataPoint> eqpoints;
+    private HashMap<MainScreenControllerActivity.LineEnum,PointsGraphSeries> labelSeries;
 
     private GraphIfc graphIfc;
     private final static String GRAPH_KEY = "GRAPH_KEY";
@@ -75,7 +82,10 @@ public class GraphFragment extends Fragment{
             ImageButton right = view.findViewById(R.id.buttonRight);
             graph = view.findViewById(R.id.graphComponent);
             toolbar = view.findViewById(R.id.toolbarBottom);
-            BottomNavigationViewHelper.disableShiftMode(toolbar);
+            //BottomNavigationViewHelper.disableShiftMode(toolbar);
+            //toolbar.setBackgroundColor(getContext().getColor(R.color.colorPrimary));
+            toolbar.addStatesFromChildren();
+            labelSeries = new HashMap<>();
 
 
             text1 = view.findViewById(R.id.graphText1);
@@ -106,7 +116,7 @@ public class GraphFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button Up");
-                    moveCurve(MainScreenControllerActivity.Direction.up, Color.BLACK);
+                    moveCurve(MainScreenControllerActivity.Direction.up);
                 }
             });
 
@@ -115,7 +125,7 @@ public class GraphFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button Down");
-                    moveCurve(MainScreenControllerActivity.Direction.down, Color.BLACK);
+                    moveCurve(MainScreenControllerActivity.Direction.down);
                 }
             });
 
@@ -123,7 +133,7 @@ public class GraphFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button left");
-                    moveCurve(MainScreenControllerActivity.Direction.left, Color.BLACK);
+                    moveCurve(MainScreenControllerActivity.Direction.left);
                 }
             });
 
@@ -131,7 +141,7 @@ public class GraphFragment extends Fragment{
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button right");
-                    moveCurve(MainScreenControllerActivity.Direction.right, Color.BLACK);
+                    moveCurve(MainScreenControllerActivity.Direction.right);
                 }
             });
 
@@ -147,11 +157,11 @@ public class GraphFragment extends Fragment{
             graph.getGridLabelRenderer().setHighlightZeroLines(true);
             graph.getGridLabelRenderer().setNumHorizontalLabels(4);
             graph.getGridLabelRenderer().setNumVerticalLabels(4);
-            //graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
-            //graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
+            graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+            graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
 
-            graph.getLegendRenderer().setVisible(true);
-            graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+            //graph.getLegendRenderer().setVisible(true);
+            //graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 
 
             //graph.getGridLabelRenderer().setNumVerticalLabels(4);
@@ -162,15 +172,8 @@ public class GraphFragment extends Fragment{
             graph.getViewport().setXAxisBoundsManual(true);
             graph.getViewport().setYAxisBoundsManual(true);
             graph.setVisibility(View.VISIBLE);
-            ArrayList<Integer> colors = new ArrayList<>();
-            colors.add(R.color.blueDark);
-            colors.add(R.color.oceanDark);
-            colors.add(R.color.colorAccent);
-            colors.add(R.color.purpleMain);
-            int counter = 0;
             for (MainScreenControllerActivity.LineEnum line:seriesSource.keySet()) {
-                calculateData(line,colors.get(counter));
-                counter++;
+                calculateData(line, graphIfc.getColorOf(line));
             }
 
             menu = toolbar.getMenu();
@@ -183,29 +186,51 @@ public class GraphFragment extends Fragment{
         return view;
     }
 
-    private void moveCurve(MainScreenControllerActivity.Direction dir, int color) {
+    private void moveCurve(MainScreenControllerActivity.Direction dir) {
+
+        if (labelSeries != null){
+            graph.removeSeries(labelSeries.get(graphIfc.getMovableEnum()));
+            //labelSeries.remove(graphIfc.getMovableEnum());
+        }
         if (graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()) != null){
             graph.removeSeries(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()));
             if (graphIfc.getDependantCurves(graphIfc.getMovableEnum()) != null){
                 for (MainScreenControllerActivity.LineEnum line:graphIfc.getDependantCurves(graphIfc.getMovableEnum())) {
                     graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
+                    graph.removeSeries(labelSeries.get(line));
                 }
             }
         }
         graphIfc.moveObject(dir);
-        calculateData(graphIfc.getMovableEnum(),color);
+        calculateData(graphIfc.getMovableEnum(),graphIfc.getColorOf(graphIfc.getMovableEnum()));
         if (graphIfc.getDependantCurves(graphIfc.getMovableEnum()) != null){
             for (MainScreenControllerActivity.LineEnum line:graphIfc.getDependantCurves(graphIfc.getMovableEnum())) {
-                calculateData(line,color);
+                calculateData(line,graphIfc.getColorOf(line));
             }
         }
         calculateEquilibrium();
     }
 
-    private void calculateData(MainScreenControllerActivity.LineEnum line, int color) {
+    private void calculateData(final MainScreenControllerActivity.LineEnum line, int color) {
         LineGraphSeries lineSeries = graphIfc.calculateData(line,color);
-        lineSeries.setTitle(line.toString());
+        PointsGraphSeries labelSeries = new PointsGraphSeries();
+        labelSeries.appendData(new DataPoint(graphIfc.getLineLabelPosition(line).first.doubleValue(),graphIfc.getLineLabelPosition(line).second.doubleValue()),
+                            false,
+                            1);
+
+        labelSeries.setColor(color);
+        labelSeries.setCustomShape(new PointsGraphSeries.CustomShape() {
+            @Override
+            public void draw(Canvas canvas, Paint paint, float x, float y, DataPointInterface dataPoint) {
+                paint.setTextSize(50);
+                canvas.drawText(getContext().getString(getResources().getIdentifier(line.toString()+"Label","string",getContext().getPackageName())),x+20,y-20,paint);
+            }
+        });
+
+        lineSeries.setTitle(getContext().getString(getResources().getIdentifier(line.toString(),"string",getContext().getPackageName())));
         graph.addSeries(lineSeries);
+        this.labelSeries.put(line,labelSeries);
+        graph.addSeries(labelSeries);
         updateTexts();
     }
 
@@ -221,13 +246,29 @@ public class GraphFragment extends Fragment{
         menu.clear();
         for (final MainScreenControllerActivity.LineEnum line:graphIfc.getMovableObjects()) {
             Log.d(TAG, "updateMenuTitles: " + line);
-            MenuItem menuItem = menu.add(line.toString());
+            MenuItem menuItem = menu.add(getContext().getString(getResources().getIdentifier(line.toString(),"string",getContext().getPackageName())));
             menuItem.setIcon(R.drawable.ic_multiline_chart_black_24dp);
             menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     Log.d(TAG, "onMenuItemClick: " + line.toString());
+
+                    graph.removeSeries(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()));
+                    graph.removeSeries(labelSeries.get(graphIfc.getMovableEnum()));
+
+                    graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
+                    labelSeries.get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
+
+                    graph.addSeries(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()));
+                    graph.addSeries(labelSeries.get(graphIfc.getMovableEnum()));
+
                     graphIfc.setMovable(line);
+
+                    graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
+                    //vybratu krivku vyfarbi na modro
+                    graphIfc.getLineGraphSeries().get(line).setColor(getContext().getColor(R.color.colorPrimary));
+                    graph.addSeries(graphIfc.getLineGraphSeries().get(line));
+
                     graphIfc.refreshInfoTexts();
                     return false;
                 }
@@ -245,7 +286,7 @@ public class GraphFragment extends Fragment{
 
 
         for (int i = 0; i < graphIfc.getGraphTexts().size(); ++i){
-            Log.d(TAG, "setText: " + i);
+            //Log.d(TAG, "setText: " + i);
             switch(i){
                 case 0:
                     text1.setText(graphIfc.getGraphTexts().get(0));
@@ -300,7 +341,8 @@ public class GraphFragment extends Fragment{
 
     private void addSeriesToGraphAfterEQCalculation(){
         eqpoints = new PointsGraphSeries<>();
-        eqpoints.setTitle(MainScreenControllerActivity.LineEnum.Equilibrium.toString());
+        eqpoints.setColor(graphIfc.getColorOf(MainScreenControllerActivity.LineEnum.Equilibrium));
+        eqpoints.setTitle(getContext().getString(R.string.Equilibrium));
         if (graphIfc.getEquiPoints() != null && graphIfc.getEquiPoints().size() != 0){
             Log.d(TAG, "calculateEquilibrium: create EQ points size[" + graphIfc.getEquiPoints().size() + "]");
             if (graphIfc.getEquiPoints().size() == 4 && MainScreenControllerActivity.getChosenGraph() == MainScreenControllerActivity.GraphEnum.IndifferentAnalysis){
@@ -316,6 +358,7 @@ public class GraphFragment extends Fragment{
                 Log.d(TAG, "calculateEquilibrium: " + line.toString());
                 if (graphIfc.getLineGraphSeries().get(line) != null) {
                     Log.d(TAG, "calculateEquilibrium: create[" + line.toString() + "]");
+                    graphIfc.getLineGraphSeries().get(line).setTitle(getContext().getString(getResources().getIdentifier(line.toString(),"string",getContext().getPackageName())));
                     graph.addSeries(graphIfc.getLineGraphSeries().get(line));
                 }
             }

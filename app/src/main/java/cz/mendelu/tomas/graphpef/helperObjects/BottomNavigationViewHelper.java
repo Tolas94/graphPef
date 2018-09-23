@@ -4,13 +4,15 @@ import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
+
+import java.io.Serializable;
 import java.lang.reflect.Field;
 
 /**
  * Created by tomas on 18.08.2018.
  */
 
-public class BottomNavigationViewHelper {
+public class BottomNavigationViewHelper  implements Serializable {
     public static void disableShiftMode(BottomNavigationView view) {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
         try {

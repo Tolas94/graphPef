@@ -1,28 +1,29 @@
 package cz.mendelu.tomas.graphpef.graphs;
 
+import android.content.Context;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
-import android.util.Log;
+import android.util.Pair;
 
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
-
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Demand;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Supply;
+import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
 
 /**
  * Created by tomas on 01.09.2018.
  */
 
-public class ProductionLimit extends DefaultGraph {
-    public ProductionLimit(ArrayList<String> texts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
+public class ProductionLimit extends DefaultGraph  implements Serializable {
+    public ProductionLimit(ArrayList<String> texts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject ) {
         super(texts, movableObjects, movableEnum, series, optionsLabels, graphHelperObject);
 
         setMovableDirections(new ArrayList<>(Arrays.asList(
@@ -36,10 +37,10 @@ public class ProductionLimit extends DefaultGraph {
     public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color) {
         double precision = 0.1;
         int maxDataPoints = 500;
-        double x,y = 1;
+        double x = 1,y = 1;
 
         int x0, y0;
-        LineGraphSeries<DataPoint> seriesLocal = new LineGraphSeries<>();
+        LineGraphSeriesSerialisable seriesLocal = new LineGraphSeriesSerialisable();
 
         HashMap<MainScreenControllerActivity.LineEnum,ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
 
@@ -68,6 +69,7 @@ public class ProductionLimit extends DefaultGraph {
             seriesLocal.setThickness(5);
         }
         getLineGraphSeries().put(line, seriesLocal);
+        calculateLabel(line,x,y);
         updateTexts();
         return seriesLocal;
     }
@@ -115,23 +117,23 @@ public class ProductionLimit extends DefaultGraph {
         text4 = "";
         text5 = "";
         if ((int) Math.round(getMaxX()) > 8 ){
-            text4 = "P(X) has been extended";
+            text4 = "P(X) " + getResources().getString(R.string.value_extended);
         }else if ((int) Math.round(getMaxX()) == 8 ){
-            text4 = "P(X) is on default values";
+            text4 = "P(X) " + getResources().getString(R.string.on_default_values);
         }else if ((int) Math.round(getMaxX()) < 8 ){
-            text4 = "P(X) has been lowered";
+            text4 = "P(X) " + getResources().getString(R.string.value_lowered);
         }
         if ((int) Math.round(getMaxY()) > 8 ){
-            text5 = "P(Y) has been extended";
+            text5 = "P(Y) " + getResources().getString(R.string.value_extended);
         }else if ((int) Math.round(getMaxY()) == 8 ){
-            text5 = "P(Y) is on default values";
+            text5 = "P(Y) " + getResources().getString(R.string.on_default_values);
         }else if ((int) Math.round(getMaxY()) < 8 ){
-            text5 = "P(Y) has been lowered";
+            text5 = "P(Y) " + getResources().getString(R.string.value_lowered);
         }
         setGraphTexts(new ArrayList<>(Arrays.asList(
                 "Max " + getLabelX() + " = " + (int) Math.round(getMaxX()),
                 "Max " + getLabelY() + " = " + (int) Math.round(getMaxY()),
-                "Default Max Production [8,8]",
+                getResources().getString(R.string.default_word) + " " + getResources().getString(R.string.max_production) + " [8,8]",
                 text4,
                 text5)));
     }
@@ -148,23 +150,11 @@ public class ProductionLimit extends DefaultGraph {
     public ArrayList<String> getSituationInfoTexts() {
         //https://stackoverflow.com/questions/9290651/make-a-hyperlink-textview-in-android
         ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("Hranice produkčních možností (anglicky: \"production-possibility" +
-                " frontier\" nebo-li PPF) vyjadřuje rozdílné kombinace dvou různých statků, které může" +
-                " výrobce produkovat při plném využití daných zdrojů a při dané technologii." +
-                " Vyjadřuje hranici mezi dosažitelnou a nedosažitelnou úrovní produkce.");
+        arrayList.add(getResources().getString(R.string.production_limit_info_text_1));
+        arrayList.add(getResources().getString(R.string.production_limit_info_text_2));
+        arrayList.add(getResources().getString(R.string.production_limit_info_text_3));
+        arrayList.add(getResources().getString(R.string.production_limit_info_text_4));
 
-        arrayList.add("PPF je kombinace statků, které může ekonomika při svých celkově " +
-                "omezených zdrojích vyrábět. Ve zjednodušeném modelu jde o kombinace dvou " +
-                "statků, přičemž hranice výrobních možností je vyjádřena konkávní křivkou " +
-                "v důsledku klesající mezní míry transformace produktu.");
-
-
-        arrayList.add("Při rozhodování CO a JAK vyrábět si ekonomický subjekt volí míru " +
-                "produkce tak, aby byla vždy dosažena hranice produkčních možností (PPF), " +
-                "čímž předchází neefektivnosti výroby. PPF zobrazuje všechny maximálně dostupné" +
-                " kombinace statků, které mohou být vyrobeny při 100% využití daných zdrojů ");
-
-        arrayList.add("will add this later");
         return arrayList;
     }
 }
