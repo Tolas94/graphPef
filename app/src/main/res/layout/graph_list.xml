@@ -29,12 +29,20 @@
             app:srcCompat="@drawable/krivka" />
     </RelativeLayout>
 
+    <!--
     <ListView
         android:id="@+id/listOfGraphs"
         style="@android:style/Widget.Material.ListView"
         android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+       -->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listOfGraphs"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="10.0sp"
-        android:padding="10sp" />
+        android:scrollbars="vertical">
+
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

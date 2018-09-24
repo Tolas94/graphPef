@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         mainScreenButton =  findViewById(R.id.button3);
         mainScreenButton.setText(getText(R.string.start_app));
 
-        TextView textView = findViewById(R.id.mainScreenDisclaimer);
-        textView.setText(getText(R.string.disclaimer_main_page));
+        //TextView textView = findViewById(R.id.mainScreenDisclaimer);
+        //textView.setText(getText(R.string.disclaimer_main_page));
 
 
         mainScreenButton.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         sequence.setConfig(config);
         sequence.addSequenceItem(mainScreenButton,getString(R.string.disclaimer_main_page),getString(R.string.dismiss_showcase_text));
         sequence.start();
+
+
     }
 
 

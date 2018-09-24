@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Pair;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
@@ -139,11 +140,9 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
         //tabLayout.getTabAt(0).setIcon(R.drawable.ic_menu_black_24dp);
         //tabLayout.getTabAt(0).setIcon(R.drawable.ic_multiline_chart_black_24dp);
         tabLayout.getTabAt(0).setText(R.string.graph);
-        tabLayout.setTabTextColors(getColor(R.color.colorPrimaryWhite),getColor(R.color.colorPrimaryDark));
+        //tabLayout.setTabTextColors(getColor(R.color.colorPrimaryWhite),getColor(R.color.colorPrimaryDark));
         //tabLayout.getTabAt(1).setIcon(R.drawable.ic_info_black_24dp);
         tabLayout.getTabAt(1).setText(R.string.info);
-
-
     }
 
     @Override
@@ -173,15 +172,17 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
         marketDS.setLabelX(getString(R.string.quantity) + " [" + getString(R.string.units) + "]");
         marketDS.setLabelY(getString(R.string.price)  + " [" + getString(R.string.currency) + "]");
         marketDS.setGraphEnum(GraphEnum.MarketDS);
-        marketDS.addToSeries(LineEnum.Supply,   new ArrayList<>(Arrays.asList(1,0)));
-        marketDS.addToSeries(LineEnum.Demand,   new ArrayList<>(Arrays.asList(-1,10)));
-        marketDS.addToSeries(LineEnum.SupplyDefault,   new ArrayList<>(Arrays.asList(1,0)));
-        marketDS.addToSeries(LineEnum.DemandDefault,   new ArrayList<>(Arrays.asList(-1,10)));
+        marketDS.addToSeries(LineEnum.Supply,   new ArrayList<>(Arrays.asList(1,2)));
+        marketDS.addToSeries(LineEnum.Demand,   new ArrayList<>(Arrays.asList(-1,14)));
+        marketDS.addToSeries(LineEnum.SupplyDefault,   new ArrayList<>(Arrays.asList(1,2)));
+        marketDS.addToSeries(LineEnum.DemandDefault,   new ArrayList<>(Arrays.asList(-1,14)));
 
+        /**
         marketDS.setLineLabelPosition(LineEnum.Supply,new PositionPair(12.0,1.0));
         marketDS.setLineLabelPosition(LineEnum.Demand,new PositionPair(12.0,3.0));
         marketDS.setLineLabelPosition(LineEnum.SupplyDefault,new PositionPair(12.0,5.0));
         marketDS.setLineLabelPosition(LineEnum.DemandDefault,new PositionPair(12.0,7.0));
+         */
 
         marketDS.setCalculateEqulibrium(true);
         marketDS.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.Demand, LineEnum.Supply)));
@@ -289,7 +290,6 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
 
     }
 
-    //TODO show chosen graph in menu fragment
     public static GraphEnum getChosenGraph() {
         return chosenGraph;
     }
@@ -321,25 +321,6 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
         }else{
             Log.d(TAG, "onChosenGraphChange: null ");
         }
-    }
-
-    private void presentShowcaseSequence() {
-        ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(200); // half second between each showcase view
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this,TAG);
-        sequence.setOnItemShownListener(new MaterialShowcaseSequence.OnSequenceItemShownListener() {
-            @Override
-            public void onShow(MaterialShowcaseView itemView, int position) {
-            }
-        });
-        ImageButton up = findViewById(R.id.buttonUp);
-        ImageButton down = findViewById(R.id.buttonDown);
-        BottomNavigationView choose_curve = findViewById(R.id.toolbarBottom);
-        GraphView graph = findViewById(R.id.graphComponent);
-        ScrollView graph_values = findViewById(R.id.graphTextView);
-        sequence.setConfig(config);
-        //sequence.addSequenceItem(,getString(R.string.graph_list_showcase),getString(R.string.dismiss_showcase_text));
-        sequence.start();
     }
 
 }

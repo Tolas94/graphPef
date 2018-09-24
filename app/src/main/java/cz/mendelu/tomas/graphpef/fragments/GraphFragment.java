@@ -15,7 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -35,6 +37,9 @@ import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.graphs.DefaultGraph;
 import cz.mendelu.tomas.graphpef.helperObjects.BottomNavigationViewHelper;
 import cz.mendelu.tomas.graphpef.interfaces.GraphIfc;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 import static java.lang.Math.abs;
 
@@ -48,6 +53,7 @@ public class GraphFragment extends Fragment  implements Serializable {
     private Menu menu;
     private GraphView graph;
     private BottomNavigationView toolbar;
+    private ImageButton up,down,left,right;
     private AppCompatTextView text1, text2, text3, text4, text5;
     private PointsGraphSeries<DataPoint> eqpoints;
     private HashMap<MainScreenControllerActivity.LineEnum,PointsGraphSeries> labelSeries;
@@ -76,10 +82,10 @@ public class GraphFragment extends Fragment  implements Serializable {
         View view = inflater.inflate(R.layout.graph_fragment,container,false);
 
         if(getArguments() != null){
-            ImageButton up = view.findViewById(R.id.buttonUp);
-            ImageButton down = view.findViewById(R.id.buttonDown);
-            ImageButton left = view.findViewById(R.id.buttonLeft);
-            ImageButton right = view.findViewById(R.id.buttonRight);
+            up = view.findViewById(R.id.buttonUp);
+            down = view.findViewById(R.id.buttonDown);
+            left = view.findViewById(R.id.buttonLeft);
+            right = view.findViewById(R.id.buttonRight);
             graph = view.findViewById(R.id.graphComponent);
             toolbar = view.findViewById(R.id.toolbarBottom);
             //BottomNavigationViewHelper.disableShiftMode(toolbar);
@@ -180,6 +186,7 @@ public class GraphFragment extends Fragment  implements Serializable {
             updateMenuTitles();
 
             calculateEquilibrium();
+            presentShowcaseSequence();
         }else{
             Log.d(TAG,"return clean View");
         }
@@ -365,4 +372,21 @@ public class GraphFragment extends Fragment  implements Serializable {
         }
     }
 
+    private void presentShowcaseSequence() {
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(200); // half second between each showcase view
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this.getActivity(),TAG);
+        sequence.setOnItemShownListener(new MaterialShowcaseSequence.OnSequenceItemShownListener() {
+            @Override
+            public void onShow(MaterialShowcaseView itemView, int position) {
+            }
+        });
+        sequence.setConfig(config);
+        //sequence.addSequenceItem(graph,getString(R.string.graph_showcase),getString(R.string.dismiss_showcase_text));
+        sequence.addSequenceItem(text1,getString(R.string.graph_values_showcase),getString(R.string.dismiss_showcase_text));
+        sequence.addSequenceItem(up,getString(R.string.up_button_showcase),getString(R.string.dismiss_showcase_text));
+        sequence.addSequenceItem(down,getString(R.string.down_button_showcase),getString(R.string.dismiss_showcase_text));
+        sequence.addSequenceItem(toolbar,getString(R.string.choose_curve_showcase),getString(R.string.dismiss_showcase_text));
+        sequence.start();
+    }
 }
