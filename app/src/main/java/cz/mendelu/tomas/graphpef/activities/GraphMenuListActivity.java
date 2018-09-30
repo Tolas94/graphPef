@@ -90,7 +90,11 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
         sequence.setConfig(config);
         Log.d(TAG,"showcase");
 
-        sequence.addSequenceItem(mLayoutManager.findViewByPosition(1).findViewById(R.id.menu_item_relative_parent),getString(R.string.graph_list_showcase),getString(R.string.dismiss_showcase_text));
+        if (mLayoutManager != null){
+            if (mLayoutManager.getChildCount() > 2){
+                sequence.addSequenceItem(mLayoutManager.findViewByPosition(1).findViewById(R.id.menu_item_relative_parent),getString(R.string.graph_list_showcase),getString(R.string.dismiss_showcase_text));
+            }
+        }
 
         sequence.start();
     }

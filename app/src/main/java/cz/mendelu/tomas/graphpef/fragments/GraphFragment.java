@@ -239,25 +239,27 @@ public class GraphFragment extends Fragment  implements Serializable {
 
     private void calculateData(final MainScreenControllerActivity.LineEnum line, int color) {
         LineGraphSeries lineSeries = graphIfc.calculateData(line,color);
-        PointsGraphSeries labelSeries = new PointsGraphSeries();
-        labelSeries.appendData(new DataPoint(graphIfc.getLineLabelPosition(line).first.doubleValue(),graphIfc.getLineLabelPosition(line).second.doubleValue()),
-                            false,
-                            1);
+        if (lineSeries != null){
+            PointsGraphSeries labelSeries = new PointsGraphSeries();
+            labelSeries.appendData(new DataPoint(graphIfc.getLineLabelPosition(line).first.doubleValue(),graphIfc.getLineLabelPosition(line).second.doubleValue()),
+                    false,
+                    1);
 
-        labelSeries.setColor(color);
-        labelSeries.setCustomShape(new PointsGraphSeries.CustomShape() {
-            @Override
-            public void draw(Canvas canvas, Paint paint, float x, float y, DataPointInterface dataPoint) {
-                paint.setTextSize(50);
-                canvas.drawText(getContext().getString(getResources().getIdentifier(line.toString()+"Label","string",getContext().getPackageName())),x+20,y-20,paint);
-            }
-        });
+            labelSeries.setColor(color);
+            labelSeries.setCustomShape(new PointsGraphSeries.CustomShape() {
+                @Override
+                public void draw(Canvas canvas, Paint paint, float x, float y, DataPointInterface dataPoint) {
+                    paint.setTextSize(50);
+                    canvas.drawText(getContext().getString(getResources().getIdentifier(line.toString()+"Label","string",getContext().getPackageName())),x+20,y-20,paint);
+                }
+            });
 
-        lineSeries.setTitle(getContext().getString(getResources().getIdentifier(line.toString(),"string",getContext().getPackageName())));
-        graph.addSeries(lineSeries);
-        this.labelSeries.put(line,labelSeries);
-        graph.addSeries(labelSeries);
-        updateTexts();
+            lineSeries.setTitle(getContext().getString(getResources().getIdentifier(line.toString(),"string",getContext().getPackageName())));
+            graph.addSeries(lineSeries);
+            this.labelSeries.put(line,labelSeries);
+            graph.addSeries(labelSeries);
+            updateTexts();
+        }
     }
 
     private void createShape(ArrayList<DataPoint> arrayList){
@@ -284,10 +286,15 @@ public class GraphFragment extends Fragment  implements Serializable {
 
                     //nastav farbu starej movable na default
                     graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
-                    labelSeries.get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
+                    graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()).setThickness(5);
+                    if (labelSeries.get(graphIfc.getMovableEnum()) != null){
+                        labelSeries.get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
+                    }
 
                     graph.addSeries(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()));
-                    graph.addSeries(labelSeries.get(graphIfc.getMovableEnum()));
+                    if (labelSeries.get(graphIfc.getMovableEnum()) != null) {
+                        graph.addSeries(labelSeries.get(graphIfc.getMovableEnum()));
+                    }
 
                     graphIfc.setMovable(line);
 
@@ -296,7 +303,10 @@ public class GraphFragment extends Fragment  implements Serializable {
                     graphIfc.getLineGraphSeries().get(line).setColor(getContext().getColor(R.color.colorPrimary));
                     //vybratu krivku hrubo
                     graphIfc.getLineGraphSeries().get(line).setThickness(10);
-                    graph.addSeries(graphIfc.getLineGraphSeries().get(line));
+                    LineGraphSeries lineGraphSeries = graphIfc.calculateData(line,getContext().getColor(R.color.colorPrimary));
+                    if(lineGraphSeries != null){
+                        graph.addSeries(lineGraphSeries);
+                    }
 
                     graphIfc.refreshInfoTexts();
                     return false;

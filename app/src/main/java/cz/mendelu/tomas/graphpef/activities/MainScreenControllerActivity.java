@@ -19,11 +19,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 
 import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.fragments.GraphFragment;
@@ -189,8 +191,6 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
                 new ArrayList<String>(),
                 marketDS));
 
-
-
         // ProductionLimit
 
         productionLimit.setTitle(getString(R.string.ProductionLimit));
@@ -235,8 +235,7 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
                 new ArrayList<String>(),
                 perfectMarketFirm));
 
-
-
+        //costcurves
         costCurveHelper.setTitle(getString(R.string.CostCurves));
         costCurveHelper.setLabelX(getString(R.string.quantity) + " [" + getString(R.string.units) + "]");
         costCurveHelper.setLabelY(getString(R.string.price)  + " [" + getString(R.string.currency) + "]");
@@ -244,14 +243,14 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
         costCurveHelper.addToSeries(LineEnum.MarginalCost, new ArrayList<>(Arrays.asList(0,0,-4,6,0)));
         costCurveHelper.addToSeries(LineEnum.AverageCost, new ArrayList<>(Arrays.asList(1,-2,6,15,1)));
         costCurveHelper.addToSeries(LineEnum.AverageVariableCost, new ArrayList<>(Arrays.asList(1,-2,6,5,1)));
-        costCurveHelper.addToSeries(LineEnum.Quantity, new ArrayList<>(Arrays.asList(0,0,0,5,0)));
-        costCurveHelper.setDependantCurveOnCurve(hashMap);
+        costCurveHelper.addToSeries(LineEnum.PriceLevel, new ArrayList<>(Arrays.asList(0,0,0,10,0)));
 
         costCurveHelper.setCalculateEqulibrium(true);
-        costCurveHelper.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.Quantity, LineEnum.MarginalCost)));
+        costCurveHelper.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.PriceLevel, LineEnum.MarginalCost)));
 
-        costCurveHelper.setDependantCurveOnEquilibrium(new ArrayList<>(Arrays.asList(LineEnum.Price)));
-
+        costCurveHelper.setDependantCurveOnEquilibrium(new ArrayList<>(Arrays.asList(LineEnum.Price, LineEnum.Quantity)));
+        hashMap.put(LineEnum.PriceLevel, new ArrayList<LineEnum>(Arrays.asList(LineEnum.MarginalCost,LineEnum.AverageVariableCost,LineEnum.AverageCost)));
+        costCurveHelper.setDependantCurveOnCurve(hashMap);
 
         graphsDatabase.put(GraphEnum.CostCurves,new CostCurves(
                 new ArrayList<String>(),
@@ -261,7 +260,7 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
                 new ArrayList<String>(),
                 costCurveHelper));
 
-
+        //indiferent analysis
         indiferrentAnalysis.setTitle(getString(R.string.IndifferentAnalysis));
         indiferrentAnalysis.setLabelX(getString(R.string.estate) + " X [" + getString(R.string.units) + "]");
         indiferrentAnalysis.setLabelY(getString(R.string.estate) + " Y [" + getString(R.string.units) + "]");
@@ -279,7 +278,6 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
                 indiferrentAnalysis.getSeries(),
                 new ArrayList<String>(),
                 indiferrentAnalysis));
-
     }
 
     public static GraphEnum getChosenGraph() {

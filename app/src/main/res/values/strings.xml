@@ -5,7 +5,7 @@
     <!-- Name of Graphs -->
     <string name="MarketDS">Trh</string>
     <string name="ProductionLimit">Hranice produkčních možností</string>
-    <string name="IndifferentAnalysis">Indiferenčni analýza</string>
+    <string name="IndifferentAnalysis">Indiferenční analýza</string>
     <string name="CostCurves">Nákladové křivky</string>
     <string name="PerfectMarket">Firma v dokonalé konkurenci</string>
 
@@ -18,17 +18,17 @@
     <string name="Supply">Nabídka</string>
     <string name="TotalCost">Celkové náklady</string>
     <string name="MarginalCost">Mezní náklady</string>
-    <string name="AverageCost">Průmerné náklady</string>
+    <string name="AverageCost">Průměrné náklady</string>
     <string name="TotalRevenue">Celkový příjem</string>
     <string name="MarginalRevenue">Mezní příjem</string>
-    <string name="AverageRevenue">Průmerný příjem</string>
+    <string name="AverageRevenue">Průměrný příjem</string>
     <string name="Quantity">Množství</string>
     <string name="ProductionCapabilities">PPF</string>
     <string name="ProductionCapabilitiesDefault">Původní PPF</string>
     <string name="Taxes">Dane</string>
-    <string name="Equilibrium">Rovnovážny bod/y</string>
-    <string name="TotalUtility">Celkový úžitek</string>
-    <string name="AverageVariableCost">Průmerné variabilný náklady</string>
+    <string name="Equilibrium">Rovnovážný bod/y</string>
+    <string name="TotalUtility">Celkový užitek</string>
+    <string name="AverageVariableCost">Průměrné variabilní náklady</string>
     <string name="BudgetLine">Linie rozpočtu</string>
     <string name="IndifferentCurve">Indiferenční křivka</string>
 
@@ -69,9 +69,9 @@
     <string name="indifferent_analysis_info_indifferent_curve">Indiferenční křivka znázorňuje kombinace množství dvou statků, které poskytují spotřebiteli stejný užitek. Tato křivka se používá v neoklasické mikroekonomii při analýze chování spotřebitele. Anglicky se nazývá indifference curve, a proto se často označuje IC.</string>
 
 
-    <string name="indifferent_analysis_info_text_situation_1">Indiferenční křivka se nedotýka rozpočtové linie. Neexistuje taková kombinace statků, která by poskytla takovýto ůžitek.</string>
-    <string name="indifferent_analysis_info_text_situation_2">Indiferenční křivka se protína s rozpočtovou linii v jediném bode. Tento bod určuje kombinaci statků, která přinese spotřebiteli nejvyšši možný užitek v dané situaci.</string>
-    <string name="indifferent_analysis_info_text_situation_3">Indiferenční křivka se protína s rozpočtovou linii ve dvou bodech. Tyto body udavájí dve různe kombinace statků, které přinesou spotřebiteli stejné množství úžitku v dané situaci.</string>
+    <string name="indifferent_analysis_info_text_situation_1">Indiferenční křivka se nedotýká rozpočtové linie. Neexistuje taková kombinace statků, která by poskytla takovýto užitek.</string>
+    <string name="indifferent_analysis_info_text_situation_2">Indiferenční křivka se protíná s rozpočtovou linii v jediném bode. Tento bod určuje kombinaci statků, která přinese spotřebiteli nejvyšší možný užitek v dané situaci.</string>
+    <string name="indifferent_analysis_info_text_situation_3">Indiferenční křivka se protína s rozpočtovou linii ve dvou bodech. Tyto body udávají dvě různé kombinace statků, které přinesou spotřebiteli stejné množství užitku v dané situaci.</string>
     <string name="indifferent_analysis_info_text_2">IC se nikdy neprotínají</string>
     <string name="indifferent_analysis_info_text_3_title">Změny rovnováhy</string>
     <string name="indifferent_analysis_info_text_3_subtitle">Linie rozpočtu</string>
@@ -99,7 +99,7 @@
     <string name="marketDS_info_text_2">rozlišujeme agregátní a individuální nabídku/poptávku </string>
     <string name="marketDS_info_text_3_title">Agregátní nabídka</string>
     <string name="marketDS_info_text_3">je souhrnem individuálních nabídek všech firem</string>
-    <string name="marketDS_info_text_4_title">Individuálni nabídka</string>
+    <string name="marketDS_info_text_4_title">Individuální nabídka</string>
     <string name="marketDS_info_text_4">je nabídka jednotlivého výrobce</string>
     <string name="marketDS_info_text_5_title">Základní funkce</string>
     <string name="marketDS_info_text_5">základní funkci trhu je optimalizace alokace zdrojů</string>
@@ -124,10 +124,10 @@
     <string name="perfect_market_firm_info_text_mc">Mezní náklady (řidčeji marginální náklady, z anglického marginal cost – MC) jsou náklady při výrobě dodatečné jednotky výstupu. Udávají přírůstek celkových nákladů, pokud se produkce (výstup) zvýší o jednotku nebo určitý počet jednotek.</string>
 
     <string name="perfect_market_firm_info_text_ac_title">Průmerné náklady</string>
-    <string name="perfect_market_firm_info_text_ac">Průmerné náklady (z anglického avegrage cost - AC), někdy označované jako jednotkové náklady, jsou to celkové náklady(TC) delené množstvím produkce(Množství Q).</string>
+    <string name="perfect_market_firm_info_text_ac">Průmerné náklady (z anglického average cost - AC), někdy označované jako jednotkové náklady, jsou to celkové náklady(TC) dělené množstvím produkce(Množství Q).</string>
 
     <string name="perfect_market_firm_info_text_avc_title">Průmerné variabilní náklady</string>
-    <string name="perfect_market_firm_info_text_avc">Průmerné variabilní náklady (z anglického avegrage variable cost - AVC) jsou v mikroekonomii náklady, jejichž objem (a potažmo jejich výše, vyjádřená v penězích) je závislý na objememu výroby. Výrobci se přirozeně snaží variabilní náklady snižovat, neboť i malé snížení se vždy násobí počtem kusů a v absolutních číslech může představovat výrazné úspory. </string>
+    <string name="perfect_market_firm_info_text_avc">Průměrné variabilní náklady (z anglického average variable cost - AVC) jsou v mikroekonomii náklady, jejichž objem (a potažmo jejich výše, vyjádřená v penězích) je závislý na objemu výroby. Výrobci se přirozeně snaží variabilní náklady snižovat, neboť i malé snížení se vždy násobí počtem kusů a v absolutních číslech může představovat výrazné úspory. </string>
 
     <string name="perfect_market_firm_info_text_2_title">Předpoklady modelu DK</string>
     <string name="perfect_market_firm_info_text_2_subtitle">1.</string>
@@ -229,19 +229,19 @@
     <string name="on_default_values">je na původních hodnotách</string>
     <string name="value_extended">je vyšší než původní</string>
     <string name="value_lowered">je nižší než původní</string>
-    <string name="equilibrium_is">Rovnovážny bod je</string>
-    <string name="equilibrium_are">Rovnovážne body sú</string>
-    <string name="equilibrium_cannot">Rovnovážny bod nie je možné vypočítať</string>
-    <string name="max_production">maximálni produkce</string>
+    <string name="equilibrium_is">Rovnovážný bod je</string>
+    <string name="equilibrium_are">Rovnovážné body jsou</string>
+    <string name="equilibrium_cannot">Rovnovážný bod není možné vypočítat</string>
+    <string name="max_production">maximální produkce</string>
     <string name="start_app">Spustit aplikaci v testovacím režimu</string>
     <string name="disclaimer_main_page">Aplikace doposud nebyla vydaná v plné verzi. V případe nejasností kontaktujte autora aplikace.</string>
     <string name="start_app_showcase">start app</string>
-    <string name="graph_list_showcase">Na téhle obrazovce si zvolíte graf o kterém se chcete dozvědet více</string>
-    <string name="down_button_showcase">Pomoci tohle tlačidla posunute vybranou křivku dolů / zmenšíte hodnoty</string>
-    <string name="up_button_showcase">Pomoci tohle buttonu posunute vybranou křivku nahoru / zvetšíte hodnoty</string>
-    <string name="choose_curve_showcase">Pomoci spodného baru můžete vybrat křivku(nebo skupinu křivek) kteoru budete ovládat a získate k ní doplňujíci informacena na obrazovce vpravo</string>
-    <string name="graph_showcase">Graf zobrazuje křivky a posunuje na základe vaši vůle. Vpravo můžete videt legendu. Pomoci barev je možné jednotlivé křivky rozeznat</string>
-    <string name="graph_values_showcase">Zde můžete videt dodatečné informace ku grafu. Zejména to jsou rovnovážne body a jejich souradnice a hodnoty o které byli křivky posunuté.</string>
+    <string name="graph_list_showcase">Na téhle obrazovce si zvolíte graf o kterém se chcete dozvědět více</string>
+    <string name="down_button_showcase">Pomoci tohle tlačítka posunete vybranou křivku dolů / zmenšíte hodnoty</string>
+    <string name="up_button_showcase">Pomoci tohle tlačítka posunute vybranou křivku nahoru / zvětšíte hodnoty</string>
+    <string name="choose_curve_showcase">Pomoci spodního baru můžete vybrat křivku(nebo skupinu křivek), kterou budete ovládat a získáte k ní doplňující informace na obrazovce vpravo</string>
+    <string name="graph_showcase">Graf zobrazuje křivky a posunuje na základe vaši vůle. Vpravo můžete vidět legendu. Pomoci barev je možné jednotlivé křivky rozeznat</string>
+    <string name="graph_values_showcase">Zde můžete vidět dodatečné informace ku grafu. Zejména to jsou rovnovážné body a jejich souřadnice a hodnoty o které byli křivky posunuté.</string>
     <string name="info_showcase"></string>
     <string name="dismiss_showcase_text">Rozumím</string>
     <string name="graph">Graf</string>
@@ -251,7 +251,7 @@
     <string name="signOut">Odhlásit se</string>
     <string name="register">Registrovat se</string>
     <string name="email">Poslat dotaz Emailem</string>
-    <string name="infoOnMainscreenText">Aplikace doposud nebyla vydaná v plné verzi. Informace v této aplikaci se můžou měnit v různých verzích. V případe nejasností kontaktujte autora aplikace. \n \nInformace v této aplikaci neslouži jako náhrada studijní literature. \n \nAplikace je ve verzi </string>
+    <string name="infoOnMainscreenText">Aplikace doposud nebyla vydaná v plné verzi. Informace v této aplikaci se můžou měnit v různých verzích. V případe nejasností kontaktujte autora aplikace. \n \nInformace v této aplikaci neslouží jako náhrada studijní literatuře. \n \nAplikace je ve verzi </string>
     <string name="infoOnMainscreenTitle">Informace o aplikaci</string>
     <string name="resendEmail">Poslat nový potvrzovací email</string>
     <string name="mi1">Mikroekonomie 1</string>
@@ -262,7 +262,7 @@
     <string name="verificationEmailError">Potvrzovací email nebylo možné poslat.</string>
     <string name="provideValidName">Prosím zadejte své xJméno</string>
     <string name="accountCreationFailed">Účet nebylo možné vytvořit</string>
-    <string name="emailNotVerified">Email nebyl doposud potvrzenej</string>
+    <string name="emailNotVerified">Email nebyl doposud potvrzený</string>
     <string name="signInFailed">Přihlášení se nezdařilo</string>
 
 </resources>
