@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,167 +8,252 @@
     tools:context="cz.mendelu.tomas.graphpef.activities.MainActivity"
     >
     <ImageView
-        android:id="@+id/infoOnMainScreen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="12dp"
-        app:srcCompat="@drawable/ic_info_black_24dp"
-        android:tint="@color/colorPrimary"/>
-
-    <RelativeLayout
-        android:id="@+id/button3Layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
-        android:layout_below="@+id/textView">
+        android:src="@drawable/podklad"
+        android:scaleType = "centerCrop"/>
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_margin="2dp"
-            android:padding="12dp"
-            style="@android:style/Widget.Material.Button"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/white"
-            android:text="Start App" />
-    </RelativeLayout>
-    <!--
-    <ImageView
-        android:id="@+id/logoPefWhite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/textView"
-        android:layout_alignParentStart="true"
-        app:srcCompat="@drawable/logo_pef_biele"
-        />
--->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/app_name"
-        android:textAlignment="center"
-        android:textAppearance="@android:style/TextAppearance.Material.Display1"
-        android:textColor="@color/colorPrimary" />
-
-    <!--
-    <TextView
-        android:id="@+id/mainScreenDisclaimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button3Layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        />
--->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/textView">
-        <android.support.v7.widget.CardView
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            app:cardUseCompatPadding="true"
-            android:background="@color/white"
-            app:cardCornerRadius="65dp"
-            android:elevation="10dp"
-            android:layout_margin="20dp">
-
-            <ImageView
-                android:id="@+id/LogoMendeluBottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="18dp"
-                app:srcCompat="@drawable/logo_mendelu" />
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_alignParentTop="true"
+        android:layout_height="match_parent">
+        <ImageButton
+            android:id="@+id/infoOnMainScreen"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_alignParentRight="true"
-            app:cardUseCompatPadding="true"
-            android:background="@color/white"
-            app:cardCornerRadius="65dp"
-            android:elevation="10dp"
-            android:layout_margin="20dp">
-            <ImageView
-                android:id="@+id/LogoPefBottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                app:srcCompat="@drawable/logo_pef_official" />
-        </android.support.v7.widget.CardView>
+            android:layout_alignParentTop="true"
+            app:srcCompat="@drawable/ic_info_black_24dp"
+            android:tint="@color/colorPrimary"
+            android:background="@color/cardview_shadow_end_color"/>
 
-        <android.support.v7.widget.CardView
-            android:layout_width="240dp"
-            android:layout_height="240dp"
-            app:cardUseCompatPadding="true"
-            android:background="@color/colorPrimary"
-            app:cardCornerRadius="120dp"
+        <RelativeLayout
+            android:id="@+id/startAppLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:elevation="10dp">
-            <ImageView
-                android:id="@+id/economyBackground"
+            android:padding="12dp">
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="25dp"
-                app:srcCompat="@drawable/logo_graph_pef" />
-        </android.support.v7.widget.CardView>
-        <!--
-        <LinearLayout
+                android:layout_height="wrap_content"
+                android:id="@+id/signedLayout">
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/startAppButtonCard">
+                    <Button
+                        android:id="@+id/startAppButton"
+                        android:padding="12dp"
+                        style="@android:style/Widget.Material.Button"
+                        android:layout_centerInParent="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/white"
+                        android:text="Start App" />
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    android:layout_below="@+id/startAppButtonCard"
+                    android:id="@+id/signOutButtonCard"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp">
+                    <Button
+                        android:id="@+id/signOutButton"
+                        android:padding="12dp"
+                        style="@android:style/Widget.Material.Button"
+                        android:layout_centerInParent="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/white"
+                        android:text="sign out" />
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    android:layout_below="@+id/signOutButtonCard"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp">
+                    <Button
+                        android:id="@+id/resendMailButton"
+                        android:padding="12dp"
+                        style="@android:style/Widget.Material.Button"
+                        android:layout_centerInParent="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/white"
+                        android:text="resend mail" />
+                </android.support.v7.widget.CardView>
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/signInLayout"
+                android:visibility="invisible">
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    android:id="@+id/signInEmailLayout"
+                    android:layout_marginTop="12dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <EditText
+                            android:id="@+id/signInXname"
+                            style="@android:style/Widget.Material.EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:ellipsize="start"
+                            android:hint="Tvoje xName" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    android:id="@+id/signInPasswordLayout"
+                    android:layout_below="@id/signInEmailLayout"
+                    android:layout_marginTop="12dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/signInPassword"
+                            style="@android:style/Widget.Material.EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="textPassword"
+                            android:gravity="center"
+                            android:ellipsize="start"
+                            android:hint="Heslo" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    android:layout_below="@id/signInPasswordLayout"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="12dp">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/signInSubmitButton"
+                        android:text="Sign In"
+                        style="@android:style/Widget.Material.Button"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/white"
+                        android:padding="10dp"/>
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    android:layout_below="@id/signInPasswordLayout"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="12dp">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/registerSubmitButton"
+                        android:text="Register"
+                        style="@android:style/Widget.Material.Button"
+                        android:background="@color/colorPrimary"
+                        android:textColor="@color/white"
+                        android:padding="10dp"/>
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/appNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textAppearance="@android:style/TextAppearance.Material.Display1"
+            android:textColor="@color/colorPrimary"
+            android:layout_centerInParent="true"
+            android:layout_above="@id/startAppLayout"
+            />
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:weightSum="6"
-            android:padding="12dp"
-            android:layout_centerInParent="true">
+            android:layout_above="@+id/appNameText"
+            android:id="@+id/logosOnMainScreenLayout">
             <android.support.v7.widget.CardView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
                 app:cardUseCompatPadding="true"
-                android:layout_weight="2"
                 android:background="@color/white"
-                app:cardCornerRadius="50dp"
-                android:elevation="10dp">
-
+                app:cardCornerRadius="75dp">
 
                 <ImageView
                     android:id="@+id/LogoMendeluBottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
+                    android:padding="18dp"
                     app:srcCompat="@drawable/logo_mendelu" />
 
             </android.support.v7.widget.CardView>
-
             <android.support.v7.widget.CardView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
                 app:cardUseCompatPadding="true"
-                android:layout_weight="2"
                 android:background="@color/white"
-                app:cardCornerRadius="50dp"
-                android:elevation="10dp">
+                app:cardCornerRadius="75dp">
                 <ImageView
                     android:id="@+id/LogoPefBottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
+                    android:padding="12dp"
                     app:srcCompat="@drawable/logo_pef_official" />
             </android.support.v7.widget.CardView>
-        </LinearLayout>
-        -->
-    </RelativeLayout>
+            <android.support.v7.widget.CardView
+                android:id="@+id/graphPefLogo_card"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                app:cardCornerRadius="150dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                app:cardBackgroundColor="@color/white"
+                app:cardUseCompatPadding="true"
+                android:elevation="10dp">
 
-</RelativeLayout>
+                <ImageView
+                    android:id="@+id/graphPefLogo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignTop="@+id/graphPefLogo_card"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/logo_graph_pef" />
+            </android.support.v7.widget.CardView>
+        </RelativeLayout>
+    </RelativeLayout>
+</FrameLayout>

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -57,6 +58,7 @@ public class GraphFragment extends Fragment  implements Serializable {
     private AppCompatTextView text1, text2, text3, text4, text5;
     private PointsGraphSeries<DataPoint> eqpoints;
     private HashMap<MainScreenControllerActivity.LineEnum,PointsGraphSeries> labelSeries;
+    private RelativeLayout loadingAnimation;
 
     private GraphIfc graphIfc;
     private final static String GRAPH_KEY = "GRAPH_KEY";
@@ -92,6 +94,8 @@ public class GraphFragment extends Fragment  implements Serializable {
             //toolbar.setBackgroundColor(getContext().getColor(R.color.colorPrimary));
             toolbar.addStatesFromChildren();
             labelSeries = new HashMap<>();
+            loadingAnimation = view.findViewById(R.id.loadingPanelGraph);
+            loadingAnimation.setVisibility(View.INVISIBLE);
 
 
             text1 = view.findViewById(R.id.graphText1);
@@ -122,7 +126,9 @@ public class GraphFragment extends Fragment  implements Serializable {
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button Up");
+                    loadingAnimation.setVisibility(View.VISIBLE);
                     moveCurve(MainScreenControllerActivity.Direction.up);
+                    loadingAnimation.setVisibility(View.INVISIBLE);
                 }
             });
 
@@ -131,7 +137,9 @@ public class GraphFragment extends Fragment  implements Serializable {
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button Down");
+                    loadingAnimation.setVisibility(View.VISIBLE);
                     moveCurve(MainScreenControllerActivity.Direction.down);
+                    loadingAnimation.setVisibility(View.INVISIBLE);
                 }
             });
 
@@ -139,7 +147,9 @@ public class GraphFragment extends Fragment  implements Serializable {
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button left");
+                    loadingAnimation.setVisibility(View.VISIBLE);
                     moveCurve(MainScreenControllerActivity.Direction.left);
+                    loadingAnimation.setVisibility(View.INVISIBLE);
                 }
             });
 
@@ -147,7 +157,9 @@ public class GraphFragment extends Fragment  implements Serializable {
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button right");
+                    loadingAnimation.setVisibility(View.VISIBLE);
                     moveCurve(MainScreenControllerActivity.Direction.right);
+                    loadingAnimation.setVisibility(View.INVISIBLE);
                 }
             });
 
@@ -178,8 +190,16 @@ public class GraphFragment extends Fragment  implements Serializable {
             graph.getViewport().setXAxisBoundsManual(true);
             graph.getViewport().setYAxisBoundsManual(true);
             graph.setVisibility(View.VISIBLE);
+            boolean calculateQuantityLast = false;
             for (MainScreenControllerActivity.LineEnum line:seriesSource.keySet()) {
-                calculateData(line, graphIfc.getColorOf(line));
+                if (line == MainScreenControllerActivity.LineEnum.Quantity){
+                    calculateQuantityLast = true;
+                }else{
+                    calculateData(line, graphIfc.getColorOf(line));
+                }
+            }
+            if (calculateQuantityLast){
+                calculateData(MainScreenControllerActivity.LineEnum.Quantity, graphIfc.getColorOf(MainScreenControllerActivity.LineEnum.Quantity));
             }
 
             menu = toolbar.getMenu();
@@ -194,7 +214,6 @@ public class GraphFragment extends Fragment  implements Serializable {
     }
 
     private void moveCurve(MainScreenControllerActivity.Direction dir) {
-
         if (labelSeries != null){
             graph.removeSeries(labelSeries.get(graphIfc.getMovableEnum()));
             //labelSeries.remove(graphIfc.getMovableEnum());
@@ -263,6 +282,7 @@ public class GraphFragment extends Fragment  implements Serializable {
                     graph.removeSeries(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()));
                     graph.removeSeries(labelSeries.get(graphIfc.getMovableEnum()));
 
+                    //nastav farbu starej movable na default
                     graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
                     labelSeries.get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
 
@@ -274,6 +294,8 @@ public class GraphFragment extends Fragment  implements Serializable {
                     graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
                     //vybratu krivku vyfarbi na modro
                     graphIfc.getLineGraphSeries().get(line).setColor(getContext().getColor(R.color.colorPrimary));
+                    //vybratu krivku hrubo
+                    graphIfc.getLineGraphSeries().get(line).setThickness(10);
                     graph.addSeries(graphIfc.getLineGraphSeries().get(line));
 
                     graphIfc.refreshInfoTexts();
@@ -321,12 +343,9 @@ public class GraphFragment extends Fragment  implements Serializable {
 
     private void calculateEquilibrium(){
         Log.d(TAG, "calculateEquilibrium: ");
-
         clearBeforeCalculationOfEQ();
-
         graphIfc.calculateEqulibrium();
         updateTexts();
-
         addSeriesToGraphAfterEQCalculation();
     }
 

@@ -1,9 +1,6 @@
 package cz.mendelu.tomas.graphpef.graphs;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
-import android.util.Pair;
 
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -13,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
@@ -79,7 +77,6 @@ public class PerfectMarketFirm extends DefaultGraph  implements Serializable {
                         Log.d(TAG, "y = " + x0 + "  ");
 
                     y = x0 + 0.1;
-
                 }
                 if ( i==0 ){
                     calculateLabel(line,x,y);
@@ -119,13 +116,13 @@ public class PerfectMarketFirm extends DefaultGraph  implements Serializable {
     }
 
     @Override
-    public ArrayList<String> getSituationInfoTexts() {
+    public List<ArrayList<String>> getSituationInfoTexts() {
         //https://stackoverflow.com/questions/9290651/make-a-hyperlink-textview-in-android
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(getResources().getString(R.string.perfect_market_firm_info_text_1));
-        arrayList.add(getResources().getString(R.string.perfect_market_firm_info_text_mc));
-        arrayList.add(getResources().getString(R.string.perfect_market_firm_info_text_ac));
-        arrayList.add(getResources().getString(R.string.perfect_market_firm_info_text_avc));
+        List<ArrayList<String>> arrayList = new ArrayList<>();
+        arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.perfect_market_firm_info_text_1))));
+        arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.perfect_market_firm_info_text_mc))));
+        arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.perfect_market_firm_info_text_ac))));
+        arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.perfect_market_firm_info_text_avc))));
         return arrayList;
     }
 

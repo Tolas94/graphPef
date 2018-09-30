@@ -7,80 +7,31 @@
     android:id="@+id/info_fragment"
     >
 
+    <TextView
+        android:id="@+id/titleTextInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+
+        android:textAppearance="@android:style/TextAppearance.Material.WindowTitle" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"
-        android:id="@+id/testing_relative">
+        android:id="@+id/RecyclerViewRelative"
+        android:layout_below="@id/titleTextInfo">
+        <android.support.v7.widget.RecyclerView
 
-        <ScrollView
+            android:id="@+id/listOfInfoOfGraph"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="vertical">
 
-                <TextView
-                    android:id="@+id/titleTextInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:textAppearance="@android:style/TextAppearance.Material.WindowTitle" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_below="@id/titleTextInfo"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textView2"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="24dp" />
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textView3"
-                    android:layout_centerHorizontal="true" />
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textView4"
-                    android:layout_centerHorizontal="true" />
-
-                <TextView
-                    android:id="@+id/textView6"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginLeft="24dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textView5"
-                    android:layout_centerHorizontal="true" />
-
-            </RelativeLayout>
-
-        </ScrollView>
+        </android.support.v7.widget.RecyclerView>
 
     </RelativeLayout>
 

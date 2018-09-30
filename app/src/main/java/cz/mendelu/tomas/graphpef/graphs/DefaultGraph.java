@@ -1,13 +1,9 @@
 package cz.mendelu.tomas.graphpef.graphs;
 
-import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
-import android.support.annotation.MainThread;
 import android.util.Log;
-import android.util.Pair;
 
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -17,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import cz.mendelu.tomas.graphpef.MainAppClass;
 import cz.mendelu.tomas.graphpef.R;
@@ -88,6 +85,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
 
     @Override
     public ArrayList<Double> calculateEqulibrium(){
+
         Log.d(TAG, "calculateEqulibrium:");
         ArrayList<Double> equiPoints = new ArrayList<>();
         if(graphHelperObject.getCalculateEqulibrium() ){
@@ -141,8 +139,21 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
                         while ( dataIt1.hasNext() && dataIt2.hasNext()) {
                             DataPoint dataPoint1 = dataIt1.next();
                             DataPoint dataPoint2 = dataIt2.next();
+                            if (dataPoint1.getX() != dataPoint2.getX()){
+                                Log.d(TAG, "calculatedata: data 2 x[" + dataPoint2.getX() + "] data 1 x[" +dataPoint1.getX()+ "]");
+                                if(dataPoint1.getX() > dataPoint2.getX()){
+                                    while (dataIt2.hasNext() && (dataPoint1.getX() - dataPoint2.getX()) > precision){
+                                        dataPoint2 = dataIt2.next();
+                                        Log.d(TAG, "calculatedata inner while: data 2 x[" + dataPoint2.getX() + "] data 1 x[" +dataPoint1.getX()+ "]");
+                                    }
+                                }else{
+                                    while (dataIt1.hasNext() && (dataPoint2.getX() - dataPoint1.getX()) > precision){
+                                        dataPoint1 = dataIt1.next();
+                                        Log.d(TAG, "calculatedata inner while: data 2 x[" + dataPoint2.getX() + "] data 1 x[" +dataPoint1.getX()+ "]");
+                                    }
+                                }
+                            }
 
-                            //Log.d(TAG, "data 2 x[" + dataPoint2.getX() + "] data 1 x[" +dataPoint1.getX()+ "]");
                             //Log.d(TAG, "data 2 y[" + dataPoint2.getY() + "] data 1 y[" +dataPoint1.getY()+ "]");
                             //Log.d(TAG, "calculateEqulibrium: diff [" + diff + "] abs [" + abs( dataPoint1.getY() - dataPoint2.getY() ) + "]");
 
@@ -372,7 +383,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     }
 
     @Override
-    public ArrayList<String> getSituationInfoTexts() {
+    public List<ArrayList<String>> getSituationInfoTexts() {
         return null;
     }
 

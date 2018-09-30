@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "839822111030",
+    "firebase_url": "https://graphpef.firebaseio.com",
+    "project_id": "graphpef",
+    "storage_bucket": "graphpef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839822111030:android:b97af69906332eb2",
+        "android_client_info": {
+          "package_name": "cz.mendelu.tomas.graphpef"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839822111030-h5r46ua2pb0sduret3ruqmg78tid963u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cz.mendelu.tomas.graphpef",
+            "certificate_hash": "9ce9072cbf262c9b55c7e9a0e862fffdaae901e8"
+          }
+        },
+        {
+          "client_id": "839822111030-ulub7vgksi5rdp2koevece90j64n0gng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz6kdsMbmLyl6vO3SwPfIMRx-yULGgWYA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "839822111030-ulub7vgksi5rdp2koevece90j64n0gng.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

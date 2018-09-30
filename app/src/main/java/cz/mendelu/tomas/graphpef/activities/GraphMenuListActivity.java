@@ -1,29 +1,21 @@
 package cz.mendelu.tomas.graphpef.activities;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.Pair;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 
-import java.io.PipedReader;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 import cz.mendelu.tomas.graphpef.R;
-import cz.mendelu.tomas.graphpef.graphs.MarketDS;
+import cz.mendelu.tomas.graphpef.helperObjects.MenuListAdapter;
 import cz.mendelu.tomas.graphpef.helperObjects.StringIntegerPair;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
@@ -73,9 +65,6 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
 
             graphNames.add(new StringIntegerPair(grapLookupStringsPair.get(graphEnum),grapLookupImagePair.get(graphEnum)));
         }
-
-
-
         mAdapter = new MenuListAdapter(graphNames);
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
         graphMenu.setLayoutManager(mLayoutManager);

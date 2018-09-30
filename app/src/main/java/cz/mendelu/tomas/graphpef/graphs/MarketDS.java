@@ -1,10 +1,8 @@
 package cz.mendelu.tomas.graphpef.graphs;
 
-import android.content.Context;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.util.Log;
-import android.util.Pair;
 
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -13,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
@@ -111,18 +110,18 @@ public class MarketDS extends DefaultGraph  implements Serializable {
     }
 
     @Override
-    public ArrayList<String> getSituationInfoTexts() {
+    public List<ArrayList<String>> getSituationInfoTexts() {
         Log.d(TAG,"getSituationInfoTexts");
         //https://stackoverflow.com/questions/9290651/make-a-hyperlink-textview-in-android
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(getResources().getString(R.string.marketDS_info_text_1));
-        if (getMovableEnum() == Demand ){
-            arrayList.add(getResources().getString(R.string.marketDS_info_text_demand));
-        }else if (getMovableEnum() == Supply){
-            arrayList.add(getResources().getString(R.string.marketDS_info_text_supply));
-        }
+        List<ArrayList<String>> arrayList = new ArrayList<>();
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_1_title),"",getResources().getString(R.string.marketDS_info_text_1))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_demand_title),"",getResources().getString(R.string.marketDS_info_text_demand))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_supply_title),"",getResources().getString(R.string.marketDS_info_text_supply))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_2_title),"",getResources().getString(R.string.marketDS_info_text_2))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_3_title),"",getResources().getString(R.string.marketDS_info_text_3))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_4_title),"",getResources().getString(R.string.marketDS_info_text_4))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_5_title),"",getResources().getString(R.string.marketDS_info_text_5))));
 
-        arrayList.add(getResources().getString(R.string.marketDS_info_text_situation));
         return arrayList;
     }
 }

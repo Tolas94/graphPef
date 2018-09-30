@@ -1,12 +1,11 @@
 package cz.mendelu.tomas.graphpef.interfaces;
 
-import android.util.Pair;
-
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
@@ -46,7 +45,7 @@ public interface GraphIfc{
 
     ArrayList<String> getGraphInfoTexts();
 
-    ArrayList<String> getSituationInfoTexts();
+    List<ArrayList<String>> getSituationInfoTexts();
 
     String getMovableLabel();
 

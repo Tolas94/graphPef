@@ -47,7 +47,7 @@ import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class MainScreenControllerActivity extends AppCompatActivity implements Serializable{
 
-    private static final String TAG = "MainScreenControllerActivity";
+    private static final String TAG = "MainScreenController";
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -177,13 +177,6 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
         marketDS.addToSeries(LineEnum.SupplyDefault,   new ArrayList<>(Arrays.asList(1,2)));
         marketDS.addToSeries(LineEnum.DemandDefault,   new ArrayList<>(Arrays.asList(-1,14)));
 
-        /**
-        marketDS.setLineLabelPosition(LineEnum.Supply,new PositionPair(12.0,1.0));
-        marketDS.setLineLabelPosition(LineEnum.Demand,new PositionPair(12.0,3.0));
-        marketDS.setLineLabelPosition(LineEnum.SupplyDefault,new PositionPair(12.0,5.0));
-        marketDS.setLineLabelPosition(LineEnum.DemandDefault,new PositionPair(12.0,7.0));
-         */
-
         marketDS.setCalculateEqulibrium(true);
         marketDS.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.Demand, LineEnum.Supply)));
         marketDS.setDependantCurveOnEquilibrium(new ArrayList<>(Arrays.asList(LineEnum.Price, LineEnum.Quantity)));
@@ -227,8 +220,6 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
         perfectMarketFirm.addToSeries(LineEnum.PriceLevel, new ArrayList<>(Arrays.asList(0,0,0,10,0)));
 
         perfectMarketFirm.setCalculateEqulibrium(true);
-        //perfectMarketFirm.setCalculateEqulibrium(false);
-
         perfectMarketFirm.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.PriceLevel, LineEnum.MarginalCost)));
 
         perfectMarketFirm.setDependantCurveOnEquilibrium(new ArrayList<>(Arrays.asList(LineEnum.Price, LineEnum.Quantity)));
@@ -245,22 +236,6 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
                 perfectMarketFirm));
 
 
-        indiferrentAnalysis.setTitle(getString(R.string.IndifferentAnalysis));
-        indiferrentAnalysis.setLabelX(getString(R.string.estate) + " X [" + getString(R.string.units) + "]");
-        indiferrentAnalysis.setLabelY(getString(R.string.estate) + " Y [" + getString(R.string.units) + "]");
-        indiferrentAnalysis.setGraphEnum(GraphEnum.IndifferentAnalysis);
-        indiferrentAnalysis.addToSeries(LineEnum.BudgetLine, new ArrayList<>(Arrays.asList(8,8)));
-        indiferrentAnalysis.addToSeries(LineEnum.IndifferentCurve, new ArrayList<>(Arrays.asList(3,-3)));
-        indiferrentAnalysis.setCalculateEqulibrium(true);
-        indiferrentAnalysis.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.BudgetLine, LineEnum.IndifferentCurve)));
-
-        graphsDatabase.put(GraphEnum.IndifferentAnalysis, new IndifferentAnalysis(
-                new ArrayList<String>(),//texty
-                new ArrayList<>(Arrays.asList(LineEnum.BudgetLine,LineEnum.IndifferentCurve)), //krivky na posun
-                LineEnum.BudgetLine,
-                indiferrentAnalysis.getSeries(),
-                new ArrayList<String>(),
-                indiferrentAnalysis));
 
         costCurveHelper.setTitle(getString(R.string.CostCurves));
         costCurveHelper.setLabelX(getString(R.string.quantity) + " [" + getString(R.string.units) + "]");
@@ -280,13 +255,30 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
 
         graphsDatabase.put(GraphEnum.CostCurves,new CostCurves(
                 new ArrayList<String>(),
-                new ArrayList<>(Arrays.asList(LineEnum.Quantity)),
+                new ArrayList<>(Arrays.asList(LineEnum.Quantity,LineEnum.AverageCost)),
                 LineEnum.Quantity,
                 costCurveHelper.getSeries(),
                 new ArrayList<String>(),
                 costCurveHelper));
 
 
+        indiferrentAnalysis.setTitle(getString(R.string.IndifferentAnalysis));
+        indiferrentAnalysis.setLabelX(getString(R.string.estate) + " X [" + getString(R.string.units) + "]");
+        indiferrentAnalysis.setLabelY(getString(R.string.estate) + " Y [" + getString(R.string.units) + "]");
+        indiferrentAnalysis.setGraphEnum(GraphEnum.IndifferentAnalysis);
+        indiferrentAnalysis.addToSeries(LineEnum.BudgetLine, new ArrayList<>(Arrays.asList(8,8)));
+        indiferrentAnalysis.addToSeries(LineEnum.IndifferentCurve, new ArrayList<>(Arrays.asList(3,-3)));
+
+        indiferrentAnalysis.setCalculateEqulibrium(true);
+        indiferrentAnalysis.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.BudgetLine, LineEnum.IndifferentCurve)));
+
+        graphsDatabase.put(GraphEnum.IndifferentAnalysis, new IndifferentAnalysis(
+                new ArrayList<String>(),//texty
+                new ArrayList<>(Arrays.asList(LineEnum.BudgetLine,LineEnum.IndifferentCurve)), //krivky na posun
+                LineEnum.BudgetLine,
+                indiferrentAnalysis.getSeries(),
+                new ArrayList<String>(),
+                indiferrentAnalysis));
 
     }
 

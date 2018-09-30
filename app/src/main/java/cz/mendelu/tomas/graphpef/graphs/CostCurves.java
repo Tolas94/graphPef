@@ -1,6 +1,5 @@
 package cz.mendelu.tomas.graphpef.graphs;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.jjoe64.graphview.series.DataPoint;
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
@@ -18,7 +18,6 @@ import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
 import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
 
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.AverageCost;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.AverageVariableCost;
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.MarginalCost;
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.PriceLevel;
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Quantity;
@@ -28,7 +27,7 @@ import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.
  */
 
 public class CostCurves extends DefaultGraph implements Serializable{
-    private static final String TAG = "PerfectMarketFirm";
+    private static final String TAG = "CostCurves";
 
     public CostCurves(ArrayList<String> graphTexts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         super(graphTexts, movableObjects, movableEnum, series, optionsLabels, graphHelperObject);
@@ -37,12 +36,14 @@ public class CostCurves extends DefaultGraph implements Serializable{
 
     @Override
     public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color) {
+        Log.d(TAG,"calculateData: "+ line.toString());
         if (getLineGraphSeries().get(line) == null) {
             double precision = MainScreenControllerActivity.getPrecision();
             int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints();
             double x, y;
             x = 1;
-            if (line == PriceLevel){
+            y = 0;
+            if (line == MainScreenControllerActivity.LineEnum.Price){
                 x = 0;
             }
             int x0, x1, x2, x3, x_1;
@@ -58,24 +59,38 @@ public class CostCurves extends DefaultGraph implements Serializable{
 
             for (int i = 0; i < maxDataPoints; i++) {
                 x = x + precision;
-                y = 0;
-                if (line == AverageCost || line == AverageVariableCost) {
+                if (line == AverageCost || line == MainScreenControllerActivity.LineEnum.AverageVariableCost) {
                     if (i == 0)
                         Log.d(TAG, "y = (" + x3 + "x^3/3 + " + x2 + "x^2 +" + x1 + "x + " + x0 + " )/" + x_1 + "x");
 
                     y = ((x3 * x * x * x) / 3 + x2 * x * x + x1 * x + x0) / (x_1 * x);
-                } else if (line == MarginalCost) {
+                } else if (line == MainScreenControllerActivity.LineEnum.MarginalCost) {
                     if (i == 0)
                         Log.d(TAG, "y = (" + x2 + " + x)^2 +" + x1 + "x + " + x0 + " )");
                     y = ((x * x)  + x1 * x + x0);
 
-                } else if (line == Quantity) {
+                } else if (line == MainScreenControllerActivity.LineEnum.Quantity) {
                     x = x0;
                     y = 0;
-                    seriesLocal.appendData(new DataPoint(x, y), true, maxDataPoints);
+                    Log.d(TAG,"Quantity1 [" + x + "][" + y + "]");
+                    seriesLocal.appendData(new DataPoint(x, y), true, 2);
+                    if (getLineGraphSeries() != null){
+                        if (getLineGraphSeries().get(MainScreenControllerActivity.LineEnum.MarginalCost) != null){
+                            Iterator<DataPoint> itData = getLineGraphSeries().get(MainScreenControllerActivity.LineEnum.MarginalCost).getValues(x0-precision,x0+precision);
+                            if(itData.hasNext()){
+                                y = itData.next().getY();
+                            }else{
+                                y = 13;
+                            }
+                        }else{
+                            y = 12;
+                        }
+                    }else{
+                        y = 11;
+                    }
+                    Log.d(TAG,"Quantity2 [" + x + "][" + y + "]");
+                    seriesLocal.appendData(new DataPoint(x, y), true, 2);
                     calculateLabel(line,x,y);
-                    y = 15;
-                    seriesLocal.appendData(new DataPoint(x, y), true, maxDataPoints);
                     x = 200;
                     y = 200;
                     i = maxDataPoints;
@@ -89,6 +104,7 @@ public class CostCurves extends DefaultGraph implements Serializable{
             }
             Log.d(TAG, "MinY [" + seriesLocal.getLowestValueY() + "] maxY[" + seriesLocal.getHighestValueY() + "]");
             Log.d(TAG, "MinX [" + seriesLocal.getLowestValueX() + "] maxX[" + seriesLocal.getHighestValueX() + "]");
+            seriesLocal.setColor(color);
             getLineGraphSeries().put(line, seriesLocal);
             return seriesLocal;
         }else{
@@ -100,30 +116,36 @@ public class CostCurves extends DefaultGraph implements Serializable{
     public void moveObject(MainScreenControllerActivity.Direction dir) {
         super.moveObject(dir);
         if (getMovableEnum() == MainScreenControllerActivity.LineEnum.AverageCost){
-            if (dir == MainScreenControllerActivity.Direction.up){
-                super.moveObject(MainScreenControllerActivity.Direction.right);
-                super.moveObject(MainScreenControllerActivity.Direction.up,MarginalCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.right,MarginalCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.up,AverageVariableCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.right,AverageVariableCost, 1);
-            }else if (dir == MainScreenControllerActivity.Direction.down){
-                super.moveObject(MainScreenControllerActivity.Direction.left);
-                super.moveObject(MainScreenControllerActivity.Direction.down,MarginalCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.left,MarginalCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.down,AverageVariableCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.left,AverageVariableCost, 1);
+            if (dir == MainScreenControllerActivity.Direction.right){
+                super.moveObject(MainScreenControllerActivity.Direction.up);
+                super.moveObject(MainScreenControllerActivity.Direction.up,MainScreenControllerActivity.LineEnum.MarginalCost, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.right,MainScreenControllerActivity.LineEnum.MarginalCost, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.up,MainScreenControllerActivity.LineEnum.AverageVariableCost, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.right,MainScreenControllerActivity.LineEnum.AverageVariableCost, 1);
+            }else if (dir == MainScreenControllerActivity.Direction.left){
+                super.moveObject(MainScreenControllerActivity.Direction.down);
+                super.moveObject(MainScreenControllerActivity.Direction.down,MainScreenControllerActivity.LineEnum.MarginalCost, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.left,MainScreenControllerActivity.LineEnum.MarginalCost, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.down,MainScreenControllerActivity.LineEnum.AverageVariableCost, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.left,MainScreenControllerActivity.LineEnum.AverageVariableCost, 1);
             }
         }
     }
 
     @Override
-    public ArrayList<String> getSituationInfoTexts() {
+    public List<ArrayList<String>> getSituationInfoTexts() {
         //https://stackoverflow.com/questions/9290651/make-a-hyperlink-textview-in-android
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(getResources().getString(R.string.perfect_market_firm_info_text_1));
-        arrayList.add(getResources().getString(R.string.perfect_market_firm_info_text_mc));
-        arrayList.add(getResources().getString(R.string.perfect_market_firm_info_text_ac));
-        arrayList.add(getResources().getString(R.string.perfect_market_firm_info_text_avc));
+        List<ArrayList<String>> arrayList = new ArrayList<>();
+
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.cost_curves_info_text_1_title),"",getResources().getString(R.string.cost_curves_info_text_1))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.cost_curves_info_text_2_title),getResources().getString(R.string.cost_curves_info_text_2_subtitle),getResources().getString(R.string.cost_curves_info_text_2))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.cost_curves_info_text_3_title),getResources().getString(R.string.cost_curves_info_text_3_subtitle),getResources().getString(R.string.cost_curves_info_text_3))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.cost_curves_info_text_4_title),getResources().getString(R.string.cost_curves_info_text_4_subtitle),getResources().getString(R.string.cost_curves_info_text_4))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.cost_curves_info_text_5_title),getResources().getString(R.string.cost_curves_info_text_5_subtitle),getResources().getString(R.string.cost_curves_info_text_5))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.cost_curves_info_text_6_title),getResources().getString(R.string.cost_curves_info_text_6_subtitle),getResources().getString(R.string.cost_curves_info_text_6))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.cost_curves_info_text_7_title),"",getResources().getString(R.string.cost_curves_info_text_7))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.cost_curves_info_text_8_title),"",getResources().getString(R.string.cost_curves_info_text_8))));
+
         return arrayList;
     }
 
@@ -151,7 +173,7 @@ public class CostCurves extends DefaultGraph implements Serializable{
         ArrayList<Double> retVal;
         retVal = super.calculateEqulibrium();
         if (!retVal.isEmpty()){
-            if (retVal.get(1) < getLineGraphSeries().get(AverageVariableCost).getLowestValueY()){
+            if (retVal.get(1) < getLineGraphSeries().get(MainScreenControllerActivity.LineEnum.AverageVariableCost).getLowestValueY()){
                 retVal = new ArrayList<>();
                 populateTexts(false,retVal);
             }else{

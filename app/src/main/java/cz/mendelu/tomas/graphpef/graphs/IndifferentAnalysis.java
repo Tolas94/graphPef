@@ -1,8 +1,6 @@
 package cz.mendelu.tomas.graphpef.graphs;
 
-import android.content.Context;
 import android.util.Log;
-import android.util.Pair;
 
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -11,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
@@ -41,12 +40,13 @@ public class IndifferentAnalysis extends DefaultGraph  implements Serializable {
     @Override
     public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color) {
         if (getLineGraphSeries().get(line) == null) {
-            double precision = MainScreenControllerActivity.getPrecision() / 100;
-            int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints() * 100;
+            double precision = MainScreenControllerActivity.getPrecision();
+            int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints();
             Double x,y;
             x = 0.0;
             y = 0.0;
-            int arg0,arg1;
+            int arg0,arg1, counter;
+            counter = 0;
             HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
 
 
@@ -55,30 +55,36 @@ public class IndifferentAnalysis extends DefaultGraph  implements Serializable {
 
             LineGraphSeriesSerialisable seriesLocal = new LineGraphSeriesSerialisable();
 
-                if (line == MainScreenControllerActivity.LineEnum.IndifferentCurve) {
-                    for (int i = 0; i < maxDataPoints; i++) {
-                        x = x + precision; // 3 3 1
-                        //Log.d(TAG,"calculateData y = 1 / (sqrt( x +" + arg1 + ") + " + arg0);
-                        y = 1 /  (Math.sqrt(x + arg1) ) + arg0 + 0.2;
-                        if (Double.isNaN(y)){
-                            y = 200.0;
-                        }
-                        //Log.d(TAG,"calculateData x = " + x + " y = " + y);
-                        if (y < 13 && y > 0 && x > 0 && x < 13){
-                            seriesLocal.appendData(new DataPoint(x, y), true, maxDataPoints);
-                        }
+            if (line == MainScreenControllerActivity.LineEnum.IndifferentCurve) {
+                precision = precision/50;
+                maxDataPoints = maxDataPoints*50;
+                for (int i = 0; i < maxDataPoints; i++) {
+                    x = x + precision; // 3 3 1
+                    //Log.d(TAG,"calculateData y = 1 / (sqrt( x +" + arg1 + ") + " + arg0);
+                    y = 1 /  (Math.sqrt(x + arg1) ) + arg0 + 0.2;
+                    if (Double.isNaN(y)){
+                        y = 200.0;
                     }
-                } else if (line == MainScreenControllerActivity.LineEnum.BudgetLine) {
-
-                    //http://www.coolmath.com/algebra/08-lines/12-finding-equation-two-points-01
-                    float m = ( - arg0 )/arg1;
-
-                    for (int i = 0; i < maxDataPoints; i++) {
-                        x = x + precision;
-                        y = m * (x - arg1);
+                    //Log.d(TAG,"calculateData x = " + x + " y = " + y);
+                    if (y < 13 && y > 0 && x > 0 && x < 13){
                         seriesLocal.appendData(new DataPoint(x, y), true, maxDataPoints);
+                        counter++;
                     }
                 }
+                Log.d(TAG,"calculateData: IndifferentCurve points - " + counter);
+            } else if (line == MainScreenControllerActivity.LineEnum.BudgetLine) {
+
+                //http://www.coolmath.com/algebra/08-lines/12-finding-equation-two-points-01
+                float m = ( - arg0 )/arg1;
+
+                for (int i = 0; i < maxDataPoints; i++) {
+                    x = x + precision;
+                    y = m * (x - arg1);
+                    seriesLocal.appendData(new DataPoint(x, y), true, maxDataPoints);
+                    counter++;
+                }
+                Log.d(TAG,"calculateData: BudgetLine points - " + counter);
+            }
 
             Log.d(TAG, "calculateData: MinY [" + seriesLocal.getLowestValueY() + "] maxY[" + seriesLocal.getHighestValueY() + "]");
             Log.d(TAG, "calculateData: MinX [" + seriesLocal.getLowestValueX() + "] maxX[" + seriesLocal.getHighestValueX() + "]");
@@ -178,26 +184,28 @@ public class IndifferentAnalysis extends DefaultGraph  implements Serializable {
     }
 
     @Override
-    public ArrayList<String> getSituationInfoTexts() {
+    public List<ArrayList<String>> getSituationInfoTexts() {
         Log.d(TAG,"getSituationInfoTexts");
         //https://stackoverflow.com/questions/9290651/make-a-hyperlink-textview-in-android
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(getResources().getString(R.string.indifferent_analysis_info_text_1));
-        if (getMovableEnum() == BudgetLine){
-            arrayList.add(getResources().getString(R.string.indifferent_analysis_info_budget_line));
-        }else if (getMovableEnum() == IndifferentCurve){
-            arrayList.add(getResources().getString(R.string.indifferent_analysis_info_indifferent_curve));
-        }
+        List<ArrayList<String>> arrayList = new ArrayList<>();
+
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_budget_line_title),"",getResources().getString(R.string.indifferent_analysis_info_budget_line))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_indifferent_curve_title),"",getResources().getString(R.string.indifferent_analysis_info_indifferent_curve))));
+
         if (numOfEqPoints == 0){
             //0 eq
-            arrayList.add(getResources().getString(R.string.indifferent_analysis_info_text_situation_1));
+            arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.indifferent_analysis_info_text_situation_1))));
         }else if (numOfEqPoints == 1){
             //1 eq
-            arrayList.add(getResources().getString(R.string.indifferent_analysis_info_text_situation_2));
+            arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.indifferent_analysis_info_text_situation_2))));
         }else if (numOfEqPoints == 2) {
             //2 eq
-            arrayList.add(getResources().getString(R.string.indifferent_analysis_info_text_situation_3));
+            arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.indifferent_analysis_info_text_situation_3))));
         }
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_text_3_title),getResources().getString(R.string.indifferent_analysis_info_text_3_subtitle),getResources().getString(R.string.indifferent_analysis_info_text_3))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_text_4_title),getResources().getString(R.string.indifferent_analysis_info_text_4_subtitle),getResources().getString(R.string.indifferent_analysis_info_text_4))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_text_5_title),"",getResources().getString(R.string.indifferent_analysis_info_text_5))));
+        arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.indifferent_analysis_info_text_2))));
         return arrayList;
     }
 }
