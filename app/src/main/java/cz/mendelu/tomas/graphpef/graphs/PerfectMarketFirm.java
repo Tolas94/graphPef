@@ -119,10 +119,30 @@ public class PerfectMarketFirm extends DefaultGraph  implements Serializable {
     public List<ArrayList<String>> getSituationInfoTexts() {
         //https://stackoverflow.com/questions/9290651/make-a-hyperlink-textview-in-android
         List<ArrayList<String>> arrayList = new ArrayList<>();
-        arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.perfect_market_firm_info_text_1))));
-        arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.perfect_market_firm_info_text_mc))));
-        arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.perfect_market_firm_info_text_ac))));
-        arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.perfect_market_firm_info_text_avc))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_1_title),"",getResources().getString(R.string.perfect_market_firm_info_text_1))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_mc_title),"",getResources().getString(R.string.perfect_market_firm_info_text_mc))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_ac_title),"",getResources().getString(R.string.perfect_market_firm_info_text_ac))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_avc_title),"",getResources().getString(R.string.perfect_market_firm_info_text_avc))));
+
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_2_title),getResources().getString(R.string.perfect_market_firm_info_text_2_subtitle),getResources().getString(R.string.perfect_market_firm_info_text_2))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_3_title),getResources().getString(R.string.perfect_market_firm_info_text_3_subtitle),getResources().getString(R.string.perfect_market_firm_info_text_3))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_4_title),getResources().getString(R.string.perfect_market_firm_info_text_4_subtitle),getResources().getString(R.string.perfect_market_firm_info_text_4))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_5_title),getResources().getString(R.string.perfect_market_firm_info_text_5_subtitle),getResources().getString(R.string.perfect_market_firm_info_text_5))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_6_title),getResources().getString(R.string.perfect_market_firm_info_text_6_subtitle),getResources().getString(R.string.perfect_market_firm_info_text_6))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_7_title),getResources().getString(R.string.perfect_market_firm_info_text_7_subtitle),getResources().getString(R.string.perfect_market_firm_info_text_7))));
+
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_8_title),"",getResources().getString(R.string.perfect_market_firm_info_text_8))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_9_title),"",getResources().getString(R.string.perfect_market_firm_info_text_9))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_10_title),"",getResources().getString(R.string.perfect_market_firm_info_text_10))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_11_title),"",getResources().getString(R.string.perfect_market_firm_info_text_11))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_12_title),getResources().getString(R.string.perfect_market_firm_info_text_12_subtitle),getResources().getString(R.string.perfect_market_firm_info_text_12))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_13_title),"",getResources().getString(R.string.perfect_market_firm_info_text_13))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_14_title),"",getResources().getString(R.string.perfect_market_firm_info_text_14))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_15_title),"",getResources().getString(R.string.perfect_market_firm_info_text_15))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_16_title),"",getResources().getString(R.string.perfect_market_firm_info_text_16))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.perfect_market_firm_info_text_17_title),"",getResources().getString(R.string.perfect_market_firm_info_text_17))));
+
+
         return arrayList;
     }
 

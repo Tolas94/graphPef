@@ -1,6 +1,6 @@
 <resources>
     <!-- https://stackoverflow.com/questions/2397613/are-parameters-in-strings-xml-possible -->
-    <string name="app_name">Virtuálni průvodce Ekonomii</string>
+    <string name="app_name">Virtuálni průvodce ekonomií</string>
 
     <!-- Name of Graphs -->
     <string name="MarketDS">Trh</string>
@@ -74,13 +74,12 @@
     <string name="indifferent_analysis_info_text_situation_3">Indiferenční křivka se protína s rozpočtovou linii ve dvou bodech. Tyto body udávají dvě různé kombinace statků, které přinesou spotřebiteli stejné množství užitku v dané situaci.</string>
     <string name="indifferent_analysis_info_text_2">IC se nikdy neprotínají</string>
     <string name="indifferent_analysis_info_text_3_title">Změny rovnováhy</string>
-    <string name="indifferent_analysis_info_text_3_subtitle">Linie rozpočtu</string>
     <string name="indifferent_analysis_info_text_3">Jestliže dojde k růstu důchodu, posouvá se linie příjmu dál od počátku</string>
     <string name="indifferent_analysis_info_text_4_title">Změny rovnováhy</string>
-    <string name="indifferent_analysis_info_text_4_subtitle">Linie rozpočtu</string>
     <string name="indifferent_analysis_info_text_4">při poklesu ceny může spotřebitel nakoupit větší množství zboží, a posouvá se dál od počátku</string>
     <string name="indifferent_analysis_info_text_5_title">Rovnováha</string>
     <string name="indifferent_analysis_info_text_5">Nachází se v bode dotyku linie příjmu a indiferenční křivky</string>
+    <string name="indifferent_analysis_info_text_situation_title">Situace na grafu</string>
 
 
     <!-- marketDS -->
@@ -106,7 +105,7 @@
 
     <!-- ppf PPF -->
     <string name="production_limit_info_text_1_title">Charakteristika</string>
-    <string name="production_limit_info_text_1">Hranice produkčních možností (anglicky: \"production-possibility frontier\" nebo-li PPF) vyjadřuje rozdílné kombinace dvou různých statků, které může výrobce produkovat při plném využití daných zdrojů a při dané technologii. Vyjadřuje hranici mezi dosažitelnou a nedosažitelnou úrovní produkce.</string>
+    <string name="production_limit_info_text_1">Hranice produkčních možností (HPV) (anglicky: \"production-possibility frontier\" nebo-li PPF) vyjadřuje rozdílné kombinace dvou různých statků, které může výrobce produkovat při plném využití daných zdrojů a při dané technologii. Vyjadřuje hranici mezi dosažitelnou a nedosažitelnou úrovní produkce.</string>
     <string name="production_limit_info_text_2_title">Tvar</string>
     <string name="production_limit_info_text_2">PPF je kombinace statků, které může ekonomika při svých celkově omezených zdrojích vyrábět. Ve zjednodušeném modelu jde o kombinace dvou statků, přičemž hranice výrobních možností je vyjádřena konkávní křivkou v důsledku klesající mezní míry transformace produktu.</string>
     <string name="production_limit_info_text_3_title">Dosažitelná úroveň produkce</string>
@@ -118,13 +117,14 @@
 
 
     <!-- perfectmarketCompetition -->
+    <string name="perfect_market_firm_info_text_1_title">Dokonalý trh</string>
     <string name="perfect_market_firm_info_text_1">Dokonalý trh je takový trh, na kterém mají všichni kupující dokonalé informace o všech prodávajících a cenách, které nabízejí, při přechodu od jednoho prodávajícího k jinému mají nulové náklady a obchodovaný statek je homogenní.</string>
 
     <string name="perfect_market_firm_info_text_mc_title">Mezní náklady</string>
-    <string name="perfect_market_firm_info_text_mc">Mezní náklady (řidčeji marginální náklady, z anglického marginal cost – MC) jsou náklady při výrobě dodatečné jednotky výstupu. Udávají přírůstek celkových nákladů, pokud se produkce (výstup) zvýší o jednotku nebo určitý počet jednotek.</string>
+    <string name="perfect_market_firm_info_text_mc">Mezní náklady (méně často označováno jako marginální náklady, z anglického marginal cost – MC) jsou náklady při výrobě dodatečné jednotky výstupu. Udávají přírůstek celkových nákladů, pokud se produkce (výstup) zvýší o jednotku nebo určitý počet jednotek.</string>
 
-    <string name="perfect_market_firm_info_text_ac_title">Průmerné náklady</string>
-    <string name="perfect_market_firm_info_text_ac">Průmerné náklady (z anglického average cost - AC), někdy označované jako jednotkové náklady, jsou to celkové náklady(TC) dělené množstvím produkce(Množství Q).</string>
+    <string name="perfect_market_firm_info_text_ac_title">Průměrné náklady</string>
+    <string name="perfect_market_firm_info_text_ac">Průměrné náklady (z anglického average cost - AC), někdy označované jako jednotkové náklady, jsou to celkové náklady (TC) dělené množstvím produkce (Množství Q).</string>
 
     <string name="perfect_market_firm_info_text_avc_title">Průmerné variabilní náklady</string>
     <string name="perfect_market_firm_info_text_avc">Průměrné variabilní náklady (z anglického average variable cost - AVC) jsou v mikroekonomii náklady, jejichž objem (a potažmo jejich výše, vyjádřená v penězích) je závislý na objemu výroby. Výrobci se přirozeně snaží variabilní náklady snižovat, neboť i malé snížení se vždy násobí počtem kusů a v absolutních číslech může představovat výrazné úspory. </string>
@@ -157,16 +157,17 @@
     <string name="perfect_market_firm_info_text_8">rozlišujeme mezi účetním a ekonomickým ziskem</string>
 
     <string name="perfect_market_firm_info_text_9_title">Účetní zisk</string>
-    <string name="perfect_market_firm_info_text_9">Účetní zisk=celkové příjmy – explicitní náklady (reálně vynaložené náklady – napr. mzdy pracovníků)</string>
+    <string name="perfect_market_firm_info_text_9">Účetní zisk = celkové příjmy – explicitní náklady (reálně vynaložené náklady – napr. mzdy pracovníků)</string>
 
     <string name="perfect_market_firm_info_text_10_title">Ekonomický zisk</string>
-    <string name="perfect_market_firm_info_text_10">Ekonomický zisk=účetní zisk – implicitní náklady (náklady obětované příležitosti)</string>
+    <string name="perfect_market_firm_info_text_10">Ekonomický zisk = účetní zisk – implicitní náklady (náklady obětované příležitosti)</string>
 
     <string name="perfect_market_firm_info_text_11_title">Nabídka firmy v krátkém období</string>
-    <string name="perfect_market_firm_info_text_11">v krátkém období muže firma vyrábět se ztrátou;</string>
+    <string name="perfect_market_firm_info_text_11">v krátkém období muže firma vyrábět se ztrátou.</string>
+
     <string name="perfect_market_firm_info_text_12_title">Nabídka firmy v krátkém období</string>
     <string name="perfect_market_firm_info_text_12_subtitle">ve ztrátě</string>
-    <string name="perfect_market_firm_info_text_12">ztráta musí pokrýt alespoň variabilní náklady => AVC> = p, v případě, že se AVC = p => firma je v indiferentním bodě, je jí jedno, zda vyrábí nebo ne</string>
+    <string name="perfect_market_firm_info_text_12">ztráta musí pokrýt alespoň variabilní náklady => AVC> = p, v případě, že se AVC = p => firma je v indiferentním bodě, je jí jedno, zda vyrábí nebo ne.</string>
 
     <string name="perfect_market_firm_info_text_13_title">Nabídka firmy v krátkém období</string>
     <string name="perfect_market_firm_info_text_13">nabídky firmy v krátkém období je od minima AVC</string>
@@ -175,14 +176,13 @@
     <string name="perfect_market_firm_info_text_14">v krátkém období teda firma může dosahovat ekonomický zisk aj ztrátu</string>
 
     <string name="perfect_market_firm_info_text_15_title">Nabídka firmy v dlouhém období</string>
-    <string name="perfect_market_firm_info_text_15">firma musí pokrýt celé celkové náklady (TC=VC), a nabízí od chvíle, kdy je cena větší nebo rovna celkovým nákladům, proto firma nabízí p> = AC, tedy TR > TC</string>
+    <string name="perfect_market_firm_info_text_15">firma musí pokrýt celé celkové náklady (TC=VC), a nabízí od chvíle, kdy je cena větší nebo rovna celkovým nákladům, proto firma nabízí p> = AC, tedy TR > TC.</string>
 
     <string name="perfect_market_firm_info_text_16_title">Nabídka firmy v dlouhém období</string>
-    <string name="perfect_market_firm_info_text_16">v dlouhém období, kdyby firma dosahovali zisk, tak na trhu vstupují nové firmy a v případe ztráty vystupují firmy z trhu </string>
+    <string name="perfect_market_firm_info_text_16">v dlouhém období, kdyby firma dosahovali zisk, tak na trhu vstupují nové firmy a v případe ztráty vystupují firmy z trhu.</string>
 
     <string name="perfect_market_firm_info_text_17_title">Nabídka firmy v dlouhém období</string>
-    <string name="perfect_market_firm_info_text_17_subtitle">Nabídková křivka</string>
-    <string name="perfect_market_firm_info_text_17">nejsou tlaky na změny v odvětví – nabídková křivka je jenom jeden bod</string>
+    <string name="perfect_market_firm_info_text_17">nejsou tlaky na změny v odvětví – nabídková křivka je jenom jeden bod.</string>
 
 
     <!-- CostCurves -->
@@ -191,7 +191,7 @@
 
     <string name="cost_curves_info_text_2_title">Náklady v krátkém období</string>
     <string name="cost_curves_info_text_2_subtitle">MC</string>
-    <string name="cost_curves_info_text_2">Mezní náklady vyjadřují dodatečné náklady, zvýšením výroby o dodateční jednotku. Nejprve jsou klesající a následně jsou rostoucí. Je to kvůli působení výnosů z rozsahu. V inflexním bode, kde se mění rostoucí výnosy z rozsahu na klesající dosahují MC svého minima.</string>
+    <string name="cost_curves_info_text_2">Mezní náklady vyjadřují dodatečné náklady, zvýšením výroby o dodateční jednotku. Nejprve jsou klesající a následně jsou rostoucí. Je to kvůli působení výnosů z rozsahu. V inflexním bodě, kde se mění rostoucí výnosy z rozsahu na klesající dosahují MC svého minima.</string>
 
     <string name="cost_curves_info_text_3_title">Náklady v krátkém období</string>
     <string name="cost_curves_info_text_3_subtitle">FC</string>
@@ -199,14 +199,14 @@
 
     <string name="cost_curves_info_text_4_title">Náklady v krátkém období</string>
     <string name="cost_curves_info_text_4_subtitle">AFC</string>
-    <string name="cost_curves_info_text_4">Průměrní fixní náklady jsou klesající, protože se zvyšováním objemu výroby připadá na jednotku průměrných fixních nákladů stále méně nákladů.</string>
+    <string name="cost_curves_info_text_4">Průměrné fixní náklady jsou klesající, protože se zvyšováním objemu výroby připadá na jednotku průměrných fixních nákladů stále méně nákladů.</string>
 
     <string name="cost_curves_info_text_5_title">Náklady v krátkém období</string>
     <string name="cost_curves_info_text_5_subtitle">AVC</string>
-    <string name="cost_curves_info_text_5">Průměrné variabilní náklady sú nejprve klesající a potom se mění na rostoucí.</string>
+    <string name="cost_curves_info_text_5">Průměrné variabilní náklady jsou nejprve klesající a potom se mění na rostoucí.</string>
 
     <string name="cost_curves_info_text_6_title">Náklady v krátkém období</string>
-    <string name="cost_curves_info_text_6_subtitle">pohyb nákladú</string>
+    <string name="cost_curves_info_text_6_subtitle">pohyb</string>
     <string name="cost_curves_info_text_6">V krátkém období není možné změnit fixní náklady, měnit je možné pouze variabilní náklady.</string>
 
     <string name="cost_curves_info_text_7_title">Náklady v dlouhém období</string>
@@ -224,7 +224,7 @@
     <string name="production_of">produkce</string>
     <string name="choose_graph">Vyberte si graf</string>
     <string name="estate">statku</string>
-    <string name="changed_by">změnena o</string>
+    <string name="changed_by">změněna o</string>
     <string name="default_word">původní</string>
     <string name="on_default_values">je na původních hodnotách</string>
     <string name="value_extended">je vyšší než původní</string>
@@ -256,7 +256,7 @@
     <string name="resendEmail">Poslat nový potvrzovací email</string>
     <string name="mi1">Mikroekonomie 1</string>
     <string name="lecture">Cvičení</string>
-    <string name="password">Heslo</string>
+    <string name="password">Heslo (min. 6 znaků)</string>
     <string name="xname">xJméno</string>
     <string name="verificationEmail">Potvrzovací email poslán na </string>
     <string name="verificationEmailError">Potvrzovací email nebylo možné poslat.</string>

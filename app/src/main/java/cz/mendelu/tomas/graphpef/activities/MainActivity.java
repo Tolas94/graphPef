@@ -54,7 +54,9 @@ public class MainActivity extends AppCompatActivity implements Serializable{
             Fabric.with(this, new Answers());
         }
         mAuth = FirebaseAuth.getInstance();
-        
+
+        ((EditText)findViewById(R.id.signInPassword)).setHint(getResources().getString(R.string.password));
+        ((EditText)findViewById(R.id.signInXname)).setHint(getResources().getString(R.string.xname));
 
         Button signInButton = findViewById(R.id.signInSubmitButton);
         Button registerButton = findViewById(R.id.registerSubmitButton);
@@ -152,6 +154,11 @@ public class MainActivity extends AppCompatActivity implements Serializable{
 
     private String getEmail(){
         String email = ((EditText)findViewById(R.id.signInXname)).getText().toString();
+        if (email.matches("^x(([a-z]*)|([a-z]*[0-9]*))@mendelu.cz$")){
+            Log.d(TAG,"return " + email);
+            return email;
+        }
+        Log.d(TAG,"return " + email + "@mendelu.cz");
         return email + "@mendelu.cz";
     }
 
@@ -161,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
 
     private Boolean validateXname(){
         if (getEmail() != null){
-            if( getEmail().matches("x([a-z]*)|([a-z]*[0-9]*)@mendelu.cz")){
+            if( getEmail().matches("^x(([a-z]*)|([a-z]*[0-9]*))@mendelu.cz$")){
                 return true;
             }else{
                 Toast.makeText(MainActivity.this, getResources().getString(R.string.provideValidName),
@@ -177,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
             public void onComplete(@NonNull Task task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(MainActivity.this,
-                            getResources().getString(R.string.verificationEmail) + MainActivity.this.getEmail(),
+                            getResources().getString(R.string.verificationEmail) + " " +  MainActivity.this.getEmail(),
                             Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e(TAG, "sendEmailVerification", task.getException());

@@ -191,21 +191,21 @@ public class IndifferentAnalysis extends DefaultGraph  implements Serializable {
 
         arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_budget_line_title),"",getResources().getString(R.string.indifferent_analysis_info_budget_line))));
         arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_indifferent_curve_title),"",getResources().getString(R.string.indifferent_analysis_info_indifferent_curve))));
-
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_indifferent_curve_title),"",getResources().getString(R.string.indifferent_analysis_info_text_2))));
         if (numOfEqPoints == 0){
             //0 eq
-            arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.indifferent_analysis_info_text_situation_1))));
+            arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_text_situation_title),"",getResources().getString(R.string.indifferent_analysis_info_text_situation_1))));
         }else if (numOfEqPoints == 1){
             //1 eq
-            arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.indifferent_analysis_info_text_situation_2))));
+            arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_text_situation_title),"",getResources().getString(R.string.indifferent_analysis_info_text_situation_2))));
         }else if (numOfEqPoints == 2) {
             //2 eq
-            arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.indifferent_analysis_info_text_situation_3))));
+            arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_text_situation_title),"",getResources().getString(R.string.indifferent_analysis_info_text_situation_3))));
         }
-        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_text_3_title),getResources().getString(R.string.indifferent_analysis_info_text_3_subtitle),getResources().getString(R.string.indifferent_analysis_info_text_3))));
-        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_text_4_title),getResources().getString(R.string.indifferent_analysis_info_text_4_subtitle),getResources().getString(R.string.indifferent_analysis_info_text_4))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_text_3_title),"",getResources().getString(R.string.indifferent_analysis_info_text_3))));
+        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_text_4_title),"",getResources().getString(R.string.indifferent_analysis_info_text_4))));
         arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.indifferent_analysis_info_text_5_title),"",getResources().getString(R.string.indifferent_analysis_info_text_5))));
-        arrayList.add(new ArrayList<String>(Arrays.asList("","",getResources().getString(R.string.indifferent_analysis_info_text_2))));
+
         return arrayList;
     }
 }
