@@ -18,9 +18,9 @@ repositories {
 
 ext.versionMajor = 0
 ext.versionMinor = 1
-ext.versionPatch = 2
+ext.versionPatch = 3
 ext.versionClassifier = null
-ext.isSnapshot = true
+ext.isSnapshot = false
 ext.minimumSdkVersion = 23
 
 android {

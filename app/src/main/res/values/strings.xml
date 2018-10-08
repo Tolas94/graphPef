@@ -270,7 +270,7 @@
     <string name="email">Poslat dotaz Emailem</string>
     <string name="infoOnMainscreenText">Aplikace doposud nebyla vydaná v plné verzi. Informace v této aplikaci se můžou měnit v různých verzích. V případe nejasností kontaktujte autora aplikace. \n \nInformace v této aplikaci neslouží jako náhrada studijní literatuře. \n \nAplikace je ve verzi </string>
     <string name="infoOnMainscreenTitle">Informace o aplikaci</string>
-    <string name="resendEmail">Poslat nový potvrzovací email</string>
+    <string name="sendEmail">Kontaktovat autora e-mailem</string>
     <string name="mi1">Mikroekonomie 1</string>
     <string name="lecture">Cvičení</string>
     <string name="password">Heslo (min. 6 znaků)</string>

@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         Button signInButton = findViewById(R.id.signInSubmitButton);
         Button registerButton = findViewById(R.id.registerSubmitButton);
         Button signOutButton = findViewById(R.id.signOutButton);
-        Button resendEmai = findViewById(R.id.resendMailButton);
+        Button sendEmail = findViewById(R.id.sendMailButton);
 
         ImageButton infoOnMainScreen = findViewById(R.id.infoOnMainScreen);
 
@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         registerButton.setText(R.string.register);
         setUpSignOutButton(signOutButton);
         signOutButton.setText(R.string.signOut);
-        setUpResendEmailButton(resendEmai);
-        resendEmai.setText(R.string.resendEmail);
+        setUpSendEmailButton(sendEmail);
+        sendEmail.setText(R.string.sendEmail);
 
         mainScreenButton =  findViewById(R.id.startAppButton);
         mainScreenButton.setText(getText(R.string.start_app));
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
             @Override
             public void onClick(View view) {
                 Log.d(TAG,"onClick: Clicked button mainScreen");
-                //mAuth.getCurrentUser().reload();
+                mAuth.getCurrentUser().reload();
                 if ( mAuth.getCurrentUser().isEmailVerified() ){
                     Log.d(TAG,"onClick: Clicked button mainScreen - email verified");
                     Intent intent = new Intent(MainActivity.this, GraphMenuListActivity.class);
@@ -281,8 +281,14 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         });
     }
 
-    private void setUpResendEmailButton(Button resendEmailButton){
-        //TODO resend email verification
+    private void setUpSendEmailButton(Button sendEmailButton){
+        sendEmailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: start Email Called.");
+                startEmail();
+            }
+        });
     }
 
     //TODO password reset
