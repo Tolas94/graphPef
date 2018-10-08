@@ -59,10 +59,9 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
         graphMenu = findViewById(R.id.listOfGraphs);
 
         ArrayList<StringIntegerPair> graphNames = new ArrayList<>();
-        //Log.d(TAG,"graphNames init");
+        Log.d(TAG,"graphNames init");
         for(GraphEnum graphEnum: GraphEnum.values()){
             Log.d(TAG,"graphNames " + graphEnum.toString());
-
             graphNames.add(new StringIntegerPair(grapLookupStringsPair.get(graphEnum),grapLookupImagePair.get(graphEnum)));
         }
         mAdapter = new MenuListAdapter(graphNames);
@@ -111,11 +110,11 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
     private void populateStrings(){
         grapLookupStringsPair = new HashMap<>();
 
-        grapLookupStringsPair.put(GraphEnum.MarketDS, new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.MarketDS.toString(),"string",getPackageName())),"Mikroekonomie 1","Cvičení 3")));
-        grapLookupStringsPair.put(GraphEnum.ProductionLimit,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.ProductionLimit.toString(),"string",getPackageName())),"Mikroekonomie 1","Cvičení 2")));
-        grapLookupStringsPair.put(GraphEnum.IndifferentAnalysis,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.IndifferentAnalysis.toString(),"string",getPackageName())),"Mikroekonomie 1","Cvičení 4")));
-        grapLookupStringsPair.put(GraphEnum.CostCurves,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.CostCurves.toString(),"string",getPackageName())),"Mikroekonomie 1","Cvičení 5")));
-        grapLookupStringsPair.put(GraphEnum.PerfectMarket,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.PerfectMarket.toString(),"string",getPackageName())),"Mikroekonomie 1","Cvičení 6-7")));
+        grapLookupStringsPair.put(GraphEnum.ProductionLimit, new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.ProductionLimit.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 2")));
+        grapLookupStringsPair.put(GraphEnum.MarketDS, new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.MarketDS.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 3")));
+        grapLookupStringsPair.put(GraphEnum.IndifferentAnalysis,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.IndifferentAnalysis.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 4")));
+        grapLookupStringsPair.put(GraphEnum.CostCurves,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.CostCurves.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 5")));
+        grapLookupStringsPair.put(GraphEnum.PerfectMarket,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.PerfectMarket.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 6-7")));
     }
 
     @Override

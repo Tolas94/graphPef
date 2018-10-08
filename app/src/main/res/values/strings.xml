@@ -29,7 +29,7 @@
     <string name="Equilibrium">Rovnovážný bod/y</string>
     <string name="TotalUtility">Celkový užitek</string>
     <string name="AverageVariableCost">Průměrné variabilní náklady</string>
-    <string name="BudgetLine">Linie rozpočtu</string>
+    <string name="BudgetLine">Rozpočtové omezení</string>
     <string name="IndifferentCurve">Indiferenční křivka</string>
 
     //labels
@@ -63,143 +63,160 @@
     <string name="and">a</string>
     <!-- Info texts -->
     <!-- indifferentAnalysis -->
-    <string name="indifferent_analysis_info_budget_line_title">Linie rozpočtu</string>
-    <string name="indifferent_analysis_info_budget_line">Linie rozpočtu neboli rozpočtová přímka je v ekonomické teorii přímka, určující jakým způsobem může spotřebitel rozdělovat celý svůj disponibilní důchod na nákup dvou statků. Je zobrazením rozpočtového omezení.</string>
+    <string name="indifferent_analysis_info_budget_line_title">Rozpočtové omezení</string>
+    <string name="indifferent_analysis_info_budget_line">Rozpočtové omezení reprezentuje maximální možné kombinace statků, na které spotřebitel vydá celý svůj důchod. Kombinace statků pod rozpočtovým omezením jsou spotřebiteli dostupné. Na kombinace statků nad rozpočtovým omezením nemá dostatečný důchod.</string>
     <string name="indifferent_analysis_info_indifferent_curve_title">Indiferenční křivka</string>
-    <string name="indifferent_analysis_info_indifferent_curve">Indiferenční křivka znázorňuje kombinace množství dvou statků, které poskytují spotřebiteli stejný užitek. Tato křivka se používá v neoklasické mikroekonomii při analýze chování spotřebitele. Anglicky se nazývá indifference curve, a proto se často označuje IC.</string>
+    <string name="indifferent_analysis_info_indifferent_curve">    Indiferenční křivka znázorňuje kombinace dvou statků, které poskytují spotřebiteli stejný celkový užitek. Vyšší indiferenční křivka je spojena s vyšším celkovým užitkem. Nižší s nižším celkovým užitkem. Spotřebitel se snaží dosáhnout co nejvyšší indiferenční křivky, ale je limitován rozpočtovým omezením. Anglicky se nazývá indifference curve, a proto se často označuje IC.</string>
 
 
-    <string name="indifferent_analysis_info_text_situation_1">Indiferenční křivka se nedotýká rozpočtové linie. Neexistuje taková kombinace statků, která by poskytla takovýto užitek.</string>
-    <string name="indifferent_analysis_info_text_situation_2">Indiferenční křivka se protíná s rozpočtovou linii v jediném bode. Tento bod určuje kombinaci statků, která přinese spotřebiteli nejvyšší možný užitek v dané situaci.</string>
-    <string name="indifferent_analysis_info_text_situation_3">Indiferenční křivka se protína s rozpočtovou linii ve dvou bodech. Tyto body udávají dvě různé kombinace statků, které přinesou spotřebiteli stejné množství užitku v dané situaci.</string>
-    <string name="indifferent_analysis_info_text_2">IC se nikdy neprotínají</string>
+    <string name="indifferent_analysis_info_text_situation_1">Indiferenční křivka se nedotýká rozpočtového omezení. Na žádnou kombinaci statků na indiferenční křivce spotřebitel nemá dostatečný důchod.</string>
+    <string name="indifferent_analysis_info_text_situation_2">Indiferenční křivka se dotýká s rozpočtovým omezením v jediném bodě. Tento bod určuje kombinaci statků, která přinese spotřebiteli nejvyšší možný užitek v při daném důchodu. Tato kombinace je tak optimální, protože neexistuje jiná kombinace statků, která by mu přinesla vyšší celkový užitek a zároveň na ni mohl se svým důchodem dosáhnout.</string>
+    <string name="indifferent_analysis_info_text_situation_3">Indiferenční křivka se protíná s rozpočtovým omezením ve dvou bodech. Tyto body udávají dvě různé kombinace statků, které přinesou spotřebiteli stejný (ale nikoliv maximální možný) užitek a zároveň na ně vydal celý svůj důchod.</string>
+
+    <string name="indifferent_analysis_info_text_2">IC se nikdy neprotínají.</string>
+
     <string name="indifferent_analysis_info_text_3_title">Změny rovnováhy</string>
-    <string name="indifferent_analysis_info_text_3">Jestliže dojde k růstu důchodu, posouvá se linie příjmu dál od počátku</string>
+    <string name="indifferent_analysis_info_text_3">Jestliže dojde k růstu důchodu spotřebitele, rozpočtové omezení roste. Spotřebitel si může koupit více kombinací dvou statků.</string>
+
     <string name="indifferent_analysis_info_text_4_title">Změny rovnováhy</string>
-    <string name="indifferent_analysis_info_text_4">při poklesu ceny může spotřebitel nakoupit větší množství zboží, a posouvá se dál od počátku</string>
+    <string name="indifferent_analysis_info_text_4">Při poklesu ceny jednoho statku může spotřebitel nakoupit větší množství tohoto statku, a rozpočtové omezení se posouvá pro tento statek dál od počátku.</string>
+
     <string name="indifferent_analysis_info_text_5_title">Rovnováha</string>
-    <string name="indifferent_analysis_info_text_5">Nachází se v bode dotyku linie příjmu a indiferenční křivky</string>
+    <string name="indifferent_analysis_info_text_5">Nachází se v bodě dotyku rozpočtového omezení a indiferenční křivky</string>
+
     <string name="indifferent_analysis_info_text_situation_title">Situace na grafu</string>
 
 
     <!-- marketDS -->
     <string name="marketDS_info_text_1_title">Charakteristika</string>
-    <string name="marketDS_info_text_1">Trh je v ekonomice prostor, kde dochází ke směně statků a služeb. Na trhu se setkávají nabízející, kteří chtějí směnit za peníze, a poptávající, kteří za ně chtějí získat nějaké nové zboží. Cílem prodejců je maximalizace ceny, zatímco kupující si přejí pravý opak, cenu co nejnižší.</string>
-    <string name="marketDS_info_text_demand_title">Poptávka</string>
-    <string name="marketDS_info_text_demand">Poptávka (značí se D, z anglického demand) je křivka, jež vyjadřuje závislost mezi množstvím zboží, které je kupující ochoten koupit, a cenou, jakou je ochoten za zboží zaplatit v určitý čas na určitém místě.</string>
-    <string name="marketDS_info_text_supply_title">Nabídka</string>
-    <string name="marketDS_info_text_supply">Nabídka (značí se S, z anglického supply) je ekonomický pojem vyjadřující objem výstupu výroby, který chce vyrábějící subjekt na trhu prodat za určitou cenu.</string>
-    <string name="marketDS_info_text_supply_change_title">Posun nabídky</string>
-    <string name="marketDS_info_text_supply_change">Posun nabídkové křivky může způsobit změna nákladu firmu nebo technologický pokrok</string>
-    <string name="marketDS_info_text_demand_change_title">Posun poptávky</string>
-    <string name="marketDS_info_text_demand_change">Posun poptávkové křivky může způsobit změna nominálního důchodu spotřebitelů nebo změna ceny jiných zboží</string>
+    <string name="marketDS_info_text_1">Trh je v ekonomice prostor (může být i virtuální), kde dochází ke směně statků a služeb. Na trhu se setkávají nabízející, kteří chtějí směnit své statky za peníze, a poptávající, kteří za peníze (část svého důchodu) chtějí získat nějaké statky k uspokojení svých potřeb. Prodejci se snaží prodat za co nejvyšší cenu, zatímco kupující si přejí koupit za co možná nejnižší cenu, aby mohli maximalizovat svůj užitek.</string>
 
-    <string name="marketDS_info_text_2_title">Rozlišení </string>
-    <string name="marketDS_info_text_2">rozlišujeme agregátní a individuální nabídku/poptávku </string>
+    <string name="marketDS_info_text_demand_title">Poptávka</string>
+    <string name="marketDS_info_text_demand">Poptávka (značí se D, z anglického demand) je vztah, jež vyjadřuje závislost mezi poptávaným množstvím statku, které jsou kupující ochotni koupit při dané ceně.</string>
+
+    <string name="marketDS_info_text_supply_title">Nabídka</string>
+    <string name="marketDS_info_text_supply">Nabídka (značí se S, z anglického supply) je vztah vyjadřující, kolik jsou výrobci ochotni nabídnout statku při dané ceně.</string>
+
+    <string name="marketDS_info_text_supply_change_title">Posun nabídky</string>
+    <string name="marketDS_info_text_supply_change">Posun nabídkové křivky může vyvolat změna nákladů firem (tedy změna cen výrobních faktorů užívaných k výrobě statku), nebo technologický pokrok.</string>
+
+    <string name="marketDS_info_text_demand_change_title">Posun poptávky</string>
+    <string name="marketDS_info_text_demand_change"> Posun poptávkové křivky může způsobit změna nominálního důchodu spotřebitelů, změna preferencí spotřebitelů, změna ceny substitutu, nebo změna ceny komplementu. </string>
+
+    <!--
+    <string name="marketDS_info_text_2_title">Rozlišení</string>
+    <string name="marketDS_info_text_2">Rozlišujeme agregátní a individuální nabídku/poptávku.</string>
+
     <string name="marketDS_info_text_3_title">Agregátní nabídka</string>
-    <string name="marketDS_info_text_3">je souhrnem individuálních nabídek všech firem</string>
+    <string name="marketDS_info_text_3">Je souhrnem individuálních nabídek všech firem.</string>
+
     <string name="marketDS_info_text_4_title">Individuální nabídka</string>
-    <string name="marketDS_info_text_4">je nabídka jednotlivého výrobce</string>
+    <string name="marketDS_info_text_4">Je nabídka jednotlivého výrobce.</string>
+
     <string name="marketDS_info_text_5_title">Základní funkce</string>
-    <string name="marketDS_info_text_5">základní funkci trhu je optimalizace alokace zdrojů</string>
+    <string name="marketDS_info_text_5">Základní funkci trhu je optimalizace alokace zdrojů.</string> -->
 
     <!-- ppf PPF -->
     <string name="production_limit_info_text_1_title">Charakteristika</string>
-    <string name="production_limit_info_text_1">Hranice produkčních možností (HPV) (anglicky: \"production-possibility frontier\" nebo-li PPF) vyjadřuje rozdílné kombinace dvou různých statků, které může výrobce produkovat při plném využití daných zdrojů a při dané technologii. Vyjadřuje hranici mezi dosažitelnou a nedosažitelnou úrovní produkce.</string>
+    <string name="production_limit_info_text_1">    Hranice výrobních možností (HVM) (anglicky: \"production-possibility frontier\" nebo-li PPF) vyjadřuje maximální možné kombinace dvou různých statků, které může ekonomika vyprodukovat při plném využití daných zdrojů a při dané technologii. Reprezentuje hranici mezi dosažitelnou a nedosažitelnou úrovní produkce.</string>
+
     <string name="production_limit_info_text_2_title">Tvar</string>
-    <string name="production_limit_info_text_2">PPF je kombinace statků, které může ekonomika při svých celkově omezených zdrojích vyrábět. Ve zjednodušeném modelu jde o kombinace dvou statků, přičemž hranice výrobních možností je vyjádřena konkávní křivkou v důsledku klesající mezní míry transformace produktu.</string>
-    <string name="production_limit_info_text_3_title">Dosažitelná úroveň produkce</string>
-    <string name="production_limit_info_text_3">všechny body nad křivkou představují nedostupné kombinace při daných výrobních faktorech</string>
-    <string name="production_limit_info_text_4_title">Nedosažitelná úroveň produkce</string>
-    <string name="production_limit_info_text_4">body, které leží uvnitř zobrazují skutečnost, že výrobní faktory nejsou dostatečně využívány</string>
+    <string name="production_limit_info_text_2">PPF je kombinace statků, které může maximálně ekonomika při svých celkově omezených zdrojích a technologiích vyrábět. Ve zjednodušeném znázornění jde o kombinace dvou statků. Hranice výrobních možností je funkcí klesající.</string>
+
+    <string name="production_limit_info_text_3_title">Nedosažitelná úroveň produkce</string>
+    <string name="production_limit_info_text_3">Všechny body nad křivkou představují nedostupné kombinace statků při daných výrobních faktorech a technologiích.</string>
+
+    <string name="production_limit_info_text_4_title">Dosažitelná úroveň produkce</string>
+    <string name="production_limit_info_text_4">Všechny body pod křivkou představují sice dostupné kombinace vyráběných statků, ale výrobní faktory, které ekonomika má k dispozici, nejsou užívány efektivně. Může dojít k navýšení produkce jednoho i druhého statku, aniž by bylo nutné omezit výrobu toho druhého.</string>
+
     <string name="production_limit_info_text_5_title">Posun</string>
-    <string name="production_limit_info_text_5">k posunu křivky dochází nejčastěji při technologickém pokroku</string>
+    <string name="production_limit_info_text_5">K posunu křivky dochází nejčastěji při technologickém pokroku, ale i při růstu množství dostupných výrobních faktorů či jejich kvality.</string>
 
 
     <!-- perfectmarketCompetition -->
     <string name="perfect_market_firm_info_text_1_title">Dokonalý trh</string>
-    <string name="perfect_market_firm_info_text_1">Dokonalý trh je takový trh, na kterém mají všichni kupující dokonalé informace o všech prodávajících a cenách, které nabízejí, při přechodu od jednoho prodávajícího k jinému mají nulové náklady a obchodovaný statek je homogenní.</string>
+    <string name="perfect_market_firm_info_text_1">Dokonalý trh je takový trh, na kterém mají všichni kupující dokonalé informace o všech prodávajících a cenách, které nabízejí, při přechodu od jednoho prodávajícího k jinému mají nulové náklady a obchodovaný statek je homogenní. Důsledkem těchto podmínek je, že tržní cena bude odpovídat úrovni mezních nákladů a mezních příjmů firem.</string>
 
     <string name="perfect_market_firm_info_text_mc_title">Mezní náklady</string>
-    <string name="perfect_market_firm_info_text_mc">Mezní náklady (méně často označováno jako marginální náklady, z anglického marginal cost – MC) jsou náklady při výrobě dodatečné jednotky výstupu. Udávají přírůstek celkových nákladů, pokud se produkce (výstup) zvýší o jednotku nebo určitý počet jednotek.</string>
+    <string name="perfect_market_firm_info_text_mc">Mezní náklady (z anglického marginal cost – MC) jsou náklady způsobné výrobou dodatečné jednotky výstupu. Udávají přírůstek celkových nákladů, pokud se produkce (výstup) zvýší o jednotku.</string>
 
     <string name="perfect_market_firm_info_text_ac_title">Průměrné náklady</string>
-    <string name="perfect_market_firm_info_text_ac">Průměrné náklady (z anglického average cost - AC), někdy označované jako jednotkové náklady, jsou to celkové náklady (TC) dělené množstvím produkce (Množství Q).</string>
+    <string name="perfect_market_firm_info_text_ac">Průměrné náklady (z anglického average cost - AC) jsou to celkové náklady (TC) dělené množstvím produkce (množství Q). Reprezentují, kolik v průměru musela firma ve formě nákladů obětovat na výrobu celého rozsahu produkce.</string>
 
     <string name="perfect_market_firm_info_text_avc_title">Průmerné variabilní náklady</string>
-    <string name="perfect_market_firm_info_text_avc">Průměrné variabilní náklady (z anglického average variable cost - AVC) jsou v mikroekonomii náklady, jejichž objem (a potažmo jejich výše, vyjádřená v penězích) je závislý na objemu výroby. Výrobci se přirozeně snaží variabilní náklady snižovat, neboť i malé snížení se vždy násobí počtem kusů a v absolutních číslech může představovat výrazné úspory. </string>
+    <string name="perfect_market_firm_info_text_avc">Průměrné variabilní náklady (z anglického average variable cost - AVC) jsou nákladem vztaženým k variabilním vstupům do produkce statku. Jsou závislé na objemu výroby. Pro firmy jsou důležité zejména pro rozhodování o rozsahu výroby v krátkém období.</string>
 
+    <!--
     <string name="perfect_market_firm_info_text_2_title">Předpoklady modelu DK</string>
     <string name="perfect_market_firm_info_text_2_subtitle">1.</string>
-    <string name="perfect_market_firm_info_text_2">Dokonalá konkurence na straně nabídky</string>
+    <string name="perfect_market_firm_info_text_2">Dokonalá konkurence na straně nabídky.</string>
 
     <string name="perfect_market_firm_info_text_3_title">Předpoklady modelu DK</string>
     <string name="perfect_market_firm_info_text_3_subtitle">2.</string>
-    <string name="perfect_market_firm_info_text_3">velký počet prodávajících – příjemci ceny</string>
+    <string name="perfect_market_firm_info_text_3">Velký počet prodávajících – příjemci ceny.</string>
 
     <string name="perfect_market_firm_info_text_4_title">Předpoklady modelu DK</string>
     <string name="perfect_market_firm_info_text_4_subtitle">3.</string>
-    <string name="perfect_market_firm_info_text_4">homogenní produkt</string>
+    <string name="perfect_market_firm_info_text_4">Homogenní produkt.</string>
 
     <string name="perfect_market_firm_info_text_5_title">Předpoklady modelu DK</string>
     <string name="perfect_market_firm_info_text_5_subtitle">4.</string>
-    <string name="perfect_market_firm_info_text_5">volný vstup do odvětví</string>
+    <string name="perfect_market_firm_info_text_5">Volný vstup do odvětví.</string>
 
     <string name="perfect_market_firm_info_text_6_title">Předpoklady modelu DK</string>
     <string name="perfect_market_firm_info_text_6_subtitle">5.</string>
-    <string name="perfect_market_firm_info_text_6">dokonalá informovanost</string>
+    <string name="perfect_market_firm_info_text_6">Dokonalá informovanost.</string>
 
     <string name="perfect_market_firm_info_text_7_title">Předpoklady modelu DK</string>
-    <string name="perfect_market_firm_info_text_7_subtitle">5.</string>
-    <string name="perfect_market_firm_info_text_7">cílem je maximalizace zisku</string>
+    <string name="perfect_market_firm_info_text_7_subtitle">6.</string>
+    <string name="perfect_market_firm_info_text_7">Cílem je maximalizace zisku.</string> -->
 
     <string name="perfect_market_firm_info_text_8_title">Zisk</string>
-    <string name="perfect_market_firm_info_text_8">rozlišujeme mezi účetním a ekonomickým ziskem</string>
+    <string name="perfect_market_firm_info_text_8">Rozlišujeme mezi účetním a ekonomickým ziskem.</string>
 
     <string name="perfect_market_firm_info_text_9_title">Účetní zisk</string>
-    <string name="perfect_market_firm_info_text_9">Účetní zisk = celkové příjmy – explicitní náklady (reálně vynaložené náklady – napr. mzdy pracovníků)</string>
+    <string name="perfect_market_firm_info_text_9">Účetní zisk = celkové příjmy – explicitní náklady (reálně a v účetnictví zachycené vynaložené náklady – např. mzdy pracovníků, platby za elektřinu atd.)</string>
 
     <string name="perfect_market_firm_info_text_10_title">Ekonomický zisk</string>
-    <string name="perfect_market_firm_info_text_10">Ekonomický zisk = účetní zisk – implicitní náklady (náklady obětované příležitosti)</string>
+    <string name="perfect_market_firm_info_text_10">Ekonomický zisk = účetní zisk – implicitní náklady (náklady obětované příležitosti).</string>
 
     <string name="perfect_market_firm_info_text_11_title">Nabídka firmy v krátkém období</string>
-    <string name="perfect_market_firm_info_text_11">v krátkém období muže firma vyrábět se ztrátou.</string>
+    <string name="perfect_market_firm_info_text_11">V krátkém období může firma vyrábět se ztrátou.</string>
 
     <string name="perfect_market_firm_info_text_12_title">Nabídka firmy v krátkém období</string>
-    <string name="perfect_market_firm_info_text_12_subtitle">ve ztrátě</string>
-    <string name="perfect_market_firm_info_text_12">ztráta musí pokrýt alespoň variabilní náklady => AVC> = p, v případě, že se AVC = p => firma je v indiferentním bodě, je jí jedno, zda vyrábí nebo ne.</string>
+    <string name="perfect_market_firm_info_text_12">Ztráta musí pokrýt alespoň variabilní náklady. Pokud tomu tak není, tak je pro firmu výhodnější zastavit výrobu a hradit pouze fixní náklady, neboť jsou menší než případná ztráta vzniklá z pokračující výroby. V jednotkovém vyjádření jde o situaci => AVC> = p, v případě, že se AVC = p => firma je v indiferentním bodě, je jí jedno, zda vyrábí nebo ne, protože ztráta je přesně stejně velká jako fixní náklady.</string>
 
     <string name="perfect_market_firm_info_text_13_title">Nabídka firmy v krátkém období</string>
-    <string name="perfect_market_firm_info_text_13">nabídky firmy v krátkém období je od minima AVC</string>
+    <string name="perfect_market_firm_info_text_13">Nabídka firmy v krátkém období začíná v minimu AVC.</string>
 
     <string name="perfect_market_firm_info_text_14_title">Zisk</string>
-    <string name="perfect_market_firm_info_text_14">v krátkém období teda firma může dosahovat ekonomický zisk aj ztrátu</string>
+    <string name="perfect_market_firm_info_text_14">V krátkém období tedy firma může dosahovat ekonomického zisku i ztráty.</string>
 
     <string name="perfect_market_firm_info_text_15_title">Nabídka firmy v dlouhém období</string>
-    <string name="perfect_market_firm_info_text_15">firma musí pokrýt celé celkové náklady (TC=VC), a nabízí od chvíle, kdy je cena větší nebo rovna celkovým nákladům, proto firma nabízí p> = AC, tedy TR > TC.</string>
+    <string name="perfect_market_firm_info_text_15">V dlouhém období vstup a výstup firem do a z odvětví způsobí (skrze změny na straně nabídky) změnu ceny, kterou výrobci z trhu přejímají. Tento proces probíhá do doby, než se tržní cena nevyrovná minimu průměrných nákladů a tím nedojde k odstranění zisku nebo ztráty firem v odvětví. S nulovým ziskem nejsou firmy motivovány do odvětví přicházet ani z něj odcházet.</string>
 
     <string name="perfect_market_firm_info_text_16_title">Nabídka firmy v dlouhém období</string>
-    <string name="perfect_market_firm_info_text_16">v dlouhém období, kdyby firma dosahovali zisk, tak na trhu vstupují nové firmy a v případe ztráty vystupují firmy z trhu.</string>
+    <string name="perfect_market_firm_info_text_16">Pokud firmy v odvětví dosahují ekonomického zisku, tak na trhu vstupují nové firmy, a v případe ekonomické ztráty budou firmy z odvětví odcházet.</string>
 
     <string name="perfect_market_firm_info_text_17_title">Nabídka firmy v dlouhém období</string>
-    <string name="perfect_market_firm_info_text_17">nejsou tlaky na změny v odvětví – nabídková křivka je jenom jeden bod.</string>
+    <string name="perfect_market_firm_info_text_17">Firmy nejsou motivovány měnit svoje chování a tak nabízí právě rozsah produkce odpovídající minimu AC.</string>
 
 
     <!-- CostCurves -->
     <string name="cost_curves_info_text_1_title">Náklady v krátkém období</string>
-    <string name="cost_curves_info_text_1">rozlišujeme mezi účetním a ekonomickým ziskem</string>
+    <string name="cost_curves_info_text_1">rozlišujeme mezi účetním a ekonomickým ziskem.</string>
 
     <string name="cost_curves_info_text_2_title">Náklady v krátkém období</string>
     <string name="cost_curves_info_text_2_subtitle">MC</string>
-    <string name="cost_curves_info_text_2">Mezní náklady vyjadřují dodatečné náklady, zvýšením výroby o dodateční jednotku. Nejprve jsou klesající a následně jsou rostoucí. Je to kvůli působení výnosů z rozsahu. V inflexním bodě, kde se mění rostoucí výnosy z rozsahu na klesající dosahují MC svého minima.</string>
+    <string name="cost_curves_info_text_2">Mezní náklady vyjadřuj změnu celkových nákladů způsobenou zvýšením výroby o dodatečnou jednotku produkce. Nejprve jsou klesající a následně jsou rostoucí. Je to kvůli působení výnosů z rozsahu. Pokud výnosnost dodatečné jednotky výrobního faktoru roste v důsledku dělby práce, tak mezní náklady klesají. Od určité jednotky výrobního faktoru se začne prosazovat zákon klesajících výnosů. Výnosnost dodatečných jednotek výrobního faktoru klesá a tím pádem mezní náklad roste.</string>
 
     <string name="cost_curves_info_text_3_title">Náklady v krátkém období</string>
     <string name="cost_curves_info_text_3_subtitle">FC</string>
-    <string name="cost_curves_info_text_3">Fixní náklady se nemění s množstvím produkce.</string>
+    <string name="cost_curves_info_text_3">Fixní náklady se nemění se změnou množství produkce.</string>
 
     <string name="cost_curves_info_text_4_title">Náklady v krátkém období</string>
     <string name="cost_curves_info_text_4_subtitle">AFC</string>
-    <string name="cost_curves_info_text_4">Průměrné fixní náklady jsou klesající, protože se zvyšováním objemu výroby připadá na jednotku průměrných fixních nákladů stále méně nákladů.</string>
+    <string name="cost_curves_info_text_4">Průměrné fixní náklady jsou klesající, protože se zvyšováním objemu výroby připadá stejný fixní náklad na stále větší množství vyráběné produkce.</string>
 
     <string name="cost_curves_info_text_5_title">Náklady v krátkém období</string>
     <string name="cost_curves_info_text_5_subtitle">AVC</string>
@@ -210,7 +227,7 @@
     <string name="cost_curves_info_text_6">V krátkém období není možné změnit fixní náklady, měnit je možné pouze variabilní náklady.</string>
 
     <string name="cost_curves_info_text_7_title">Náklady v dlouhém období</string>
-    <string name="cost_curves_info_text_7">Všechny vstupy jsou variabilní.</string>
+    <string name="cost_curves_info_text_7">Všechny vstupy jsou variabilní, proto v dlouhém období náklady nerozlišujeme na fixní a variabilní.</string>
 
     <string name="cost_curves_info_text_8_title">Náklady v dlouhém období</string>
     <string name="cost_curves_info_text_8">Celkové náklady se rovnají variabilním nákladům.</string>
@@ -237,11 +254,11 @@
     <string name="disclaimer_main_page">Aplikace doposud nebyla vydaná v plné verzi. V případe nejasností kontaktujte autora aplikace.</string>
     <string name="start_app_showcase">start app</string>
     <string name="graph_list_showcase">Na téhle obrazovce si zvolíte graf o kterém se chcete dozvědět více</string>
-    <string name="down_button_showcase">Pomoci tohle tlačítka posunete vybranou křivku dolů / zmenšíte hodnoty</string>
-    <string name="up_button_showcase">Pomoci tohle tlačítka posunute vybranou křivku nahoru / zvětšíte hodnoty</string>
-    <string name="choose_curve_showcase">Pomoci spodního baru můžete vybrat křivku(nebo skupinu křivek), kterou budete ovládat a získáte k ní doplňující informace na obrazovce vpravo</string>
-    <string name="graph_showcase">Graf zobrazuje křivky a posunuje na základe vaši vůle. Vpravo můžete vidět legendu. Pomoci barev je možné jednotlivé křivky rozeznat</string>
-    <string name="graph_values_showcase">Zde můžete vidět dodatečné informace ku grafu. Zejména to jsou rovnovážné body a jejich souřadnice a hodnoty o které byli křivky posunuté.</string>
+    <string name="down_button_showcase">Pomocí tohole tlačítka posunete vybranou křivku dolů / zmenšíte hodnoty</string>
+    <string name="up_button_showcase">Pomocí tohole tlačítka posunute vybranou křivku nahoru / zvětšíte hodnoty</string>
+    <string name="choose_curve_showcase">Pomocí spodního baru můžete vybrat křivku(nebo skupinu křivek), kterou budete ovládat a získáte k ní doplňující informace na obrazovce vpravo</string>
+    <string name="graph_showcase">Graf zobrazuje křivky, které se posunují dle vaší chuti. Vpravo můžete vidět legendu. Pomoci barev je možné jednotlivé křivky rozeznat</string>
+    <string name="graph_values_showcase">Zde můžete vidět dodatečné informace ku grafu. Zejména jde o rovnovážné body a jejich souřadnice a hodnoty o které byli křivky posunuté.</string>
     <string name="info_showcase"></string>
     <string name="dismiss_showcase_text">Rozumím</string>
     <string name="graph">Graf</string>

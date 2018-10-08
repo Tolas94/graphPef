@@ -59,7 +59,24 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyView
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
+        if (holder == null){
+            Log.e(TAG,"onBindViewHolder holder is null");
+            return;
+        }
+        if (itemsList == null){
+            Log.e(TAG,"onBindViewHolder itemsList is null");
+            return;
+        }
         StringIntegerPair item = itemsList.get(position);
+        if (item == null){
+            Log.e(TAG,"onBindViewHolder item is null");
+            return;
+        }
+        if (item.first == null){
+            Log.e(TAG,"onBindViewHolder item.first is null");
+            return;
+
+        }
         holder.menuItemText.setText(item.first.get(0));
         holder.menuItemTextUpper.setText(item.first.get(1));
         holder.menuItemTextLower.setText(item.first.get(2));

@@ -91,11 +91,14 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         mainScreenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Log.d(TAG,"onClick: Clicked button mainScreen");
+                Log.d(TAG,"onClick: Clicked button mainScreen");
+                //mAuth.getCurrentUser().reload();
                 if ( mAuth.getCurrentUser().isEmailVerified() ){
+                    Log.d(TAG,"onClick: Clicked button mainScreen - email verified");
                     Intent intent = new Intent(MainActivity.this, GraphMenuListActivity.class);
                     startActivity(intent);
                 }else{
+                    Log.d(TAG,"onClick: Clicked button mainScreen - email NOT verified");
                     Toast.makeText(MainActivity.this, getResources().getString(R.string.emailNotVerified),
                             Toast.LENGTH_SHORT).show();
                 }

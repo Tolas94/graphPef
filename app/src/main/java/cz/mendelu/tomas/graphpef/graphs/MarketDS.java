@@ -117,10 +117,10 @@ public class MarketDS extends DefaultGraph  implements Serializable {
         arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_1_title),"",getResources().getString(R.string.marketDS_info_text_1))));
         arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_demand_title),"",getResources().getString(R.string.marketDS_info_text_demand))));
         arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_supply_title),"",getResources().getString(R.string.marketDS_info_text_supply))));
-        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_2_title),"",getResources().getString(R.string.marketDS_info_text_2))));
-        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_3_title),"",getResources().getString(R.string.marketDS_info_text_3))));
-        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_4_title),"",getResources().getString(R.string.marketDS_info_text_4))));
-        arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_5_title),"",getResources().getString(R.string.marketDS_info_text_5))));
+        //arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_2_title),"",getResources().getString(R.string.marketDS_info_text_2))));
+        //arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_3_title),"",getResources().getString(R.string.marketDS_info_text_3))));
+        //arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_4_title),"",getResources().getString(R.string.marketDS_info_text_4))));
+        //arrayList.add(new ArrayList<String>(Arrays.asList(getResources().getString(R.string.marketDS_info_text_5_title),"",getResources().getString(R.string.marketDS_info_text_5))));
 
         return arrayList;
     }

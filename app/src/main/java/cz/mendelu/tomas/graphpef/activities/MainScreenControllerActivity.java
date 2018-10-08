@@ -60,8 +60,8 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
     private static GraphEnum chosenGraph;
 
     public enum GraphEnum {
-        MarketDS,
         ProductionLimit,
+        MarketDS,
         PerfectMarket,
         CostCurves,
         IndifferentAnalysis,
