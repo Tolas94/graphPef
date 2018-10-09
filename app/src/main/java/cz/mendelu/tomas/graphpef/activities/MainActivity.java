@@ -1,5 +1,6 @@
 package cz.mendelu.tomas.graphpef.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -8,10 +9,14 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -55,10 +60,10 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         }
         mAuth = FirebaseAuth.getInstance();
 
-        ((EditText)findViewById(R.id.signInPassword)).setHint(getResources().getString(R.string.password));
-        ((EditText)findViewById(R.id.signInXname)).setHint(getResources().getString(R.string.xname));
+//        ((EditText)findViewById(R.id.signInPassword)).setHint(getResources().getString(R.string.password));
+  //      ((EditText)findViewById(R.id.signInXname)).setHint(getResources().getString(R.string.xname));
 
-        Button signInButton = findViewById(R.id.signInSubmitButton);
+        final Button signInButton = findViewById(R.id.signInSubmitButton);
         Button registerButton = findViewById(R.id.registerSubmitButton);
         Button signOutButton = findViewById(R.id.signOutButton);
         Button sendEmail = findViewById(R.id.sendMailButton);
@@ -79,6 +84,19 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         signOutButton.setText(R.string.signOut);
         setUpSendEmailButton(sendEmail);
         sendEmail.setText(R.string.sendEmail);
+
+        EditText passwordText = findViewById(R.id.signInPassword);
+
+        passwordText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    signInButton.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         mainScreenButton =  findViewById(R.id.startAppButton);
         mainScreenButton.setText(getText(R.string.start_app));
@@ -148,6 +166,8 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         if (user != null){
             findViewById(R.id.signInLayout).setVisibility(View.GONE);
             findViewById(R.id.signedLayout).setVisibility(View.VISIBLE);
+            InputMethodManager keyboard = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            keyboard.hideSoftInputFromWindow(findViewById(R.id.signInPassword).getWindowToken(), 0);
             presentShowcaseSequence();
         }else{
             findViewById(R.id.signInLayout).setVisibility(View.VISIBLE);
@@ -181,13 +201,14 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         }
         return false;
     }
+    @SuppressWarnings("unchecked")
     private void sendVerificationEmail(){
-       mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(this, new OnCompleteListener() {
+        mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(this, new OnCompleteListener() {
             @Override
             public void onComplete(@NonNull Task task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(MainActivity.this,
-                            getResources().getString(R.string.verificationEmail) + " " +  MainActivity.this.getEmail(),
+                            getResources().getString(R.string.verificationEmail) + " " + MainActivity.this.getEmail(),
                             Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e(TAG, "sendEmailVerification", task.getException());
@@ -225,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
                                     }
                                 });
                     } else {
-                        Toast.makeText(MainActivity.this, "Account creationn failed.",
+                        Toast.makeText(MainActivity.this, "Account creation failed.",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }

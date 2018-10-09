@@ -102,48 +102,40 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/signInLayout"
                 android:visibility="invisible">
-                <android.support.v7.widget.CardView
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="12dp"
                     android:id="@+id/signInEmailLayout"
                     android:layout_marginTop="12dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
                         <EditText
                             android:id="@+id/signInXname"
                             style="@android:style/Widget.Material.EditText"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center"
-                            android:ellipsize="start"
-                            android:hint="Tvoje xName" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+                            android:hint="xJméno"
+                            android:inputType="text"
+                            android:singleLine="true"/>
+                </android.support.design.widget.TextInputLayout>
 
-                <android.support.v7.widget.CardView
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="12dp"
                     android:id="@+id/signInPasswordLayout"
                     android:layout_below="@id/signInEmailLayout"
                     android:layout_marginTop="12dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
 
-                        <EditText
-                            android:id="@+id/signInPassword"
-                            style="@android:style/Widget.Material.EditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:inputType="textPassword"
-                            android:gravity="center"
-                            android:ellipsize="start"
-                            android:hint="Heslo" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+                    <EditText
+                        android:id="@+id/signInPassword"
+                        style="@android:style/Widget.Material.EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="textPassword"
+                        android:gravity="center"
+                        android:ellipsize="start"
+                        android:hint="Heslo"
+                        android:imeOptions="actionDone"/>
+                </android.support.design.widget.TextInputLayout>
 
                 <android.support.v7.widget.CardView
                     android:layout_width="wrap_content"
@@ -152,7 +144,6 @@
                     android:layout_below="@id/signInPasswordLayout"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="12dp">
-
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -203,57 +194,31 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/appNameText"
             android:id="@+id/logosOnMainScreenLayout">
-            <android.support.v7.widget.CardView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+
+                <ImageView
+                android:id="@+id/LogoMendeluBottom"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                app:cardUseCompatPadding="true"
-                android:background="@color/white"
-                app:cardCornerRadius="75dp">
-
-                <ImageView
-                    android:id="@+id/LogoMendeluBottom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="18dp"
-                    app:srcCompat="@drawable/logo_mendelu" />
-
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:padding="18dp"
+                app:srcCompat="@drawable/logo_mendelu" />
+            <ImageView
+                android:id="@+id/LogoPefBottom"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                app:cardUseCompatPadding="true"
-                android:background="@color/white"
-                app:cardCornerRadius="75dp">
-                <ImageView
-                    android:id="@+id/LogoPefBottom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    app:srcCompat="@drawable/logo_pef_official" />
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/graphPefLogo_card"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                app:cardCornerRadius="150dp"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                app:cardBackgroundColor="@color/white"
-                app:cardUseCompatPadding="true"
-                android:elevation="10dp">
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:padding="12dp"
+                app:srcCompat="@drawable/logo_pef_official" />
 
-                <ImageView
-                    android:id="@+id/graphPefLogo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignTop="@+id/graphPefLogo_card"
-                    android:layout_centerInParent="true"
-                    app:srcCompat="@drawable/logo_graph_pef" />
-            </android.support.v7.widget.CardView>
+            <ImageView
+                android:id="@+id/graphPefLogo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_below="@id/LogoPefBottom"
+                app:srcCompat="@drawable/logo_graph_pef_circle" />
         </RelativeLayout>
     </RelativeLayout>
 </FrameLayout>
