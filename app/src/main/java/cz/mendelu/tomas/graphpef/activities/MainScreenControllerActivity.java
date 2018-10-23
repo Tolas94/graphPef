@@ -38,10 +38,6 @@ import cz.mendelu.tomas.graphpef.graphs.MarketDS;
 import cz.mendelu.tomas.graphpef.graphs.PerfectMarketFirm;
 import cz.mendelu.tomas.graphpef.graphs.ProductionLimit;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
-import cz.mendelu.tomas.graphpef.helperObjects.PositionPair;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
-import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 /**
  * Created by tomas on 11.08.2018.

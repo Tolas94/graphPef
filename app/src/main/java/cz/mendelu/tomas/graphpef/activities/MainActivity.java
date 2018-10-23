@@ -134,7 +134,15 @@ public class MainActivity extends AppCompatActivity implements Serializable{
             }
         });
         sequence.setConfig(config);
-        sequence.addSequenceItem(mainScreenButton,getString(R.string.disclaimer_main_page),getString(R.string.dismiss_showcase_text));
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(mainScreenButton)
+                        .setDismissText(getString(R.string.disclaimer_main_page))
+                        .setContentText(getString(R.string.dismiss_showcase_text))
+                        .withRectangleShape(true)
+                        .setDismissOnTouch(true)
+                        .build()
+        );
         sequence.start();
     }
 
@@ -263,7 +271,8 @@ public class MainActivity extends AppCompatActivity implements Serializable{
                     if (MainActivity.this.getPassword() != null && !MainActivity.this.getPassword().isEmpty()){
                         SimpleDateFormat s = new SimpleDateFormat("dd.MM.yyyy//hh:mm:ss");
                         String ts = s.format(new Date());
-                        Answers.getInstance().logLogin(new LoginEvent().putMethod("Login").putCustomAttribute("DateTime", ts));
+                        Answers.getInstance().logLogin(new LoginEvent().putMethod("Login")
+                                                            .putCustomAttribute("DateTime", ts));
                         mAuth.signInWithEmailAndPassword(MainActivity.this.getEmail(), MainActivity.this.getPassword())
                                 .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                                     @Override

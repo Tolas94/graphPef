@@ -91,7 +91,15 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
 
         if (mLayoutManager != null){
             if (mLayoutManager.getChildCount() > 2){
-                sequence.addSequenceItem(mLayoutManager.findViewByPosition(1).findViewById(R.id.menu_item_relative_parent),getString(R.string.graph_list_showcase),getString(R.string.dismiss_showcase_text));
+                sequence.addSequenceItem(
+                        new MaterialShowcaseView.Builder(this)
+                                .setTarget(mLayoutManager.findViewByPosition(1).findViewById(R.id.menu_item_relative_parent))
+                                .setDismissText(getString(R.string.graph_list_showcase))
+                                .setContentText(getString(R.string.dismiss_showcase_text))
+                                .withRectangleShape(true)
+                                .setDismissOnTouch(true)
+                                .build()
+                );
             }
         }
 

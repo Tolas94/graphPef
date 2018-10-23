@@ -412,10 +412,42 @@ public class GraphFragment extends Fragment  implements Serializable {
         });
         sequence.setConfig(config);
         //sequence.addSequenceItem(graph,getString(R.string.graph_showcase),getString(R.string.dismiss_showcase_text));
-        sequence.addSequenceItem(text1,getString(R.string.graph_values_showcase),getString(R.string.dismiss_showcase_text));
-        sequence.addSequenceItem(up,getString(R.string.up_button_showcase),getString(R.string.dismiss_showcase_text));
-        sequence.addSequenceItem(down,getString(R.string.down_button_showcase),getString(R.string.dismiss_showcase_text));
-        sequence.addSequenceItem(toolbar,getString(R.string.choose_curve_showcase),getString(R.string.dismiss_showcase_text));
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(this.getActivity())
+                        .setTarget(text1)
+                        .setDismissText(getString(R.string.graph_values_showcase))
+                        .setContentText(getString(R.string.dismiss_showcase_text))
+                        .withRectangleShape()
+                        .setDismissOnTouch(true)
+                        .build()
+        );
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(this.getActivity())
+                        .setTarget(up)
+                        .setDismissText(getString(R.string.up_button_showcase))
+                        .setContentText(getString(R.string.dismiss_showcase_text))
+                        .withRectangleShape()
+                        .setDismissOnTouch(true)
+                        .build()
+        );
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(this.getActivity())
+                        .setTarget(down)
+                        .setDismissText(getString(R.string.down_button_showcase))
+                        .setContentText(getString(R.string.dismiss_showcase_text))
+                        .withRectangleShape()
+                        .setDismissOnTouch(true)
+                        .build()
+        );
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(this.getActivity())
+                        .setTarget(toolbar)
+                        .setDismissText(getString(R.string.choose_curve_showcase))
+                        .setContentText(getString(R.string.dismiss_showcase_text))
+                        .withRectangleShape(true)
+                        .setDismissOnTouch(true)
+                        .build()
+        );
         sequence.start();
     }
 }

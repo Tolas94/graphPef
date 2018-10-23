@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ContentViewEvent;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -89,6 +90,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyView
                 Answers.getInstance().logContentView(new ContentViewEvent()
                                                         .putContentId(GraphMenuListActivity.GraphEnum.values()[position].toString())
                                                         .putCustomAttribute("DateTime",ts)
+                                                        .putCustomAttribute("User",FirebaseAuth.getInstance().getCurrentUser().getEmail())
                                                         .putContentType("Graph change"));
                 Intent intent = new Intent(v.getContext(),MainScreenControllerActivity.class);
                 //Log.d(TAG,"newGraph " + GraphMenuListActivity.GraphEnum.values()[position].toString());

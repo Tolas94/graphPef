@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:ignore="ExtraText">
+    tools:ignore="ExtraText"
+    android:background="@color/grey2">
 
     <RelativeLayout
         android:layout_width="match_parent"
