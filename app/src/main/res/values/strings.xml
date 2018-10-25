@@ -234,6 +234,13 @@
     <string name="cost_curves_info_text_8_title">Náklady v dlouhém období</string>
     <string name="cost_curves_info_text_8">Celkové náklady se rovnají variabilním nákladům.</string>
 
+    <string name="monopolistic_market_firm_info_text_1_title">Monopolistická konkurence</string>
+    <string name="monopolistic_market_firm_info_text_1">Monopolistická konkurence je forma nedokonalé konkurence s prvky monopolu i dokonalé konkurence.</string>
+
+    <string name="monopolistic_market_firm_info_text_2_title">Podmínky existence</string>
+    <string name="monopolistic_market_firm_info_text_2">Je zde velký počet výrobců s výrobky, které jsou blízkými substituty - ale produkce je diferencovaná.</string>
+
+
 
 
     <string name="quantity">Množství</string>

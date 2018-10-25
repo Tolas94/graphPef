@@ -279,7 +279,8 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
                 new ArrayList<String>(),
                 indiferrentAnalysis));
 
-        monopolisticMarketFirm.setTitle(getString(R.string.PerfectMarket));
+        //monopolistic market firm
+        monopolisticMarketFirm.setTitle(getString(R.string.MonopolisticMarket));
         monopolisticMarketFirm.setLabelX(getString(R.string.quantity) + " [" + getString(R.string.units) + "]");
         monopolisticMarketFirm.setLabelY(getString(R.string.price)  + " [" + getString(R.string.currency) + "]");
         monopolisticMarketFirm.setGraphEnum(GraphEnum.MonopolisticMarket);

@@ -7,7 +7,7 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
     <option name="LOGCAT_FORMAT_STRING" value="%4$c/%5$s: %6$s" />
   </component>
   <component name="CMakeSettings">
@@ -17,7 +17,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1616b76a-e70b-45cd-8c86-3e76a2a43350" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/MonopolisticMarketFirm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" afterDir="false" />
@@ -29,10 +28,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/GraphMenuListActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/GraphMenuListActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainScreenControllerActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainScreenControllerActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/GraphFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/GraphFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/CostCurves.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/CostCurves.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/DefaultGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/DefaultGraph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/interfaces/GraphIfc.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/interfaces/GraphIfc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/MonopolisticMarketFirm.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/MonopolisticMarketFirm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -141,10 +137,42 @@
       <file leaf-file-name="MainScreenControllerActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainScreenControllerActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="245" column="55" selection-start-line="245" selection-start-column="45" selection-end-line="245" selection-end-column="55" />
+            <state relative-caret-position="391">
+              <caret line="281" column="34" selection-start-line="281" selection-start-column="34" selection-end-line="281" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#4353#4367#0" expanded="true" />
+                <element signature="e#4590#4603#0" expanded="true" />
+                <element signature="e#5688#5716#0" expanded="true" />
+                <element signature="e#5746#5774#0" expanded="true" />
+                <element signature="e#5784#5809#0" expanded="true" />
+                <element signature="e#5845#5870#0" expanded="true" />
+                <element signature="e#5881#5909#0" expanded="true" />
+                <element signature="e#6986#7021#0" expanded="true" />
+                <element signature="e#7058#7091#0" expanded="true" />
+                <element signature="e#7103#7128#0" expanded="true" />
+                <element signature="e#7171#7204#0" expanded="true" />
+                <element signature="e#7216#7241#0" expanded="true" />
+                <element signature="e#8032#8065#0" expanded="true" />
+                <element signature="e#8104#8132#0" expanded="true" />
+                <element signature="e#8142#8167#0" expanded="true" />
+                <element signature="e#8212#8237#0" expanded="true" />
+                <element signature="e#8248#8276#0" expanded="true" />
+                <element signature="e#9829#9859#0" expanded="true" />
+                <element signature="e#9896#9924#0" expanded="true" />
+                <element signature="e#9934#9959#0" expanded="true" />
+                <element signature="e#10002#10027#0" expanded="true" />
+                <element signature="e#10038#10066#0" expanded="true" />
+                <element signature="e#11489#11528#0" expanded="true" />
+                <element signature="e#11569#11595#0" expanded="true" />
+                <element signature="e#11607#11632#0" expanded="true" />
+                <element signature="e#11679#11705#0" expanded="true" />
+                <element signature="e#11717#11742#0" expanded="true" />
+                <element signature="e#12670#12708#0" expanded="true" />
+                <element signature="e#12752#12780#0" expanded="true" />
+                <element signature="e#12790#12815#0" expanded="true" />
+                <element signature="e#12865#12890#0" expanded="true" />
+                <element signature="e#12901#12929#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -153,17 +181,17 @@
       <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="40" column="42" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+            <state relative-caret-position="153">
+              <caret line="9" column="45" selection-start-line="9" selection-start-column="41" selection-end-line="9" selection-end-column="45" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CostCurves.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CostCurves.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/CostCurves.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="49" column="83" selection-start-line="49" selection-start-column="83" selection-end-line="49" selection-end-column="83" />
+            <state relative-caret-position="222">
+              <caret line="59" column="74" selection-start-line="59" selection-start-column="74" selection-end-line="59" selection-end-column="74" />
               <folding>
                 <element signature="e#4555#4619#0" expanded="true" />
                 <element signature="e#4623#4681#0" expanded="true" />
@@ -191,11 +219,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GraphMenuListActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="GraphMenuListActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/GraphMenuListActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1700">
-              <caret line="118" column="5" selection-start-line="118" selection-start-column="5" selection-end-line="118" selection-end-column="5" />
+            <state relative-caret-position="507">
+              <caret line="127" lean-forward="true" selection-start-line="127" selection-end-line="127" />
             </state>
           </provider>
         </entry>
@@ -230,8 +258,13 @@
       <file leaf-file-name="MonopolisticMarketFirm.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/MonopolisticMarketFirm.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="116" column="70" selection-start-line="116" selection-start-column="70" selection-end-line="116" selection-end-column="70" />
+            <state relative-caret-position="222">
+              <caret line="127" column="111" selection-start-line="127" selection-start-column="105" selection-end-line="127" selection-end-column="111" />
+              <folding>
+                <element signature="e#6744#6815#0" expanded="true" />
+                <element signature="e#6878#6955#0" expanded="true" />
+                <element signature="e#6959#7030#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -259,9 +292,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>signInXname</find>
-      <find>inpu</find>
-      <find>logo</find>
       <find>email</find>
       <find>updateUI</find>
       <find>tvoje</find>
@@ -286,9 +316,12 @@
       <find>equiPoints</find>
       <find>calculateData</find>
       <find>moveobjec</find>
-      <find>demand</find>
-      <find>PriceLevel</find>
       <find>calculatedata</find>
+      <find>PriceLevel</find>
+      <find>demand</find>
+      <find>market</find>
+      <find>lecture</find>
+      <find>doko</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\tomas\AndroidStudioProjects\graphPef\app\src\main\java\cz\mendelu\tomas\graphpef</dir>
@@ -2663,14 +2696,14 @@
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/tab_selector_color.xml" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/GraphMenuListActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/interfaces/GraphIfc.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/MonopolisticMarketFirm.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/DefaultGraph.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainScreenControllerActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/GraphFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/CostCurves.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/MonopolisticMarketFirm.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainScreenControllerActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/GraphMenuListActivity.java" />
       </list>
     </option>
   </component>
@@ -2748,6 +2781,12 @@
               <item name="graphPef" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="res" type="d4f16f75:AndroidResFolderNode" />
+            </path>
+            <path>
+              <item name="graphPef" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="drawable" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
             <path>
               <item name="graphPef" type="1abcf292:AndroidViewProjectNode" />
@@ -3009,7 +3048,7 @@
       <window_info anchor="bottom" id="Run" order="4" sideWeight="0.4955357" weight="0.32254696" />
       <window_info anchor="bottom" id="Version Control" order="12" weight="0.32884097" />
       <window_info anchor="bottom" id="Terminal" order="13" weight="0.33118972" />
-      <window_info anchor="bottom" id="Logcat" order="10" sideWeight="0.4955357" visible="true" weight="0.2884097" />
+      <window_info anchor="bottom" id="Logcat" order="10" sideWeight="0.4955357" weight="0.2884097" />
       <window_info id="Captures" order="5" weight="0.25" />
       <window_info id="Capture Tool" order="7" />
       <window_info id="Designer" order="3" />
@@ -3425,13 +3464,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/GraphMenuListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1700">
-          <caret line="118" column="5" selection-start-line="118" selection-start-column="5" selection-end-line="118" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/interfaces/GraphIfc.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="862">
@@ -3439,34 +3471,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/MonopolisticMarketFirm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="116" column="70" selection-start-line="116" selection-start-column="70" selection-end-line="116" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="40" column="42" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="129" column="54" selection-start-line="129" selection-start-column="54" selection-end-line="129" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainScreenControllerActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="245" column="55" selection-start-line="245" selection-start-column="45" selection-end-line="245" selection-end-column="55" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3491,10 +3499,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/MonopolisticMarketFirm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="127" column="111" selection-start-line="127" selection-start-column="105" selection-end-line="127" selection-end-column="111" />
+          <folding>
+            <element signature="e#6744#6815#0" expanded="true" />
+            <element signature="e#6878#6955#0" expanded="true" />
+            <element signature="e#6959#7030#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/CostCurves.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="49" column="83" selection-start-line="49" selection-start-column="83" selection-end-line="49" selection-end-column="83" />
+        <state relative-caret-position="222">
+          <caret line="59" column="74" selection-start-line="59" selection-start-column="74" selection-end-line="59" selection-end-column="74" />
           <folding>
             <element signature="e#4555#4619#0" expanded="true" />
             <element signature="e#4623#4681#0" expanded="true" />
@@ -3518,6 +3538,62 @@
             <element signature="e#6203#6267#0" expanded="true" />
             <element signature="e#6271#6329#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="45" selection-start-line="9" selection-start-column="41" selection-end-line="9" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainScreenControllerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="281" column="34" selection-start-line="281" selection-start-column="34" selection-end-line="281" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4353#4367#0" expanded="true" />
+            <element signature="e#4590#4603#0" expanded="true" />
+            <element signature="e#5688#5716#0" expanded="true" />
+            <element signature="e#5746#5774#0" expanded="true" />
+            <element signature="e#5784#5809#0" expanded="true" />
+            <element signature="e#5845#5870#0" expanded="true" />
+            <element signature="e#5881#5909#0" expanded="true" />
+            <element signature="e#6986#7021#0" expanded="true" />
+            <element signature="e#7058#7091#0" expanded="true" />
+            <element signature="e#7103#7128#0" expanded="true" />
+            <element signature="e#7171#7204#0" expanded="true" />
+            <element signature="e#7216#7241#0" expanded="true" />
+            <element signature="e#8032#8065#0" expanded="true" />
+            <element signature="e#8104#8132#0" expanded="true" />
+            <element signature="e#8142#8167#0" expanded="true" />
+            <element signature="e#8212#8237#0" expanded="true" />
+            <element signature="e#8248#8276#0" expanded="true" />
+            <element signature="e#9829#9859#0" expanded="true" />
+            <element signature="e#9896#9924#0" expanded="true" />
+            <element signature="e#9934#9959#0" expanded="true" />
+            <element signature="e#10002#10027#0" expanded="true" />
+            <element signature="e#10038#10066#0" expanded="true" />
+            <element signature="e#11489#11528#0" expanded="true" />
+            <element signature="e#11569#11595#0" expanded="true" />
+            <element signature="e#11607#11632#0" expanded="true" />
+            <element signature="e#11679#11705#0" expanded="true" />
+            <element signature="e#11717#11742#0" expanded="true" />
+            <element signature="e#12670#12708#0" expanded="true" />
+            <element signature="e#12752#12780#0" expanded="true" />
+            <element signature="e#12790#12815#0" expanded="true" />
+            <element signature="e#12865#12890#0" expanded="true" />
+            <element signature="e#12901#12929#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/GraphMenuListActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="507">
+          <caret line="127" lean-forward="true" selection-start-line="127" selection-end-line="127" />
         </state>
       </provider>
     </entry>
