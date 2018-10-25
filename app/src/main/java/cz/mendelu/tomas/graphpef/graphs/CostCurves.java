@@ -48,24 +48,14 @@ public class CostCurves extends PerfectMarketFirm implements Serializable{
     @Override
     public void moveObject(MainScreenControllerActivity.Direction dir) {
         if (getMovableEnum() == MainScreenControllerActivity.LineEnum.AverageCost){
-            super.moveObject(dir);
             if (dir == MainScreenControllerActivity.Direction.right){
                 super.moveObject(MainScreenControllerActivity.Direction.up);
-                super.moveObject(MainScreenControllerActivity.Direction.up,MainScreenControllerActivity.LineEnum.MarginalCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.right,MainScreenControllerActivity.LineEnum.MarginalCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.up,MainScreenControllerActivity.LineEnum.AverageVariableCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.right,MainScreenControllerActivity.LineEnum.AverageVariableCost, 1);
             }else if (dir == MainScreenControllerActivity.Direction.left){
                 super.moveObject(MainScreenControllerActivity.Direction.down);
-                super.moveObject(MainScreenControllerActivity.Direction.down,MainScreenControllerActivity.LineEnum.MarginalCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.left,MainScreenControllerActivity.LineEnum.MarginalCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.down,MainScreenControllerActivity.LineEnum.AverageVariableCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.left,MainScreenControllerActivity.LineEnum.AverageVariableCost, 1);
             }
         }else if ( getMovableEnum() == MainScreenControllerActivity.LineEnum.Quantity){
             if (dir == MainScreenControllerActivity.Direction.right){
                 super.moveObject(MainScreenControllerActivity.Direction.up,MainScreenControllerActivity.LineEnum.PriceLevel,1);
-
             }else if (dir == MainScreenControllerActivity.Direction.left){
                 super.moveObject(MainScreenControllerActivity.Direction.down,MainScreenControllerActivity.LineEnum.PriceLevel,1);
             }

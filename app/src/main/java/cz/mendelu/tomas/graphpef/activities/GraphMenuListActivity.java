@@ -37,7 +37,8 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
         MarketDS,
         IndifferentAnalysis,
         CostCurves,
-        PerfectMarket
+        PerfectMarket,
+        MonopolisticMarket
     }
     private HashMap<GraphEnum,Integer> grapLookupImagePair;
     private HashMap<GraphEnum,ArrayList<String>> grapLookupStringsPair;
@@ -113,6 +114,8 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
         grapLookupImagePair.put(GraphEnum.IndifferentAnalysis,R.drawable.indifferent_curve);
         grapLookupImagePair.put(GraphEnum.CostCurves,R.drawable.cost_curve);
         grapLookupImagePair.put(GraphEnum.PerfectMarket,R.drawable.doko);
+
+        grapLookupImagePair.put(GraphEnum.MonopolisticMarket,R.drawable.doko);
     }
 
     private void populateStrings(){
@@ -123,6 +126,8 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
         grapLookupStringsPair.put(GraphEnum.IndifferentAnalysis,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.IndifferentAnalysis.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 4")));
         grapLookupStringsPair.put(GraphEnum.CostCurves,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.CostCurves.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 5")));
         grapLookupStringsPair.put(GraphEnum.PerfectMarket,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.PerfectMarket.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 6-7")));
+
+        grapLookupStringsPair.put(GraphEnum.MonopolisticMarket,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.PerfectMarket.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 8")));
     }
 
     @Override

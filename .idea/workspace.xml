@@ -7,7 +7,7 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
     <option name="LOGCAT_FORMAT_STRING" value="%4$c/%5$s: %6$s" />
   </component>
   <component name="CMakeSettings">
@@ -17,50 +17,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1616b76a-e70b-45cd-8c86-3e76a2a43350" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_common_16_0_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_gms_google_services_4_0_2_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/MonopolisticMarketFirm.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/jarAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/taskHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/taskJars.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/taskJars.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_constraint_constraint_layout_1_1_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_constraint_constraint_layout_1_1_3.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_constraint_constraint_layout_solver_1_1_2_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_constraint_constraint_layout_solver_1_1_3_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_auth_15_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_auth_16_0_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_auth_api_phone_15_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_auth_api_phone_16_0_0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_auth_base_15_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_auth_base_16_0_0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_base_15_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_base_16_0_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_basement_15_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_basement_16_0_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_flags_15_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_flags_16_0_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_tasks_15_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_tasks_16_0_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_auth_16_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_auth_16_0_4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_auth_interop_16_0_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_auth_interop_16_0_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_firebase_firebase_common_16_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_gms_google_services_4_0_1_jar.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/output.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/output.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/release/release/app.aab" beforeDir="false" afterPath="$PROJECT_DIR$/app/release/release/app.aab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/GraphMenuListActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/GraphMenuListActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainScreenControllerActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainScreenControllerActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/GraphFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/GraphFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/helperObjects/MenuListAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/helperObjects/MenuListAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/tab_selector_color.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/tab_selector_color.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/graph_fragment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/graph_fragment.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/graph_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/graph_list.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/main_screen_layout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/main_screen_layout.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/CostCurves.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/CostCurves.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/DefaultGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/DefaultGraph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/interfaces/GraphIfc.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/interfaces/GraphIfc.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -156,113 +129,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="colors.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="13" selection-start-line="13" selection-end-line="13" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="graph_list.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/graph_list.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="36" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="graph_menu_item_layout.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/graph_menu_item_layout.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="816">
-              <caret line="48" column="59" selection-start-line="48" selection-start-column="59" selection-end-line="48" selection-end-column="59" />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="21" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1020">
-              <caret line="136" selection-start-line="136" selection-end-line="144" selection-end-column="10" />
-              <folding>
-                <element signature="e#2698#2842#0" expanded="true" />
-                <element signature="e#2841#2842#0" expanded="true" />
-                <element signature="e#2915#2930#0" expanded="true" />
-                <element signature="e#3009#3026#0" expanded="true" />
-                <element signature="e#3102#3118#0" expanded="true" />
-                <element signature="e#3188#3206#0" expanded="true" />
-                <element signature="e#3325#3688#0" expanded="true" />
-                <element signature="e#3687#3688#0" expanded="true" />
-                <element signature="e#3788#3815#0" expanded="true" />
-                <element signature="e#4029#4846#0" expanded="true" />
-                <element signature="e#4696#4747#0" expanded="true" />
-                <element signature="e#4845#4846#0" expanded="true" />
-                <element signature="e#5556#5596#0" expanded="true" />
-                <element signature="e#5638#5679#0" expanded="true" />
-                <element signature="e#7642#7693#0" expanded="true" />
-                <element signature="e#7833#7863#0" expanded="true" />
-                <element signature="e#7989#8708#0" expanded="true" />
-                <element signature="e#8220#8272#0" expanded="true" />
-                <element signature="e#8552#8609#0" expanded="true" />
-                <element signature="e#8707#8708#0" expanded="true" />
-                <element signature="e#8821#10836#0" expanded="true" />
-                <element signature="e#9334#10595#0" expanded="true" />
-                <element signature="e#10284#10340#0" expanded="true" />
-                <element signature="e#10594#10595#0" expanded="true" />
-                <element signature="e#10835#10836#0" expanded="true" />
-                <element signature="e#10943#13242#0" expanded="true" />
-                <element signature="e#11788#13005#0" expanded="true" />
-                <element signature="e#12703#12750#0" expanded="true" />
-                <element signature="e#13004#13005#0" expanded="true" />
-                <element signature="e#13241#13242#0" expanded="true" />
-                <element signature="e#13352#13603#0" expanded="true" />
-                <element signature="e#13602#13603#0" expanded="true" />
-                <element signature="e#13719#13925#0" expanded="true" />
-                <element signature="e#13924#13925#0" expanded="true" />
-                <element signature="e#14312#14368#0" expanded="true" />
-                <element signature="e#14390#14445#0" expanded="true" />
-                <element signature="e#14896#15140#0" expanded="true" />
-                <element signature="e#15139#15140#0" expanded="true" />
-                <element signature="e#15223#15473#0" expanded="true" />
-                <element signature="e#15472#15473#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainAppClass.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/MainAppClass.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TestingController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/TestingController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+            <state relative-caret-position="204">
+              <caret line="129" column="54" selection-start-line="129" selection-start-column="54" selection-end-line="129" selection-end-column="55" />
             </state>
           </provider>
         </entry>
@@ -270,10 +141,51 @@
       <file leaf-file-name="MainScreenControllerActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainScreenControllerActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+            <state relative-caret-position="273">
+              <caret line="245" column="55" selection-start-line="245" selection-start-column="45" selection-end-line="245" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="213">
+              <caret line="40" column="42" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CostCurves.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/CostCurves.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="49" column="83" selection-start-line="49" selection-start-column="83" selection-end-line="49" selection-end-column="83" />
+              <folding>
+                <element signature="e#4555#4619#0" expanded="true" />
+                <element signature="e#4623#4681#0" expanded="true" />
+                <element signature="e#4744#4808#0" expanded="true" />
+                <element signature="e#4809#4876#0" expanded="true" />
+                <element signature="e#4877#4935#0" expanded="true" />
+                <element signature="e#4998#5062#0" expanded="true" />
+                <element signature="e#5063#5130#0" expanded="true" />
+                <element signature="e#5131#5189#0" expanded="true" />
+                <element signature="e#5252#5316#0" expanded="true" />
+                <element signature="e#5317#5384#0" expanded="true" />
+                <element signature="e#5385#5443#0" expanded="true" />
+                <element signature="e#5506#5570#0" expanded="true" />
+                <element signature="e#5571#5638#0" expanded="true" />
+                <element signature="e#5639#5697#0" expanded="true" />
+                <element signature="e#5760#5824#0" expanded="true" />
+                <element signature="e#5825#5892#0" expanded="true" />
+                <element signature="e#5893#5951#0" expanded="true" />
+                <element signature="e#6014#6078#0" expanded="true" />
+                <element signature="e#6082#6140#0" expanded="true" />
+                <element signature="e#6203#6267#0" expanded="true" />
+                <element signature="e#6271#6329#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -282,44 +194,53 @@
       <file leaf-file-name="GraphMenuListActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/GraphMenuListActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="598">
-              <caret line="93" selection-start-line="93" selection-end-line="101" selection-end-column="18" />
-              <folding>
-                <element signature="e#3599#3638#0" expanded="true" />
-                <element signature="e#3688#3729#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1700">
+              <caret line="118" column="5" selection-start-line="118" selection-start-column="5" selection-end-line="118" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GraphFragment.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DefaultGraph.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/DefaultGraph.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="392">
+              <caret line="255" column="56" selection-start-line="255" selection-start-column="56" selection-end-line="255" selection-end-column="56" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GraphIfc.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/interfaces/GraphIfc.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="862">
+              <caret line="69" column="59" selection-start-line="69" selection-start-column="59" selection-end-line="69" selection-end-column="59" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GraphFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/GraphFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="479">
-              <caret line="414" column="33" lean-forward="true" selection-start-line="414" selection-start-column="33" selection-end-line="414" selection-end-column="33" />
-              <folding>
-                <element signature="e#4770#5175#0" expanded="true" />
-                <element signature="e#5174#5175#0" expanded="true" />
-                <element signature="e#5216#5625#0" expanded="true" />
-                <element signature="e#5624#5625#0" expanded="true" />
-                <element signature="e#5665#6074#0" expanded="true" />
-                <element signature="e#6073#6074#0" expanded="true" />
-                <element signature="e#6115#6526#0" expanded="true" />
-                <element signature="e#6525#6526#0" expanded="true" />
-                <element signature="e#10682#11102#0" expanded="true" />
-                <element signature="e#11101#11102#0" expanded="true" />
-                <element signature="e#12246#14193#0" expanded="true" />
-                <element signature="e#14192#14193#0" expanded="true" />
-                <element signature="e#16642#16686#0" expanded="true" />
-                <element signature="e#19039#19080#0" expanded="true" />
-                <element signature="e#19122#19163#0" expanded="true" />
-                <element signature="e#19490#19528#0" expanded="true" />
-                <element signature="e#19570#19611#0" expanded="true" />
-                <element signature="e#19940#19980#0" expanded="true" />
-                <element signature="e#20022#20063#0" expanded="true" />
-                <element signature="e#20395#20436#0" expanded="true" />
-                <element signature="e#20478#20519#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="2704">
+              <caret line="298" column="21" selection-start-line="298" selection-start-column="21" selection-end-line="298" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MonopolisticMarketFirm.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/MonopolisticMarketFirm.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="116" column="70" selection-start-line="116" selection-start-column="70" selection-end-line="116" selection-end-column="70" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PerfectMarketFirm.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/PerfectMarketFirm.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="106" column="46" selection-start-line="106" selection-start-column="46" selection-end-line="106" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -338,16 +259,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>emailver</find>
-      <find>zisk</find>
-      <find>mAdapter</find>
-      <find>graphnames init</find>
-      <find>button</find>
-      <find>resendEmail</find>
-      <find>sendemail</find>
-      <find>sendema</find>
-      <find>input</find>
-      <find>resend</find>
       <find>signInXname</find>
       <find>inpu</find>
       <find>logo</find>
@@ -366,8 +277,18 @@
       <find>Answers.getInstance()</find>
       <find>logopef</find>
       <find>showcase</find>
-      <find>MaterialShowcaseView</find>
       <find>presents</find>
+      <find>MaterialShowcaseView</find>
+      <find>perfect</find>
+      <find>getLineGraphSeries</find>
+      <find>getEqDependantCurves</find>
+      <find>calculateEqulibrium</find>
+      <find>equiPoints</find>
+      <find>calculateData</find>
+      <find>moveobjec</find>
+      <find>demand</find>
+      <find>PriceLevel</find>
+      <find>calculatedata</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\tomas\AndroidStudioProjects\graphPef\app\src\main\java\cz\mendelu\tomas\graphpef</dir>
@@ -2699,7 +2620,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/SectionsPagerAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/helperObjects/GraphChooseHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/helperObjects/BottomNavigationViewHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/helperObjects/InfoHelper.java" />
@@ -2722,20 +2642,16 @@
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/InfoListController.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/helperObjects/InfoListController.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MenuListAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/interfaces/GraphIfc.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/InfoFragment.java" />
         <option value="$PROJECT_DIR$/app/proguard-rules.pro" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/ProductionLimit.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/info_fragment.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/DefaultGraph.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/helperObjects/GraphHelperObject.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/CostCurves.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/IndifferentAnalysis.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/MarketDS.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/helperObjects/InfoListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/PerfectMarketFirm.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/info_item_layout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/helperObjects/MenuListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
@@ -2746,18 +2662,23 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/main_screen_layout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/tab_selector_color.xml" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainScreenControllerActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/GraphMenuListActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/interfaces/GraphIfc.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/MonopolisticMarketFirm.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/DefaultGraph.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainScreenControllerActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/GraphFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/CostCurves.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-12" />
-    <option name="y" value="-12" />
-    <option name="width" value="1941" />
-    <option name="height" value="1101" />
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
+    <option name="width" value="1938" />
+    <option name="height" value="1098" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -2768,6 +2689,8 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -2816,14 +2739,30 @@
             </path>
             <path>
               <item name="graphPef" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="graphpef" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="interfaces" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="graphPef" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+            </path>
+            <path>
+              <item name="graphPef" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="values" type="ddeffd01:AndroidResFolderTypeNode" />
+            </path>
+            <path>
+              <item name="graphPef" type="1abcf292:AndroidViewProjectNode" />
               <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -3057,32 +2996,31 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="2495" height="1455" extended-state="6" />
+    <frame x="-7" y="-7" width="1471" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="6" sideWeight="0.4955357" weight="0.32749325" />
-      <window_info id="Build Variants" order="2" sideWeight="0.50831354" side_tool="true" weight="0.15398152" />
-      <window_info anchor="bottom" id="Event Log" order="15" sideWeight="0.5005513" side_tool="true" weight="0.19415449" />
-      <window_info anchor="bottom" id="Logcat" order="10" sideWeight="0.4955357" weight="0.46630728" />
-      <window_info id="Capture Tool" order="7" />
-      <window_info id="Designer" order="3" />
-      <window_info anchor="bottom" id="Build" order="16" sideWeight="0.49944875" weight="0.39044732" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Device File Explorer" order="4" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="5" weight="0.5121951" />
       <window_info anchor="bottom" id="TODO" order="8" sideWeight="0.49776787" weight="0.32672232" />
       <window_info anchor="right" id="Palette&#9;" order="10" />
       <window_info id="Image Layers" order="4" />
+      <window_info id="Build Variants" order="2" sideWeight="0.50831354" side_tool="true" weight="0.15398152" />
       <window_info anchor="right" id="Capture Analysis" order="5" />
-      <window_info anchor="right" id="Preview" order="7" weight="0.32292125" />
+      <window_info anchor="bottom" id="Event Log" order="15" sideWeight="0.5005513" side_tool="true" weight="0.19415449" />
       <window_info anchor="bottom" id="Run" order="4" sideWeight="0.4955357" weight="0.32254696" />
       <window_info anchor="bottom" id="Version Control" order="12" weight="0.32884097" />
       <window_info anchor="bottom" id="Terminal" order="13" weight="0.33118972" />
+      <window_info anchor="bottom" id="Logcat" order="10" sideWeight="0.4955357" visible="true" weight="0.2884097" />
       <window_info id="Captures" order="5" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49168646" visible="true" weight="0.17946611" />
+      <window_info id="Capture Tool" order="7" />
+      <window_info id="Designer" order="3" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49168646" visible="true" weight="0.19064493" />
+      <window_info anchor="bottom" id="Build" order="16" sideWeight="0.49944875" weight="0.39044732" />
       <window_info anchor="bottom" id="Find" order="3" weight="0.32210243" />
       <window_info anchor="right" id="Gradle" order="8" weight="0.32911393" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Fabric" order="3" weight="0.25980392" />
+      <window_info anchor="bottom" id="Debug" order="5" weight="0.5121951" />
+      <window_info anchor="right" id="Device File Explorer" order="4" side_tool="true" />
       <window_info anchor="right" id="Theme Preview" order="9" />
       <window_info id="Favorites" order="6" side_tool="true" weight="0.3299604" />
       <window_info anchor="bottom" id="Inspection Results" order="16" weight="0.3297609" />
@@ -3090,6 +3028,7 @@
       <window_info anchor="bottom" id="Inspection" order="9" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
+      <window_info anchor="right" id="Preview" order="7" weight="0.32292125" />
       <window_info anchor="bottom" id="Thumbnails" order="1" weight="0.3297609" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Messages" order="11" sideWeight="0.49776787" weight="0.24814422" />
@@ -3178,7 +3117,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/build/generated/source/r/debug/cz/mendelu/tomas/graphpef/R.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/SectionsPagerAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="588">
@@ -3288,13 +3226,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/interfaces/GraphIfc.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="21" column="39" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/helperObjects/BottomNavigationViewHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -3330,13 +3261,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/DefaultGraph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6256">
-          <caret line="416" column="72" selection-start-line="416" selection-start-column="60" selection-end-line="416" selection-end-column="78" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/MarketDS.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="507">
@@ -3365,27 +3289,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/CostCurves.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-153">
-          <caret line="48" column="54" selection-start-line="48" selection-start-column="54" selection-end-line="48" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/PerfectMarketFirm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="46" column="18" selection-start-line="46" selection-start-column="18" selection-end-line="46" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2471">
-          <caret line="272" column="47" selection-start-line="272" selection-start-column="47" selection-end-line="272" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/helperObjects/InfoListAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="782">
@@ -3411,13 +3314,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="58" selection-start-line="9" selection-start-column="58" selection-end-line="9" selection-end-column="58" />
         </state>
-      </provider>
-      <provider editor-type-id="android-manifest">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
@@ -3522,102 +3425,98 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/GraphMenuListActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1700">
+          <caret line="118" column="5" selection-start-line="118" selection-start-column="5" selection-end-line="118" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/interfaces/GraphIfc.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="862">
+          <caret line="69" column="59" selection-start-line="69" selection-start-column="59" selection-end-line="69" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/MonopolisticMarketFirm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="116" column="70" selection-start-line="116" selection-start-column="70" selection-end-line="116" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="40" column="42" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="136" selection-start-line="136" selection-end-line="144" selection-end-column="10" />
-          <folding>
-            <element signature="e#2698#2842#0" expanded="true" />
-            <element signature="e#2841#2842#0" expanded="true" />
-            <element signature="e#2915#2930#0" expanded="true" />
-            <element signature="e#3009#3026#0" expanded="true" />
-            <element signature="e#3102#3118#0" expanded="true" />
-            <element signature="e#3188#3206#0" expanded="true" />
-            <element signature="e#3325#3688#0" expanded="true" />
-            <element signature="e#3687#3688#0" expanded="true" />
-            <element signature="e#3788#3815#0" expanded="true" />
-            <element signature="e#4029#4846#0" expanded="true" />
-            <element signature="e#4696#4747#0" expanded="true" />
-            <element signature="e#4845#4846#0" expanded="true" />
-            <element signature="e#5556#5596#0" expanded="true" />
-            <element signature="e#5638#5679#0" expanded="true" />
-            <element signature="e#7642#7693#0" expanded="true" />
-            <element signature="e#7833#7863#0" expanded="true" />
-            <element signature="e#7989#8708#0" expanded="true" />
-            <element signature="e#8220#8272#0" expanded="true" />
-            <element signature="e#8552#8609#0" expanded="true" />
-            <element signature="e#8707#8708#0" expanded="true" />
-            <element signature="e#8821#10836#0" expanded="true" />
-            <element signature="e#9334#10595#0" expanded="true" />
-            <element signature="e#10284#10340#0" expanded="true" />
-            <element signature="e#10594#10595#0" expanded="true" />
-            <element signature="e#10835#10836#0" expanded="true" />
-            <element signature="e#10943#13242#0" expanded="true" />
-            <element signature="e#11788#13005#0" expanded="true" />
-            <element signature="e#12703#12750#0" expanded="true" />
-            <element signature="e#13004#13005#0" expanded="true" />
-            <element signature="e#13241#13242#0" expanded="true" />
-            <element signature="e#13352#13603#0" expanded="true" />
-            <element signature="e#13602#13603#0" expanded="true" />
-            <element signature="e#13719#13925#0" expanded="true" />
-            <element signature="e#13924#13925#0" expanded="true" />
-            <element signature="e#14312#14368#0" expanded="true" />
-            <element signature="e#14390#14445#0" expanded="true" />
-            <element signature="e#14896#15140#0" expanded="true" />
-            <element signature="e#15139#15140#0" expanded="true" />
-            <element signature="e#15223#15473#0" expanded="true" />
-            <element signature="e#15472#15473#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="204">
+          <caret line="129" column="54" selection-start-line="129" selection-start-column="54" selection-end-line="129" selection-end-column="55" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/MainScreenControllerActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+        <state relative-caret-position="273">
+          <caret line="245" column="55" selection-start-line="245" selection-start-column="45" selection-end-line="245" selection-end-column="55" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/GraphMenuListActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/GraphFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="598">
-          <caret line="93" selection-start-line="93" selection-end-line="101" selection-end-column="18" />
-          <folding>
-            <element signature="e#3599#3638#0" expanded="true" />
-            <element signature="e#3688#3729#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="2704">
+          <caret line="298" column="21" selection-start-line="298" selection-start-column="21" selection-end-line="298" selection-end-column="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/GraphFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/PerfectMarketFirm.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="414" column="33" lean-forward="true" selection-start-line="414" selection-start-column="33" selection-end-line="414" selection-end-column="33" />
+        <state relative-caret-position="238">
+          <caret line="106" column="46" selection-start-line="106" selection-start-column="46" selection-end-line="106" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/DefaultGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="255" column="56" selection-start-line="255" selection-start-column="56" selection-end-line="255" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/graphs/CostCurves.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="49" column="83" selection-start-line="49" selection-start-column="83" selection-end-line="49" selection-end-column="83" />
           <folding>
-            <element signature="e#4770#5175#0" expanded="true" />
-            <element signature="e#5174#5175#0" expanded="true" />
-            <element signature="e#5216#5625#0" expanded="true" />
-            <element signature="e#5624#5625#0" expanded="true" />
-            <element signature="e#5665#6074#0" expanded="true" />
-            <element signature="e#6073#6074#0" expanded="true" />
-            <element signature="e#6115#6526#0" expanded="true" />
-            <element signature="e#6525#6526#0" expanded="true" />
-            <element signature="e#10682#11102#0" expanded="true" />
-            <element signature="e#11101#11102#0" expanded="true" />
-            <element signature="e#12246#14193#0" expanded="true" />
-            <element signature="e#14192#14193#0" expanded="true" />
-            <element signature="e#16642#16686#0" expanded="true" />
-            <element signature="e#19039#19080#0" expanded="true" />
-            <element signature="e#19122#19163#0" expanded="true" />
-            <element signature="e#19490#19528#0" expanded="true" />
-            <element signature="e#19570#19611#0" expanded="true" />
-            <element signature="e#19940#19980#0" expanded="true" />
-            <element signature="e#20022#20063#0" expanded="true" />
-            <element signature="e#20395#20436#0" expanded="true" />
-            <element signature="e#20478#20519#0" expanded="true" />
+            <element signature="e#4555#4619#0" expanded="true" />
+            <element signature="e#4623#4681#0" expanded="true" />
+            <element signature="e#4744#4808#0" expanded="true" />
+            <element signature="e#4809#4876#0" expanded="true" />
+            <element signature="e#4877#4935#0" expanded="true" />
+            <element signature="e#4998#5062#0" expanded="true" />
+            <element signature="e#5063#5130#0" expanded="true" />
+            <element signature="e#5131#5189#0" expanded="true" />
+            <element signature="e#5252#5316#0" expanded="true" />
+            <element signature="e#5317#5384#0" expanded="true" />
+            <element signature="e#5385#5443#0" expanded="true" />
+            <element signature="e#5506#5570#0" expanded="true" />
+            <element signature="e#5571#5638#0" expanded="true" />
+            <element signature="e#5639#5697#0" expanded="true" />
+            <element signature="e#5760#5824#0" expanded="true" />
+            <element signature="e#5825#5892#0" expanded="true" />
+            <element signature="e#5893#5951#0" expanded="true" />
+            <element signature="e#6014#6078#0" expanded="true" />
+            <element signature="e#6082#6140#0" expanded="true" />
+            <element signature="e#6203#6267#0" expanded="true" />
+            <element signature="e#6271#6329#0" expanded="true" />
           </folding>
         </state>
       </provider>

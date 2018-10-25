@@ -67,5 +67,7 @@ public interface GraphIfc{
 
     int getColorOf(MainScreenControllerActivity.LineEnum lineEnum);
 
+    void showCurvesDependantOnEquilibrium(double x,double y);
+
 
 }

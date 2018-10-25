@@ -35,6 +35,7 @@ import cz.mendelu.tomas.graphpef.graphs.CostCurves;
 import cz.mendelu.tomas.graphpef.graphs.DefaultGraph;
 import cz.mendelu.tomas.graphpef.graphs.IndifferentAnalysis;
 import cz.mendelu.tomas.graphpef.graphs.MarketDS;
+import cz.mendelu.tomas.graphpef.graphs.MonopolisticMarketFirm;
 import cz.mendelu.tomas.graphpef.graphs.PerfectMarketFirm;
 import cz.mendelu.tomas.graphpef.graphs.ProductionLimit;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
@@ -62,6 +63,7 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
         CostCurves,
         IndifferentAnalysis,
         MonopolisticMarket,
+        MonopolisticMarketLongTerm,
         Oligopol,
         Monopol,
         AdmMonopol,
@@ -70,6 +72,7 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
     public enum LineEnum {
         Demand,
         DemandDefault,
+        IndividualDemand,
         PriceLevel,
         Price,
         SupplyDefault,
@@ -165,6 +168,7 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
         GraphHelperObject perfectMarketFirm = new GraphHelperObject();
         GraphHelperObject indiferrentAnalysis = new GraphHelperObject();
         GraphHelperObject costCurveHelper = new GraphHelperObject();
+        GraphHelperObject monopolisticMarketFirm = new GraphHelperObject();
 
         marketDS.setTitle(getString(R.string.MarketDS));
         marketDS.setLabelX(getString(R.string.quantity) + " [" + getString(R.string.units) + "]");
@@ -274,6 +278,34 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
                 indiferrentAnalysis.getSeries(),
                 new ArrayList<String>(),
                 indiferrentAnalysis));
+
+        monopolisticMarketFirm.setTitle(getString(R.string.PerfectMarket));
+        monopolisticMarketFirm.setLabelX(getString(R.string.quantity) + " [" + getString(R.string.units) + "]");
+        monopolisticMarketFirm.setLabelY(getString(R.string.price)  + " [" + getString(R.string.currency) + "]");
+        monopolisticMarketFirm.setGraphEnum(GraphEnum.MonopolisticMarket);
+        monopolisticMarketFirm.addToSeries(LineEnum.AverageCost, new ArrayList<Integer>());
+        monopolisticMarketFirm.addToSeries(LineEnum.MarginalCost, new ArrayList<Integer>());
+        //monopolisticMarketFirm.addToSeries(LineEnum.PriceLevel, new ArrayList<Integer>());
+        monopolisticMarketFirm.addToSeries(LineEnum.Demand, new ArrayList<Integer>());
+        monopolisticMarketFirm.addToSeries(LineEnum.MarginalRevenue, new ArrayList<Integer>());
+
+        monopolisticMarketFirm.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.MarginalCost,LineEnum.MarginalRevenue)));
+        monopolisticMarketFirm.setCalculateEqulibrium(true);
+
+        monopolisticMarketFirm.setDependantCurveOnEquilibrium(new ArrayList<>(Arrays.asList(LineEnum.Price, LineEnum.Quantity)));
+        HashMap<MainScreenControllerActivity.LineEnum, ArrayList<MainScreenControllerActivity.LineEnum>> hashMap2 = new HashMap<>();
+        hashMap2.put(LineEnum.MarginalRevenue, new ArrayList<LineEnum>(Arrays.asList(LineEnum.Demand,LineEnum.AverageCost)));
+        hashMap2.put(LineEnum.AverageCost, new ArrayList<>(Arrays.asList(LineEnum.MarginalCost)));
+        monopolisticMarketFirm.setDependantCurveOnCurve(hashMap2);
+
+        graphsDatabase.put(GraphEnum.MonopolisticMarket, new MonopolisticMarketFirm(
+                new ArrayList<String>(),
+                new ArrayList<>(Arrays.asList(LineEnum.MarginalRevenue,LineEnum.AverageCost)),
+                LineEnum.MarginalRevenue,
+                monopolisticMarketFirm.getSeries(),
+                new ArrayList<String>(),
+                monopolisticMarketFirm
+        ));
     }
 
     public static GraphEnum getChosenGraph() {

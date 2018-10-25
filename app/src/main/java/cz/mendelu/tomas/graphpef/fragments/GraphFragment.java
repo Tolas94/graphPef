@@ -285,15 +285,17 @@ public class GraphFragment extends Fragment  implements Serializable {
                     graph.removeSeries(labelSeries.get(graphIfc.getMovableEnum()));
 
                     //nastav farbu starej movable na default
-                    graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
-                    graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()).setThickness(5);
-                    if (labelSeries.get(graphIfc.getMovableEnum()) != null){
-                        labelSeries.get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
-                    }
+                    if(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()) != null){
+                        graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
+                        graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()).setThickness(5);
+                        if (labelSeries.get(graphIfc.getMovableEnum()) != null){
+                            labelSeries.get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
+                        }
 
-                    graph.addSeries(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()));
-                    if (labelSeries.get(graphIfc.getMovableEnum()) != null) {
-                        graph.addSeries(labelSeries.get(graphIfc.getMovableEnum()));
+                        graph.addSeries(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()));
+                        if (labelSeries.get(graphIfc.getMovableEnum()) != null) {
+                            graph.addSeries(labelSeries.get(graphIfc.getMovableEnum()));
+                        }
                     }
 
                     graphIfc.setMovable(line);

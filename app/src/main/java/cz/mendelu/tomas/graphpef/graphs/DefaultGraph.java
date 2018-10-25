@@ -215,19 +215,11 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
 
             if (!equiPoints.isEmpty()){
                 Log.d(TAG, "calculateEqulibrium: equiPoints not empty!");
-
-                ArrayList<MainScreenControllerActivity.LineEnum> lineEnumArrayList = getGraphHelperObject().getDependantCurveOnEquilibrium();
-                if (lineEnumArrayList != null){
-                    calculateData(lineEnumArrayList.get(0),getColorOf(lineEnumArrayList.get(0)),equiPoints.get(0),false,equiPoints);
-                    if(lineEnumArrayList.size()>1){
-                        calculateData(lineEnumArrayList.get(1),getColorOf(lineEnumArrayList.get(1)),equiPoints.get(1),true,equiPoints);
-                    }
-                }
+                showCurvesDependantOnEquilibrium(equiPoints.get(0),equiPoints.get(1));
             }
         }
         this.equiPoints = equiPoints;
         return equiPoints;
-
     }
 
     @Override
@@ -258,8 +250,10 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
             identChanges.set(0,identChanges.get(0) - 1);
         }else if (dir == MainScreenControllerActivity.Direction.left){
             changeX--;
+            identChanges.set(0,identChanges.get(0) - 1);
         }else if (dir == MainScreenControllerActivity.Direction.right){
             changeX++;
+            identChanges.set(0,identChanges.get(0) + 1);
         }
 
         LineGraphSeriesSerialisable newLineGraphSeries = new LineGraphSeriesSerialisable();
@@ -283,7 +277,6 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
         lineGraphSeriesMap.remove(line);
         lineGraphSeriesMap.put(line,newLineGraphSeries);
         refreshInfoTexts();
-
     }
 
     @Override
@@ -488,5 +481,16 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
 
     public void setLabelOnstartOfCurve(Boolean labelOnstartOfCurve) {
         this.labelOnstartOfCurve = labelOnstartOfCurve;
+    }
+
+    @Override
+    public void showCurvesDependantOnEquilibrium(double x,double y) {
+        ArrayList<MainScreenControllerActivity.LineEnum> lineEnumArrayList = getGraphHelperObject().getDependantCurveOnEquilibrium();
+        if (lineEnumArrayList != null){
+            calculateData(lineEnumArrayList.get(0),getColorOf(lineEnumArrayList.get(0)),x,false,new ArrayList<>(Arrays.asList(x,y)));
+            if(lineEnumArrayList.size()>1){
+                calculateData(lineEnumArrayList.get(1),getColorOf(lineEnumArrayList.get(1)),y,true,new ArrayList<>(Arrays.asList(x,y)));
+            }
+        }
     }
 }

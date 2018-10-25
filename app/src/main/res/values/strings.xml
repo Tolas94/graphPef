@@ -8,6 +8,7 @@
     <string name="IndifferentAnalysis">Indiferenční analýza</string>
     <string name="CostCurves">Nákladové křivky</string>
     <string name="PerfectMarket">Firma v dokonalé konkurenci</string>
+    <string name="MonopolisticMarket">Firma v monopolistické konkurenci</string>
 
     <!-- Name of Lines -->
     <string name="Demand">Poptávka</string>
@@ -35,6 +36,7 @@
     //labels
     <string name="DemandLabel">D`</string>
     <string name="DemandDefaultLabel">D</string>
+    <string name="IndividualDemandLabel">d</string>
     <string name="SupplyDefaultLabel">S</string>
     <string name="SupplyLabel">S`</string>
 
