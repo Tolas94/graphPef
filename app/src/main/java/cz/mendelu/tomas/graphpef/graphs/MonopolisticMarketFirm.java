@@ -20,9 +20,8 @@ import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
 import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
 
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.AverageCost;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.AverageVariableCost;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Demand;
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Equilibrium;
+import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.IndividualDemand;
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.MarginalCost;
 import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.PriceLevel;
 
@@ -51,32 +50,32 @@ public class MonopolisticMarketFirm extends DefaultGraph  implements Serializabl
             if (line == PriceLevel){
                 x = 0;
             }
-            Log.d(TAG,"calculateData start");
+            //Log.d(TAG,"calculateData start");
             LineGraphSeriesSerialisable seriesLocal = new LineGraphSeriesSerialisable();
 
             for (int i = 0; i < maxDataPoints; i++) {
                 x = x + precision;
                 y = 0;
                 if (line == AverageCost ) {
-                    Log.d(TAG, "AverageCost");
+                    //Log.d(TAG, "AverageCost");
                     y = (( 0.5 ) * (( x - 8 )*( x - 8 ))) + 4;
-                    Log.d(TAG, "[x,y] [" + x + ","  + y + "]" );
+                    //Log.d(TAG, "[x,y] [" + x + ","  + y + "]" );
                 } else if (line == MarginalCost) {
-                    Log.d(TAG, "MarginalCost");
+                    //Log.d(TAG, "MarginalCost");
                     y = (( 0.5 ) * (( x - 6 )*( x - 6 ))) + 2;
-                    Log.d(TAG, "[x,y] [" + x + ","  + y + "]" );
+                    //Log.d(TAG, "[x,y] [" + x + ","  + y + "]" );
                 } else if (line == PriceLevel){
-                    Log.d(TAG, "PriceLevel");
+                    //Log.d(TAG, "PriceLevel");
                     y = 8;
-                    Log.d(TAG, "[x,y] [" + x + ","  + y + "]" );
-                } else if (line == MainScreenControllerActivity.LineEnum.Demand){
-                    Log.d(TAG, "Demand");
+                    //Log.d(TAG, "[x,y] [" + x + ","  + y + "]" );
+                } else if (line == IndividualDemand){
+                    //Log.d(TAG, "IndividualDemand");
                     y = ( 0.06 ) * ((x-20)*(x-20))+2;
-                    Log.d(TAG, "[x,y] [" + x + ","  + y + "]" );
+                    //Log.d(TAG, "[x,y] [" + x + ","  + y + "]" );
                 } else if (line == MainScreenControllerActivity.LineEnum.MarginalRevenue) {
-                    Log.d(TAG, "MarginalRevenue");
+                    //Log.d(TAG, "MarginalRevenue");
                     y = (0.07) * ((x - 17) * (x - 20));
-                    Log.d(TAG, "[x,y] [" + x + ","  + y + "]" );
+                    //Log.d(TAG, "[x,y] [" + x + ","  + y + "]" );
                 }
 
                 if (y < 13 && y > 0 && x > 0 && x < 13){
@@ -111,12 +110,12 @@ public class MonopolisticMarketFirm extends DefaultGraph  implements Serializabl
         } else if (getMovableEnum() == MainScreenControllerActivity.LineEnum.MarginalRevenue){
             if (dir == MainScreenControllerActivity.Direction.up){
                 super.moveObject(MainScreenControllerActivity.Direction.right);
-                super.moveObject(MainScreenControllerActivity.Direction.up,Demand, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.right,Demand, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.up,IndividualDemand, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.right,IndividualDemand, 1);
             }else if (dir == MainScreenControllerActivity.Direction.down){
                 super.moveObject(MainScreenControllerActivity.Direction.left);
-                super.moveObject(MainScreenControllerActivity.Direction.down,Demand, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.left,Demand, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.down,IndividualDemand, 1);
+                super.moveObject(MainScreenControllerActivity.Direction.left,IndividualDemand, 1);
             }
         }
     }
@@ -160,8 +159,8 @@ public class MonopolisticMarketFirm extends DefaultGraph  implements Serializabl
         ArrayList<Double> eqPoints = getEquiPoints();
         double cost = 0, price = 0, retVal = 0;
         if (!eqPoints.isEmpty()){
-            if (getLineGraphSeries().get(Demand).getValues(eqPoints.get(0)-0.5,eqPoints.get(0)+0.5).hasNext()){
-                price = getLineGraphSeries().get(Demand).getValues(eqPoints.get(0)-0.05,eqPoints.get(0)+0.05).next().getY();
+            if (getLineGraphSeries().get(IndividualDemand).getValues(eqPoints.get(0)-0.5,eqPoints.get(0)+0.5).hasNext()){
+                price = getLineGraphSeries().get(IndividualDemand).getValues(eqPoints.get(0)-0.05,eqPoints.get(0)+0.05).next().getY();
             }
             if (getLineGraphSeries().get(AverageCost).getValues(eqPoints.get(0)-0.5,eqPoints.get(0)+0.5).hasNext()){
                 cost = getLineGraphSeries().get(AverageCost).getValues(eqPoints.get(0)-0.05,eqPoints.get(0)+0.05).next().getY();
@@ -186,8 +185,8 @@ public class MonopolisticMarketFirm extends DefaultGraph  implements Serializabl
                 retVal.add(y);
             }
             retVal.remove(1);
-            if (getLineGraphSeries().get(Demand).getValues(retVal.get(0)-0.5,retVal.get(0)+0.5).hasNext()){
-                retVal.add(getLineGraphSeries().get(Demand).getValues(retVal.get(0)-0.05,retVal.get(0)+0.05).next().getY());
+            if (getLineGraphSeries().get(IndividualDemand).getValues(retVal.get(0)-0.5,retVal.get(0)+0.5).hasNext()){
+                retVal.add(getLineGraphSeries().get(IndividualDemand).getValues(retVal.get(0)-0.05,retVal.get(0)+0.05).next().getY());
             }
             getGraphHelperObject().setShowEquilibrium(true);
             populateTexts(true,retVal);

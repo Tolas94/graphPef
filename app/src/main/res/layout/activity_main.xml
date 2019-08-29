@@ -1,184 +1,361 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="cz.mendelu.tomas.graphpef.activities.MainActivity"
-    >
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/podklad"
-        android:scaleType = "centerCrop"/>
-
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context="cz.mendelu.tomas.graphpef.activities.MainActivity">
+    <!-- Top bar -->
     <RelativeLayout
+        android:id="@+id/MainScreenTopBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageButton
-            android:id="@+id/infoOnMainScreen"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            app:srcCompat="@drawable/ic_info_black_24dp"
-            android:tint="@color/colorPrimary"
-            android:background="@color/cardview_shadow_end_color"/>
+        android:layout_height="64dp"
+        android:layout_alignParentTop="true">
 
-        <RelativeLayout
-            android:id="@+id/startAppLayout"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:padding="12dp">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:elevation="8dp">
+
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/signedLayout">
-                <Button
-                    android:id="@+id/startAppButton"
+                android:layout_height="match_parent">
+
+                <!-- info about app dialog - TODO: delete and change for eco coins value -->
+                <ImageButton
+                    android:id="@+id/infoOnMainScreen"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@color/cardview_shadow_end_color"
                     android:padding="12dp"
-                    android:layout_alignParentStart="true"
-                    style="@android:style/Widget.Material.Button.Colored"
-                    android:backgroundTint="@color/colorPrimary"
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_info_black_24dp" />
+
+                <!-- signout -->
+                <Button
+                    android:id="@+id/signOutButton"
+                    style="@android:style/Widget.Material.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="12dp"
+                    android:text="@string/signOut"
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/MainScreenTopBar">
+        <!--
+   <ImageView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:src="@drawable/podklad"
+       android:scaleType = "centerCrop"/>-->
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Logo aplikace-->
+            <RelativeLayout
+                android:id="@+id/MainScreenLogo"
+                android:layout_width="match_parent"
+                android:layout_height="256dp"
+                android:background="@color/cardview_shadow_end_color">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:elevation="8dp">
+
+                    <ImageView
+                        android:id="@+id/LogoMendeluBottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        app:srcCompat="@drawable/mendelu_pef_logo_rgb" />
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/signLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/MainScreenLogo"
+                android:layout_centerHorizontal="true"
+                android:padding="12dp">
+
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:text="@string/start_app" />
-                <Button
-                    android:id="@+id/signOutButton"
-                    android:padding="12dp"
-                    android:layout_below="@+id/startAppButton"
-                    style="@android:style/Widget.Material.Button.Borderless.Colored"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="@string/signOut" />
-                <Button
-                    android:id="@+id/sendMailButton"
-                    android:padding="12dp"
-                    android:layout_below="@+id/startAppButton"
-                    android:layout_alignParentRight="true"
-                    style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
                     android:backgroundTint="@color/white"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:elevation="8dp">
 
-                    android:text="@string/sendEmail" />
+                    <!-- Sign in formalar-->
+                    <RelativeLayout
+                        android:id="@+id/signInLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/signInCardTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/signIn"
+                            android:textAppearance="@android:style/TextAppearance.Material.Headline"
+                            android:textColor="@color/colorPrimary" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/signInEmailLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/signInCardTitle"
+                            android:layout_marginTop="12dp">
+
+                            <EditText
+                                android:id="@+id/signInXname"
+                                style="@android:style/Widget.Material.EditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:hint="xJméno"
+                                android:inputType="text"
+                                android:singleLine="true" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/signInPasswordLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/signInEmailLayout"
+                            android:layout_marginTop="12dp">
+
+                            <EditText
+                                android:id="@+id/signInPassword"
+                                style="@android:style/Widget.Material.EditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:ellipsize="start"
+                                android:gravity="center"
+                                android:hint="Heslo"
+                                android:imeOptions="actionDone"
+                                android:inputType="textPassword" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/signInPasswordConfirmationLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/signInPasswordLayout"
+                            android:layout_marginTop="12dp"
+                            android:visibility="invisible">
+
+                            <EditText
+                                android:id="@+id/signInPasswordConfirmation"
+                                style="@android:style/Widget.Material.EditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:ellipsize="start"
+                                android:gravity="center"
+                                android:hint="Potvrzeni hesla"
+                                android:imeOptions="actionDone"
+                                android:inputType="textPassword" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <Button
+                            android:id="@+id/signInSubmitButton"
+                            style="@android:style/Widget.Material.Button.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/signInPasswordLayout"
+                            android:layout_centerHorizontal="true"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:padding="10dp"
+                            android:text="@string/signIn" />
+
+                        <Button
+                            android:id="@+id/startRegisterSubmitButton"
+                            style="@android:style/Widget.Material.Button.Borderless.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/signInSubmitButton"
+                            android:layout_centerHorizontal="true"
+                            android:padding="10dp"
+                            android:text="@string/register"
+                            android:textColor="@color/colorPrimary" />
+
+                        <Button
+                            android:id="@+id/passwordResetButton"
+                            style="@android:style/Widget.Material.Button.Borderless.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/startRegisterSubmitButton"
+                            android:layout_centerHorizontal="true"
+                            android:padding="12dp"
+                            android:text="@string/passwordReset"
+                            android:textColor="@color/colorPrimary" />
+
+                        <Button
+                            android:id="@+id/registerSubmitButton"
+                            style="@android:style/Widget.Material.Button.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/signInPasswordConfirmationLayout"
+                            android:layout_centerHorizontal="true"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:padding="10dp"
+                            android:text="@string/register"
+                            android:visibility="invisible" />
+
+                        <Button
+                            android:id="@+id/startSignInButton"
+                            style="@android:style/Widget.Material.Button.Borderless.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/registerSubmitButton"
+                            android:layout_centerHorizontal="true"
+                            android:padding="12dp"
+                            android:textColor="@color/colorPrimary"
+                            android:visibility="invisible" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/startAppLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/signLayout"
+                android:layout_centerHorizontal="true"
+                android:padding="12dp">
 
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:backgroundTint="@color/white"
+                    android:elevation="8dp">
 
+                    <RelativeLayout
+                        android:id="@+id/signedLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:id="@+id/startAppTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/startAppTitleText"
+                            android:textAppearance="@android:style/TextAppearance.Material.Headline"
+                            android:textColor="@color/colorPrimary" />
+
+                        <Button
+                            android:id="@+id/startAppButton"
+                            style="@android:style/Widget.Material.Button.Colored"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/startAppTitle"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="12dp"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:padding="12dp"
+                            android:text="@string/start_app" />
+
+                        <Button
+                            android:id="@+id/startQuizButton"
+                            style="@android:style/Widget.Material.Button.Colored"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/startAppButton"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="12dp"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:padding="12dp"
+                            android:text="TODO start quiz" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+            </RelativeLayout>
+
+            <!-- Contact author card -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/signInLayout"
-                android:visibility="invisible">
-                <android.support.design.widget.TextInputLayout
+                android:layout_below="@+id/startAppLayout">
+
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/signInEmailLayout"
-                    android:layout_marginTop="12dp">
-                        <EditText
-                            android:id="@+id/signInXname"
-                            style="@android:style/Widget.Material.EditText"
+                    android:layout_marginBottom="12dp"
+                    android:backgroundTint="@color/white"
+                    android:elevation="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/contactAuthorCardTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/sendEmail"
+                            android:textAppearance="@android:style/TextAppearance.Material.Headline"
+                            android:textColor="@color/colorPrimary" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/contactAuthorInputLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:hint="xJméno"
-                            android:inputType="text"
-                            android:singleLine="true"/>
-                </android.support.design.widget.TextInputLayout>
+                            android:layout_below="@id/contactAuthorCardTitle"
+                            android:layout_marginTop="12dp">
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/signInPasswordLayout"
-                    android:layout_below="@id/signInEmailLayout"
-                    android:layout_marginTop="12dp">
+                            <EditText
+                                android:id="@+id/contactAuthorInput"
+                                style="@android:style/Widget.Material.EditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:hint="Nemůžu najít/nefunguje mi ..."
+                                android:inputType="text"
+                                android:singleLine="true" />
+                        </android.support.design.widget.TextInputLayout>
 
-                    <EditText
-                        android:id="@+id/signInPassword"
-                        style="@android:style/Widget.Material.EditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:inputType="textPassword"
-                        android:gravity="center"
-                        android:ellipsize="start"
-                        android:hint="Heslo"
-                        android:imeOptions="actionDone"/>
-                </android.support.design.widget.TextInputLayout>
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/signInSubmitButton"
-                    android:layout_below="@id/signInPasswordLayout"
-                    android:layout_alignParentRight="true"
-                    android:text="@string/signIn"
-                    style="@android:style/Widget.Material.Button.Colored"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:padding="10dp"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/registerSubmitButton"
-                    android:layout_below="@id/signInPasswordLayout"
-                    android:text="@string/register"
-                    style="@android:style/Widget.Material.Button.Borderless.Colored"
-                    android:textColor="@color/colorPrimary"
-                    android:padding="10dp"/>
-
+                        <Button
+                            android:id="@+id/sendEmailButton"
+                            style="@android:style/Widget.Material.Button.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/contactAuthorInputLayout"
+                            android:layout_centerHorizontal="true"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:padding="10dp"
+                            android:text="@string/email" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
             </RelativeLayout>
-
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/appNameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textAlignment="center"
-            android:textAppearance="@android:style/TextAppearance.Material.Display1"
-            android:textColor="@color/colorPrimary"
-            android:layout_centerInParent="true"
-            android:layout_above="@id/startAppLayout"
-            />
+    </ScrollView>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/appNameText"
-            android:id="@+id/logosOnMainScreenLayout">
 
-                <ImageView
-                android:id="@+id/LogoMendeluBottom"
-                android:layout_width="120dp"
-                android:layout_height="150dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:padding="18dp"
-                app:srcCompat="@drawable/logo_mendelu" />
-            <ImageView
-                android:id="@+id/LogoPefBottom"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:padding="12dp"
-                app:srcCompat="@drawable/logo_pef_official" />
-
-            <ImageView
-                android:id="@+id/graphPefLogo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:layout_below="@id/LogoPefBottom"
-                app:srcCompat="@drawable/logo_graph_pef_circle" />
-        </RelativeLayout>
-    </RelativeLayout>
-</FrameLayout>
+</RelativeLayout>

@@ -40,11 +40,13 @@ import com.google.firebase.auth.FirebaseUser;
 import io.fabric.sdk.android.Fabric;
 
 
-public class MainActivity extends AppCompatActivity implements Serializable{
+public class MainActivity extends AppCompatActivity implements Serializable {
 
     private static final String TAG = "MainActivity";
     private FirebaseAuth mAuth;
     private Button mainScreenButton;
+    //TODO: check startSignInButton directly in update UI and not as parameter
+    private boolean registartionSequenceStarted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
 
         boolean userOptInFlag = CheckOptInValue();
 
-        if (userOptInFlag == true){
+        if (userOptInFlag == true) {
             //Only initialize Fabtric is user opt-in is true
             Fabric.with(this, new Crashlytics());
             Fabric.with(this, new Answers());
@@ -61,12 +63,23 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         mAuth = FirebaseAuth.getInstance();
 
 //        ((EditText)findViewById(R.id.signInPassword)).setHint(getResources().getString(R.string.password));
-  //      ((EditText)findViewById(R.id.signInXname)).setHint(getResources().getString(R.string.xname));
+        //      ((EditText)findViewById(R.id.signInXname)).setHint(getResources().getString(R.string.xname));
 
         final Button signInButton = findViewById(R.id.signInSubmitButton);
         Button registerButton = findViewById(R.id.registerSubmitButton);
+        Button startRegisterButton = findViewById(R.id.startRegisterSubmitButton);
         Button signOutButton = findViewById(R.id.signOutButton);
-        Button sendEmail = findViewById(R.id.sendMailButton);
+        Button sendEmail = findViewById(R.id.sendEmailButton);
+        Button passwordResetButton = findViewById(R.id.passwordResetButton);
+        Button startSignInButton = findViewById(R.id.startSignInButton);
+        Button startQuizButton = findViewById(R.id.startQuizButton);
+
+        startQuizButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startQuiz();
+            }
+        });
 
         ImageButton infoOnMainScreen = findViewById(R.id.infoOnMainScreen);
 
@@ -76,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements Serializable{
                 showInfo();
             }
         });
+
+
         setUpSignInButton(signInButton);
         signInButton.setText(R.string.signIn);
         setUpRegisterButton(registerButton);
@@ -84,6 +99,27 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         signOutButton.setText(R.string.signOut);
         setUpSendEmailButton(sendEmail);
         sendEmail.setText(R.string.sendEmail);
+        setUpPassworResetButton(passwordResetButton);
+        passwordResetButton.setText(R.string.passwordReset);
+
+        startRegisterButton.setText(R.string.register);
+
+        startRegisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registartionSequenceStarted = true;
+                updateUI(null, registartionSequenceStarted);
+            }
+        });
+
+        startSignInButton.setText(R.string.signIn);
+        startSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registartionSequenceStarted = false;
+                updateUI(null, registartionSequenceStarted);
+            }
+        });
 
         EditText passwordText = findViewById(R.id.signInPassword);
 
@@ -98,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
             }
         });
 
-        mainScreenButton =  findViewById(R.id.startAppButton);
+        mainScreenButton = findViewById(R.id.startAppButton);
         mainScreenButton.setText(getText(R.string.start_app));
 
         //TextView appNameText = findViewById(R.id.mainScreenDisclaimer);
@@ -109,17 +145,21 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         mainScreenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG,"onClick: Clicked button mainScreen");
-                mAuth.getCurrentUser().reload();
-                if ( mAuth.getCurrentUser().isEmailVerified() ){
-                    Log.d(TAG,"onClick: Clicked button mainScreen - email verified");
-                    Intent intent = new Intent(MainActivity.this, GraphMenuListActivity.class);
-                    startActivity(intent);
-                }else{
-                    Log.d(TAG,"onClick: Clicked button mainScreen - email NOT verified");
-                    Toast.makeText(MainActivity.this, getResources().getString(R.string.emailNotVerified),
-                            Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onClick: Clicked button mainScreen");
+                if (mAuth.getCurrentUser() != null) {
+                    mAuth.getCurrentUser().reload();
+                    if (mAuth.getCurrentUser().isEmailVerified()) {
+                        Log.d(TAG, "onClick: Clicked button mainScreen - email verified");
+                    } else {
+                        Log.d(TAG, "onClick: Clicked button mainScreen - email NOT verified");
+                        Toast.makeText(MainActivity.this, getResources().getString(R.string.emailNotVerified),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    toastMessage(getResources().getString(R.string.signInHint));
                 }
+                Intent intent = new Intent(MainActivity.this, GraphMenuListActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -127,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
     private void presentShowcaseSequence() {
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(200); // half second between each showcase view
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this,TAG);
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, TAG);
         sequence.setOnItemShownListener(new MaterialShowcaseSequence.OnSequenceItemShownListener() {
             @Override
             public void onShow(MaterialShowcaseView itemView, int position) {
@@ -147,16 +187,16 @@ public class MainActivity extends AppCompatActivity implements Serializable{
     }
 
     private void logUser() {
-        if (mAuth != null){
+        if (mAuth != null) {
             FirebaseUser user = mAuth.getCurrentUser();
-            if ( user != null ){
+            if (user != null) {
                 Crashlytics.setUserIdentifier(user.getUid());
                 Crashlytics.setUserEmail(user.getEmail());
             }
         }
     }
 
-    boolean CheckOptInValue(){
+    boolean CheckOptInValue() {
         //check opt-in value
         //return true; //if user opted-in
         return false;
@@ -167,41 +207,75 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        updateUI(currentUser, registartionSequenceStarted);
     }
 
-    private void updateUI(FirebaseUser user){
-        if (user != null){
+    private void startQuiz() {
+        Intent intent = new Intent(MainActivity.this, TestingControllerActivity.class);
+        startActivity(intent);
+    }
+
+    private void updateUI(FirebaseUser user, boolean registerSequence) {
+        if (user != null) {
+            //Signed in
             findViewById(R.id.signInLayout).setVisibility(View.GONE);
-            findViewById(R.id.signedLayout).setVisibility(View.VISIBLE);
+            //findViewById(R.id.signedLayout).setVisibility(View.VISIBLE);
             InputMethodManager keyboard = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
             keyboard.hideSoftInputFromWindow(findViewById(R.id.signInPassword).getWindowToken(), 0);
+
+            findViewById(R.id.signOutButton).setVisibility(View.VISIBLE);
             presentShowcaseSequence();
-        }else{
+        } else if (registerSequence) {
+            //register in
+            findViewById(R.id.signInSubmitButton).setVisibility(View.GONE);
+            findViewById(R.id.startRegisterSubmitButton).setVisibility(View.GONE);
+            findViewById(R.id.passwordResetButton).setVisibility(View.GONE);
+
+            TextView text = findViewById(R.id.signInCardTitle);
+            text.setText(R.string.register);
+
+            findViewById(R.id.registerSubmitButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.startSignInButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.signInPasswordConfirmationLayout).setVisibility(View.VISIBLE);
+
+        } else {
+            //Sign in
             findViewById(R.id.signInLayout).setVisibility(View.VISIBLE);
-            findViewById(R.id.signedLayout).setVisibility(View.GONE);
+            //findViewById(R.id.signedLayout).setVisibility(View.GONE);
+
+            TextView text = findViewById(R.id.signInCardTitle);
+            text.setText(R.string.signIn);
+
+            findViewById(R.id.signInSubmitButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.startRegisterSubmitButton).setVisibility(View.VISIBLE);
+            findViewById(R.id.passwordResetButton).setVisibility(View.VISIBLE);
+
+            findViewById(R.id.registerSubmitButton).setVisibility(View.GONE);
+            findViewById(R.id.startSignInButton).setVisibility(View.GONE);
+            findViewById(R.id.signInPasswordConfirmationLayout).setVisibility(View.GONE);
+            findViewById(R.id.signOutButton).setVisibility(View.GONE);
         }
     }
 
-    private String getEmail(){
-        String email = ((EditText)findViewById(R.id.signInXname)).getText().toString();
-        if (email.matches("^x(([a-z]*)|([a-z]*[0-9]*))@mendelu.cz$")){
-            Log.d(TAG,"return " + email);
+    private String getEmail() {
+        String email = ((EditText) findViewById(R.id.signInXname)).getText().toString();
+        if (email.matches("^x(([a-z]*)|([a-z]*[0-9]*))@mendelu.cz$")) {
+            Log.d(TAG, "return " + email);
             return email;
         }
-        Log.d(TAG,"return " + email + "@mendelu.cz");
+        Log.d(TAG, "return " + email + "@mendelu.cz");
         return email + "@mendelu.cz";
     }
 
-    private String getPassword(){
-        return ((EditText)findViewById(R.id.signInPassword)).getText().toString();
+    private String getPassword() {
+        return ((EditText) findViewById(R.id.signInPassword)).getText().toString();
     }
 
-    private Boolean validateXname(){
-        if (getEmail() != null){
-            if( getEmail().matches("^x(([a-z]*)|([a-z]*[0-9]*))@mendelu.cz$")){
+    private Boolean validateXname() {
+        if (getEmail() != null) {
+            if (getEmail().matches("^x(([a-z]*)|([a-z]*[0-9]*))@mendelu.cz$")) {
                 return true;
-            }else{
+            } else {
                 Toast.makeText(MainActivity.this, getResources().getString(R.string.provideValidName),
                         Toast.LENGTH_SHORT).show();
                 return false;
@@ -209,8 +283,9 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         }
         return false;
     }
+
     @SuppressWarnings("unchecked")
-    private void sendVerificationEmail(){
+    private void sendVerificationEmail() {
         mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(this, new OnCompleteListener() {
             @Override
             public void onComplete(@NonNull Task task) {
@@ -228,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         });
     }
 
-    private void setUpRegisterButton(Button registerButoon){
+    private void setUpRegisterButton(Button registerButoon) {
         registerButoon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -249,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements Serializable{
                                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                             Toast.makeText(MainActivity.this, getResources().getString(R.string.accountCreationFailed),
                                                     Toast.LENGTH_SHORT).show();
-                                            updateUI(null);
+                                            updateUI(null, registartionSequenceStarted);
                                         }
                                     }
                                 });
@@ -262,17 +337,17 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         });
     }
 
-    private void setUpSignInButton(Button signInButoon){
+    private void setUpSignInButton(Button signInButoon) {
         signInButoon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Log.d(TAG,"onClick: Clicked button mainScreen");
-                if (validateXname()){
-                    if (MainActivity.this.getPassword() != null && !MainActivity.this.getPassword().isEmpty()){
+                if (validateXname()) {
+                    if (MainActivity.this.getPassword() != null && !MainActivity.this.getPassword().isEmpty()) {
                         SimpleDateFormat s = new SimpleDateFormat("dd.MM.yyyy//hh:mm:ss");
                         String ts = s.format(new Date());
                         Answers.getInstance().logLogin(new LoginEvent().putMethod("Login")
-                                                            .putCustomAttribute("DateTime", ts));
+                                .putCustomAttribute("DateTime", ts));
                         mAuth.signInWithEmailAndPassword(MainActivity.this.getEmail(), MainActivity.this.getPassword())
                                 .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                                     @Override
@@ -281,17 +356,17 @@ public class MainActivity extends AppCompatActivity implements Serializable{
                                             // Sign in success, update UI with the signed-in user's information
                                             Log.d(TAG, "signInWithEmail:success");
                                             FirebaseUser user = mAuth.getCurrentUser();
-                                            updateUI(user);
+                                            updateUI(user, registartionSequenceStarted);
                                         } else {
                                             // If sign in fails, display a message to the user.
                                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                                             Toast.makeText(MainActivity.this, getResources().getString(R.string.signInFailed),
                                                     Toast.LENGTH_SHORT).show();
-                                            updateUI(null);
+                                            updateUI(null, registartionSequenceStarted);
                                         }
                                     }
                                 });
-                    }else{
+                    } else {
                         Toast.makeText(MainActivity.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
                     }
@@ -300,18 +375,18 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         });
     }
 
-    private void setUpSignOutButton(Button signOutButoon){
+    private void setUpSignOutButton(Button signOutButoon) {
         signOutButoon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Log.d(TAG,"onClick: Clicked button mainScreen");
                 mAuth.signOut();
-                updateUI(null);
+                updateUI(null, registartionSequenceStarted);
             }
         });
     }
 
-    private void setUpSendEmailButton(Button sendEmailButton){
+    private void setUpSendEmailButton(Button sendEmailButton) {
         sendEmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -321,9 +396,38 @@ public class MainActivity extends AppCompatActivity implements Serializable{
         });
     }
 
-    //TODO password reset
+    private void setUpPassworResetButton(Button passwordResetButton) {
+        passwordResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: reset Password Called.");
+                passwordResetConfirmation();
+            }
+        });
+    }
 
-    private void showInfo(){
+    private void passwordResetConfirmation() {
+
+        PackageInfo pInfo = null;
+        try {
+            pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        customDialog(getResources().getString(R.string.passwordResetDialogTitle)
+                , getResources().getString(R.string.passwordResetDialogText)
+                , getResources().getString(R.string.passwordResetDialogNegativeAnswer)
+                , getResources().getString(R.string.passwordResetDialogPositiveAnswer)
+                , false);
+    }
+
+    private void sendResetPassword() {
+        Log.d(TAG, "sendResetPassword: password reset requested.");
+        toastMessage(getResources().getString(R.string.passwordResetToastMessage));
+        mAuth.sendPasswordResetEmail(getEmail());
+    }
+
+    private void showInfo() {
 
         PackageInfo pInfo = null;
         try {
@@ -332,50 +436,60 @@ public class MainActivity extends AppCompatActivity implements Serializable{
             e.printStackTrace();
         }
         String version = pInfo.versionName;
-            customDialog(getResources().getString(R.string.infoOnMainscreenTitle)
-                    ,getResources().getString(R.string.infoOnMainscreenText) + " " + version
-                    ,"ok"
-                    , "cancel");
+        customDialog(getResources().getString(R.string.infoOnMainscreenTitle)
+                , getResources().getString(R.string.infoOnMainscreenText) + " " + version
+                , getResources().getString(R.string.sendEmail)
+                , getResources().getString(R.string.dismiss_showcase_text)
+                , true);
 
     }
 
-    public void customDialog(String title, String message, final String cancelMethod, final String okMethod){
+    public void customDialog(String title, String message, final String cancelMethod, final String okMethod, final boolean email) {
         final android.support.v7.app.AlertDialog.Builder builderSingle = new android.support.v7.app.AlertDialog.Builder(this);
         builderSingle.setTitle(title);
         builderSingle.setMessage(message);
-        builderSingle.setNeutralButton("Email", new DialogInterface.OnClickListener() {
+        builderSingle.setNeutralButton(cancelMethod, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.d(TAG, "onClick: start Email Called.");
-                startEmail();
+                if (email) {
+                    Log.d(TAG, "onClick: start Email Called.");
+                    startEmail();
+                }
             }
         });
 
         builderSingle.setPositiveButton(
-                "OK",
+                okMethod,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Log.d(TAG, "onClick: OK Called.");
+                        if (!email) {
+                            Log.d(TAG, "onClick: sendResetPassword() Called.");
+                            sendResetPassword();
+                        }
                     }
                 });
         builderSingle.show();
     }
 
-    public void toastMessage(String message){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    public void toastMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    private void startEmail(){
+    private void startEmail() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("plain/text");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "tolas94@gmail.com" });
-        if(mAuth.getCurrentUser() != null && mAuth.getCurrentUser().getEmail() != null){
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"tolas94@gmail.com"});
+        String textOfMail = ((EditText) findViewById(R.id.contactAuthorInput)).getText().toString();
+        if (textOfMail.isEmpty()) {
+            textOfMail = mAuth.getCurrentUser().getEmail() + " - Mám problém se ";
+        } else {
+            textOfMail = mAuth.getCurrentUser().getEmail() + " - " + textOfMail;
+        }
+        if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().getEmail() != null) {
             intent.putExtra(Intent.EXTRA_SUBJECT, "graphPef problem [" + mAuth.getUid() + "]");
-            intent.putExtra(Intent.EXTRA_TEXT, mAuth.getCurrentUser().getEmail()
-                    //TODO add info
-                    + " - Mám problém se ");
-        }else{
+            intent.putExtra(Intent.EXTRA_TEXT, textOfMail);
+        } else {
             intent.putExtra(Intent.EXTRA_SUBJECT, "graphPef problem - not logged in");
             intent.putExtra(Intent.EXTRA_TEXT, "Mám problém se ");
         }

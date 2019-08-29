@@ -12,6 +12,7 @@
 
     <!-- Name of Lines -->
     <string name="Demand">Poptávka</string>
+    <string name="IndividualDemand">Poptávka firmy</string>
     <string name="DemandDefault">Původní poptávka</string>
     <string name="PriceLevel">Cenová hladina</string>
     <string name="Price">Cena</string>
@@ -259,7 +260,7 @@
     <string name="equilibrium_are">Rovnovážné body jsou</string>
     <string name="equilibrium_cannot">Rovnovážný bod není možné vypočítat</string>
     <string name="max_production">maximální produkce</string>
-    <string name="start_app">Spustit aplikaci v testovacím režimu</string>
+    <string name="start_app">Prohlížet interaktivní grafy</string>
     <string name="disclaimer_main_page">Aplikace doposud nebyla vydaná v plné verzi. V případe nejasností kontaktujte autora aplikace.</string>
     <string name="start_app_showcase">start app</string>
     <string name="graph_list_showcase">Na téhle obrazovce si zvolíte graf o kterém se chcete dozvědět více</string>
@@ -283,6 +284,7 @@
     <string name="mi1">Mikroekonomie 1</string>
     <string name="lecture">Cvičení</string>
     <string name="password">Heslo (min. 6 znaků)</string>
+    <string name="passwordReset">Zapoměl jsem heslo</string>
     <string name="xname">xJméno</string>
     <string name="verificationEmail">Potvrzovací email poslán na </string>
     <string name="verificationEmailError">Potvrzovací email nebylo možné poslat.</string>
@@ -290,5 +292,15 @@
     <string name="accountCreationFailed">Účet nebylo možné vytvořit</string>
     <string name="emailNotVerified">Email nebyl doposud potvrzený</string>
     <string name="signInFailed">Přihlášení se nezdařilo</string>
+
+    <string name="passwordResetDialogTitle">Obnovit heslo</string>
+    <string name="passwordResetDialogText">Opravdu chcete poslat e-mail na obnovení hesla?</string>
+    <string name="passwordResetDialogPositiveAnswer">Obnovit</string>
+    <string name="passwordResetDialogNegativeAnswer">Ne, děkuji</string>
+    <string name="passwordResetToastMessage">Email s instrukcemi odeslán</string>
+
+    <string name="signInHint">Pro plnou funkcionalitu se prosím přihlašte</string>
+
+    <string name="startAppTitleText">Interaktivní grafy</string>
 
 </resources>

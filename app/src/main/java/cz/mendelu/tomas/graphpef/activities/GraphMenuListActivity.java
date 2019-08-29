@@ -32,7 +32,7 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
     private MenuListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    public enum  GraphEnum {
+    public enum GraphEnum {
         ProductionLimit,
         MarketDS,
         IndifferentAnalysis,
@@ -40,8 +40,9 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
         PerfectMarket,
         MonopolisticMarket
     }
-    private HashMap<GraphEnum,Integer> grapLookupImagePair;
-    private HashMap<GraphEnum,ArrayList<String>> grapLookupStringsPair;
+
+    private HashMap<GraphEnum, Integer> grapLookupImagePair;
+    private HashMap<GraphEnum, ArrayList<String>> grapLookupStringsPair;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,27 +53,26 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
-
-
         popuplateImages();
         populateStrings();
 
         graphMenu = findViewById(R.id.listOfGraphs);
 
         ArrayList<StringIntegerPair> graphNames = new ArrayList<>();
-        Log.d(TAG,"graphNames init");
-        for(GraphEnum graphEnum: GraphEnum.values()){
-            Log.d(TAG,"graphNames " + graphEnum.toString());
-            graphNames.add(new StringIntegerPair(grapLookupStringsPair.get(graphEnum),grapLookupImagePair.get(graphEnum)));
+        Log.d(TAG, "graphNames init");
+        for (GraphEnum graphEnum : GraphEnum.values()) {
+            Log.d(TAG, "graphNames " + graphEnum.toString());
+            graphNames.add(new StringIntegerPair(grapLookupStringsPair.get(graphEnum), grapLookupImagePair.get(graphEnum)));
         }
         mAdapter = new MenuListAdapter(graphNames);
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
         graphMenu.setLayoutManager(mLayoutManager);
         graphMenu.setAdapter(mAdapter);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -81,17 +81,17 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
     private void presentShowcaseSequence() {
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(200); // half second between each showcase view
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this,TAG);
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, TAG);
         sequence.setOnItemShownListener(new MaterialShowcaseSequence.OnSequenceItemShownListener() {
             @Override
             public void onShow(MaterialShowcaseView itemView, int position) {
             }
         });
         sequence.setConfig(config);
-        Log.d(TAG,"showcase");
+        Log.d(TAG, "showcase");
 
-        if (mLayoutManager != null){
-            if (mLayoutManager.getChildCount() > 2){
+        if (mLayoutManager != null) {
+            if (mLayoutManager.getChildCount() > 2) {
                 sequence.addSequenceItem(
                         new MaterialShowcaseView.Builder(this)
                                 .setTarget(mLayoutManager.findViewByPosition(1).findViewById(R.id.menu_item_relative_parent))
@@ -107,26 +107,26 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
         sequence.start();
     }
 
-    private void popuplateImages(){
+    private void popuplateImages() {
         grapLookupImagePair = new HashMap<>();
-        grapLookupImagePair.put(GraphEnum.MarketDS,R.drawable.market_ds);
-        grapLookupImagePair.put(GraphEnum.ProductionLimit,R.drawable.ppf_lookup);
-        grapLookupImagePair.put(GraphEnum.IndifferentAnalysis,R.drawable.indifferent_curve);
-        grapLookupImagePair.put(GraphEnum.CostCurves,R.drawable.cost_curve);
-        grapLookupImagePair.put(GraphEnum.PerfectMarket,R.drawable.doko);
-        grapLookupImagePair.put(GraphEnum.MonopolisticMarket,R.drawable.monopolistic);
+        grapLookupImagePair.put(GraphEnum.MarketDS, R.drawable.market_ds);
+        grapLookupImagePair.put(GraphEnum.ProductionLimit, R.drawable.ppf_lookup);
+        grapLookupImagePair.put(GraphEnum.IndifferentAnalysis, R.drawable.indifferent_curve);
+        grapLookupImagePair.put(GraphEnum.CostCurves, R.drawable.cost_curve);
+        grapLookupImagePair.put(GraphEnum.PerfectMarket, R.drawable.doko);
+        grapLookupImagePair.put(GraphEnum.MonopolisticMarket, R.drawable.monopolistic);
     }
 
-    private void populateStrings(){
+    private void populateStrings() {
         grapLookupStringsPair = new HashMap<>();
 
-        grapLookupStringsPair.put(GraphEnum.ProductionLimit, new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.ProductionLimit.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 2")));
-        grapLookupStringsPair.put(GraphEnum.MarketDS, new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.MarketDS.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 3")));
-        grapLookupStringsPair.put(GraphEnum.IndifferentAnalysis,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.IndifferentAnalysis.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 4")));
-        grapLookupStringsPair.put(GraphEnum.CostCurves,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.CostCurves.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 5")));
-        grapLookupStringsPair.put(GraphEnum.PerfectMarket,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.PerfectMarket.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 6-7")));
+        grapLookupStringsPair.put(GraphEnum.ProductionLimit, new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.ProductionLimit.toString(), "string", getPackageName())), getResources().getString(R.string.mi1), "Cvičení 2")));
+        grapLookupStringsPair.put(GraphEnum.MarketDS, new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.MarketDS.toString(), "string", getPackageName())), getResources().getString(R.string.mi1), "Cvičení 3")));
+        grapLookupStringsPair.put(GraphEnum.IndifferentAnalysis, new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.IndifferentAnalysis.toString(), "string", getPackageName())), getResources().getString(R.string.mi1), "Cvičení 4")));
+        grapLookupStringsPair.put(GraphEnum.CostCurves, new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.CostCurves.toString(), "string", getPackageName())), getResources().getString(R.string.mi1), "Cvičení 5")));
+        grapLookupStringsPair.put(GraphEnum.PerfectMarket, new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.PerfectMarket.toString(), "string", getPackageName())), getResources().getString(R.string.mi1), "Cvičení 6-7")));
 
-        grapLookupStringsPair.put(GraphEnum.MonopolisticMarket,new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.MonopolisticMarket.toString(),"string",getPackageName())),getResources().getString(R.string.mi1),"Cvičení 8")));
+        grapLookupStringsPair.put(GraphEnum.MonopolisticMarket, new ArrayList<>(Arrays.asList(getString(getResources().getIdentifier(GraphEnum.MonopolisticMarket.toString(), "string", getPackageName())), getResources().getString(R.string.mi1), "Cvičení 8")));
     }
 
     @Override

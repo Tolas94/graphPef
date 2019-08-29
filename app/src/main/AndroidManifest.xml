@@ -11,9 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activities.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+        <activity
+            android:name=".activities.MainActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,15 +22,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainScreenControllerActivity"
-            android:screenOrientation="portrait">
-
-
-        </activity>
-        <activity android:name=".activities.GraphMenuListActivity"
+        <activity
+            android:name=".activities.MainScreenControllerActivity"
             android:screenOrientation="portrait">
 
         </activity>
+        <activity
+            android:name=".activities.TestingControllerActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".activities.GraphMenuListActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="ff71a2b2cb2457ae507e82fc5385144c75865103" />

@@ -287,7 +287,7 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
         monopolisticMarketFirm.addToSeries(LineEnum.AverageCost, new ArrayList<Integer>());
         monopolisticMarketFirm.addToSeries(LineEnum.MarginalCost, new ArrayList<Integer>());
         //monopolisticMarketFirm.addToSeries(LineEnum.PriceLevel, new ArrayList<Integer>());
-        monopolisticMarketFirm.addToSeries(LineEnum.Demand, new ArrayList<Integer>());
+        monopolisticMarketFirm.addToSeries(LineEnum.IndividualDemand, new ArrayList<Integer>());
         monopolisticMarketFirm.addToSeries(LineEnum.MarginalRevenue, new ArrayList<Integer>());
 
         monopolisticMarketFirm.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.MarginalCost,LineEnum.MarginalRevenue)));
@@ -295,7 +295,7 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
 
         monopolisticMarketFirm.setDependantCurveOnEquilibrium(new ArrayList<>(Arrays.asList(LineEnum.Price, LineEnum.Quantity)));
         HashMap<MainScreenControllerActivity.LineEnum, ArrayList<MainScreenControllerActivity.LineEnum>> hashMap2 = new HashMap<>();
-        hashMap2.put(LineEnum.MarginalRevenue, new ArrayList<LineEnum>(Arrays.asList(LineEnum.Demand,LineEnum.AverageCost)));
+        hashMap2.put(LineEnum.MarginalRevenue, new ArrayList<LineEnum>(Arrays.asList(LineEnum.IndividualDemand,LineEnum.AverageCost)));
         hashMap2.put(LineEnum.AverageCost, new ArrayList<>(Arrays.asList(LineEnum.MarginalCost)));
         monopolisticMarketFirm.setDependantCurveOnCurve(hashMap2);
 

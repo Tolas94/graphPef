@@ -162,7 +162,7 @@
 
     </RelativeLayout>
 
-    //Bottom Bar
+    <!-- Bottom Bar -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
