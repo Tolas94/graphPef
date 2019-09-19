@@ -1,10 +1,7 @@
 package cz.mendelu.tomas.graphpef.helperObjects;
 
-import android.content.Intent;
 import android.os.Build;
-import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import cz.mendelu.tomas.graphpef.R;
 
 /**

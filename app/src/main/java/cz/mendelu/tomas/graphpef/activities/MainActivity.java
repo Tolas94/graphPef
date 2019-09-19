@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,15 +17,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import cz.mendelu.tomas.graphpef.R;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
-import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
-
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.LoginEvent;
@@ -37,16 +26,28 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import cz.mendelu.tomas.graphpef.R;
 import io.fabric.sdk.android.Fabric;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 
 public class MainActivity extends AppCompatActivity implements Serializable {
 
     private static final String TAG = "MainActivity";
+    private static final int QUIZ_REQUEST_CODE = 1;
+
     private FirebaseAuth mAuth;
     private Button mainScreenButton;
     //TODO: check startSignInButton directly in update UI and not as parameter
-    private boolean registartionSequenceStarted;
+    private boolean registationSequenceStarted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +108,8 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         startRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registartionSequenceStarted = true;
-                updateUI(null, registartionSequenceStarted);
+                registationSequenceStarted = true;
+                updateUI(null, registationSequenceStarted);
             }
         });
 
@@ -116,8 +117,8 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         startSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registartionSequenceStarted = false;
-                updateUI(null, registartionSequenceStarted);
+                registationSequenceStarted = false;
+                updateUI(null, registationSequenceStarted);
             }
         });
 
@@ -207,12 +208,21 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser, registartionSequenceStarted);
+        updateUI(currentUser, registationSequenceStarted);
     }
 
     private void startQuiz() {
         Intent intent = new Intent(MainActivity.this, TestingControllerActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, QUIZ_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == QUIZ_REQUEST_CODE) {
+            //TODO
+        }
     }
 
     private void updateUI(FirebaseUser user, boolean registerSequence) {
@@ -324,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                                             Toast.makeText(MainActivity.this, getResources().getString(R.string.accountCreationFailed),
                                                     Toast.LENGTH_SHORT).show();
-                                            updateUI(null, registartionSequenceStarted);
+                                            updateUI(null, registationSequenceStarted);
                                         }
                                     }
                                 });
@@ -356,13 +366,13 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                                             // Sign in success, update UI with the signed-in user's information
                                             Log.d(TAG, "signInWithEmail:success");
                                             FirebaseUser user = mAuth.getCurrentUser();
-                                            updateUI(user, registartionSequenceStarted);
+                                            updateUI(user, registationSequenceStarted);
                                         } else {
                                             // If sign in fails, display a message to the user.
                                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                                             Toast.makeText(MainActivity.this, getResources().getString(R.string.signInFailed),
                                                     Toast.LENGTH_SHORT).show();
-                                            updateUI(null, registartionSequenceStarted);
+                                            updateUI(null, registationSequenceStarted);
                                         }
                                     }
                                 });
@@ -381,7 +391,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             public void onClick(View view) {
                 //Log.d(TAG,"onClick: Clicked button mainScreen");
                 mAuth.signOut();
-                updateUI(null, registartionSequenceStarted);
+                updateUI(null, registationSequenceStarted);
             }
         });
     }
@@ -445,7 +455,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     }
 
     public void customDialog(String title, String message, final String cancelMethod, final String okMethod, final boolean email) {
-        final android.support.v7.app.AlertDialog.Builder builderSingle = new android.support.v7.app.AlertDialog.Builder(this);
+        final androidx.appcompat.app.AlertDialog.Builder builderSingle = new androidx.appcompat.app.AlertDialog.Builder(this);
         builderSingle.setTitle(title);
         builderSingle.setMessage(message);
         builderSingle.setNeutralButton(cancelMethod, new DialogInterface.OnClickListener() {

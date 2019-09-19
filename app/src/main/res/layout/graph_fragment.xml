@@ -1,199 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:id="@+id/graph_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/graph_fragment">
+    android:orientation="vertical">
 
+    <!-- Scrollable part -->
     <RelativeLayout
+        android:id="@+id/relativeBottomBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/relativeBottomBar">
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/graphComponentCard"
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/toolbarBottom"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="20dp"
-            android:layout_above="@id/buttonRelativeLayout">
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_grey_border_top"
+            app:itemIconTint="@drawable/bottom_toolbar_selector"
+            app:itemTextColor="@drawable/bottom_toolbar_selector"
+            app:menu="@menu/graph_menu">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="12dp"
-                android:id="@+id/graphComponentRelative">
-                <com.jjoe64.graphview.GraphView
-                    android:id="@+id/graphComponent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="invisible"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="12dp" />
-            </RelativeLayout>
-
-        </android.support.v7.widget.CardView>
-
-
-        <ScrollView
-            android:id="@+id/graphTextView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/graphComponentCard"
-            android:layout_toRightOf="@id/buttonRelativeLayout"
-            android:paddingRight="24dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/graphText1"
-                    style="m"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="10dp"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small"/>
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/graphText2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/graphText1"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small"/>
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/graphText3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/graphText2"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small"/>
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/graphText4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/graphText3"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small"/>
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/graphText5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/graphText4"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:textAppearance="@android:style/TextAppearance.Material.Small"/>
-
-            </RelativeLayout>
-
-        </ScrollView>
-        <RelativeLayout
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/buttonRelativeLayout"
-            android:padding="8dp">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:layout_margin="10dp">
-                <ImageButton
-                    android:id="@+id/buttonUp"
-                    style="@android:style/Widget.Material.Button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    app:srcCompat="@drawable/ic_arrow_upward_black_24dp"
-                    android:tint="@color/white"
-                    android:visibility="invisible"
-                    android:backgroundTint="@color/colorPrimary" />
-
-                <ImageButton
-                    android:id="@+id/buttonDown"
-                    style="@android:style/Widget.Material.Button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    app:srcCompat="@drawable/ic_arrow_downward_black_24dp"
-                    android:tint="@color/white"
-                    android:visibility="invisible"
-                    android:backgroundTint="@color/colorPrimary" />
-
-                <ImageButton
-                    android:id="@+id/buttonRight"
-                    style="@android:style/Widget.Material.Button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    app:srcCompat="@drawable/ic_arrow_forward_black_24dp"
-                    android:tint="@color/white"
-                    android:visibility="invisible"
-                    android:backgroundTint="@color/colorPrimary" />
-
-                <ImageButton
-                    android:id="@+id/buttonLeft"
-                    style="@android:style/Widget.Material.Button"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    app:srcCompat="@drawable/ic_arrow_back_black_24dp"
-                    android:tint="@color/white"
-                    android:visibility="invisible"
-                    android:backgroundTint="@color/colorPrimary" />
-
-            </RelativeLayout>
-
-        </RelativeLayout>
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     </RelativeLayout>
 
     <!-- Bottom Bar -->
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:id="@+id/relativeBottomBar"
-        android:layout_alignParentBottom="true">
-
-            <android.support.design.widget.BottomNavigationView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/toolbarBottom"
-                android:background="@drawable/white_grey_border_top"
-                app:menu="@menu/graph_menu"
-                app:itemIconTint="@drawable/bottom_toolbar_selector"
-                app:itemTextColor="@drawable/bottom_toolbar_selector"
-                >
-
-            </android.support.design.widget.BottomNavigationView>
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
         android:id="@+id/loadingPanelGraph"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:background="@color/greyTransparent">
+        android:background="@color/greyTransparent"
+        android:gravity="center">
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true" />
     </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/relativeBottomBar">
+
+        <!-- inner wrapper for scrollable view-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- graph itself-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/graphControlCard"
+                android:descendantFocusability="blocksDescendants">
+
+                <androidx.recyclerview.widget.RecyclerView
+
+                    android:id="@+id/listOfInfoOfGraph"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </androidx.recyclerview.widget.RecyclerView>
+            </RelativeLayout>
+
+            <!-- second card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/graphControlCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/graphComponentCard"
+                android:layout_marginBottom="12dp"
+                android:elevation="8dp"
+                android:paddingBottom="12dp">
+                <!-- inner layout for cardview-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!-- texts related to graph-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/buttonRelativeLayout"
+                        android:layout_centerHorizontal="true">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/graphText1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/graphText2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/graphText1"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/graphText3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/graphText2"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/graphText4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/graphText3"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:textAppearance="@android:style/TextAppearance.Material.Small" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/graphText5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/graphText4"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:textAppearance="@android:style/TextAppearance.Material.Small" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/buttonRelativeLayout"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:layout_centerHorizontal="true"
+                        android:padding="8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:layout_margin="10dp">
+
+                            <ImageButton
+                                android:id="@+id/buttonUp"
+                                style="@android:style/Widget.Material.Button"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerHorizontal="true"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:tint="@color/white"
+                                android:visibility="invisible"
+                                app:srcCompat="@drawable/ic_arrow_upward_black_24dp" />
+
+                            <ImageButton
+                                android:id="@+id/buttonDown"
+                                style="@android:style/Widget.Material.Button"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_centerHorizontal="true"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:tint="@color/white"
+                                android:visibility="invisible"
+                                app:srcCompat="@drawable/ic_arrow_downward_black_24dp" />
+
+                            <ImageButton
+                                android:id="@+id/buttonRight"
+                                style="@android:style/Widget.Material.Button"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:tint="@color/white"
+                                android:visibility="invisible"
+                                app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
+
+                            <ImageButton
+                                android:id="@+id/buttonLeft"
+                                style="@android:style/Widget.Material.Button"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:tint="@color/white"
+                                android:visibility="invisible"
+                                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+
+                        </RelativeLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/graphComponentCard"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_alignParentStart="true"
+                android:layout_margin="12dp"
+                android:layout_marginBottom="12dp"
+                android:elevation="8dp">
+
+                <RelativeLayout
+                    android:id="@+id/graphComponentRelative"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="12dp">
+
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/graphComponent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="12dp"
+                        android:visibility="invisible" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

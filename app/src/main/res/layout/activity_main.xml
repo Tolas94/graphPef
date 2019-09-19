@@ -12,7 +12,7 @@
         android:layout_height="64dp"
         android:layout_alignParentTop="true">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
@@ -49,7 +49,7 @@
 
             </RelativeLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
 
     <ScrollView
@@ -75,7 +75,7 @@
                 android:layout_height="256dp"
                 android:background="@color/cardview_shadow_end_color">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
@@ -87,7 +87,7 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentTop="true"
                         app:srcCompat="@drawable/mendelu_pef_logo_rgb" />
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
             </RelativeLayout>
 
@@ -99,7 +99,7 @@
                 android:layout_centerHorizontal="true"
                 android:padding="12dp">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
@@ -123,7 +123,7 @@
                             android:textAppearance="@android:style/TextAppearance.Material.Headline"
                             android:textColor="@color/colorPrimary" />
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/signInEmailLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -139,9 +139,9 @@
                                 android:hint="xJméno"
                                 android:inputType="text"
                                 android:singleLine="true" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/signInPasswordLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -158,9 +158,9 @@
                                 android:hint="Heslo"
                                 android:imeOptions="actionDone"
                                 android:inputType="textPassword" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/signInPasswordConfirmationLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
                                 android:hint="Potvrzeni hesla"
                                 android:imeOptions="actionDone"
                                 android:inputType="textPassword" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <Button
                             android:id="@+id/signInSubmitButton"
@@ -236,7 +236,7 @@
                             android:textColor="@color/colorPrimary"
                             android:visibility="invisible" />
                     </RelativeLayout>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
             </RelativeLayout>
 
             <RelativeLayout
@@ -247,7 +247,7 @@
                 android:layout_centerHorizontal="true"
                 android:padding="12dp">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
@@ -293,7 +293,7 @@
                             android:padding="12dp"
                             android:text="TODO start quiz" />
                     </RelativeLayout>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
             </RelativeLayout>
 
             <!-- Contact author card -->
@@ -302,7 +302,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/startAppLayout">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
@@ -322,7 +322,7 @@
                             android:textAppearance="@android:style/TextAppearance.Material.Headline"
                             android:textColor="@color/colorPrimary" />
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/contactAuthorInputLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -338,7 +338,7 @@
                                 android:hint="Nemůžu najít/nefunguje mi ..."
                                 android:inputType="text"
                                 android:singleLine="true" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <Button
                             android:id="@+id/sendEmailButton"
@@ -351,7 +351,7 @@
                             android:padding="10dp"
                             android:text="@string/email" />
                     </RelativeLayout>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
             </RelativeLayout>
         </RelativeLayout>
 

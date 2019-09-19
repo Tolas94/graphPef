@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,9 +15,10 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
+import androidx.appcompat.app.AppCompatActivity;
 import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.helperObjects.QuizDBHelper;
 import cz.mendelu.tomas.graphpef.helperObjects.QuizQuestion;
@@ -28,6 +29,9 @@ import cz.mendelu.tomas.graphpef.helperObjects.QuizQuestion;
 
 public class TestingControllerActivity extends AppCompatActivity  implements Serializable {
     private static final String TAG = "TestingControllerAct";
+    private static final String INTENT_EXTRA_SCORE = "extraScore";
+    private static final long COUNTDOWN_IN_MILIS = 60000;
+
     private TextView numberOcCorrectQuestionAnswers;
     private TextView pointsAcquired;
     private TextView questionCategory;
@@ -41,6 +45,10 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
     private Button confirmButton;
 
     private ColorStateList textColorRb;
+    private ColorStateList counterColorCd;
+
+    private CountDownTimer countDownTimer;
+    private long timeLeftInMilis;
 
     private List<QuizQuestion> questionList;
     private int questionCounter = 0;
@@ -52,8 +60,11 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
     private boolean answered = false;
     private boolean answeredWrong = false;
 
+    private long lastBackPressed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_main);
 
@@ -68,6 +79,8 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
         quizAnswer3 = findViewById(R.id.quizAnswer3);
         quizAnswer4 = findViewById(R.id.quizAnswer4);
         confirmButton = findViewById(R.id.answerQuizButton);
+        TextView quizAnswerTitle = findViewById(R.id.answerCardTitle);
+        quizAnswerTitle.setText(getText(R.string.quizAnswerTitle));
 
         QuizDBHelper dbHelper = new QuizDBHelper(this);
         questionList = dbHelper.getAllQuestions();
@@ -75,6 +88,7 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
         questionsInCategory = questionList.size();
 
         textColorRb = quizAnswer1.getTextColors();
+        counterColorCd = questionTimer.getTextColors();
 
         showNextQuestion();
 
@@ -98,6 +112,7 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
     }
 
     private void showNextQuestion(){
+        Log.d(TAG, "showNextQuestion: start");
         quizAnswer1.setTextColor(textColorRb);
         quizAnswer2.setTextColor(textColorRb);
         quizAnswer3.setTextColor(textColorRb);
@@ -115,40 +130,108 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
 
             questionCategory.setText(currentQuestion.getCategory());
 
-            numberOcCorrectQuestionAnswers.setText("Answered "  + questionCounter);
+            numberOcCorrectQuestionAnswers.setText(getText(R.string.quizAnswered).toString() + questionCounter);
+            pointsAcquired.setText(getText(R.string.quizPoints).toString() + "0");
             questionCounter++;
             answered = false;
-            confirmButton.setText("Confirm Answer");
+            confirmButton.setText(getText(R.string.quizConfirmAnswer));
+
+            timeLeftInMilis = COUNTDOWN_IN_MILIS;
+            startCountDown();
         }else{
+            Log.i(TAG, "showNextQuestion: quiz finished");
             finishQuiz();
         }
+        Log.d(TAG, "showNextQuestion: end");
+    }
+
+    private void startCountDown() {
+        countDownTimer = new CountDownTimer(timeLeftInMilis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinish) {
+                timeLeftInMilis = millisUntilFinish;
+                updateCountDownText();
+            }
+
+            @Override
+            public void onFinish() {
+                timeLeftInMilis = 0;
+                updateCountDownText();
+                checkAnswer();
+            }
+        }.start();
+    }
+
+    private void updateCountDownText() {
+        int minutes = (int) (timeLeftInMilis / 1000) / 60;
+        int seconds = (int) (timeLeftInMilis / 1000) % 60;
+
+        String formatedTime = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+
+        if (minutes == 0 && seconds < 11) {
+            questionTimer.setTextColor(Color.RED);
+        } else {
+            questionTimer.setTextColor(counterColorCd);
+        }
+        questionTimer.setText(formatedTime);
     }
 
     private void finishQuiz(){
+        Log.d(TAG, "finishQuiz");
+        Intent resulst = new Intent();
+        resulst.putExtra(INTENT_EXTRA_SCORE, score);
+        setResult(RESULT_OK);
         finish();
     }
 
     private void checkAnswer(){
+        Log.d(TAG, "checkAnswer");
         answered = true;
+
+        countDownTimer.cancel();
 
         RadioButton selected = findViewById(answersRadioGroup.getCheckedRadioButtonId());
         int answerID = answersRadioGroup.indexOfChild(selected) + 1;
 
 
-        Log.d(TAG," correct["+currentQuestion.getCorrectAnswerId()+"]==selected["+answerID+"]");
+        Log.d(TAG, "questionINseries[" + questionCounter + "] correct[" + currentQuestion.getCorrectAnswerId() + "]==selected[" + answerID + "]");
         if (currentQuestion.getCorrectAnswerId() == answerID){
             score++;
-            pointsAcquired.setText("Points: " + score);
+            pointsAcquired.setText(getText(R.string.quizPoints).toString() + score);
             selected.setTextColor(Color.GREEN);
             if (questionCounter < questionsInCategory){
-                confirmButton.setText("Continue");
+                confirmButton.setText(getText(R.string.quizContinue));
             }else{
-                confirmButton.setText("Finish");
+                Toast.makeText(TestingControllerActivity.this, getResources().getString(R.string.quizAnsweredAllQuestions),
+                        Toast.LENGTH_LONG).show();
+                confirmButton.setText(getText(R.string.quizFinish));
             }
         }else{
             answeredWrong = true;
             selected.setTextColor(Color.RED);
-            confirmButton.setText("Finish");
+            confirmButton.setText(getText(R.string.quizFinish));
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (lastBackPressed + 2000 > System.currentTimeMillis()) {
+            finishQuiz();
+        } else {
+            Toast.makeText(TestingControllerActivity.this, getResources().getString(R.string.quizTwoBackpress),
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        lastBackPressed = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
         }
     }
 }

@@ -1,11 +1,6 @@
 package cz.mendelu.tomas.graphpef.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +11,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import cz.mendelu.tomas.graphpef.R;
-
-
-import cz.mendelu.tomas.graphpef.helperObjects.InfoListAdapter;
 import cz.mendelu.tomas.graphpef.graphs.DefaultGraph;
+import cz.mendelu.tomas.graphpef.helperObjects.InfoListAdapter;
 import cz.mendelu.tomas.graphpef.interfaces.GraphIfc;
 
 /**
@@ -46,11 +42,12 @@ public class InfoFragment extends Fragment  implements Serializable {
         infoFragment.setArguments(bundle);
         return  infoFragment;
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstances) {
         View view = inflater.inflate(R.layout.info_fragment,container,false);
-
+/*
         if (getArguments() != null){
             view.findViewById(R.id.RecyclerViewRelative).setVisibility(View.VISIBLE);
             textViews = new ArrayList<>();
@@ -67,7 +64,7 @@ public class InfoFragment extends Fragment  implements Serializable {
             infoTextView.setLayoutManager(mLayoutManager);
             infoTextView.setAdapter(mAdapter);
         }
-
+*/
         instance = this;
         return view;
     }

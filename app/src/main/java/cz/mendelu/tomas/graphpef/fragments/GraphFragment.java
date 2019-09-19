@@ -1,13 +1,8 @@
 package cz.mendelu.tomas.graphpef.fragments;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,15 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
-import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -32,17 +23,21 @@ import com.jjoe64.graphview.series.PointsGraphSeries;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import cz.mendelu.tomas.graphpef.R;
+import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
 import cz.mendelu.tomas.graphpef.graphs.DefaultGraph;
-import cz.mendelu.tomas.graphpef.helperObjects.BottomNavigationViewHelper;
+import cz.mendelu.tomas.graphpef.helperObjects.InfoListAdapter;
 import cz.mendelu.tomas.graphpef.interfaces.GraphIfc;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
-
-import static java.lang.Math.abs;
 
 /**
  * Created by tomas on 12.08.2018.
@@ -65,6 +60,12 @@ public class GraphFragment extends Fragment  implements Serializable {
     private static boolean init = false;
 
 
+    private RecyclerView infoTextView;
+    private List<ArrayList<String>> texts;
+    private InfoListAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+
     public static GraphFragment newInstance(DefaultGraph defaultGraph){
         if (!init){
             //Log.d(TAG,"change init to true");
@@ -74,7 +75,16 @@ public class GraphFragment extends Fragment  implements Serializable {
         Bundle bundle = new Bundle();
         bundle.putSerializable("GRAPH_KEY",defaultGraph);
         graphFragment.setArguments(bundle);
+
         return  graphFragment;
+    }
+
+    public void populateTexts() {
+        Log.d(TAG, "populateTexts");
+        if (graphIfc != null) {
+            //Log.d(TAG, "populateTexts graphifc not null");
+            texts = graphIfc.getSituationInfoTexts();
+        }
     }
 
     @Nullable
@@ -204,6 +214,17 @@ public class GraphFragment extends Fragment  implements Serializable {
 
             menu = toolbar.getMenu();
             updateMenuTitles();
+
+            infoTextView = view.findViewById(R.id.listOfInfoOfGraph);
+
+
+            populateTexts();
+            mAdapter = new InfoListAdapter(texts);
+            mLayoutManager = new LinearLayoutManager(getContext());
+            infoTextView.setLayoutManager(mLayoutManager);
+            infoTextView.setAdapter(mAdapter);
+            infoTextView.setNestedScrollingEnabled(false);
+
 
             calculateEquilibrium();
             presentShowcaseSequence();

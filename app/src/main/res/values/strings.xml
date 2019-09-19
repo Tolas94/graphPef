@@ -303,4 +303,13 @@
 
     <string name="startAppTitleText">Interaktivní grafy</string>
 
+    <string name="quizContinue">Pokračovat</string>
+    <string name="quizFinish">Ukončit</string>
+    <string name="quizAnswered">Zodpovězených v sérii: </string>
+    <string name="quizPoints">Získaných bodů: </string>
+    <string name="quizConfirmAnswer">Odpověďet</string>
+    <string name="quizAnswerTitle">Označte jednu správnou odpověď</string>
+    <string name="quizTwoBackpress">Pro vrácení se, potvrďte stlačením tlačidla zpet</string>
+    <string name="quizAnsweredAllQuestions">Úpešne jste zodpovědeli všechny odemčené otázky gratulujeme</string>
+
 </resources>

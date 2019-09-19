@@ -1,7 +1,6 @@
 package cz.mendelu.tomas.graphpef.helperObjects;
 
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +16,8 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.LinkedTransferQueue;
 
+import androidx.recyclerview.widget.RecyclerView;
 import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.activities.GraphMenuListActivity;
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;

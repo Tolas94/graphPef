@@ -2,10 +2,6 @@ package cz.mendelu.tomas.graphpef.activities;
 
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -14,6 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.helperObjects.MenuListAdapter;
 import cz.mendelu.tomas.graphpef.helperObjects.StringIntegerPair;
