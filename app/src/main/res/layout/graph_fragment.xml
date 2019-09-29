@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- Scrollable part -->
+
     <RelativeLayout
         android:id="@+id/relativeBottomBar"
         android:layout_width="match_parent"
@@ -41,6 +41,7 @@
     </RelativeLayout>
 
 
+    <!-- Scrollable part -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- graph itself-->
+            <!-- info about topic-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,6 +134,7 @@
                             android:textAppearance="@android:style/TextAppearance.Material.Small" />
                     </RelativeLayout>
 
+                    <!-- Button for change of curves on graph-->
                     <RelativeLayout
                         android:id="@+id/buttonRelativeLayout"
                         android:layout_width="160dp"
@@ -200,6 +202,7 @@
 
             </androidx.cardview.widget.CardView>
 
+            <!-- graph itself-->
             <androidx.cardview.widget.CardView
                 android:id="@+id/graphComponentCard"
                 android:layout_width="match_parent"

@@ -312,4 +312,7 @@
     <string name="quizTwoBackpress">Pro vrácení se, potvrďte stlačením tlačidla zpet</string>
     <string name="quizAnsweredAllQuestions">Úpešne jste zodpovědeli všechny odemčené otázky gratulujeme</string>
 
+    <string name="quizStartQuizButton">Spustit test</string>
+    <string name="mainScreenPointsNeededToUnlock">zůstava</string>
+
 </resources>

@@ -85,11 +85,17 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyView
             @Override
             public void onClick(View v) {
                 SimpleDateFormat s = new SimpleDateFormat("dd.MM.yyyy//hh:mm:ss");
+                String email;
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                } else {
+                    email = "notLoggedIn";
+                }
                 String ts = s.format(new Date());
                 Answers.getInstance().logContentView(new ContentViewEvent()
                                                         .putContentId(GraphMenuListActivity.GraphEnum.values()[position].toString())
                                                         .putCustomAttribute("DateTime",ts)
-                                                        .putCustomAttribute("User",FirebaseAuth.getInstance().getCurrentUser().getEmail())
+                        .putCustomAttribute("User", email)
                                                         .putContentType("Graph change"));
                 Intent intent = new Intent(v.getContext(),MainScreenControllerActivity.class);
                 //Log.d(TAG,"newGraph " + GraphMenuListActivity.GraphEnum.values()[position].toString());

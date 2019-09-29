@@ -6,12 +6,13 @@
     <application
         android:name=".MainAppClass"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo_graph_pef_circle"
+        android:logo="@drawable/mendelu_pef_logo_rgb"
         android:supportsRtl="true"
         android:appComponentFactory="androidx"
         android:theme="@style/AppTheme"
+        android:roundIcon="@drawable/logo_circle"
         tools:replace="android:appComponentFactory">
 
         <activity

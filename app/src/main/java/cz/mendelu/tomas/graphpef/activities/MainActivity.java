@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,11 +29,17 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import cz.mendelu.tomas.graphpef.R;
+import cz.mendelu.tomas.graphpef.helperObjects.ProgressBarListAdapter;
+import cz.mendelu.tomas.graphpef.helperObjects.QuizDBHelper;
 import io.fabric.sdk.android.Fabric;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
@@ -48,6 +55,13 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     private Button mainScreenButton;
     //TODO: check startSignInButton directly in update UI and not as parameter
     private boolean registationSequenceStarted;
+
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private ProgressBarListAdapter progressBarListAdapter;
+    private QuizDBHelper dbHelper;
+
+    private TextView categoriesUnlockedValue, questionsAnsweredValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +88,13 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         Button passwordResetButton = findViewById(R.id.passwordResetButton);
         Button startSignInButton = findViewById(R.id.startSignInButton);
         Button startQuizButton = findViewById(R.id.startQuizButton);
+        recyclerView = findViewById(R.id.mainScreenScoreUnlockableCategoriesRecycleView);
+        TextView categoriesUnlockedTitle = findViewById(R.id.mainScreenCategoriesUnlockedTitle);
+        categoriesUnlockedValue = findViewById(R.id.mainScreenCategoriesUnlockedValue);
+        TextView questionsAnsweredTitle = findViewById(R.id.mainScreenQuestionsAnsweredTitle);
+        questionsAnsweredValue = findViewById(R.id.mainScreenQuestionsAnsweredValue);
+
+        startQuizButton.setText(R.string.quizStartQuizButton);
 
         startQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,6 +184,10 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                 startActivity(intent);
             }
         });
+
+        dbHelper = new QuizDBHelper(this);
+
+        updateCategories();
     }
 
     private void presentShowcaseSequence() {
@@ -225,10 +250,34 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         }
     }
 
+    /**
+     * update UI changes main splash screenthe
+     * possible flow is
+     * 1. From Unsigned -> to logged in when user != null
+     * 2. From Unsigned -> to register sequence
+     * 3. From register sequence -> logged in
+     * If returned the flow can also be
+     * 4.From logged in -> Unsigned
+     * 5.From register -> logged in
+     * <p>
+     * Other flow is not possible and shal not be possible without further touching of code
+     */
     private void updateUI(FirebaseUser user, boolean registerSequence) {
         if (user != null) {
             //Signed in
+
+            //make signing input layout invisible(gone)
             findViewById(R.id.signInLayout).setVisibility(View.GONE);
+            //make score sheet visible
+            findViewById(R.id.mainScreenScore).setVisibility(View.VISIBLE);
+            //update score
+            updateScore();
+            updateCategories();
+
+            //cahnge position of startAppLayout to be directly under score
+            RelativeLayout startAppLayout = findViewById(R.id.startAppLayout);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) startAppLayout.getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.mainScreenScore);
             //findViewById(R.id.signedLayout).setVisibility(View.VISIBLE);
             InputMethodManager keyboard = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
             keyboard.hideSoftInputFromWindow(findViewById(R.id.signInPassword).getWindowToken(), 0);
@@ -250,7 +299,15 @@ public class MainActivity extends AppCompatActivity implements Serializable {
 
         } else {
             //Sign in
+            //make signing input layout visible
             findViewById(R.id.signInLayout).setVisibility(View.VISIBLE);
+            //make score invisible
+            findViewById(R.id.mainScreenScore).setVisibility(View.GONE);
+
+            RelativeLayout startAppLayout = findViewById(R.id.startAppLayout);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) startAppLayout.getLayoutParams();
+            params.addRule(RelativeLayout.BELOW, R.id.signLayout);
+
             //findViewById(R.id.signedLayout).setVisibility(View.GONE);
 
             TextView text = findViewById(R.id.signInCardTitle);
@@ -265,6 +322,58 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             findViewById(R.id.signInPasswordConfirmationLayout).setVisibility(View.GONE);
             findViewById(R.id.signOutButton).setVisibility(View.GONE);
         }
+    }
+
+    private void updateScore() {
+
+        TextView scoreTextView = findViewById(R.id.mainScreenScoreText);
+        TextView emailTextView = findViewById(R.id.mainScreenScoreEmail);
+        String email = mAuth.getCurrentUser().getEmail();
+        email = email.substring(0, email.indexOf('@')) + ": ";
+        emailTextView.setText(email);
+        String scoreText = String.valueOf(dbHelper.getAvailablePoints());
+        Log.d(TAG, "email: [" + email + "] scoreText: [" + scoreText + "]");
+        scoreTextView.setText(scoreText);
+    }
+
+    private void updateCategories() {
+        List<String> stringsList = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> priceList = new ArrayList<>();
+
+        int points = dbHelper.getAvailablePoints();
+        List<List<String>> list = dbHelper.getAllUnlockableCategories();
+        for (List<String> entryList : list) {
+            ArrayList<Integer> tempList = new ArrayList<>();
+            Integer price = new Integer(entryList.get(1));
+            // price - points
+            int absoluteDifference = price - points;
+            tempList.add(absoluteDifference);
+            // how much points of price we do have
+            Double percentage = 0.00;
+            if (points != 0) {
+                percentage = ((double) points) / (double) (price) * 100;
+            }
+            tempList.add(percentage.intValue());
+
+            if (percentage > 10.00) {
+                stringsList.add(entryList.get(0));
+                priceList.add(tempList);
+            }
+        }
+        ;
+
+        progressBarListAdapter = new ProgressBarListAdapter(stringsList, priceList);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(progressBarListAdapter);
+        recyclerView.setNestedScrollingEnabled(false);
+
+        String questionsAnswered = dbHelper.getNumCorrectlyAnsweredQuestion() + "/" + dbHelper.getNumAllQuestions();
+        Log.d(TAG, "questionsAnswered [" + questionsAnswered + "]");
+        questionsAnsweredValue.setText(questionsAnswered);
+        String categoriesUnlocked = dbHelper.getNumUnlockedCategories() + "/" + dbHelper.getNumAllCategories();
+        Log.d(TAG, "categoriesUnlocked [" + categoriesUnlocked + "]");
+        categoriesUnlockedValue.setText(categoriesUnlocked);
     }
 
     private String getEmail() {

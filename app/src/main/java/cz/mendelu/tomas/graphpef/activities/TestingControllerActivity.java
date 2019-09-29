@@ -54,6 +54,7 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
     private int questionCounter = 0;
     private int questionsInCategory;
     private QuizQuestion currentQuestion;
+    private QuizDBHelper dbHelper;
 
     private int score = 0;
 
@@ -79,10 +80,8 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
         quizAnswer3 = findViewById(R.id.quizAnswer3);
         quizAnswer4 = findViewById(R.id.quizAnswer4);
         confirmButton = findViewById(R.id.answerQuizButton);
-        TextView quizAnswerTitle = findViewById(R.id.answerCardTitle);
-        quizAnswerTitle.setText(getText(R.string.quizAnswerTitle));
 
-        QuizDBHelper dbHelper = new QuizDBHelper(this);
+        dbHelper = new QuizDBHelper(this);
         questionList = dbHelper.getAllQuestions();
         Collections.shuffle(questionList);
         questionsInCategory = questionList.size();
@@ -131,7 +130,7 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
             questionCategory.setText(currentQuestion.getCategory());
 
             numberOcCorrectQuestionAnswers.setText(getText(R.string.quizAnswered).toString() + questionCounter);
-            pointsAcquired.setText(getText(R.string.quizPoints).toString() + "0");
+            pointsAcquired.setText(getResources().getString(R.string.quizPoints) + " " + score);
             questionCounter++;
             answered = false;
             confirmButton.setText(getText(R.string.quizConfirmAnswer));
@@ -178,8 +177,11 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
 
     private void finishQuiz(){
         Log.d(TAG, "finishQuiz");
-        Intent resulst = new Intent();
-        resulst.putExtra(INTENT_EXTRA_SCORE, score);
+        if (questionCounter != 0) {
+            dbHelper.addQuizAnsered(score, questionCounter);
+        }
+        Intent results = new Intent();
+        results.putExtra(INTENT_EXTRA_SCORE, score);
         setResult(RESULT_OK);
         finish();
     }
@@ -196,8 +198,15 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
 
         Log.d(TAG, "questionINseries[" + questionCounter + "] correct[" + currentQuestion.getCorrectAnswerId() + "]==selected[" + answerID + "]");
         if (currentQuestion.getCorrectAnswerId() == answerID){
-            score++;
-            pointsAcquired.setText(getText(R.string.quizPoints).toString() + score);
+
+            if (currentQuestion.isAnswered()) {
+                score++;
+            } else {
+                dbHelper.addQuestionAnswered(currentQuestion.getQuestionID());
+                score += 5;
+            }
+
+            pointsAcquired.setText(getResources().getString(R.string.quizPoints) + " " + score);
             selected.setTextColor(Color.GREEN);
             if (questionCounter < questionsInCategory){
                 confirmButton.setText(getText(R.string.quizContinue));

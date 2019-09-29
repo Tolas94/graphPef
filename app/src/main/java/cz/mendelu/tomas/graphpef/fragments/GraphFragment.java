@@ -444,18 +444,29 @@ public class GraphFragment extends Fragment  implements Serializable {
                         .setDismissOnTouch(true)
                         .build()
         );
+        ImageButton showcaseBtn;
+        if (up.getVisibility() == View.VISIBLE) {
+            showcaseBtn = up;
+        } else {
+            showcaseBtn = right;
+        }
         sequence.addSequenceItem(
                 new MaterialShowcaseView.Builder(this.getActivity())
-                        .setTarget(up)
+                        .setTarget(showcaseBtn)
                         .setDismissText(getString(R.string.up_button_showcase))
                         .setContentText(getString(R.string.dismiss_showcase_text))
                         .withRectangleShape()
                         .setDismissOnTouch(true)
                         .build()
         );
+        if (down.getVisibility() == View.VISIBLE) {
+            showcaseBtn = down;
+        } else {
+            showcaseBtn = left;
+        }
         sequence.addSequenceItem(
                 new MaterialShowcaseView.Builder(this.getActivity())
-                        .setTarget(down)
+                        .setTarget(showcaseBtn)
                         .setDismissText(getString(R.string.down_button_showcase))
                         .setContentText(getString(R.string.dismiss_showcase_text))
                         .withRectangleShape()

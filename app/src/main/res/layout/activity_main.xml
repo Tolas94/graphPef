@@ -22,6 +22,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+
+                <!-- signout -->
+                <Button
+                    android:id="@+id/signOutButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="12dp"
+                    android:text="@string/signOut"
+                    android:textColor="@color/colorPrimary"
+                    android:background="@color/cardview_shadow_end_color"
+                    android:visibility="gone" />
+
                 <!-- info about app dialog - TODO: delete and change for eco coins value -->
                 <ImageButton
                     android:id="@+id/infoOnMainScreen"
@@ -34,19 +49,6 @@
                     android:tint="@color/colorPrimary"
                     app:srcCompat="@drawable/ic_info_black_24dp" />
 
-                <!-- signout -->
-                <Button
-                    android:id="@+id/signOutButton"
-                    style="@android:style/Widget.Material.Button.Borderless.Colored"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:padding="12dp"
-                    android:text="@string/signOut"
-                    android:textColor="@color/colorPrimary"
-                    android:visibility="gone" />
-
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
@@ -56,19 +58,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/MainScreenTopBar">
-        <!--
-   <ImageView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:src="@drawable/podklad"
-       android:scaleType = "centerCrop"/>-->
-
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- Logo aplikace-->
+            <!-- application logo -->
             <RelativeLayout
                 android:id="@+id/MainScreenLogo"
                 android:layout_width="match_parent"
@@ -91,20 +86,161 @@
 
             </RelativeLayout>
 
+            <!-- Score -->
+            <RelativeLayout
+                android:id="@+id/mainScreenScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/MainScreenLogo"
+                android:background="@color/cardview_shadow_end_color"
+                android:visibility="gone">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="12dp"
+                    android:backgroundTint="@color/white"
+                    android:elevation="8dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <!-- score part-->
+                        <RelativeLayout
+                            android:id="@+id/mainScreenScoreLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="20dp">
+
+                            <ImageView
+                                android:id="@+id/mainScreenScoreLogo"
+                                android:layout_width="56sp"
+                                android:layout_height="56sp"
+                                android:layout_centerVertical="true"
+                                android:layout_toRightOf="@id/mainScreenScoreText"
+
+                                app:srcCompat="@drawable/logo_graph_pef_circle" />
+
+                            <TextView
+                                android:id="@+id/mainScreenScoreEmail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toLeftOf="@id/mainScreenScoreText"
+                                android:textAppearance="@android:style/TextAppearance.Material.Headline"
+                                android:textColor="@color/colorPrimary"></TextView>
+
+                            <TextView
+                                android:id="@+id/mainScreenScoreText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:textAppearance="@android:style/TextAppearance.Material.Display1"
+                                android:textColor="@color/colorPrimary"></TextView>
+
+                        </RelativeLayout>
+
+
+                        <RelativeLayout
+                            android:id="@+id/mainScreenScoreTextsLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_below="@id/mainScreenScoreLayout"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp">
+
+                            <TextView
+                                android:id="@+id/mainScreenCategoriesUnlockedTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:gravity="left"
+                                android:text="UnlockedCategories"
+                                android:textAppearance="@android:style/TextAppearance.Material.Body1"></TextView>
+
+                            <TextView
+                                android:id="@+id/mainScreenCategoriesUnlockedValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentRight="true"
+                                android:gravity="right"
+                                android:text="1/10"
+                                android:textAppearance="@android:style/TextAppearance.Material.Body1"></TextView>
+
+                            <TextView
+                                android:id="@+id/mainScreenQuestionsAnsweredTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/mainScreenCategoriesUnlockedTitle"
+                                android:gravity="left"
+                                android:text="CorrectlyAnswered"
+                                android:textAppearance="@android:style/TextAppearance.Material.Body1"></TextView>
+
+                            <TextView
+                                android:id="@+id/mainScreenQuestionsAnsweredValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/mainScreenCategoriesUnlockedValue"
+                                android:layout_alignParentRight="true"
+                                android:gravity="right"
+                                android:text="0/20"
+                                android:textAppearance="@android:style/TextAppearance.Material.Body1"></TextView>
+                        </RelativeLayout>
+
+                        <!-- categories part -->
+                        <RelativeLayout
+                            android:id="@+id/mainScreenScoreUnlockableCategoriesRecycleViewLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/mainScreenScoreTextsLayout"
+                            android:padding="20dp">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/mainScreenScoreUnlockableCategoriesRecycleView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            </androidx.recyclerview.widget.RecyclerView>
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/mainScreenScoreUnlockableCategoriesRecycleViewLayout"
+                            android:padding="20dp">
+
+                            <Button
+                                android:id="@+id/startQuizButton"
+                                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="12dp"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:padding="12dp" />
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/signLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/MainScreenLogo"
-                android:layout_centerHorizontal="true"
-                android:padding="12dp">
+                android:layout_centerHorizontal="true">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:backgroundTint="@color/white"
-                    android:elevation="8dp">
+                    android:elevation="8dp"
+                    android:padding="12dp">
 
                     <!-- Sign in formalar-->
                     <RelativeLayout
@@ -112,7 +248,64 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
+                        android:padding="20dp"
                         android:visibility="invisible">
+
+                        <Button
+                            android:id="@+id/signInSubmitButton"
+                            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/signInPasswordLayout"
+                            android:layout_centerHorizontal="true"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:padding="10dp"
+                            android:text="@string/signIn" />
+
+                        <Button
+                            android:id="@+id/startRegisterSubmitButton"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/signInSubmitButton"
+                            android:layout_centerHorizontal="true"
+                            android:padding="10dp"
+                            android:text="@string/register"
+                            android:textColor="@color/colorPrimary" />
+
+                        <Button
+                            android:id="@+id/passwordResetButton"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/startRegisterSubmitButton"
+                            android:layout_centerHorizontal="true"
+                            android:padding="12dp"
+                            android:text="@string/passwordReset"
+                            android:textColor="@color/colorPrimary" />
+
+                        <Button
+                            android:id="@+id/registerSubmitButton"
+                            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/signInPasswordConfirmationLayout"
+                            android:layout_centerHorizontal="true"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:padding="10dp"
+                            android:text="@string/register"
+                            android:visibility="invisible" />
+
+                        <Button
+                            android:id="@+id/startSignInButton"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/registerSubmitButton"
+                            android:layout_centerHorizontal="true"
+                            android:padding="12dp"
+                            android:textColor="@color/colorPrimary"
+                            android:visibility="invisible" />
 
                         <TextView
                             android:id="@+id/signInCardTitle"
@@ -122,6 +315,26 @@
                             android:text="@string/signIn"
                             android:textAppearance="@android:style/TextAppearance.Material.Headline"
                             android:textColor="@color/colorPrimary" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/signInPasswordConfirmationLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/signInPasswordLayout"
+                            android:layout_marginTop="12dp"
+                            android:visibility="invisible">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/signInPasswordConfirmation"
+                                style="@android:style/Widget.Material.EditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:ellipsize="start"
+                                android:gravity="center"
+                                android:hint="Potvrzeni hesla"
+                                android:imeOptions="actionDone"
+                                android:inputType="textPassword" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/signInEmailLayout"
@@ -159,82 +372,6 @@
                                 android:imeOptions="actionDone"
                                 android:inputType="textPassword" />
                         </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/signInPasswordConfirmationLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/signInPasswordLayout"
-                            android:layout_marginTop="12dp"
-                            android:visibility="invisible">
-
-                            <EditText
-                                android:id="@+id/signInPasswordConfirmation"
-                                style="@android:style/Widget.Material.EditText"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:ellipsize="start"
-                                android:gravity="center"
-                                android:hint="Potvrzeni hesla"
-                                android:imeOptions="actionDone"
-                                android:inputType="textPassword" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <Button
-                            android:id="@+id/signInSubmitButton"
-                            style="@android:style/Widget.Material.Button.Colored"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/signInPasswordLayout"
-                            android:layout_centerHorizontal="true"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:padding="10dp"
-                            android:text="@string/signIn" />
-
-                        <Button
-                            android:id="@+id/startRegisterSubmitButton"
-                            style="@android:style/Widget.Material.Button.Borderless.Colored"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/signInSubmitButton"
-                            android:layout_centerHorizontal="true"
-                            android:padding="10dp"
-                            android:text="@string/register"
-                            android:textColor="@color/colorPrimary" />
-
-                        <Button
-                            android:id="@+id/passwordResetButton"
-                            style="@android:style/Widget.Material.Button.Borderless.Colored"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/startRegisterSubmitButton"
-                            android:layout_centerHorizontal="true"
-                            android:padding="12dp"
-                            android:text="@string/passwordReset"
-                            android:textColor="@color/colorPrimary" />
-
-                        <Button
-                            android:id="@+id/registerSubmitButton"
-                            style="@android:style/Widget.Material.Button.Colored"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/signInPasswordConfirmationLayout"
-                            android:layout_centerHorizontal="true"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:padding="10dp"
-                            android:text="@string/register"
-                            android:visibility="invisible" />
-
-                        <Button
-                            android:id="@+id/startSignInButton"
-                            style="@android:style/Widget.Material.Button.Borderless.Colored"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/registerSubmitButton"
-                            android:layout_centerHorizontal="true"
-                            android:padding="12dp"
-                            android:textColor="@color/colorPrimary"
-                            android:visibility="invisible" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
@@ -244,15 +381,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/signLayout"
-                android:layout_centerHorizontal="true"
-                android:padding="12dp">
+                android:layout_centerHorizontal="true">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:backgroundTint="@color/white"
-                    android:elevation="8dp">
+                    android:elevation="8dp"
+                    android:padding="12dp">
 
                     <RelativeLayout
                         android:id="@+id/signedLayout"
@@ -260,18 +397,9 @@
                         android:layout_height="wrap_content"
                         android:padding="20dp">
 
-                        <TextView
-                            android:id="@+id/startAppTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:text="@string/startAppTitleText"
-                            android:textAppearance="@android:style/TextAppearance.Material.Headline"
-                            android:textColor="@color/colorPrimary" />
-
                         <Button
                             android:id="@+id/startAppButton"
-                            style="@android:style/Widget.Material.Button.Colored"
+                            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/startAppTitle"
@@ -281,23 +409,21 @@
                             android:padding="12dp"
                             android:text="@string/start_app" />
 
-                        <Button
-                            android:id="@+id/startQuizButton"
-                            style="@android:style/Widget.Material.Button.Colored"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/startAppTitle"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/startAppButton"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginBottom="12dp"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:padding="12dp"
-                            android:text="TODO start quiz" />
+                            android:layout_margin="10dp"
+                            android:text="@string/startAppTitleText"
+                            android:textAppearance="@android:style/TextAppearance.Material.Headline"
+                            android:textColor="@color/colorPrimary" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
 
             <!-- Contact author card -->
             <RelativeLayout
+                android:id="@+id/contactAuthorCardLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/startAppLayout">
@@ -307,11 +433,24 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:backgroundTint="@color/white"
-                    android:elevation="8dp">
+                    android:elevation="8dp"
+                    android:padding="12dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:padding="20dp">
+
+                        <Button
+                            android:id="@+id/sendEmailButton"
+                            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/contactAuthorInputLayout"
+                            android:layout_centerHorizontal="true"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:padding="10dp"
+                            android:text="@string/email" />
 
                         <TextView
                             android:id="@+id/contactAuthorCardTitle"
@@ -329,7 +468,7 @@
                             android:layout_below="@id/contactAuthorCardTitle"
                             android:layout_marginTop="12dp">
 
-                            <EditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/contactAuthorInput"
                                 style="@android:style/Widget.Material.EditText"
                                 android:layout_width="match_parent"
@@ -339,17 +478,6 @@
                                 android:inputType="text"
                                 android:singleLine="true" />
                         </com.google.android.material.textfield.TextInputLayout>
-
-                        <Button
-                            android:id="@+id/sendEmailButton"
-                            style="@android:style/Widget.Material.Button.Colored"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/contactAuthorInputLayout"
-                            android:layout_centerHorizontal="true"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:padding="10dp"
-                            android:text="@string/email" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>

@@ -1,17 +1,27 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="toolbarStyle">@style/AppTheme.MyActionBar</item>
     </style>
+
+    <style name="AppTheme.MyActionBar" parent="@style/Widget.AppCompat.Toolbar">
+        <item name="titleTextColor">@color/colorPrimary</item>
+        <item name="android:background">@color/white</item>
+        <item name="toolbarNavigationButtonStyle">@style/AppTheme.MyActionBar.icon</item>
+    </style>
+
+    <style name="AppTheme.MyActionBar.icon" parent="@style/Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:tint">@color/colorPrimary</item>
+    </style>
+
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-
-    <style name="AppTheme.AppBarOverlay" parent="Base.ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="Base.ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -7,30 +7,13 @@
     tools:ignore="ExtraText"
     android:background="@color/grey2">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/imageRelativeMenu">
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="120dp"
-            app:srcCompat="@drawable/logo_pef_biele" />
-    </RelativeLayout>
-
-    //cela screena
+    <!-- Whole screen-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/relativeWhole">
 
-        //Top Bar
+        <!-- Top bar -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -47,14 +30,14 @@
                     app:tabBackground="@drawable/tab_selector_color"
                     app:tabIndicatorColor="@color/colorPrimary"
                     app:tabIndicatorHeight="4dp"
+                    app:tabSelectedTextColor="@color/colorPrimary"
                     ></com.google.android.material.tabs.TabLayout>
 
             </com.google.android.material.appbar.AppBarLayout>
         </RelativeLayout>
 
 
-
-        //center Area
+        <!-- Center of screen -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
