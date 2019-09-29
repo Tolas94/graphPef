@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     private ProgressBarListAdapter progressBarListAdapter;
     private QuizDBHelper dbHelper;
 
-    private TextView categoriesUnlockedValue, questionsAnsweredValue;
+    private TextView categoriesUnlockedValue, questionsAnsweredValue, questionsHighScoreStreakValue, questionsHighScoreValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +93,11 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         categoriesUnlockedValue = findViewById(R.id.mainScreenCategoriesUnlockedValue);
         TextView questionsAnsweredTitle = findViewById(R.id.mainScreenQuestionsAnsweredTitle);
         questionsAnsweredValue = findViewById(R.id.mainScreenQuestionsAnsweredValue);
+        TextView questionsHighScoreStreakTitle = findViewById(R.id.mainScreenQuestionsHighScoreStreakTitle);
+        questionsHighScoreStreakValue = findViewById(R.id.mainScreenQuestionsHighScoretreakValue);
+        TextView questionsHighScoreTitle = findViewById(R.id.mainScreenQuestionsHighScoreTitle);
+        questionsHighScoreValue = findViewById(R.id.mainScreenQuestionsHighScoreValue);
+        mainScreenButton = findViewById(R.id.startAppButton);
 
         startQuizButton.setText(R.string.quizStartQuizButton);
 
@@ -123,8 +128,14 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         sendEmail.setText(R.string.sendEmail);
         setUpPassworResetButton(passwordResetButton);
         passwordResetButton.setText(R.string.passwordReset);
-
         startRegisterButton.setText(R.string.register);
+        mainScreenButton.setText(R.string.start_app);
+        categoriesUnlockedTitle.setText(R.string.mainScreenCategoriesUnlocked);
+        questionsAnsweredTitle.setText(R.string.mainScreenQuestionAnswered);
+        questionsHighScoreStreakTitle.setText(R.string.mainScreenHighScoreStreak);
+        questionsHighScoreTitle.setText(R.string.mainScreenHighScore);
+        startSignInButton.setText(R.string.signIn);
+        EditText passwordText = findViewById(R.id.signInPassword);
 
         startRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             }
         });
 
-        startSignInButton.setText(R.string.signIn);
+
         startSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             }
         });
 
-        EditText passwordText = findViewById(R.id.signInPassword);
+
 
         passwordText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
@@ -156,8 +167,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             }
         });
 
-        mainScreenButton = findViewById(R.id.startAppButton);
-        mainScreenButton.setText(getText(R.string.start_app));
 
         //TextView appNameText = findViewById(R.id.mainScreenDisclaimer);
         //appNameText.setText(getText(R.string.disclaimer_main_page));
@@ -360,7 +369,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                 priceList.add(tempList);
             }
         }
-        ;
 
         progressBarListAdapter = new ProgressBarListAdapter(stringsList, priceList);
         layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -374,6 +382,13 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         String categoriesUnlocked = dbHelper.getNumUnlockedCategories() + "/" + dbHelper.getNumAllCategories();
         Log.d(TAG, "categoriesUnlocked [" + categoriesUnlocked + "]");
         categoriesUnlockedValue.setText(categoriesUnlocked);
+
+        String questionsHighScoreStreakValueString = dbHelper.getHighScoreStreak().toString();
+        questionsHighScoreStreakValue.setText(questionsHighScoreStreakValueString);
+        Log.d(TAG, "questionsHighScoreStreakValue [" + questionsHighScoreStreakValueString + "]");
+        String questionsHighScoreValueString = dbHelper.getHighScore().toString();
+        questionsHighScoreValue.setText(questionsHighScoreValueString);
+        Log.d(TAG, "questionsHighScoreValue [" + questionsHighScoreValueString + "]");
     }
 
     private String getEmail() {

@@ -234,6 +234,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
                 quizQuestion.setOption3(c.getString(c.getColumnIndex(QuestionsTable.COLUMN_OPTION3)));
                 quizQuestion.setOption4(c.getString(c.getColumnIndex(QuestionsTable.COLUMN_OPTION4)));
                 quizQuestion.setCorrectAnswerId(c.getInt(c.getColumnIndex(QuestionsTable.COLUMN_ANSWER_ID)));
+                quizQuestion.setAnswered(c.getInt(c.getColumnIndex(QuestionsTable.COLUMN_ANSWERED)) == 1);
                 quizQuestions.add(quizQuestion);
             } while (c.moveToNext());
         }
@@ -448,7 +449,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
         updatedValue.put(QuestionsTable.COLUMN_ANSWERED, true);
 
-        db.update(QuestionsTable.QUIZ_TABLE_NAME, updatedValue, "_id = ?", new String[]{questionID});
+        db.update(QuestionsTable.QUIZ_TABLE_NAME, updatedValue, "_id = " + questionID, null);
     }
 
     public int getScore() {
@@ -568,8 +569,6 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         int retVal = 0;
         db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT COUNT(*) as Total FROM " + CategoryTable.CATEGORY_TABLE_NAME, null);
-
-
         if (cursor.moveToFirst()) {
             retVal = cursor.getInt(cursor.getColumnIndex("Total"));
         }
@@ -585,8 +584,6 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         int retVal = 0;
         db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT COUNT(*) as Total FROM " + QuestionsTable.QUIZ_TABLE_NAME, null);
-
-
         if (cursor.moveToFirst()) {
             retVal = cursor.getInt(cursor.getColumnIndex("Total"));
         }
@@ -594,6 +591,36 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         cursor.close();
 
         Log.d(TAG, "getNumAllQuestions: return " + retVal);
+        return retVal;
+    }
+
+    public Integer getHighScore() {
+        Log.d(TAG, "getHighScore");
+        int retVal = 0;
+        db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT MAX(" + QuizAnswerTable.COLUMN_POINTS_ACQUIRED + " ) as Score FROM " + QuizAnswerTable.ANSWERS_TABLE_NAME, null);
+        if (cursor.moveToFirst()) {
+            retVal = cursor.getInt(cursor.getColumnIndex("Score"));
+        }
+
+        cursor.close();
+
+        Log.d(TAG, "getHighScore: return " + retVal);
+        return retVal;
+    }
+
+    public Integer getHighScoreStreak() {
+        Log.d(TAG, "getHighScore");
+        int retVal = 0;
+        db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT MAX(" + QuizAnswerTable.COLUMN_QUESTIONS_ANSWERED + " ) as Score FROM " + QuizAnswerTable.ANSWERS_TABLE_NAME, null);
+        if (cursor.moveToFirst()) {
+            retVal = cursor.getInt(cursor.getColumnIndex("Score"));
+        }
+
+        cursor.close();
+
+        Log.d(TAG, "getHighScore: return " + retVal);
         return retVal;
     }
 }
