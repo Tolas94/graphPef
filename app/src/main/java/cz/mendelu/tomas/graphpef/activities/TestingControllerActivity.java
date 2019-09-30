@@ -1,11 +1,15 @@
 package cz.mendelu.tomas.graphpef.activities;
 
+import android.animation.ValueAnimator;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -18,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.helperObjects.QuizDBHelper;
@@ -56,7 +61,7 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
     private QuizQuestion currentQuestion;
     private QuizDBHelper dbHelper;
 
-    private int score = 0;
+    private Integer score = 0;
 
     private boolean answered = false;
     private boolean answeredWrong = false;
@@ -67,6 +72,11 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
         setContentView(R.layout.test_main);
 
         numberOcCorrectQuestionAnswers = findViewById(R.id.questionNumberOfCorrectAnswersText);
@@ -177,13 +187,18 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
 
     private void finishQuiz(){
         Log.d(TAG, "finishQuiz");
-        if (questionCounter != 0) {
-            dbHelper.addQuizAnsered(score, questionCounter);
+        Integer bonus = 0;
+
+        if (score > dbHelper.getHighScore()) {
+            // + 50 percent if score is highscore
+            bonus += score / 2;
         }
-        Intent results = new Intent();
-        results.putExtra(INTENT_EXTRA_SCORE, score);
-        setResult(RESULT_OK);
-        finish();
+        if (questionCounter > dbHelper.getHighScoreStreak()) {
+            // + 50 percent if score is highScoreStreak
+            bonus += score / 2;
+        }
+
+        endingDialog(score, bonus);
     }
 
     private void checkAnswer(){
@@ -231,8 +246,17 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
             Toast.makeText(TestingControllerActivity.this, getResources().getString(R.string.quizTwoBackpress),
                     Toast.LENGTH_SHORT).show();
         }
-
         lastBackPressed = System.currentTimeMillis();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finishQuiz();
+                break;
+        }
+        return true;
     }
 
     @Override
@@ -242,5 +266,51 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
+    }
+
+
+    public void endingDialog(Integer score, Integer bonus) {
+        final androidx.appcompat.app.AlertDialog.Builder builderSingle = new androidx.appcompat.app.AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogContent = inflater.inflate(R.layout.quiz_ending_dialog, null);
+        builderSingle.setView(dialogContent);
+        TextView sumText = dialogContent.findViewById(R.id.quizEndindDialogScoreSumValue);
+        TextView scoreText = dialogContent.findViewById(R.id.quizEndindDialogScoreValue);
+        TextView bonusText = dialogContent.findViewById(R.id.quizEndindDialogBonusValue);
+
+        //sumText.setText(Integer.toString(score + bonus));
+        //scoreText.setText(Integer.toString(score));
+        //bonusText.setText(Integer.toString(bonus));
+
+        startCountAnimation(sumText, score + bonus);
+        startCountAnimation(scoreText, score);
+        startCountAnimation(bonusText, bonus);
+
+        builderSingle.setPositiveButton(
+                getString(R.string.quizFinish),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (questionCounter != 0) {
+                            dbHelper.addQuizAnsered(score + bonus, questionCounter);
+                        }
+                        Intent results = new Intent();
+                        results.putExtra(INTENT_EXTRA_SCORE, score);
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                });
+        builderSingle.show();
+    }
+
+    private void startCountAnimation(TextView textView, Integer maxPoints) {
+        ValueAnimator animator = ValueAnimator.ofInt(0, maxPoints);
+        animator.setDuration(1000);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                textView.setText(animation.getAnimatedValue().toString());
+            }
+        });
+        animator.start();
     }
 }

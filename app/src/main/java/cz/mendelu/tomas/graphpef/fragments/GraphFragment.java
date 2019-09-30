@@ -5,14 +5,10 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
@@ -33,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
 import cz.mendelu.tomas.graphpef.graphs.DefaultGraph;
+import cz.mendelu.tomas.graphpef.helperObjects.GraphCurveChooseAdapter;
 import cz.mendelu.tomas.graphpef.helperObjects.InfoListAdapter;
 import cz.mendelu.tomas.graphpef.interfaces.GraphIfc;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
@@ -46,14 +43,14 @@ import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 public class GraphFragment extends Fragment  implements Serializable {
     private static final String TAG = "GraphFragment";
 
-    private Menu menu;
+    //private Menu menu;
     private GraphView graph;
-    private BottomNavigationView toolbar;
+    //private BottomNavigationView toolbar;
     private ImageButton up,down,left,right;
     private AppCompatTextView text1, text2, text3, text4, text5;
     private PointsGraphSeries<DataPoint> eqpoints;
     private HashMap<MainScreenControllerActivity.LineEnum,PointsGraphSeries> labelSeries;
-    private RelativeLayout loadingAnimation;
+    //private RelativeLayout loadingAnimation;
 
     private GraphIfc graphIfc;
     private final static String GRAPH_KEY = "GRAPH_KEY";
@@ -64,6 +61,10 @@ public class GraphFragment extends Fragment  implements Serializable {
     private List<ArrayList<String>> texts;
     private InfoListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private RecyclerView recyclerViewCurves;
+    private RecyclerView.LayoutManager layoutManagerCurves;
+    private GraphCurveChooseAdapter graphCurveChooseAdapter;
 
 
     public static GraphFragment newInstance(DefaultGraph defaultGraph){
@@ -99,13 +100,13 @@ public class GraphFragment extends Fragment  implements Serializable {
             left = view.findViewById(R.id.buttonLeft);
             right = view.findViewById(R.id.buttonRight);
             graph = view.findViewById(R.id.graphComponent);
-            toolbar = view.findViewById(R.id.toolbarBottom);
+            //toolbar = view.findViewById(R.id.toolbarBottom);
             //BottomNavigationViewHelper.disableShiftMode(toolbar);
             //toolbar.setBackgroundColor(getContext().getColor(R.color.colorPrimary));
-            toolbar.addStatesFromChildren();
+            //toolbar.addStatesFromChildren();
             labelSeries = new HashMap<>();
-            loadingAnimation = view.findViewById(R.id.loadingPanelGraph);
-            loadingAnimation.setVisibility(View.INVISIBLE);
+            //loadingAnimation = view.findViewById(R.id.loadingPanelGraph);
+            //loadingAnimation.setVisibility(View.INVISIBLE);
 
 
             text1 = view.findViewById(R.id.graphText1);
@@ -136,9 +137,9 @@ public class GraphFragment extends Fragment  implements Serializable {
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button Up");
-                    loadingAnimation.setVisibility(View.VISIBLE);
+                    //loadingAnimation.setVisibility(View.VISIBLE);
                     moveCurve(MainScreenControllerActivity.Direction.up);
-                    loadingAnimation.setVisibility(View.INVISIBLE);
+                    //loadingAnimation.setVisibility(View.INVISIBLE);
                 }
             });
 
@@ -147,9 +148,9 @@ public class GraphFragment extends Fragment  implements Serializable {
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button Down");
-                    loadingAnimation.setVisibility(View.VISIBLE);
+                    //loadingAnimation.setVisibility(View.VISIBLE);
                     moveCurve(MainScreenControllerActivity.Direction.down);
-                    loadingAnimation.setVisibility(View.INVISIBLE);
+                    //loadingAnimation.setVisibility(View.INVISIBLE);
                 }
             });
 
@@ -157,9 +158,9 @@ public class GraphFragment extends Fragment  implements Serializable {
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button left");
-                    loadingAnimation.setVisibility(View.VISIBLE);
+                    //loadingAnimation.setVisibility(View.VISIBLE);
                     moveCurve(MainScreenControllerActivity.Direction.left);
-                    loadingAnimation.setVisibility(View.INVISIBLE);
+                    //loadingAnimation.setVisibility(View.INVISIBLE);
                 }
             });
 
@@ -167,9 +168,9 @@ public class GraphFragment extends Fragment  implements Serializable {
                 @Override
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button right");
-                    loadingAnimation.setVisibility(View.VISIBLE);
+                    //loadingAnimation.setVisibility(View.VISIBLE);
                     moveCurve(MainScreenControllerActivity.Direction.right);
-                    loadingAnimation.setVisibility(View.INVISIBLE);
+                    //loadingAnimation.setVisibility(View.INVISIBLE);
                 }
             });
 
@@ -212,8 +213,20 @@ public class GraphFragment extends Fragment  implements Serializable {
                 calculateData(MainScreenControllerActivity.LineEnum.Quantity, graphIfc.getColorOf(MainScreenControllerActivity.LineEnum.Quantity));
             }
 
-            menu = toolbar.getMenu();
-            updateMenuTitles();
+            //menu = toolbar.getMenu();
+            //updateMenuTitles();
+
+            recyclerViewCurves = view.findViewById(R.id.graphChooseCurveRecyclerView);
+            layoutManagerCurves = new LinearLayoutManager(getContext());
+            ArrayList<String> labels = new ArrayList<>();
+            Log.d(TAG, "recycler line size [" + graphIfc.getMovableObjects().size() + "]");
+            for (MainScreenControllerActivity.LineEnum line : graphIfc.getMovableObjects()) {
+                Log.d(TAG, "recycler line [" + line.toString() + "]");
+                labels.add(getContext().getString(getResources().getIdentifier(line.toString(), "string", getContext().getPackageName())));
+            }
+            graphCurveChooseAdapter = new GraphCurveChooseAdapter(labels, graphIfc.getMovableObjects(), this, 0);
+            recyclerViewCurves.setLayoutManager(layoutManagerCurves);
+            recyclerViewCurves.setAdapter(graphCurveChooseAdapter);
 
             infoTextView = view.findViewById(R.id.listOfInfoOfGraph);
 
@@ -289,7 +302,7 @@ public class GraphFragment extends Fragment  implements Serializable {
         // possible solution is to draw backgroung with color on curve and white on the lower one
             //will overdraw grid??
     }
-
+/*
     private void updateMenuTitles() {
         Log.d(TAG,"UpdateMenuTitles");
         menu.clear();
@@ -336,6 +349,43 @@ public class GraphFragment extends Fragment  implements Serializable {
                 }
             });
         }
+    }*/
+
+    public void setChosenCurve(MainScreenControllerActivity.LineEnum line) {
+        Log.d(TAG, "setChosenCurve: " + line.toString());
+
+        // remove old movable curve from GraphView
+        graph.removeSeries(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()));
+        graph.removeSeries(labelSeries.get(graphIfc.getMovableEnum()));
+
+        //recreate old movable to default color and thickness
+        if (graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()) != null) {
+            graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
+            graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()).setThickness(5);
+            if (labelSeries.get(graphIfc.getMovableEnum()) != null) {
+                labelSeries.get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
+            }
+
+            graph.addSeries(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()));
+            if (labelSeries.get(graphIfc.getMovableEnum()) != null) {
+                graph.addSeries(labelSeries.get(graphIfc.getMovableEnum()));
+            }
+        }
+
+        graphIfc.setMovable(line);
+
+        //remove new movable from graph to recreateit after
+        graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
+        //set chosen curve to blue color
+        graphIfc.getLineGraphSeries().get(line).setColor(getContext().getColor(R.color.colorPrimary));
+        //chosen curve set to thickness 10
+        graphIfc.getLineGraphSeries().get(line).setThickness(10);
+        LineGraphSeries lineGraphSeries = graphIfc.calculateData(line, getContext().getColor(R.color.colorPrimary));
+        if (lineGraphSeries != null) {
+            graph.addSeries(lineGraphSeries);
+        }
+
+        graphIfc.refreshInfoTexts();
     }
 
     private void updateTexts(){
@@ -473,7 +523,7 @@ public class GraphFragment extends Fragment  implements Serializable {
                         .setDismissOnTouch(true)
                         .build()
         );
-        sequence.addSequenceItem(
+       /* sequence.addSequenceItem(
                 new MaterialShowcaseView.Builder(this.getActivity())
                         .setTarget(toolbar)
                         .setDismissText(getString(R.string.choose_curve_showcase))
@@ -481,7 +531,7 @@ public class GraphFragment extends Fragment  implements Serializable {
                         .withRectangleShape(true)
                         .setDismissOnTouch(true)
                         .build()
-        );
+        );*/
         sequence.start();
     }
 }

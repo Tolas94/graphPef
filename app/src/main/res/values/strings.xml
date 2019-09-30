@@ -315,4 +315,20 @@
     <string name="quizStartQuizButton">Spustit test</string>
     <string name="mainScreenPointsNeededToUnlock">zůstava</string>
 
+    <string name="mainScreenQuestionAnswered">Zodpovězených otázek</string>
+    <string name="mainScreenCategoriesUnlocked">Odemčených kategorii</string>
+    <string name="mainScreenHighScore">Nejvyšší skóre</string>
+    <string name="mainScreenHighScoreStreak">Zodpovězených otázek najednou</string>
+
+    <string name="quizEndingTitle">Výsledek testu</string>
+    <string name="quizEndingScore">Získaných bodů:</string>
+    <string name="quizEndingBonus">Získan bonus:</string>
+
+    <string name="quizEndingSum">Bodů v soućtu</string>
+
+    <string name="categoryUnlockTitle">Odemčení kategorie</string>
+    <string name="categoryUnlockedPriceText">Cena:</string>
+    <string name="categoryUnlockTextStart">Gratulujeme odemkly ste kategorii</string>
+    <string name="categoryUnlockedAcknowledge">Rozumím</string>
+
 </resources>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/categoryUnlockedLogo"
+            android:layout_width="28sp"
+            android:layout_height="28sp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/logo_graph_pef_circle" />
+
+        <TextView
+            android:id="@+id/categoryUnlockedPriceValue"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/categoryUnlockedLogo"
+            android:gravity="right" />
+
+        <TextView
+            android:id="@+id/categoryUnlockedPriceText"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/categoryUnlockedPriceText" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/categoryUnlockedCategoryText"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/categoryUnlockedTitle"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="12sp"
+        android:text="@string/categoryUnlockTitle"
+        android:textColor="@color/white" />
+
+</LinearLayout>

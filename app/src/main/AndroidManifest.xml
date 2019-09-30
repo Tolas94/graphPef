@@ -33,7 +33,7 @@
         </activity>
         <activity
             android:name=".activities.TestingControllerActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activities.GraphMenuListActivity"

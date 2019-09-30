@@ -6,46 +6,48 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <RelativeLayout
-        android:id="@+id/relativeBottomBar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/toolbarBottom"
+    <!--
+        <RelativeLayout
+            android:id="@+id/relativeBottomBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/white_grey_border_top"
-            app:itemIconTint="@drawable/bottom_toolbar_selector"
-            app:itemTextColor="@drawable/bottom_toolbar_selector"
-            app:menu="@menu/graph_menu">
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true">
 
-        </com.google.android.material.bottomnavigation.BottomNavigationView>
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/toolbarBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/white_grey_border_top"
+                app:itemIconTint="@drawable/bottom_toolbar_selector"
+                app:itemTextColor="@drawable/bottom_toolbar_selector"
+                app:menu="@menu/graph_menu">
 
-    </RelativeLayout>
+            </com.google.android.material.bottomnavigation.BottomNavigationView>
 
+        </RelativeLayout>
+
+    -->
     <!-- Bottom Bar -->
-    <RelativeLayout
-        android:id="@+id/loadingPanelGraph"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/greyTransparent"
-        android:gravity="center">
+    <!--
+        <RelativeLayout
+            android:id="@+id/loadingPanelGraph"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/greyTransparent"
+            android:gravity="center">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true" />
-    </RelativeLayout>
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+        </RelativeLayout>
 
-
+    -->
     <!-- Scrollable part -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/relativeBottomBar">
+        android:layout_height="wrap_content">
+        <!-- android:layout_above="@+id/relativeBottomBar"-->
 
         <!-- inner wrapper for scrollable view-->
         <RelativeLayout
@@ -131,21 +133,25 @@
                             android:layout_below="@+id/graphText4"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
                             android:textAppearance="@android:style/TextAppearance.Material.Small" />
                     </RelativeLayout>
 
                     <!-- Button for change of curves on graph-->
+
                     <RelativeLayout
                         android:id="@+id/buttonRelativeLayout"
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:padding="8dp">
 
                         <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_centerInParent="true"
+                            android:id="@+id/graphFragmentButtonsLayout"
+                            android:layout_width="144dp"
+                            android:layout_height="144dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
                             android:layout_margin="10dp">
 
                             <ImageButton
@@ -197,6 +203,23 @@
                                 app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
 
                         </RelativeLayout>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/graphChooseCurveCardViewViewLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_toLeftOf="@id/graphFragmentButtonsLayout"
+                            android:padding="24dp"
+                            app:cardCornerRadius="15dp">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/graphChooseCurveRecyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+                        </androidx.cardview.widget.CardView>
                     </RelativeLayout>
                 </RelativeLayout>
 

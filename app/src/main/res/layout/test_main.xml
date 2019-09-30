@@ -3,45 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- top bar -->
-    <RelativeLayout
-        android:id="@+id/TestingTopBar"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_alignParentTop="true">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:elevation="8dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <!-- eco coins number-->
-
-                <!-- sign out -->
-                <Button
-                    android:id="@+id/signOutButton"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:padding="12dp"
-                    android:text="@string/signOut"
-                    android:textColor="@color/colorPrimary" />
-
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
-    </RelativeLayout>
     <!-- body -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/TestingTopBar">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"

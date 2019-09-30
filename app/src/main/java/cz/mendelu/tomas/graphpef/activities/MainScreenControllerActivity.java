@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.google.android.material.tabs.TabLayout;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -124,15 +122,15 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
         setupViewPager(mViewPager);
 
 
-        TabLayout tabLayout = findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        //TabLayout tabLayout = findViewById(R.id.tabs);
+        //tabLayout.setupWithViewPager(mViewPager);
 
         //tabLayout.getTabAt(0).setIcon(R.drawable.ic_menu_black_24dp);
         //tabLayout.getTabAt(0).setIcon(R.drawable.ic_multiline_chart_black_24dp);
-        tabLayout.getTabAt(0).setText(R.string.graph);
+        //tabLayout.getTabAt(0).setText(R.string.graph);
         //tabLayout.setTabTextColors(getColor(R.color.colorPrimaryWhite),getColor(R.color.colorPrimaryDark));
         //tabLayout.getTabAt(1).setIcon(R.drawable.ic_info_black_24dp);
-        tabLayout.getTabAt(1).setText(R.string.info);
+        //tabLayout.getTabAt(1).setText(R.string.info);
     }
 
     @Override
@@ -146,7 +144,7 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(GraphFragment.newInstance(graphsDatabase.get(chosenGraph)));
-        adapter.addFragment(InfoFragment.newInstance(graphsDatabase.get(chosenGraph)));
+        //adapter.addFragment(InfoFragment.newInstance(graphsDatabase.get(chosenGraph)));
         viewPager.setAdapter(adapter);
     }
 
@@ -330,5 +328,6 @@ public class MainScreenControllerActivity extends AppCompatActivity implements S
             Log.d(TAG, "onChosenGraphChange: null ");
         }
     }
+
 
 }

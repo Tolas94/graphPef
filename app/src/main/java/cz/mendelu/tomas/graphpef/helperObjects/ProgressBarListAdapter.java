@@ -1,5 +1,6 @@
 package cz.mendelu.tomas.graphpef.helperObjects;
 
+import android.animation.ValueAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,9 @@ public class ProgressBarListAdapter extends RecyclerView.Adapter<ProgressBarList
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         ArrayList<Integer> item = priceList.get(position);
-        holder.price.setText(neededPoints + " " + item.get(0).toString());
+        startCountAnimation(holder.price, item.get(0), neededPoints + ":");
+        startCountAnimationProgressBar(holder.progressBar, item.get(1));
+        //holder.price.setText(neededPoints + ":" + item.get(0).toString());
         holder.progressBar.setProgress(item.get(1));
         holder.category.setText(stringsList.get(position));
     }
@@ -61,4 +64,27 @@ public class ProgressBarListAdapter extends RecyclerView.Adapter<ProgressBarList
             neededPoints = itemView.getResources().getString(R.string.mainScreenPointsNeededToUnlock);
         }
     }
+
+    private void startCountAnimation(TextView textView, Integer maxPoints, String preText) {
+        ValueAnimator animator = ValueAnimator.ofInt(0, maxPoints);
+        animator.setDuration(1500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                textView.setText(preText + animation.getAnimatedValue().toString());
+            }
+        });
+        animator.start();
+    }
+
+    private void startCountAnimationProgressBar(ProgressBar progressBar, Integer maxPoints) {
+        ValueAnimator animator = ValueAnimator.ofInt(0, maxPoints);
+        animator.setDuration(1500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                progressBar.setProgress(Integer.valueOf(animation.getAnimatedValue().toString()));
+            }
+        });
+        animator.start();
+    }
+
 }

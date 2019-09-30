@@ -258,7 +258,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         newQuestion.put(FIRESTORE_CATEGORY,"");
         newQuestion.put(FIRESTORE_CORRECT_ANSWER,"");
 
-        addQuestionToFIrestore(newQuestion);
+        addQuestionToFirestore(newQuestion);
         newQuestion.clear();
          */
 
@@ -270,7 +270,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
         newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
 
-        addQuestionToFIrestore(newQuestion);
+        addQuestionToFirestore(newQuestion);
         newQuestion.clear();
 
         newQuestion.put(FIRESTORE_QUESTION, "Potřeby jsou");
@@ -281,7 +281,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
         newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
 
-        addQuestionToFIrestore(newQuestion);
+        addQuestionToFirestore(newQuestion);
         newQuestion.clear();
 
         newQuestion.put(FIRESTORE_QUESTION, "Ekonomické potřeby");
@@ -292,7 +292,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
         newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
 
-        addQuestionToFIrestore(newQuestion);
+        addQuestionToFirestore(newQuestion);
         newQuestion.clear();
 
         newQuestion.put(FIRESTORE_QUESTION, "Spotřeba");
@@ -303,7 +303,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
         newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
 
-        addQuestionToFIrestore(newQuestion);
+        addQuestionToFirestore(newQuestion);
         newQuestion.clear();
 
         newQuestion.put(FIRESTORE_QUESTION, "Půda");
@@ -314,7 +314,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
         newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
 
-        addQuestionToFIrestore(newQuestion);
+        addQuestionToFirestore(newQuestion);
         newQuestion.clear();
 
         newQuestion.put(FIRESTORE_QUESTION, "Práce");
@@ -325,7 +325,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
         newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
 
-        addQuestionToFIrestore(newQuestion);
+        addQuestionToFirestore(newQuestion);
         newQuestion.clear();
 
         newQuestion.put(FIRESTORE_QUESTION, "Křivka poptávky ukazuje");
@@ -336,7 +336,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
         newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
 
-        addQuestionToFIrestore(newQuestion);
+        addQuestionToFirestore(newQuestion);
         newQuestion.clear();
 
         newQuestion.put(FIRESTORE_QUESTION, "Spotřebitel při vyšší cene statku kupuje");
@@ -348,7 +348,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3
         );
 
-        addQuestionToFIrestore(newQuestion);
+        addQuestionToFirestore(newQuestion);
         newQuestion.clear();
 
         newQuestion.put(FIRESTORE_QUESTION, "Spotřebitel při vyšší cene statku");
@@ -359,7 +359,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
         newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
 
-        addQuestionToFIrestore(newQuestion);
+        addQuestionToFirestore(newQuestion);
         newQuestion.clear();
 
         newQuestion.put(FIRESTORE_QUESTION, "Cenova elaticita poptávky udáva vztah mezi");
@@ -370,7 +370,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
         newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
 
-        addQuestionToFIrestore(newQuestion);
+        addQuestionToFirestore(newQuestion);
         newQuestion.clear();
 
         newQuestion.put(FIRESTORE_QUESTION, "Poptávka může být");
@@ -381,7 +381,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
         newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
 
-        addQuestionToFIrestore(newQuestion);
+        addQuestionToFirestore(newQuestion);
         newQuestion.clear();
 
         newQuestion.put(FIRESTORE_QUESTION, "Jestliže je elasticita menší  než 1, jde o");
@@ -392,7 +392,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
         newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
 
-        addQuestionToFIrestore(newQuestion);
+        addQuestionToFirestore(newQuestion);
         newQuestion.clear();
 
         newQuestion.put(FIRESTORE_QUESTION, "Jestliže je elasticita vetší než 1, jde o");
@@ -403,13 +403,13 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
         newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
 
-        addQuestionToFIrestore(newQuestion);
+        addQuestionToFirestore(newQuestion);
         newQuestion.clear();
 
 
     }
 
-    private void addQuestionToFIrestore(Map<String, Object> newQuestion) {
+    private void addQuestionToFirestore(Map<String, Object> newQuestion) {
         questionsRef
                 .add(newQuestion)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -450,6 +450,15 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         updatedValue.put(QuestionsTable.COLUMN_ANSWERED, true);
 
         db.update(QuestionsTable.QUIZ_TABLE_NAME, updatedValue, "_id = " + questionID, null);
+    }
+
+    public void unlockCategory(String categoryID, Integer price) {
+        Log.d(TAG, "addQuestionAnswered: categoryID[" + categoryID + "]");
+        ContentValues updatedValue = new ContentValues();
+
+        updatedValue.put(CategoryTable.COLUMN_UNLOCKED, price);
+
+        db.update(CategoryTable.CATEGORY_TABLE_NAME, updatedValue, CategoryTable._ID + " = " + categoryID, null);
     }
 
     public int getScore() {
@@ -502,6 +511,7 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         return list;
     }
 
+    //returns (name,price,id)
     public ArrayList<List<String>> getAllUnlockableCategories() {
         Log.d(TAG, "getAllUnlockableCategoriesNames");
         ArrayList<List<String>> list = new ArrayList<>();
@@ -518,6 +528,8 @@ public class QuizDBHelper extends SQLiteOpenHelper {
                     ArrayList<String> temp = new ArrayList<>();
                     temp.add(categoryName);
                     temp.add(price.toString());
+                    String id = cursor.getString(cursor.getColumnIndex(CategoryTable._ID));
+                    temp.add(id);
                     list.add(temp);
                 } else {
                     Log.d(TAG, "category [" + categoryName + "] is locked");

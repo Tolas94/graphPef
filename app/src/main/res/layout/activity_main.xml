@@ -128,7 +128,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_toLeftOf="@id/mainScreenScoreText"
                                 android:textAppearance="@android:style/TextAppearance.Material.Headline"
-                                android:textColor="@color/colorPrimary"></TextView>
+                                android:textColor="@color/colorPrimary" />
 
                             <TextView
                                 android:id="@+id/mainScreenScoreText"
@@ -136,7 +136,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
                                 android:textAppearance="@android:style/TextAppearance.Material.Display1"
-                                android:textColor="@color/colorPrimary"></TextView>
+                                android:textColor="@color/colorPrimary" />
 
                         </RelativeLayout>
 
@@ -156,7 +156,7 @@
                                 android:layout_alignParentStart="true"
                                 android:gravity="left"
                                 android:text="UnlockedCategories"
-                                android:textAppearance="@android:style/TextAppearance.Material.Body1"></TextView>
+                                android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 
                             <TextView
                                 android:id="@+id/mainScreenCategoriesUnlockedValue"
@@ -166,7 +166,7 @@
                                 android:layout_alignParentRight="true"
                                 android:gravity="right"
                                 android:text="1/10"
-                                android:textAppearance="@android:style/TextAppearance.Material.Body1"></TextView>
+                                android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 
                             <TextView
                                 android:id="@+id/mainScreenQuestionsAnsweredTitle"
@@ -175,7 +175,7 @@
                                 android:layout_below="@id/mainScreenCategoriesUnlockedTitle"
                                 android:gravity="left"
                                 android:text="CorrectlyAnswered"
-                                android:textAppearance="@android:style/TextAppearance.Material.Body1"></TextView>
+                                android:textAppearance="@android:style/TextAppearance.Material.Body1" />
 
                             <TextView
                                 android:id="@+id/mainScreenQuestionsAnsweredValue"
@@ -185,7 +185,45 @@
                                 android:layout_alignParentRight="true"
                                 android:gravity="right"
                                 android:text="0/20"
-                                android:textAppearance="@android:style/TextAppearance.Material.Body1"></TextView>
+                                android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+
+                            <TextView
+                                android:id="@+id/mainScreenQuestionsHighScoreTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/mainScreenQuestionsAnsweredTitle"
+                                android:gravity="left"
+                                android:text="HighScore"
+                                android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+
+                            <TextView
+                                android:id="@+id/mainScreenQuestionsHighScoreValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/mainScreenQuestionsAnsweredValue"
+                                android:layout_alignParentRight="true"
+                                android:gravity="right"
+                                android:text="0/20"
+                                android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+
+                            <TextView
+                                android:id="@+id/mainScreenQuestionsHighScoreStreakTitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/mainScreenQuestionsHighScoreTitle"
+                                android:gravity="left"
+                                android:text="HighScoreStreak"
+                                android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+
+                            <TextView
+                                android:id="@+id/mainScreenQuestionsHighScoretreakValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/mainScreenQuestionsHighScoreValue"
+                                android:layout_alignParentRight="true"
+                                android:gravity="right"
+                                android:text="0/20"
+                                android:textAppearance="@android:style/TextAppearance.Material.Body1" />
                         </RelativeLayout>
 
                         <!-- categories part -->

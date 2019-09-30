@@ -1,5 +1,6 @@
 package cz.mendelu.tomas.graphpef.activities;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
 
     private static final String TAG = "MainActivity";
     private static final int QUIZ_REQUEST_CODE = 1;
+    private static final int MAX_CATEGORIES_ON_MAINSCREEN = 3;
 
     private FirebaseAuth mAuth;
     private Button mainScreenButton;
@@ -71,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         boolean userOptInFlag = CheckOptInValue();
 
         if (userOptInFlag == true) {
-            //Only initialize Fabtric is user opt-in is true
+            //Only initialize Fabric is user opt-in is true
             Fabric.with(this, new Crashlytics());
             Fabric.with(this, new Answers());
         }
@@ -333,6 +336,21 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         }
     }
 
+    private void startCountAnimation(TextView textView, Integer maxPoints) {
+        startCountAnimation(textView, maxPoints, "");
+    }
+
+    private void startCountAnimation(TextView textView, Integer maxPoints, String preText) {
+        ValueAnimator animator = ValueAnimator.ofInt(0, maxPoints);
+        animator.setDuration(1500);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                textView.setText(preText + animation.getAnimatedValue().toString());
+            }
+        });
+        animator.start();
+    }
+
     private void updateScore() {
 
         TextView scoreTextView = findViewById(R.id.mainScreenScoreText);
@@ -342,7 +360,8 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         emailTextView.setText(email);
         String scoreText = String.valueOf(dbHelper.getAvailablePoints());
         Log.d(TAG, "email: [" + email + "] scoreText: [" + scoreText + "]");
-        scoreTextView.setText(scoreText);
+        //scoreTextView.setText(scoreText);
+        startCountAnimation(scoreTextView, dbHelper.getAvailablePoints());
     }
 
     private void updateCategories() {
@@ -350,7 +369,14 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         ArrayList<ArrayList<Integer>> priceList = new ArrayList<>();
 
         int points = dbHelper.getAvailablePoints();
+
+        //for each entry (name,price,id)
         List<List<String>> list = dbHelper.getAllUnlockableCategories();
+
+        if (list.size() > MAX_CATEGORIES_ON_MAINSCREEN) {
+            Log.d(TAG, "updateCategories list > " + MAX_CATEGORIES_ON_MAINSCREEN);
+            list = new ArrayList<>(list.subList(0, MAX_CATEGORIES_ON_MAINSCREEN));
+        }
         for (List<String> entryList : list) {
             ArrayList<Integer> tempList = new ArrayList<>();
             Integer price = new Integer(entryList.get(1));
@@ -364,9 +390,12 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             }
             tempList.add(percentage.intValue());
 
-            if (percentage > 10.00) {
-                stringsList.add(entryList.get(0));
+            if (percentage >= 100.00) {
+                unlockCategoryDialog(price, entryList.get(2), entryList.get(0));
+                points -= price;
+            } else {
                 priceList.add(tempList);
+                stringsList.add(entryList.get(0));
             }
         }
 
@@ -628,6 +657,32 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             intent.putExtra(Intent.EXTRA_TEXT, "Mám problém se ");
         }
         startActivity(Intent.createChooser(intent, ""));
+    }
+
+    public void unlockCategoryDialog(Integer price, String categoryID, String categoryName) {
+        final androidx.appcompat.app.AlertDialog.Builder builderSingle = new androidx.appcompat.app.AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogContent = inflater.inflate(R.layout.category_unlocked_dialog, null);
+        builderSingle.setView(dialogContent);
+        TextView categoryTextView = dialogContent.findViewById(R.id.categoryUnlockedCategoryText);
+        TextView categoryPriceView = dialogContent.findViewById(R.id.categoryUnlockedPriceValue);
+
+        categoryPriceView.setText(price.toString());
+        String text = getString(R.string.categoryUnlockTextStart) + " \"" + categoryName + "\"";
+        categoryTextView.setText(text);
+
+        builderSingle.setPositiveButton(
+                getString(R.string.categoryUnlockedAcknowledge),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dbHelper.unlockCategory(categoryID, price);
+                        updateScore();
+                        updateCategories();
+                    }
+                });
+
+        builderSingle.show();
     }
 }
 
