@@ -30,15 +30,15 @@ import cz.mendelu.tomas.graphpef.helperObjects.QuizContract.QuestionsTable;
 import cz.mendelu.tomas.graphpef.helperObjects.QuizContract.QuizAnswerTable;
 
 import static android.database.Cursor.FIELD_TYPE_NULL;
-import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_ANSWER1;
-import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_ANSWER2;
-import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_ANSWER3;
-import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_ANSWER4;
-import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_CATEGORY;
-import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_CATEGORY_ID;
-import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_CORRECT_ANSWER;
-import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_QUESTION;
-import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_SUBJECT;
+import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_QUESTION_ANSWER1;
+import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_QUESTION_ANSWER2;
+import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_QUESTION_ANSWER3;
+import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_QUESTION_ANSWER4;
+import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_QUESTION_CATEGORY;
+import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_QUESTION_CATEGORY_ID;
+import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_QUESTION_CORRECT_ANSWER;
+import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_QUESTION_SUBJECT;
+import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_QUESTION_TEXT;
 import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_USER_ANSWERS_STREAK;
 import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_USER_ID;
 import static cz.mendelu.tomas.graphpef.helperObjects.QuizContract.FIRESTORE_USER_MAIL;
@@ -142,9 +142,9 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         Log.d(TAG, "fillCategoriesTable: size [" + documents.size() + "]");
         for (DocumentSnapshot document : documents) {
             List<String> values = new ArrayList<>();
-            values.add(document.getString(QuizContract.FIRESTORE_TITLE));
+            values.add(document.getString(QuizContract.FIRESTORE_CATEGORIES_TITLE));
             values.add(document.getId());
-            if (document.get(QuizContract.FIRESTORE_ANSWERED) != null) {
+            if (document.get(QuizContract.FIRESTORE_CATEGORIES_UNLOCKED) != null) {
                 values.add("0");
             }
 
@@ -158,16 +158,16 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
         Log.d(TAG, "fillQuestionsTable: size [" + documents.size() + "]");
         for (DocumentSnapshot document : documents) {
-            QuizQuestion temp = new QuizQuestion(document.getString(FIRESTORE_QUESTION)
+            QuizQuestion temp = new QuizQuestion(document.getString(FIRESTORE_QUESTION_TEXT)
                     , document.getId() //firestoreID
-                    , document.getString(FIRESTORE_ANSWER1)
-                    , document.getString(FIRESTORE_ANSWER2)
-                    , document.getString(FIRESTORE_ANSWER3)
-                    , document.getString(FIRESTORE_ANSWER4)
-                    , document.getString(FIRESTORE_CATEGORY)
-                    , document.getDouble(FIRESTORE_CORRECT_ANSWER).intValue()
-                    , document.getString(FIRESTORE_SUBJECT)
-                    , document.getString(FIRESTORE_CATEGORY_ID));
+                    , document.getString(FIRESTORE_QUESTION_ANSWER1)
+                    , document.getString(FIRESTORE_QUESTION_ANSWER2)
+                    , document.getString(FIRESTORE_QUESTION_ANSWER3)
+                    , document.getString(FIRESTORE_QUESTION_ANSWER4)
+                    , document.getString(FIRESTORE_QUESTION_CATEGORY)
+                    , document.getDouble(FIRESTORE_QUESTION_CORRECT_ANSWER).intValue()
+                    , document.getString(FIRESTORE_QUESTION_SUBJECT)
+                    , document.getString(FIRESTORE_QUESTION_CATEGORY_ID));
             addQuestion(temp);
         }
     }
@@ -241,15 +241,15 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         int question = 0;
 
         /* example
-        newQuestion.put(FIRESTORE_QUESTION,"");
-        newQuestion.put(FIRESTORE_ANSWER1,"");
-        newQuestion.put(FIRESTORE_ANSWER2,"");
-        newQuestion.put(FIRESTORE_ANSWER3,"");
-        newQuestion.put(FIRESTORE_ANSWER4,"");
-        newQuestion.put(FIRESTORE_CATEGORY,"");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1"); 
-		newQuestion.put(FIRESTORE_CORRECT_ANSWER,"");
+        newQuestion.put(FIRESTORE_QUESTION_TEXT,"");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1,"");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2,"");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3,"");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4,"");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY,"");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+		newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER,"");
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
@@ -259,149 +259,149 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
         //Vztah potřeb
 
-        newQuestion.put(FIRESTORE_QUESTION, "Potřeby jsou");
-        newQuestion.put(FIRESTORE_ANSWER1, "objektivní");
-        newQuestion.put(FIRESTORE_ANSWER2, "subjektivní");
-        newQuestion.put(FIRESTORE_ANSWER3, "vyčíslitelné");
-        newQuestion.put(FIRESTORE_ANSWER4, "přímo úměrné bohatstvu");
-        newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "02");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Potřeby jsou");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "objektivní");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "subjektivní");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "vyčíslitelné");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "přímo úměrné bohatstvu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Vztah potřeb");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "02");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Potřeby jsou");
-        newQuestion.put(FIRESTORE_ANSWER1, "statické");
-        newQuestion.put(FIRESTORE_ANSWER2, "vzácne");
-        newQuestion.put(FIRESTORE_ANSWER3, "proměnlivé");
-        newQuestion.put(FIRESTORE_ANSWER4, "neekonomické");
-        newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "02");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
-
-        addQuestionToFirestore(newQuestion);
-        newQuestion.clear();
-        question++;
-        Log.d(TAG, "generateQustions: " + question);
-
-        newQuestion.put(FIRESTORE_QUESTION, "Ekonomické potřeby");
-        newQuestion.put(FIRESTORE_ANSWER1, "lze vyčíslit kapitálem");
-        newQuestion.put(FIRESTORE_ANSWER2, "jsou statky");
-        newQuestion.put(FIRESTORE_ANSWER3, "jsou stejné pro všechny");
-        newQuestion.put(FIRESTORE_ANSWER4, "mají bezprostřední vztah k hospodářské činnosti");
-        newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "02");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Potřeby jsou");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "statické");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "vzácne");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "proměnlivé");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "neekonomické");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Vztah potřeb");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "02");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Spotřeba");
-        newQuestion.put(FIRESTORE_ANSWER1, "je podmínená existenci trhu");
-        newQuestion.put(FIRESTORE_ANSWER2, "objektivne uspokojí každého jedince");
-        newQuestion.put(FIRESTORE_ANSWER3, "je proces uspokojení potřeby při kterém dojde ke zničení statku");
-        newQuestion.put(FIRESTORE_ANSWER4, "není závislá na existenci směny");
-        newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "02");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Ekonomické potřeby");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "lze vyčíslit kapitálem");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "jsou statky");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "jsou stejné pro všechny");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "mají bezprostřední vztah k hospodářské činnosti");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Vztah potřeb");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "02");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Půda");
-        newQuestion.put(FIRESTORE_ANSWER1, "není druhotným výrobním faktorem");
-        newQuestion.put(FIRESTORE_ANSWER2, "v ekonomii je jenom ta, která je zemědělsky opracovávaná");
-        newQuestion.put(FIRESTORE_ANSWER3, "je majetkem států");
-        newQuestion.put(FIRESTORE_ANSWER4, "je všechno co není statek");
-        newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "02");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Spotřeba");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je podmínená existenci trhu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "objektivne uspokojí každého jedince");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je proces uspokojení potřeby při kterém dojde ke zničení statku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "není závislá na existenci směny");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Vztah potřeb");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "02");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Práce");
-        newQuestion.put(FIRESTORE_ANSWER1, "je nedílnou součastí života");
-        newQuestion.put(FIRESTORE_ANSWER2, "existuje nezávisle na lidech a lidské činnosti");
-        newQuestion.put(FIRESTORE_ANSWER3, "je ta činnost za kterou je získaná odměna");
-        newQuestion.put(FIRESTORE_ANSWER4, "je předpokladem pro produkci");
-        newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "02");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Půda");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "není druhotným výrobním faktorem");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "v ekonomii je jenom ta, která je zemědělsky opracovávaná");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je majetkem států");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "je všechno co není statek");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Vztah potřeb");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "02");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Křivka poptávky ukazuje");
-        newQuestion.put(FIRESTORE_ANSWER1, "jak se mění kupované množství daného statku v závislosti na jeho produkci");
-        newQuestion.put(FIRESTORE_ANSWER2, "jak se mění kupované množství daného statku v závislosti na jeho cene");
-        newQuestion.put(FIRESTORE_ANSWER3, "jak se mění prodávané množství daného statku v závislosti na ochotě spotřebitele kupovat tenhle statek");
-        newQuestion.put(FIRESTORE_ANSWER4, "ukazuje změnu všech kupujích na trhu");
-        newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "02");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Práce");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je nedílnou součastí života");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "existuje nezávisle na lidech a lidské činnosti");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je ta činnost za kterou je získaná odměna");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "je předpokladem pro produkci");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Vztah potřeb");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "02");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Barter");
-        newQuestion.put(FIRESTORE_ANSWER1, "je naturální směna");
-        newQuestion.put(FIRESTORE_ANSWER2, "je směna, při které je potřeba jiné platidlo než peníze");
-        newQuestion.put(FIRESTORE_ANSWER3, "není forma směny, protože při ní nepotřebujeme peníze");
-        newQuestion.put(FIRESTORE_ANSWER4, "je forma platby");
-        newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "02");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Křivka poptávky ukazuje");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "jak se mění kupované množství daného statku v závislosti na jeho produkci");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "jak se mění kupované množství daného statku v závislosti na jeho cene");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "jak se mění prodávané množství daného statku v závislosti na ochotě spotřebitele kupovat tenhle statek");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "ukazuje změnu všech kupujích na trhu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Vztah potřeb");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "02");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Zákon klesajících výnosů");
-        newQuestion.put(FIRESTORE_ANSWER1, "za jinak stejných podmínek zvýšení produkce zvyšuje zisk");
-        newQuestion.put(FIRESTORE_ANSWER2, "za jinak stejných podmínek zvýšení produkce nemění náklady");
-        newQuestion.put(FIRESTORE_ANSWER3, "za jinak stejných podmínek zvýšení produkce minimalizuje výnosy");
-        newQuestion.put(FIRESTORE_ANSWER4, "za jinak stejných podmínek zvýšení produkce vyžaduje stále větší zvyšování množství výrobního faktoru");
-        newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "02");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Barter");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je naturální směna");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je směna, při které je potřeba jiné platidlo než peníze");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "není forma směny, protože při ní nepotřebujeme peníze");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "je forma platby");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Vztah potřeb");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "02");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Mezní produkt");
-        newQuestion.put(FIRESTORE_ANSWER1, "je změna vyráběného množství produktu v meziobdobí");
-        newQuestion.put(FIRESTORE_ANSWER2, "je změna poměru zisků a nákladů");
-        newQuestion.put(FIRESTORE_ANSWER3, "vyjadřuje přírůstek výstupu firmy při změně právě jednoho ze vstupů o jednu jednotku");
-        newQuestion.put(FIRESTORE_ANSWER4, "značíme ho jako MRP");
-        newQuestion.put(FIRESTORE_CATEGORY, "Vztah potřeb");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "02");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Zákon klesajících výnosů");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "za jinak stejných podmínek zvýšení produkce zvyšuje zisk");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "za jinak stejných podmínek zvýšení produkce nemění náklady");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "za jinak stejných podmínek zvýšení produkce minimalizuje výnosy");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "za jinak stejných podmínek zvýšení produkce vyžaduje stále větší zvyšování množství výrobního faktoru");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Vztah potřeb");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "02");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
+
+        addQuestionToFirestore(newQuestion);
+        newQuestion.clear();
+        question++;
+        Log.d(TAG, "generateQustions: " + question);
+
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Mezní produkt");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je změna vyráběného množství produktu v meziobdobí");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je změna poměru zisků a nákladů");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "vyjadřuje přírůstek výstupu firmy při změně právě jednoho ze vstupů o jednu jednotku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "značíme ho jako MRP");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Vztah potřeb");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "02");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
@@ -412,165 +412,165 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
         //Ekonomie a předmět zkoumání
 
-        newQuestion.put(FIRESTORE_QUESTION, "Cena");
-        newQuestion.put(FIRESTORE_ANSWER1, "vzniká v bode střetu poptávky a nabídky");
-        newQuestion.put(FIRESTORE_ANSWER2, "je pro všechny nakupující stejná");
-        newQuestion.put(FIRESTORE_ANSWER3, "vyjadřuje vnitřní hodnotu statku");
-        newQuestion.put(FIRESTORE_ANSWER4, "vychází z ceny práce");
-        newQuestion.put(FIRESTORE_CATEGORY, "Ekonomie a předmět zkoumání");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "03");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Cena");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "vzniká v bode střetu poptávky a nabídky");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je pro všechny nakupující stejná");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "vyjadřuje vnitřní hodnotu statku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "vychází z ceny práce");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Ekonomie a předmět zkoumání");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "03");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Vlastní zájem");
-        newQuestion.put(FIRESTORE_ANSWER1, "člověk sleduje jenom svůj osobní zájem");
-        newQuestion.put(FIRESTORE_ANSWER2, "není v souladu s volním trhem");
-        newQuestion.put(FIRESTORE_ANSWER3, "se týká jenom ekonomických aktivit");
-        newQuestion.put(FIRESTORE_ANSWER4, "neexistuje");
-        newQuestion.put(FIRESTORE_CATEGORY, "Ekonomie a předmět zkoumání");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "03");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Vlastní zájem");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "člověk sleduje jenom svůj osobní zájem");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "není v souladu s volním trhem");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "se týká jenom ekonomických aktivit");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "neexistuje");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Ekonomie a předmět zkoumání");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "03");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Preference jsou");
-        newQuestion.put(FIRESTORE_ANSWER1, "subjektivní");
-        newQuestion.put(FIRESTORE_ANSWER2, "objektivní");
-        newQuestion.put(FIRESTORE_ANSWER3, "neovlivnitelné");
-        newQuestion.put(FIRESTORE_ANSWER4, "pro všechny stejné");
-        newQuestion.put(FIRESTORE_CATEGORY, "Ekonomie a předmět zkoumání");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "03");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Preference jsou");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "subjektivní");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "objektivní");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "neovlivnitelné");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "pro všechny stejné");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Ekonomie a předmět zkoumání");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "03");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Cenová liberalizace");
-        newQuestion.put(FIRESTORE_ANSWER1, "je cena určována sdružením liberálních hnutí");
-        newQuestion.put(FIRESTORE_ANSWER2, "vzniká na volném trhu");
-        newQuestion.put(FIRESTORE_ANSWER3, "nedošlo k ni v České republice");
-        newQuestion.put(FIRESTORE_ANSWER4, "se prosazuje v každém hospodářském mechanismu");
-        newQuestion.put(FIRESTORE_CATEGORY, "Ekonomie a předmět zkoumání");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "03");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Cenová liberalizace");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je cena určována sdružením liberálních hnutí");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "vzniká na volném trhu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "nedošlo k ni v České republice");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "se prosazuje v každém hospodářském mechanismu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Ekonomie a předmět zkoumání");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "03");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Tržní ekonomika");
-        newQuestion.put(FIRESTORE_ANSWER1, "vzniká jenom v státech, které mají západní kulturu");
-        newQuestion.put(FIRESTORE_ANSWER2, "je všude tam, kde jsou splněny podmínky pro vznik volného trhu");
-        newQuestion.put(FIRESTORE_ANSWER3, "vzniká jenom za účasti státu jako dominantního prvku");
-        newQuestion.put(FIRESTORE_ANSWER4, "není ovlivnitelná státními zásahy");
-        newQuestion.put(FIRESTORE_CATEGORY, "Ekonomie a předmět zkoumání");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "03");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Tržní ekonomika");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "vzniká jenom v státech, které mají západní kulturu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je všude tam, kde jsou splněny podmínky pro vznik volného trhu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "vzniká jenom za účasti státu jako dominantního prvku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "není ovlivnitelná státními zásahy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Ekonomie a předmět zkoumání");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "03");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Vzácnost je");
-        newQuestion.put(FIRESTORE_ANSWER1, "objektivní");
-        newQuestion.put(FIRESTORE_ANSWER2, "subjektivní ");
-        newQuestion.put(FIRESTORE_ANSWER3, "vyčíslitelná");
-        newQuestion.put(FIRESTORE_ANSWER4, "přímo úměrná bohatství národa");
-        newQuestion.put(FIRESTORE_CATEGORY, "Ekonomie a předmět zkoumání");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "03");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Vzácnost je");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "objektivní");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "subjektivní ");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "vyčíslitelná");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "přímo úměrná bohatství národa");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Ekonomie a předmět zkoumání");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "03");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Neviditelná ruka trhu");
-        newQuestion.put(FIRESTORE_ANSWER1, "funguje jenom v tržní ekonomice");
-        newQuestion.put(FIRESTORE_ANSWER2, "je systém zákonů, který reguluje cenu");
-        newQuestion.put(FIRESTORE_ANSWER3, "vede ke vlastnímu prospěchu");
-        newQuestion.put(FIRESTORE_ANSWER4, "ovlivňuje cenu");
-        newQuestion.put(FIRESTORE_CATEGORY, "Ekonomie a předmět zkoumání");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "03");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Neviditelná ruka trhu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "funguje jenom v tržní ekonomice");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je systém zákonů, který reguluje cenu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "vede ke vlastnímu prospěchu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "ovlivňuje cenu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Ekonomie a předmět zkoumání");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "03");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Ekonomie je");
-        newQuestion.put(FIRESTORE_ANSWER1, "nejednoznační věda");
-        newQuestion.put(FIRESTORE_ANSWER2, "přírodovědná věda");
-        newQuestion.put(FIRESTORE_ANSWER3, "společenská věda");
-        newQuestion.put(FIRESTORE_ANSWER4, "věda o penězích");
-        newQuestion.put(FIRESTORE_CATEGORY, "Ekonomie a předmět zkoumání");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "03");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Ekonomie je");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "nejednoznační věda");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "přírodovědná věda");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "společenská věda");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "věda o penězích");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Ekonomie a předmět zkoumání");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "03");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Společný prospěch");
-        newQuestion.put(FIRESTORE_ANSWER1, "je sledován všemi lidmi za všech okolností");
-        newQuestion.put(FIRESTORE_ANSWER2, "je v souladu s vlastním zájmem");
-        newQuestion.put(FIRESTORE_ANSWER3, "neexistuje");
-        newQuestion.put(FIRESTORE_ANSWER4, "je sledován lidmi, kteří nesledují vlastní zájem");
-        newQuestion.put(FIRESTORE_CATEGORY, "Ekonomie a předmět zkoumání");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "03");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Společný prospěch");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je sledován všemi lidmi za všech okolností");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je v souladu s vlastním zájmem");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "neexistuje");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "je sledován lidmi, kteří nesledují vlastní zájem");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Ekonomie a předmět zkoumání");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "03");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Poptávka vyjadřuje");
-        newQuestion.put(FIRESTORE_ANSWER1, "schopnost lidí nakupovat");
-        newQuestion.put(FIRESTORE_ANSWER2, "nabízení množství při dané ceně");
-        newQuestion.put(FIRESTORE_ANSWER3, "ochotu spotřebitelů nakupovat");
-        newQuestion.put(FIRESTORE_ANSWER4, "cenu, při které je spotřebitel motivován k nákupu");
-        newQuestion.put(FIRESTORE_CATEGORY, "Ekonomie a předmět zkoumání");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "03");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Poptávka vyjadřuje");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "schopnost lidí nakupovat");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "nabízení množství při dané ceně");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "ochotu spotřebitelů nakupovat");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "cenu, při které je spotřebitel motivován k nákupu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Ekonomie a předmět zkoumání");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "03");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Racionální chování");
-        newQuestion.put(FIRESTORE_ANSWER1, "sleduje objektivní cíle");
-        newQuestion.put(FIRESTORE_ANSWER2, "pomáhá dosáhnout maximálního možného užitku");
-        newQuestion.put(FIRESTORE_ANSWER3, "není nutným předpokladem ekonomie");
-        newQuestion.put(FIRESTORE_ANSWER4, "je chování na základě logického myšlení");
-        newQuestion.put(FIRESTORE_CATEGORY, "Ekonomie a předmět zkoumání");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "03");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Racionální chování");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "sleduje objektivní cíle");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "pomáhá dosáhnout maximálního možného užitku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "není nutným předpokladem ekonomie");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "je chování na základě logického myšlení");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Ekonomie a předmět zkoumání");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "03");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
@@ -581,15 +581,15 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
         //Chování spotřebitele
 
-        newQuestion.put(FIRESTORE_QUESTION, "Spotřebitel při vyšší cene statku kupuje");
-        newQuestion.put(FIRESTORE_ANSWER1, "méně statku, neboť mu to přinese stejný úžitek");
-        newQuestion.put(FIRESTORE_ANSWER2, "víc statku, protože mu to přinese vetší úžitek");
-        newQuestion.put(FIRESTORE_ANSWER3, "méne statku, protože je limitován rozpočtem");
-        newQuestion.put(FIRESTORE_ANSWER4, "víc statku, jelikož to lze pokládat za investici");
-        newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "04");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Spotřebitel při vyšší cene statku kupuje");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "méně statku, neboť mu to přinese stejný úžitek");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "víc statku, protože mu to přinese vetší úžitek");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "méne statku, protože je limitován rozpočtem");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "víc statku, jelikož to lze pokládat za investici");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Chování spotřebitele");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "04");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3
         );
 
         addQuestionToFirestore(newQuestion);
@@ -597,136 +597,136 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Spotřebitel při růstu ceny statku");
-        newQuestion.put(FIRESTORE_ANSWER1, "kupuje vetší množství statku, z obav před budoucim zvyšovaním ceny");
-        newQuestion.put(FIRESTORE_ANSWER2, "kupuje přestáva nakupovat daný statek");
-        newQuestion.put(FIRESTORE_ANSWER3, "nakupuje méne tohoto statku, protože ho substituje jinými statky");
-        newQuestion.put(FIRESTORE_ANSWER4, "zvyšuje mezní míru užívaní tohoto statku");
-        newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "04");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Spotřebitel při růstu ceny statku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "kupuje vetší množství statku, z obav před budoucim zvyšovaním ceny");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "kupuje přestáva nakupovat daný statek");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "nakupuje méne tohoto statku, protože ho substituje jinými statky");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "zvyšuje mezní míru užívaní tohoto statku");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Chování spotřebitele");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "04");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Cenova elaticita poptávky udáva vztah mezi");
-        newQuestion.put(FIRESTORE_ANSWER1, "poptáváným množstvím a změnou ceny");
-        newQuestion.put(FIRESTORE_ANSWER2, "zmenou poptávaného množství a zmenou nabízeného množství");
-        newQuestion.put(FIRESTORE_ANSWER3, "procentuálni zmenou nabízeného množství a procentuálni zmenou ceny");
-        newQuestion.put(FIRESTORE_ANSWER4, "procentuálni zmenou poptávaného množství a procentuálni zmenou ceny");
-        newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "04");
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Cenova elaticita poptávky udáva vztah mezi");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "poptáváným množstvím a změnou ceny");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "zmenou poptávaného množství a zmenou nabízeného množství");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "procentuálni zmenou nabízeného množství a procentuálni zmenou ceny");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "procentuálni zmenou poptávaného množství a procentuálni zmenou ceny");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Chování spotřebitele");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "04");
 
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
-
-        addQuestionToFirestore(newQuestion);
-        newQuestion.clear();
-        question++;
-        Log.d(TAG, "generateQustions: " + question);
-
-        newQuestion.put(FIRESTORE_QUESTION, "Poptávka může být");
-        newQuestion.put(FIRESTORE_ANSWER1, "jenom klesajíci");
-        newQuestion.put(FIRESTORE_ANSWER2, "klesajíci a horizontálni");
-        newQuestion.put(FIRESTORE_ANSWER3, "klesajíci, vertikálni");
-        newQuestion.put(FIRESTORE_ANSWER4, "klesajíci, vertikálni a horizontálni");
-        newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "04");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Jestliže je elasticita menší  než 1, jde o");
-        newQuestion.put(FIRESTORE_ANSWER1, "neelastickou poptávku");
-        newQuestion.put(FIRESTORE_ANSWER2, "efektivní poptávku");
-        newQuestion.put(FIRESTORE_ANSWER3, "elastickou poptávku");
-        newQuestion.put(FIRESTORE_ANSWER4, "neefektivní poptávku");
-        newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "04");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Poptávka může být");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "jenom klesajíci");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "klesajíci a horizontálni");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "klesajíci, vertikálni");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "klesajíci, vertikálni a horizontálni");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Chování spotřebitele");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "04");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Jestliže je elasticita vetší než 1, jde o");
-        newQuestion.put(FIRESTORE_ANSWER1, "neelastickou poptávku");
-        newQuestion.put(FIRESTORE_ANSWER2, "efektivní poptávku");
-        newQuestion.put(FIRESTORE_ANSWER3, "elastickou poptávku");
-        newQuestion.put(FIRESTORE_ANSWER4, "neefektivní poptávku");
-        newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "04");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Jestliže je elasticita menší  než 1, jde o");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "neelastickou poptávku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "efektivní poptávku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "elastickou poptávku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "neefektivní poptávku");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Chování spotřebitele");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "04");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Indiferenční křivka");
-        newQuestion.put(FIRESTORE_ANSWER1, "je rostoucí");
-        newQuestion.put(FIRESTORE_ANSWER2, "spojuje vybrané kombinace spotřeby se stejným užitkem");
-        newQuestion.put(FIRESTORE_ANSWER3, "je klesající");
-        newQuestion.put(FIRESTORE_ANSWER4, "popisuje různé hladiny užitku");
-        newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "04");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Jestliže je elasticita vetší než 1, jde o");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "neelastickou poptávku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "efektivní poptávku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "elastickou poptávku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "neefektivní poptávku");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Chování spotřebitele");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "04");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Mezní užitek");
-        newQuestion.put(FIRESTORE_ANSWER1, "je konstantní");
-        newQuestion.put(FIRESTORE_ANSWER2, "je rostoucí");
-        newQuestion.put(FIRESTORE_ANSWER3, "se nemění se změnou množství vyráběného");
-        newQuestion.put(FIRESTORE_ANSWER4, "je klesající");
-        newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "04");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Indiferenční křivka");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je rostoucí");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "spojuje vybrané kombinace spotřeby se stejným užitkem");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je klesající");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "popisuje různé hladiny užitku");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Chování spotřebitele");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "04");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Pokud došlo k růstu ceny černého čaje");
-        newQuestion.put(FIRESTORE_ANSWER1, "dojde k růstu ceny kávy, pokud ji pokládáme za substitut");
-        newQuestion.put(FIRESTORE_ANSWER2, "může dojít k změně preferencí");
-        newQuestion.put(FIRESTORE_ANSWER3, "sníží se spotřebitelova poptávka po černém čaji");
-        newQuestion.put(FIRESTORE_ANSWER4, "zvýší se spotřebitelova poptávka po kávě");
-        newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "04");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Mezní užitek");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je konstantní");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je rostoucí");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "se nemění se změnou množství vyráběného");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "je klesající");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Chování spotřebitele");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "04");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Spotřebitelův přebytek");
-        newQuestion.put(FIRESTORE_ANSWER1, "je dán rozdílem toho, co by byl spotřebitel ochoten za statek zaplatit a kolik ve skutečnosti zaplatil");
-        newQuestion.put(FIRESTORE_ANSWER2, "je stejný přebytku výrobce");
-        newQuestion.put(FIRESTORE_ANSWER3, "je nezávislý na ceně statku");
-        newQuestion.put(FIRESTORE_ANSWER4, "záleží na výšce slevy");
-        newQuestion.put(FIRESTORE_CATEGORY, "Chování spotřebitele");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "04");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Pokud došlo k růstu ceny černého čaje");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "dojde k růstu ceny kávy, pokud ji pokládáme za substitut");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "může dojít k změně preferencí");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "sníží se spotřebitelova poptávka po černém čaji");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "zvýší se spotřebitelova poptávka po kávě");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Chování spotřebitele");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "04");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
+
+        addQuestionToFirestore(newQuestion);
+        newQuestion.clear();
+        question++;
+        Log.d(TAG, "generateQustions: " + question);
+
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Spotřebitelův přebytek");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je dán rozdílem toho, co by byl spotřebitel ochoten za statek zaplatit a kolik ve skutečnosti zaplatil");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je stejný přebytku výrobce");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je nezávislý na ceně statku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "záleží na výšce slevy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Chování spotřebitele");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "04");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
@@ -738,150 +738,150 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
         //Náklady
 
-        newQuestion.put(FIRESTORE_QUESTION, "Variabilní náklady");
-        newQuestion.put(FIRESTORE_ANSWER1, "jsou vždy vyšší než-li fixní náklady");
-        newQuestion.put(FIRESTORE_ANSWER2, "s růstem produkce klesají");
-        newQuestion.put(FIRESTORE_ANSWER3, "se nemění s rozsahem produkce");
-        newQuestion.put(FIRESTORE_ANSWER4, "je nutné pokrýt aby firma neodešla z trhu");
-        newQuestion.put(FIRESTORE_CATEGORY, "Náklady");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "05");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Variabilní náklady");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "jsou vždy vyšší než-li fixní náklady");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "s růstem produkce klesají");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "se nemění s rozsahem produkce");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "je nutné pokrýt aby firma neodešla z trhu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Náklady");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "05");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Fixní náklady");
-        newQuestion.put(FIRESTORE_ANSWER1, "Nejsou vyčíslitelné");
-        newQuestion.put(FIRESTORE_ANSWER2, "jsou klesající v závislosti od produkovaného množství");
-        newQuestion.put(FIRESTORE_ANSWER3, "se nemění s rozsahem produkce");
-        newQuestion.put(FIRESTORE_ANSWER4, "je nutné pokrýt aby firma neodešla z trhu");
-        newQuestion.put(FIRESTORE_CATEGORY, "Náklady");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "05");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Fixní náklady");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "Nejsou vyčíslitelné");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "jsou klesající v závislosti od produkovaného množství");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "se nemění s rozsahem produkce");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "je nutné pokrýt aby firma neodešla z trhu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Náklady");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "05");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Průměrní variabilní náklady - AVC");
-        newQuestion.put(FIRESTORE_ANSWER1, "jsou přepočítané variabilní náklady na jednotku produkce");
-        newQuestion.put(FIRESTORE_ANSWER2, "se zvyšujícím objemem produkce stále klesají");
-        newQuestion.put(FIRESTORE_ANSWER3, "když je firma na min. úrovni AVC, tak v krátkém období odchází z trhu");
-        newQuestion.put(FIRESTORE_ANSWER4, "při rozhodováni o odchodu z trhu je firma nebere v úvahu");
-        newQuestion.put(FIRESTORE_CATEGORY, "Náklady");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "05");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Průměrní variabilní náklady - AVC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "jsou přepočítané variabilní náklady na jednotku produkce");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "se zvyšujícím objemem produkce stále klesají");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "když je firma na min. úrovni AVC, tak v krátkém období odchází z trhu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "při rozhodováni o odchodu z trhu je firma nebere v úvahu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Náklady");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "05");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Průměrné fixní náklady - AFC");
-        newQuestion.put(FIRESTORE_ANSWER1, "s růstem produkce rostou");
-        newQuestion.put(FIRESTORE_ANSWER2, "s růstem produkce klesají");
-        newQuestion.put(FIRESTORE_ANSWER3, "se nemění s rozsahem produkce");
-        newQuestion.put(FIRESTORE_ANSWER4, "jsou vždy vyšší než průměrní variabilní náklady");
-        newQuestion.put(FIRESTORE_CATEGORY, "Náklady");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "05");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Průměrné fixní náklady - AFC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "s růstem produkce rostou");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "s růstem produkce klesají");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "se nemění s rozsahem produkce");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "jsou vždy vyšší než průměrní variabilní náklady");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Náklady");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "05");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Náklady");
-        newQuestion.put(FIRESTORE_ANSWER1, "ekonomické nezahrnují i náklady obětované příležitosti");
-        newQuestion.put(FIRESTORE_ANSWER2, "utopené náklady jsou brány v úvahy při ekonomickém rozhodování");
-        newQuestion.put(FIRESTORE_ANSWER3, "s růstem produkce rostou");
-        newQuestion.put(FIRESTORE_ANSWER4, "v krátkém období se projevují jenom fixní");
-        newQuestion.put(FIRESTORE_CATEGORY, "Náklady");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "05");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Náklady");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "ekonomické nezahrnují i náklady obětované příležitosti");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "utopené náklady jsou brány v úvahy při ekonomickém rozhodování");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "s růstem produkce rostou");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "v krátkém období se projevují jenom fixní");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Náklady");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "05");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Ekonomický zisk");
-        newQuestion.put(FIRESTORE_ANSWER1, "Je rovný účetnímu zisku");
-        newQuestion.put(FIRESTORE_ANSWER2, "Může být v dlouhém období nulový");
-        newQuestion.put(FIRESTORE_ANSWER3, "Nesmí být záporný v krátkém období");
-        newQuestion.put(FIRESTORE_ANSWER4, "Je v krátkém období vždy kladný");
-        newQuestion.put(FIRESTORE_CATEGORY, "Náklady");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "05");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Ekonomický zisk");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "Je rovný účetnímu zisku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "Může být v dlouhém období nulový");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "Nesmí být záporný v krátkém období");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "Je v krátkém období vždy kladný");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Náklady");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "05");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Pokud při daném objemu produkce platí AR > AC, pak");
-        newQuestion.put(FIRESTORE_ANSWER1, "firma dosahuje ztráty");
-        newQuestion.put(FIRESTORE_ANSWER2, "firma je v optimu");
-        newQuestion.put(FIRESTORE_ANSWER3, "firma je v ekonomickém zisku");
-        newQuestion.put(FIRESTORE_ANSWER4, "firma přestává vyrábět");
-        newQuestion.put(FIRESTORE_CATEGORY, "Náklady");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "05");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Pokud při daném objemu produkce platí AR > AC, pak");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "firma dosahuje ztráty");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "firma je v optimu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "firma je v ekonomickém zisku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "firma přestává vyrábět");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Náklady");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "05");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Pokud při daném objemu produkce platí MR = MC, pak");
-        newQuestion.put(FIRESTORE_ANSWER1, "firma dosahuje ztráty");
-        newQuestion.put(FIRESTORE_ANSWER2, "firma je v optimu");
-        newQuestion.put(FIRESTORE_ANSWER3, "firma je v ekonomickém zisku");
-        newQuestion.put(FIRESTORE_ANSWER4, "firma přestává vyrábět");
-        newQuestion.put(FIRESTORE_CATEGORY, "Náklady");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "05");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Pokud při daném objemu produkce platí MR = MC, pak");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "firma dosahuje ztráty");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "firma je v optimu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "firma je v ekonomickém zisku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "firma přestává vyrábět");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Náklady");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "05");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Pokud při daném objemu produkce platí AR < AC, pak");
-        newQuestion.put(FIRESTORE_ANSWER1, "firma dosahuje ztráty");
-        newQuestion.put(FIRESTORE_ANSWER2, "firma je v optimu");
-        newQuestion.put(FIRESTORE_ANSWER3, "firma je v ekonomickém zisku");
-        newQuestion.put(FIRESTORE_ANSWER4, "firma přestává vyrábět");
-        newQuestion.put(FIRESTORE_CATEGORY, "Náklady");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "05");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Pokud při daném objemu produkce platí AR < AC, pak");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "firma dosahuje ztráty");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "firma je v optimu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "firma je v ekonomickém zisku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "firma přestává vyrábět");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Náklady");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "05");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Firma odchází z trhu");
-        newQuestion.put(FIRESTORE_ANSWER1, "při jakékoli krátkodobé ztrátě");
-        newQuestion.put(FIRESTORE_ANSWER2, "pokud pokrývá jenom fixní náklady");
-        newQuestion.put(FIRESTORE_ANSWER3, "pokud nemá v dlouhém období vetší než nulový ekonomický zisk");
-        newQuestion.put(FIRESTORE_ANSWER4, "pokud v dlouhém obdoví nedosahuje nulového ekonomického zisku");
-        newQuestion.put(FIRESTORE_CATEGORY, "Náklady");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "05");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Firma odchází z trhu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "při jakékoli krátkodobé ztrátě");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "pokud pokrývá jenom fixní náklady");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "pokud nemá v dlouhém období vetší než nulový ekonomický zisk");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "pokud v dlouhém obdoví nedosahuje nulového ekonomického zisku");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Náklady");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "05");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
@@ -892,75 +892,75 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
         //Tržní rovnováha a efektivnost
 
-        newQuestion.put(FIRESTORE_QUESTION, "MR = MC a p = AC");
-        newQuestion.put(FIRESTORE_ANSWER1, "je firma v rovnováze a je ztrátová");
-        newQuestion.put(FIRESTORE_ANSWER2, "je firma v rovnováze a je zisková");
-        newQuestion.put(FIRESTORE_ANSWER3, "je firma v rovnováze a dosahuje 0 zisk");
-        newQuestion.put(FIRESTORE_ANSWER4, "firma dosahuje účetní zisk");
-        newQuestion.put(FIRESTORE_CATEGORY, "Tržní rovnováha a efektivnost");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "06");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "MR = MC a p = AC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je firma v rovnováze a je ztrátová");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je firma v rovnováze a je zisková");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je firma v rovnováze a dosahuje 0 zisk");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "firma dosahuje účetní zisk");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Tržní rovnováha a efektivnost");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "06");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "MR = MC a p > AC");
-        newQuestion.put(FIRESTORE_ANSWER1, "je firma v rovnováze a je ztrátová");
-        newQuestion.put(FIRESTORE_ANSWER2, "je firma v rovnováze a je zisková");
-        newQuestion.put(FIRESTORE_ANSWER3, "je firma v rovnováze a dosahuje 0 zisk");
-        newQuestion.put(FIRESTORE_ANSWER4, "firma dosahuje účetní zisk");
-        newQuestion.put(FIRESTORE_CATEGORY, "Tržní rovnováha a efektivnost");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "06");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "MR = MC a p > AC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je firma v rovnováze a je ztrátová");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je firma v rovnováze a je zisková");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je firma v rovnováze a dosahuje 0 zisk");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "firma dosahuje účetní zisk");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Tržní rovnováha a efektivnost");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "06");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "MR = MC a p < AC");
-        newQuestion.put(FIRESTORE_ANSWER1, "je firma v rovnováze a je ztrátová");
-        newQuestion.put(FIRESTORE_ANSWER2, "je firma v rovnováze a je zisková");
-        newQuestion.put(FIRESTORE_ANSWER3, "je firma v rovnováze a dosahuje 0 zisk");
-        newQuestion.put(FIRESTORE_ANSWER4, "firma dosahuje účetní zisk");
-        newQuestion.put(FIRESTORE_CATEGORY, "Tržní rovnováha a efektivnost");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "06");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "MR = MC a p < AC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je firma v rovnováze a je ztrátová");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je firma v rovnováze a je zisková");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je firma v rovnováze a dosahuje 0 zisk");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "firma dosahuje účetní zisk");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Tržní rovnováha a efektivnost");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "06");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Firma na dokonale konkurenčním trhu dosáhne zisku");
-        newQuestion.put(FIRESTORE_ANSWER1, "vždy");
-        newQuestion.put(FIRESTORE_ANSWER2, "jenom v krátkém období");
-        newQuestion.put(FIRESTORE_ANSWER3, "jenom v dlouhém období");
-        newQuestion.put(FIRESTORE_ANSWER4, "nikdy");
-        newQuestion.put(FIRESTORE_CATEGORY, "Tržní rovnováha a efektivnost");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "06");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Firma na dokonale konkurenčním trhu dosáhne zisku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "vždy");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "jenom v krátkém období");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "jenom v dlouhém období");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "nikdy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Tržní rovnováha a efektivnost");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "06");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Firma se rozhoduje o odchodu z trhu pokud");
-        newQuestion.put(FIRESTORE_ANSWER1, "p = MR = MC = AC");
-        newQuestion.put(FIRESTORE_ANSWER2, "p = MR = MC = AFC");
-        newQuestion.put(FIRESTORE_ANSWER3, "p = MR = MC = AVC");
-        newQuestion.put(FIRESTORE_ANSWER4, "MR < MC");
-        newQuestion.put(FIRESTORE_CATEGORY, "Tržní rovnováha a efektivnost");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "06");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Firma se rozhoduje o odchodu z trhu pokud");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "p = MR = MC = AC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "p = MR = MC = AFC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "p = MR = MC = AVC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "MR < MC");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Tržní rovnováha a efektivnost");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "06");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
 
         addQuestionToFirestore(newQuestion);
@@ -968,15 +968,15 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Firma je v dlouhodobé v rovnováze pokud");
-        newQuestion.put(FIRESTORE_ANSWER1, "p = MR = MC = AC");
-        newQuestion.put(FIRESTORE_ANSWER2, "p = MR = MC = AFC");
-        newQuestion.put(FIRESTORE_ANSWER3, "p = MR = MC = AVC");
-        newQuestion.put(FIRESTORE_ANSWER4, "MR < MC");
-        newQuestion.put(FIRESTORE_CATEGORY, "Tržní rovnováha a efektivnost");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "06");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Firma je v dlouhodobé v rovnováze pokud");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "p = MR = MC = AC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "p = MR = MC = AFC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "p = MR = MC = AVC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "MR < MC");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Tržní rovnováha a efektivnost");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "06");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
@@ -984,60 +984,60 @@ public class QuizDBHelper extends SQLiteOpenHelper {
         Log.d(TAG, "generateQustions: " + question);
 
 
-        newQuestion.put(FIRESTORE_QUESTION, "Alokační efektivnosti je dosaženo za předpokladu");
-        newQuestion.put(FIRESTORE_ANSWER1, "p = MR = MC");
-        newQuestion.put(FIRESTORE_ANSWER2, "MC = AC");
-        newQuestion.put(FIRESTORE_ANSWER3, "MC = MU");
-        newQuestion.put(FIRESTORE_ANSWER4, "MU = AC");
-        newQuestion.put(FIRESTORE_CATEGORY, "Tržní rovnováha a efektivnost");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "06");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Alokační efektivnosti je dosaženo za předpokladu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "p = MR = MC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "MC = AC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "MC = MU");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "MU = AC");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Tržní rovnováha a efektivnost");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "06");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Firma přestává vyrábět pokud");
-        newQuestion.put(FIRESTORE_ANSWER1, "je ekonomický zisk rovný nule");
-        newQuestion.put(FIRESTORE_ANSWER2, "dosahuje minimálních výrobních nákladů");
-        newQuestion.put(FIRESTORE_ANSWER3, "pokud má alternativu, která jí přináší stejný zisk");
-        newQuestion.put(FIRESTORE_ANSWER4, "pokud bude cena nižší než AVC");
-        newQuestion.put(FIRESTORE_CATEGORY, "Tržní rovnováha a efektivnost");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "06");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Firma přestává vyrábět pokud");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je ekonomický zisk rovný nule");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "dosahuje minimálních výrobních nákladů");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "pokud má alternativu, která jí přináší stejný zisk");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "pokud bude cena nižší než AVC");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Tržní rovnováha a efektivnost");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "06");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Alokační efektivnosti (na dokonale konkurenčním trhu) je dosaženo za předpokladu");
-        newQuestion.put(FIRESTORE_ANSWER1, "firma dosahuje nenulový zisk");
-        newQuestion.put(FIRESTORE_ANSWER2, "vždy");
-        newQuestion.put(FIRESTORE_ANSWER3, "firma dosahuje nulový zisk");
-        newQuestion.put(FIRESTORE_ANSWER4, "firma je v ztrátě");
-        newQuestion.put(FIRESTORE_CATEGORY, "Tržní rovnováha a efektivnost");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "06");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Alokační efektivnosti (na dokonale konkurenčním trhu) je dosaženo za předpokladu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "firma dosahuje nenulový zisk");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "vždy");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "firma dosahuje nulový zisk");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "firma je v ztrátě");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Tržní rovnováha a efektivnost");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "06");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Výrobní efektivnosti je dosaženo za předpokladu");
-        newQuestion.put(FIRESTORE_ANSWER1, "p = MR = MC");
-        newQuestion.put(FIRESTORE_ANSWER2, "MC = AC");
-        newQuestion.put(FIRESTORE_ANSWER3, "MC = MU");
-        newQuestion.put(FIRESTORE_ANSWER4, "MU = AC");
-        newQuestion.put(FIRESTORE_CATEGORY, "Tržní rovnováha a efektivnost");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "06");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Výrobní efektivnosti je dosaženo za předpokladu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "p = MR = MC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "MC = AC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "MC = MU");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "MU = AC");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Tržní rovnováha a efektivnost");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "06");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
@@ -1048,150 +1048,150 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
         //Význam směny, specializace a mezinárodního obchodu
 
-        newQuestion.put(FIRESTORE_QUESTION, "Mezinárodní obchod");
-        newQuestion.put(FIRESTORE_ANSWER1, "dělá země chudšími");
-        newQuestion.put(FIRESTORE_ANSWER2, "snižuje míru bohatství národu");
-        newQuestion.put(FIRESTORE_ANSWER3, "je vhodný jenom pro země s absolutní výhodou");
-        newQuestion.put(FIRESTORE_ANSWER4, "vede k celosvětovému zvyšování bohatství");
-        newQuestion.put(FIRESTORE_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "07");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Mezinárodní obchod");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "dělá země chudšími");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "snižuje míru bohatství národu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je vhodný jenom pro země s absolutní výhodou");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "vede k celosvětovému zvyšování bohatství");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "07");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Dovozní kvóta");
-        newQuestion.put(FIRESTORE_ANSWER1, "ochraňuje spotřebitelé");
-        newQuestion.put(FIRESTORE_ANSWER2, "má vliv na cenu statku");
-        newQuestion.put(FIRESTORE_ANSWER3, "zvyšuje export");
-        newQuestion.put(FIRESTORE_ANSWER4, "zvyšuje množství statku na domácím trhu");
-        newQuestion.put(FIRESTORE_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "07");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Dovozní kvóta");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "ochraňuje spotřebitelé");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "má vliv na cenu statku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "zvyšuje export");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "zvyšuje množství statku na domácím trhu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "07");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Specializace v mezinárodním obchodě");
-        newQuestion.put(FIRESTORE_ANSWER1, "v důsledku globalizace nemá význam");
-        newQuestion.put(FIRESTORE_ANSWER2, "je výsledkem absolutní výhody");
-        newQuestion.put(FIRESTORE_ANSWER3, "je výsledkem komparativní výhody");
-        newQuestion.put(FIRESTORE_ANSWER4, "nemá vliv na výšku nákladů");
-        newQuestion.put(FIRESTORE_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "07");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Specializace v mezinárodním obchodě");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "v důsledku globalizace nemá význam");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je výsledkem absolutní výhody");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je výsledkem komparativní výhody");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "nemá vliv na výšku nákladů");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "07");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Ochranářství");
-        newQuestion.put(FIRESTORE_ANSWER1, "patří do něj zejména clo a dovozní kvóty");
-        newQuestion.put(FIRESTORE_ANSWER2, "je nedílnou součástí otevřených ekonomik");
-        newQuestion.put(FIRESTORE_ANSWER3, "je vhodné pro tradičně odvětví");
-        newQuestion.put(FIRESTORE_ANSWER4, "dlouhodobě zvyšuje efektivitu výroby");
-        newQuestion.put(FIRESTORE_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "07");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Ochranářství");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "patří do něj zejména clo a dovozní kvóty");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je nedílnou součástí otevřených ekonomik");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je vhodné pro tradičně odvětví");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "dlouhodobě zvyšuje efektivitu výroby");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "07");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Relativní vybavenost výrobními faktory");
-        newQuestion.put(FIRESTORE_ANSWER1, "pro země s relativně drahou pracovní silou je výhodné se zaměřit na kapitálově nenáročnou výrobu");
-        newQuestion.put(FIRESTORE_ANSWER2, "je předpokladem pro specializaci výroby");
-        newQuestion.put(FIRESTORE_ANSWER3, "není daná geografickými a historickými podmínkami");
-        newQuestion.put(FIRESTORE_ANSWER4, "vybavenost VF nemá souvis s hospodářskou politikou");
-        newQuestion.put(FIRESTORE_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "07");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Relativní vybavenost výrobními faktory");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "pro země s relativně drahou pracovní silou je výhodné se zaměřit na kapitálově nenáročnou výrobu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je předpokladem pro specializaci výroby");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "není daná geografickými a historickými podmínkami");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "vybavenost VF nemá souvis s hospodářskou politikou");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "07");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Clo");
-        newQuestion.put(FIRESTORE_ANSWER1, "snižuje náklady domácích firem");
-        newQuestion.put(FIRESTORE_ANSWER2, "jeho zavedením se sníží cena v odvětvích, kde zahraniční firmy neměli konkurenci");
-        newQuestion.put(FIRESTORE_ANSWER3, "nemá vliv na cenu");
-        newQuestion.put(FIRESTORE_ANSWER4, "pomáhá domácím nekonkurence schopným firmám");
-        newQuestion.put(FIRESTORE_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "07");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Clo");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "snižuje náklady domácích firem");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "jeho zavedením se sníží cena v odvětvích, kde zahraniční firmy neměli konkurenci");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "nemá vliv na cenu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "pomáhá domácím nekonkurence schopným firmám");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "07");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Odstranění cla");
-        newQuestion.put(FIRESTORE_ANSWER1, "zvýší příjem státu");
-        newQuestion.put(FIRESTORE_ANSWER2, "zvyšuje přebytek výrobce");
-        newQuestion.put(FIRESTORE_ANSWER3, "zvyšuje přebytek spotřebitele");
-        newQuestion.put(FIRESTORE_ANSWER4, "nemá vliv na specializaci");
-        newQuestion.put(FIRESTORE_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "07");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Odstranění cla");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "zvýší příjem státu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "zvyšuje přebytek výrobce");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "zvyšuje přebytek spotřebitele");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "nemá vliv na specializaci");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "07");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Specializace");
-        newQuestion.put(FIRESTORE_ANSWER1, "pokud má jeden výrobce absolutní výhodu u obou statků, specializuje se na libovolný z nich");
-        newQuestion.put(FIRESTORE_ANSWER2, "pokud má jeden výrobce absolutní výhodu u statku A a komparativní výhodu u statku B, specializuje se na B");
-        newQuestion.put(FIRESTORE_ANSWER3, "nemá vliv na produktivitu práce");
-        newQuestion.put(FIRESTORE_ANSWER4, "je vhodná jenom pro velké firmy");
-        newQuestion.put(FIRESTORE_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "07");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Specializace");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "pokud má jeden výrobce absolutní výhodu u obou statků, specializuje se na libovolný z nich");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "pokud má jeden výrobce absolutní výhodu u statku A a komparativní výhodu u statku B, specializuje se na B");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "nemá vliv na produktivitu práce");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "je vhodná jenom pro velké firmy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "07");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Absolutní výhoda");
-        newQuestion.put(FIRESTORE_ANSWER1, "je uplatňována v mezinárodní směně");
-        newQuestion.put(FIRESTORE_ANSWER2, "platí vždy pro největší firmu na trhu");
-        newQuestion.put(FIRESTORE_ANSWER3, "je daná kapitálovou vybaveností firmy");
-        newQuestion.put(FIRESTORE_ANSWER4, "je definována jako schopnost prodávat statek s relativně nižšími náklady");
-        newQuestion.put(FIRESTORE_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "07");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Absolutní výhoda");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je uplatňována v mezinárodní směně");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "platí vždy pro největší firmu na trhu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je daná kapitálovou vybaveností firmy");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "je definována jako schopnost prodávat statek s relativně nižšími náklady");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "07");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Komparativní výhoda");
-        newQuestion.put(FIRESTORE_ANSWER1, "není možné ji specifikovat na úrovni firmy");
-        newQuestion.put(FIRESTORE_ANSWER2, "je neměnná");
-        newQuestion.put(FIRESTORE_ANSWER3, "je uplatňována v mezinárodní směně");
-        newQuestion.put(FIRESTORE_ANSWER4, "určuje produkci ve které se vyrábí relativně víc než-li v absolutní výhodě");
-        newQuestion.put(FIRESTORE_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "07");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Komparativní výhoda");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "není možné ji specifikovat na úrovni firmy");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je neměnná");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je uplatňována v mezinárodní směně");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "určuje produkci ve které se vyrábí relativně víc než-li v absolutní výhodě");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Význam směny, specializace a mezinárodního obchodu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "07");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
@@ -1202,150 +1202,150 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
         //Rovnováha nedokonale konkurenční firmy
 
-        newQuestion.put(FIRESTORE_QUESTION, "Mezní příjem");
-        newQuestion.put(FIRESTORE_ANSWER1, "je rozdíl mezi variabilními a fixními náklady");
-        newQuestion.put(FIRESTORE_ANSWER2, "udává velikost účetního zisku");
-        newQuestion.put(FIRESTORE_ANSWER3, "je roven průměrnému přijmu");
-        newQuestion.put(FIRESTORE_ANSWER4, "udává změnu celkového příjmu z prodeje dodatečné jednotky");
-        newQuestion.put(FIRESTORE_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "08");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Mezní příjem");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je rozdíl mezi variabilními a fixními náklady");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "udává velikost účetního zisku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je roven průměrnému přijmu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "udává změnu celkového příjmu z prodeje dodatečné jednotky");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "08");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Oligopol");
-        newQuestion.put(FIRESTORE_ANSWER1, "je trh bez vstupních bariér");
-        newQuestion.put(FIRESTORE_ANSWER2, "je firma vlastněna oligarchy");
-        newQuestion.put(FIRESTORE_ANSWER3, "struktura, ve které v dlouhém období zůstává jen málo firem");
-        newQuestion.put(FIRESTORE_ANSWER4, "individuální poptávka po produkci dominantní firmy není zásadní součástí tržní poptávky");
-        newQuestion.put(FIRESTORE_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "08");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Oligopol");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je trh bez vstupních bariér");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je firma vlastněna oligarchy");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "struktura, ve které v dlouhém období zůstává jen málo firem");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "individuální poptávka po produkci dominantní firmy není zásadní součástí tržní poptávky");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "08");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Tvorba ceny");
-        newQuestion.put(FIRESTORE_ANSWER1, "je nezávislá na tržní struktuře a jejím charakteru");
-        newQuestion.put(FIRESTORE_ANSWER2, "je ovlivněna individuální poptávkou");
-        newQuestion.put(FIRESTORE_ANSWER3, "na nedokonalých trzích změna rozsahu produkce firmy neovlivňuje tržní cenu");
-        newQuestion.put(FIRESTORE_ANSWER4, "na dokonalých trzích výrobci stanovují jakoukoliv cenu");
-        newQuestion.put(FIRESTORE_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "08");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Tvorba ceny");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je nezávislá na tržní struktuře a jejím charakteru");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je ovlivněna individuální poptávkou");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "na nedokonalých trzích změna rozsahu produkce firmy neovlivňuje tržní cenu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "na dokonalých trzích výrobci stanovují jakoukoliv cenu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "08");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Cenová diskriminace");
-        newQuestion.put(FIRESTORE_ANSWER1, "je strategie, při které dochází k maximalizaci zisku");
-        newQuestion.put(FIRESTORE_ANSWER2, "není v reálem světe možná, protože nelze vyčlenit poptávající do dvou či více skupin");
-        newQuestion.put(FIRESTORE_ANSWER3, "nelze aplikovat na nedokonalé tržní struktury");
-        newQuestion.put(FIRESTORE_ANSWER4, "je situace, kdy spotřebitel ignoruje preference kvůli ceně");
-        newQuestion.put(FIRESTORE_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "08");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Cenová diskriminace");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je strategie, při které dochází k maximalizaci zisku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "není v reálem světe možná, protože nelze vyčlenit poptávající do dvou či více skupin");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "nelze aplikovat na nedokonalé tržní struktury");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "je situace, kdy spotřebitel ignoruje preference kvůli ceně");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "08");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Cenová strategie dominantní firmy zohledňuje");
-        newQuestion.put(FIRESTORE_ANSWER1, "jenom stávající konkurenci");
-        newQuestion.put(FIRESTORE_ANSWER2, "jenom náklady dané firmy");
-        newQuestion.put(FIRESTORE_ANSWER3, "dosažitelnost stabilního zisku");
-        newQuestion.put(FIRESTORE_ANSWER4, "relativní vybavenost VF");
-        newQuestion.put(FIRESTORE_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "08");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Cenová strategie dominantní firmy zohledňuje");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "jenom stávající konkurenci");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "jenom náklady dané firmy");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "dosažitelnost stabilního zisku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "relativní vybavenost VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "08");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Nedokonalá konkurence a alokační efektivnost");
-        newQuestion.put(FIRESTORE_ANSWER1, "pro mezní pár platí MU = MC");
-        newQuestion.put(FIRESTORE_ANSWER2, "pro mezního nabízejícího platí MC = AC");
-        newQuestion.put(FIRESTORE_ANSWER3, "nedokonale konkurenční trh vyrábí vetší rozsah produkce, než by bylo efektivní");
-        newQuestion.put(FIRESTORE_ANSWER4, "pro mezního poptávajícího platí, že MU = P");
-        newQuestion.put(FIRESTORE_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "08");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Nedokonalá konkurence a alokační efektivnost");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "pro mezní pár platí MU = MC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "pro mezního nabízejícího platí MC = AC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "nedokonale konkurenční trh vyrábí vetší rozsah produkce, než by bylo efektivní");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "pro mezního poptávajícího platí, že MU = P");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "08");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Firma v postavení monopolistické konkurence s kladným ekonomickým ziskem");
-        newQuestion.put(FIRESTORE_ANSWER1, "trpí v krátkém období nedostatečnou poptávkou, proto její zisk bude v dlouhém období 0");
-        newQuestion.put(FIRESTORE_ANSWER2, "v budoucnosti bude na její trh vstupovat nová konkurence");
-        newQuestion.put(FIRESTORE_ANSWER3, "je chráněná díky barierám vstupu na trh");
-        newQuestion.put(FIRESTORE_ANSWER4, "za určitých podmínek je schopná udržet zisk i v dlouhém období");
-        newQuestion.put(FIRESTORE_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "08");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Firma v postavení monopolistické konkurence s kladným ekonomickým ziskem");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "trpí v krátkém období nedostatečnou poptávkou, proto její zisk bude v dlouhém období 0");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "v budoucnosti bude na její trh vstupovat nová konkurence");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je chráněná díky barierám vstupu na trh");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "za určitých podmínek je schopná udržet zisk i v dlouhém období");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "08");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Pokud pro tržní cenu platí P = AC");
-        newQuestion.put(FIRESTORE_ANSWER1, "firma dosahuje zisku, protože MC > MR");
-        newQuestion.put(FIRESTORE_ANSWER2, "firma je výrobně efektivní");
-        newQuestion.put(FIRESTORE_ANSWER3, "firma není v rovnováze protože MC = AVC");
-        newQuestion.put(FIRESTORE_ANSWER4, "není alokačně efektivní");
-        newQuestion.put(FIRESTORE_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "08");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Pokud pro tržní cenu platí P = AC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "firma dosahuje zisku, protože MC > MR");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "firma je výrobně efektivní");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "firma není v rovnováze protože MC = AVC");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "není alokačně efektivní");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "08");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Podnikatelé");
-        newQuestion.put(FIRESTORE_ANSWER1, "vytváří překážky k zvyšovaní efektivity a inovacím");
-        newQuestion.put(FIRESTORE_ANSWER2, "jsou nejenom vlastníci firem");
-        newQuestion.put(FIRESTORE_ANSWER3, "jsou typicky méně efektivní než stát");
-        newQuestion.put(FIRESTORE_ANSWER4, "nenesou riziko ve spojení s rozhodováním firmy");
-        newQuestion.put(FIRESTORE_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "08");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Podnikatelé");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "vytváří překážky k zvyšovaní efektivity a inovacím");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "jsou nejenom vlastníci firem");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "jsou typicky méně efektivní než stát");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "nenesou riziko ve spojení s rozhodováním firmy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "08");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Pro firmy v postavení oligopolu a monopolistické konkurence platí");
-        newQuestion.put(FIRESTORE_ANSWER1, "jsou výrobně efektivní");
-        newQuestion.put(FIRESTORE_ANSWER2, "jsou alokačně efektivní");
-        newQuestion.put(FIRESTORE_ANSWER3, "jsou tu zanedbatelné bariéry vstupu na trh");
-        newQuestion.put(FIRESTORE_ANSWER4, "v monopolistické konkurenci je v dlouhém období zisk rovný 0, na rozdíl od oligopolu");
-        newQuestion.put(FIRESTORE_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "08");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Pro firmy v postavení oligopolu a monopolistické konkurence platí");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "jsou výrobně efektivní");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "jsou alokačně efektivní");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "jsou tu zanedbatelné bariéry vstupu na trh");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "v monopolistické konkurenci je v dlouhém období zisk rovný 0, na rozdíl od oligopolu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Rovnováha nedokonale konkurenční firmy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "08");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
@@ -1356,135 +1356,135 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
         //Monopol
 
-        newQuestion.put(FIRESTORE_QUESTION, "Administrativní monopol");
-        newQuestion.put(FIRESTORE_ANSWER1, "je garantován zákonem či jiným rozhodnutím státu");
-        newQuestion.put(FIRESTORE_ANSWER2, "je rozšířená tržní struktura");
-        newQuestion.put(FIRESTORE_ANSWER3, "je definován množstvím byrokracie");
-        newQuestion.put(FIRESTORE_ANSWER4, "funguje jenom v případe že na trhu působí několik firem");
-        newQuestion.put(FIRESTORE_CATEGORY, "Monopol");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "09");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Administrativní monopol");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je garantován zákonem či jiným rozhodnutím státu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je rozšířená tržní struktura");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je definován množstvím byrokracie");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "funguje jenom v případe že na trhu působí několik firem");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Monopol");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "09");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Přirozený monopol");
-        newQuestion.put(FIRESTORE_ANSWER1, "na rozdíl od administrativního není regulován");
-        newQuestion.put(FIRESTORE_ANSWER2, "přirozené bariéry vstupu na trh nemají vliv na vznik");
-        newQuestion.put(FIRESTORE_ANSWER3, "vzniká, pokud je pro vstup na trh nutno vynaložit relativně vysoké fixní náklady");
-        newQuestion.put(FIRESTORE_ANSWER4, "nedosahuje zisku");
-        newQuestion.put(FIRESTORE_CATEGORY, "Monopol");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "09");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Přirozený monopol");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "na rozdíl od administrativního není regulován");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "přirozené bariéry vstupu na trh nemají vliv na vznik");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "vzniká, pokud je pro vstup na trh nutno vynaložit relativně vysoké fixní náklady");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "nedosahuje zisku");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Monopol");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "09");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Dumping");
-        newQuestion.put(FIRESTORE_ANSWER1, "je cenová politika, kde firma doprodává nadvýrobu z minulého období");
-        newQuestion.put(FIRESTORE_ANSWER2, "je pokládán za neférovou obchodní praktiku");
-        newQuestion.put(FIRESTORE_ANSWER3, "je nevýhodný zejména pro spotřebitele");
-        newQuestion.put(FIRESTORE_ANSWER4, "nemůže být vyřešen zavedením cel (v mezinárodním obchodu)");
-        newQuestion.put(FIRESTORE_CATEGORY, "Monopol");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "09");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Dumping");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je cenová politika, kde firma doprodává nadvýrobu z minulého období");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je pokládán za neférovou obchodní praktiku");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je nevýhodný zejména pro spotřebitele");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "nemůže být vyřešen zavedením cel (v mezinárodním obchodu)");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Monopol");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "09");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Regulace monopolu cenovým stropem");
-        newQuestion.put(FIRESTORE_ANSWER1, "je způsob regulace");
-        newQuestion.put(FIRESTORE_ANSWER2, "je za účelem udržení konkurence");
-        newQuestion.put(FIRESTORE_ANSWER3, "téměř nikdy nemá vliv na vyráběné množství");
-        newQuestion.put(FIRESTORE_ANSWER4, "je pouze teoretický koncept");
-        newQuestion.put(FIRESTORE_CATEGORY, "Monopol");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "09");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Regulace monopolu cenovým stropem");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je způsob regulace");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je za účelem udržení konkurence");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "téměř nikdy nemá vliv na vyráběné množství");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "je pouze teoretický koncept");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Monopol");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "09");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Náklady mrtvé váhy");
-        newQuestion.put(FIRESTORE_ANSWER1, "jsou vyjádřením efektivity");
-        newQuestion.put(FIRESTORE_ANSWER2, "vznikají, protože část produkce nelze z technických důvodů vyrobit");
-        newQuestion.put(FIRESTORE_ANSWER3, "jsou explicitními náklady započítanými v ceně");
-        newQuestion.put(FIRESTORE_ANSWER4, "je možné zmenšit regulací ceny monopolu");
-        newQuestion.put(FIRESTORE_CATEGORY, "Monopol");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "09");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Náklady mrtvé váhy");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "jsou vyjádřením efektivity");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "vznikají, protože část produkce nelze z technických důvodů vyrobit");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "jsou explicitními náklady započítanými v ceně");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "je možné zmenšit regulací ceny monopolu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Monopol");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "09");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Výrobní neefektivnost monopolu");
-        newQuestion.put(FIRESTORE_ANSWER1, "je důsledkem existence fixních nákladů");
-        newQuestion.put(FIRESTORE_ANSWER2, "znamená, že se nevyrábí s nejnižšími průměrnými náklady");
-        newQuestion.put(FIRESTORE_ANSWER3, "nastává v důsledku regulace");
-        newQuestion.put(FIRESTORE_ANSWER4, "nastává v důsledku existence nákladů mrtvé váhy");
-        newQuestion.put(FIRESTORE_CATEGORY, "Monopol");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "09");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Výrobní neefektivnost monopolu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je důsledkem existence fixních nákladů");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "znamená, že se nevyrábí s nejnižšími průměrnými náklady");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "nastává v důsledku regulace");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "nastává v důsledku existence nákladů mrtvé váhy");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Monopol");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "09");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Monopol může vzniknout  ");
-        newQuestion.put(FIRESTORE_ANSWER1, "pokud je produkt snadno nahraditelný");
-        newQuestion.put(FIRESTORE_ANSWER2, "pouze v podmínkách dokonalé konkurence");
-        newQuestion.put(FIRESTORE_ANSWER3, "odchodem konkurentů z trhu");
-        newQuestion.put(FIRESTORE_ANSWER4, "díky chybějící právní či administrativní restrikci");
-        newQuestion.put(FIRESTORE_CATEGORY, "Monopol");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "09");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Monopol může vzniknout  ");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "pokud je produkt snadno nahraditelný");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "pouze v podmínkách dokonalé konkurence");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "odchodem konkurentů z trhu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "díky chybějící právní či administrativní restrikci");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Monopol");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "09");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "O monopolu obvykle platí");
-        newQuestion.put(FIRESTORE_ANSWER1, "jeho cena je obvykle nižší než náklady");
-        newQuestion.put(FIRESTORE_ANSWER2, "vyrábí či dodává produkt, který má velké množství substitutů");
-        newQuestion.put(FIRESTORE_ANSWER3, "vyrábí s nejnižšími možnými náklady");
-        newQuestion.put(FIRESTORE_ANSWER4, "vyrábí méně, než kolik by bylo alokačně efektivní");
-        newQuestion.put(FIRESTORE_CATEGORY, "Monopol");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "09");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "O monopolu obvykle platí");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "jeho cena je obvykle nižší než náklady");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "vyrábí či dodává produkt, který má velké množství substitutů");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "vyrábí s nejnižšími možnými náklady");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "vyrábí méně, než kolik by bylo alokačně efektivní");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Monopol");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "09");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Asymetrie informací je");
-        newQuestion.put(FIRESTORE_ANSWER1, "situace, kdy prodávající nemají o výrobku tolik informací jako kupující");
-        newQuestion.put(FIRESTORE_ANSWER2, "stav, kdy jeden z tržním subjektů má informační převahu");
-        newQuestion.put(FIRESTORE_ANSWER3, "situace, kdy například student má o předmetu tolik informací jako učitel");
-        newQuestion.put(FIRESTORE_ANSWER4, "stav, který existuje jenom na dokonale konkurenčním trhu");
-        newQuestion.put(FIRESTORE_CATEGORY, "Monopol");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "09");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Asymetrie informací je");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "situace, kdy prodávající nemají o výrobku tolik informací jako kupující");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "stav, kdy jeden z tržním subjektů má informační převahu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "situace, kdy například student má o předmetu tolik informací jako učitel");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "stav, který existuje jenom na dokonale konkurenčním trhu");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Monopol");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "09");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
@@ -1495,150 +1495,150 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
         //Poptávka na trzích VF
 
-        newQuestion.put(FIRESTORE_QUESTION, "Jak ovlivní optimální výrobní techniku nárůst ceny jednoho výrobního faktoru?\n");
-        newQuestion.put(FIRESTORE_ANSWER1, "firma je motivována k omezování jeho zapojení do výroby\n");
-        newQuestion.put(FIRESTORE_ANSWER2, "firma bude zvyšovat jeho zapojení do výroby, aby zvýšila jeho mezní produkt\n");
-        newQuestion.put(FIRESTORE_ANSWER3, "firma bude snižovat cenu ostatních VF, dokud nebude znovu dosaženo optima\n");
-        newQuestion.put(FIRESTORE_ANSWER4, "bude docházet k technické substituci ve směru od ostatních VF k tomuto danému VF\n");
-        newQuestion.put(FIRESTORE_CATEGORY, "Poptávka na trzích VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "10");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Jak ovlivní optimální výrobní techniku nárůst ceny jednoho výrobního faktoru?\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "firma je motivována k omezování jeho zapojení do výroby\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "firma bude zvyšovat jeho zapojení do výroby, aby zvýšila jeho mezní produkt\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "firma bude snižovat cenu ostatních VF, dokud nebude znovu dosaženo optima\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "bude docházet k technické substituci ve směru od ostatních VF k tomuto danému VF\n");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Poptávka na trzích VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "10");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Existence trhu výrobních faktorů\n");
-        newQuestion.put(FIRESTORE_ANSWER1, "je podmínkou fungování hospodářských mechanizmů\n");
-        newQuestion.put(FIRESTORE_ANSWER2, "je zdrojem nedostatečné efektivnosti tržního hospodářství\n");
-        newQuestion.put(FIRESTORE_ANSWER3, "je předpokladem fungování tržního mechanismu\n");
-        newQuestion.put(FIRESTORE_ANSWER4, "ovlivňuje situaci na trhu výrobků a služeb\n");
-        newQuestion.put(FIRESTORE_CATEGORY, "Poptávka na trzích VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "10");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Existence trhu výrobních faktorů\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je podmínkou fungování hospodářských mechanizmů\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je zdrojem nedostatečné efektivnosti tržního hospodářství\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je předpokladem fungování tržního mechanismu\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "ovlivňuje situaci na trhu výrobků a služeb\n");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Poptávka na trzích VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "10");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Trh výrobních faktorů\n");
-        newQuestion.put(FIRESTORE_ANSWER1, "dochází zde k usměrňování zdrojů vůči potřebám\n");
-        newQuestion.put(FIRESTORE_ANSWER2, "obchodují se zde služby výrobních faktorů a výrobní faktory samotné\n");
-        newQuestion.put(FIRESTORE_ANSWER3, "zahrnuje primární trhy\n");
-        newQuestion.put(FIRESTORE_ANSWER4, "zahrnuje terciárni trhy\n");
-        newQuestion.put(FIRESTORE_CATEGORY, "Poptávka na trzích VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "10");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Trh výrobních faktorů\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "dochází zde k usměrňování zdrojů vůči potřebám\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "obchodují se zde služby výrobních faktorů a výrobní faktory samotné\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "zahrnuje primární trhy\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "zahrnuje terciárni trhy\n");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Poptávka na trzích VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "10");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Pokles individuální poptávky po práci může být způsoben\n");
-        newQuestion.put(FIRESTORE_ANSWER1, "poklesem ceny tohoto výrobního faktoru\n");
-        newQuestion.put(FIRESTORE_ANSWER2, "poklesem produktivity pracovníků\n");
-        newQuestion.put(FIRESTORE_ANSWER3, "zvýšením kapitálové vybavenosti práce\n");
-        newQuestion.put(FIRESTORE_ANSWER4, "zvýšením poptávky po daném finálním produktu\n");
-        newQuestion.put(FIRESTORE_CATEGORY, "Poptávka na trzích VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "10");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Pokles individuální poptávky po práci může být způsoben\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "poklesem ceny tohoto výrobního faktoru\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "poklesem produktivity pracovníků\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "zvýšením kapitálové vybavenosti práce\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "zvýšením poptávky po daném finálním produktu\n");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Poptávka na trzích VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "10");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Technický pokrok");
-        newQuestion.put(FIRESTORE_ANSWER1, "podněcuje ceny výrobních faktorů");
-        newQuestion.put(FIRESTORE_ANSWER2, "spočívá v přeskupení výrobních faktorů ve výrobě");
-        newQuestion.put(FIRESTORE_ANSWER3, "je spojen s krátkým i dlouhým obdobím");
-        newQuestion.put(FIRESTORE_ANSWER4, "umožňuje nahrazovat drahé výrobní faktory levnějšími");
-        newQuestion.put(FIRESTORE_CATEGORY, "Poptávka na trzích VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "10");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Technický pokrok");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "podněcuje ceny výrobních faktorů");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "spočívá v přeskupení výrobních faktorů ve výrobě");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je spojen s krátkým i dlouhým obdobím");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "umožňuje nahrazovat drahé výrobní faktory levnějšími");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Poptávka na trzích VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "10");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Specifický výrobní faktor");
-        newQuestion.put(FIRESTORE_ANSWER1, "je konkrétní spotřebí statek");
-        newQuestion.put(FIRESTORE_ANSWER2, "je najímán domácnostmi za nájemní cenu");
-        newQuestion.put(FIRESTORE_ANSWER3, "je konkrétní pracovní profese");
-        newQuestion.put(FIRESTORE_ANSWER4, "má specifický tvar MRP, odlišný od běžného výrobního faktoru");
-        newQuestion.put(FIRESTORE_CATEGORY, "Poptávka na trzích VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "10");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Specifický výrobní faktor");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je konkrétní spotřebí statek");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je najímán domácnostmi za nájemní cenu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je konkrétní pracovní profese");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "má specifický tvar MRP, odlišný od běžného výrobního faktoru");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Poptávka na trzích VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "10");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Příjem z mezního produktu");
-        newQuestion.put(FIRESTORE_ANSWER1, "je klesající");
-        newQuestion.put(FIRESTORE_ANSWER2, "k jeho určení je nutno znát cenu výrobního faktoru");
-        newQuestion.put(FIRESTORE_ANSWER3, "nemůže nabývat záporných hodnot");
-        newQuestion.put(FIRESTORE_ANSWER4, "představuje mezní produkt vyjádřený v peněžních jednotkách");
-        newQuestion.put(FIRESTORE_CATEGORY, "Poptávka na trzích VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "10");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Příjem z mezního produktu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je klesající");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "k jeho určení je nutno znát cenu výrobního faktoru");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "nemůže nabývat záporných hodnot");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "představuje mezní produkt vyjádřený v peněžních jednotkách");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Poptávka na trzích VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "10");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Technická substituce");
-        newQuestion.put(FIRESTORE_ANSWER1, "probíhá v krátkém i dlouhém období\n");
-        newQuestion.put(FIRESTORE_ANSWER2, "je proces nahrazování jednotlivých VF\n");
-        newQuestion.put(FIRESTORE_ANSWER3, "při provádění porovnává firma mezní náklady a cenu VF\n");
-        newQuestion.put(FIRESTORE_ANSWER4, "změna ceny VF nemá vliv\n");
-        newQuestion.put(FIRESTORE_CATEGORY, "Poptávka na trzích VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "10");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Technická substituce");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "probíhá v krátkém i dlouhém období\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je proces nahrazování jednotlivých VF\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "při provádění porovnává firma mezní náklady a cenu VF\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "změna ceny VF nemá vliv\n");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Poptávka na trzích VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "10");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Výrobní faktor");
-        newQuestion.put(FIRESTORE_ANSWER1, "reálně existuje jen v podobě specifického výrobního faktoru");
-        newQuestion.put(FIRESTORE_ANSWER2, "si výrobce najme i v případě, když ARP výrobního faktoru je menší než nájemní cena výrobního faktoru");
-        newQuestion.put(FIRESTORE_ANSWER3, "si výrobce najme v případě, když MRP výrobního faktoru je menší než nájemní cena výrobního faktoru");
-        newQuestion.put(FIRESTORE_ANSWER4, "si výrobce najímá, pokud nedosahuje ekonomický zisk");
-        newQuestion.put(FIRESTORE_CATEGORY, "Poptávka na trzích VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "10");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Výrobní faktor");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "reálně existuje jen v podobě specifického výrobního faktoru");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "si výrobce najme i v případě, když ARP výrobního faktoru je menší než nájemní cena výrobního faktoru");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "si výrobce najme v případě, když MRP výrobního faktoru je menší než nájemní cena výrobního faktoru");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "si výrobce najímá, pokud nedosahuje ekonomický zisk");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Poptávka na trzích VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "10");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Optimální množství výrobního faktoru firma stanovuje na základě");
-        newQuestion.put(FIRESTORE_ANSWER1, "průměrných příjmů firmy s průměrnými náklady firmy");
-        newQuestion.put(FIRESTORE_ANSWER2, "příjmu z mezního a příjmu z průměrného produktu");
-        newQuestion.put(FIRESTORE_ANSWER3, "příjmu z mezního produktu VF a nákladu na dodatečnou jednotku výrobního faktoru");
-        newQuestion.put(FIRESTORE_ANSWER4, "příjmu z průměrného produktu a celkových nákladů firmy\n");
-        newQuestion.put(FIRESTORE_CATEGORY, "Poptávka na trzích VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "10");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Optimální množství výrobního faktoru firma stanovuje na základě");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "průměrných příjmů firmy s průměrnými náklady firmy");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "příjmu z mezního a příjmu z průměrného produktu");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "příjmu z mezního produktu VF a nákladu na dodatečnou jednotku výrobního faktoru");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "příjmu z průměrného produktu a celkových nákladů firmy\n");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Poptávka na trzích VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "10");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
@@ -1649,105 +1649,105 @@ public class QuizDBHelper extends SQLiteOpenHelper {
 
         //Nabídka VF a trh VF
 
-        newQuestion.put(FIRESTORE_QUESTION, "Nominální mzda\n");
-        newQuestion.put(FIRESTORE_ANSWER1, "ovlivňuje domácnosti v jejich rozhodování\n");
-        newQuestion.put(FIRESTORE_ANSWER2, "oproti reálné mzdě lépe zobrazuje změny životní úrovně\n");
-        newQuestion.put(FIRESTORE_ANSWER3, "její meziroční změna se nikdy nemůže rovnat meziroční změně reálné mzdy\n");
-        newQuestion.put(FIRESTORE_ANSWER4, "díky růstu cen obvykle roste rychleji než mzda reálná\n");
-        newQuestion.put(FIRESTORE_CATEGORY, "Nabídka VF a trh VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "11");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Nominální mzda\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "ovlivňuje domácnosti v jejich rozhodování\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "oproti reálné mzdě lépe zobrazuje změny životní úrovně\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "její meziroční změna se nikdy nemůže rovnat meziroční změně reálné mzdy\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "díky růstu cen obvykle roste rychleji než mzda reálná\n");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Nabídka VF a trh VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "11");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Tržní nabídka práce\n");
-        newQuestion.put(FIRESTORE_ANSWER1, "má odlišný tvar než individuální nabídka práce\n");
-        newQuestion.put(FIRESTORE_ANSWER2, "zobrazuje počet firem nabízejících práci při různých úrovních mzdy\n");
-        newQuestion.put(FIRESTORE_ANSWER3, "zobrazuje upřednostnění volného času při dosažení určité mzdy\n");
-        newQuestion.put(FIRESTORE_ANSWER4, "má specifický tvar, který je od určitého bodu zalomen zpět\n");
-        newQuestion.put(FIRESTORE_CATEGORY, "Nabídka VF a trh VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "11");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Tržní nabídka práce\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "má odlišný tvar než individuální nabídka práce\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "zobrazuje počet firem nabízejících práci při různých úrovních mzdy\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "zobrazuje upřednostnění volného času při dosažení určité mzdy\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "má specifický tvar, který je od určitého bodu zalomen zpět\n");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Nabídka VF a trh VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "11");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Reálná mzda\n");
-        newQuestion.put(FIRESTORE_ANSWER1, "díky růstu cen obvykle roste rychleji než nominální mzda\n");
-        newQuestion.put(FIRESTORE_ANSWER2, "je klesající s rostoucí cenovou hladinou a je konstantní s rostoucí nominální mzdou\n");
-        newQuestion.put(FIRESTORE_ANSWER3, "není ovlivněna nominální mzdou\n");
-        newQuestion.put(FIRESTORE_ANSWER4, "její meziroční změna se nikdy nemůže rovnat meziroční změně nominální mzdy\n");
-        newQuestion.put(FIRESTORE_CATEGORY, "Nabídka VF a trh VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "11");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Reálná mzda\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "díky růstu cen obvykle roste rychleji než nominální mzda\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je klesající s rostoucí cenovou hladinou a je konstantní s rostoucí nominální mzdou\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "není ovlivněna nominální mzdou\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "její meziroční změna se nikdy nemůže rovnat meziroční změně nominální mzdy\n");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Nabídka VF a trh VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "11");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Individuální nabídka práce\n");
-        newQuestion.put(FIRESTORE_ANSWER1, "je nabídkou práce jedné firmy\n");
-        newQuestion.put(FIRESTORE_ANSWER2, "nejprve klesá a poté roste v důsledku převažujícího důchodového efektu\n");
-        newQuestion.put(FIRESTORE_ANSWER3, "má stejný tvar než tržní nabídka práce\n");
-        newQuestion.put(FIRESTORE_ANSWER4, "zobrazuje rozhodování nabízejícího o rozdělení času mezi práci a volný čas\n");
-        newQuestion.put(FIRESTORE_CATEGORY, "Nabídka VF a trh VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "11");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 4);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Individuální nabídka práce\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je nabídkou práce jedné firmy\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "nejprve klesá a poté roste v důsledku převažujícího důchodového efektu\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "má stejný tvar než tržní nabídka práce\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "zobrazuje rozhodování nabízejícího o rozdělení času mezi práci a volný čas\n");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Nabídka VF a trh VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "11");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 4);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Kompenzující mzdové rozdíly\n");
-        newQuestion.put(FIRESTORE_ANSWER1, "kompenzují ekonomické i neekonomické rozdíly v charakteru práce\n");
-        newQuestion.put(FIRESTORE_ANSWER2, "mají pouze krátkodobý charakter \n");
-        newQuestion.put(FIRESTORE_ANSWER3, "nejsou způsobeny změnou nabídky\n");
-        newQuestion.put(FIRESTORE_ANSWER4, "nemohou mít dlouhodobý charakter\n");
-        newQuestion.put(FIRESTORE_CATEGORY, "Nabídka VF a trh VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "11");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 3);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Kompenzující mzdové rozdíly\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "kompenzují ekonomické i neekonomické rozdíly v charakteru práce\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "mají pouze krátkodobý charakter \n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "nejsou způsobeny změnou nabídky\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "nemohou mít dlouhodobý charakter\n");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Nabídka VF a trh VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "11");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 3);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Produktivita práce\n");
-        newQuestion.put(FIRESTORE_ANSWER1, "je ovlivněna kapitálovou vybaveností práce\n");
-        newQuestion.put(FIRESTORE_ANSWER2, "je dána součtem všech funkcí mezní produktivity práce\n");
-        newQuestion.put(FIRESTORE_ANSWER3, "lze ji zvýšit jen krátkodobě\n");
-        newQuestion.put(FIRESTORE_ANSWER4, "nelze ji zvýšit investicemi do lidského kapitálu\n");
-        newQuestion.put(FIRESTORE_CATEGORY, "Nabídka VF a trh VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "11");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 1);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Produktivita práce\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "je ovlivněna kapitálovou vybaveností práce\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "je dána součtem všech funkcí mezní produktivity práce\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "lze ji zvýšit jen krátkodobě\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "nelze ji zvýšit investicemi do lidského kapitálu\n");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Nabídka VF a trh VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "11");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 1);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
         question++;
         Log.d(TAG, "generateQustions: " + question);
 
-        newQuestion.put(FIRESTORE_QUESTION, "Pokud dochází k migraci pracovníků z tuzemska do zahraničí\n");
-        newQuestion.put(FIRESTORE_ANSWER1, "udeme v zahraničí moci nejprve pozorovat růst poptávky po práci");
-        newQuestion.put(FIRESTORE_ANSWER2, "dojde v tuzemsku ke snížení tržní nabídky práce\n");
-        newQuestion.put(FIRESTORE_ANSWER3, "je pravděpodobné, že je v tuzemsku relativně vyšší produktivita práce\n");
-        newQuestion.put(FIRESTORE_ANSWER4, "pravděpodobně jsou tuzemské mzdy vyšší než zahraniční\n");
-        newQuestion.put(FIRESTORE_CATEGORY, "Nabídka VF a trh VF");
-        newQuestion.put(FIRESTORE_CATEGORY_ID, "11");
-        newQuestion.put(FIRESTORE_SUBJECT, "MI1");
-        newQuestion.put(FIRESTORE_CORRECT_ANSWER, 2);
+        newQuestion.put(FIRESTORE_QUESTION_TEXT, "Pokud dochází k migraci pracovníků z tuzemska do zahraničí\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER1, "udeme v zahraničí moci nejprve pozorovat růst poptávky po práci");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER2, "dojde v tuzemsku ke snížení tržní nabídky práce\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER3, "je pravděpodobné, že je v tuzemsku relativně vyšší produktivita práce\n");
+        newQuestion.put(FIRESTORE_QUESTION_ANSWER4, "pravděpodobně jsou tuzemské mzdy vyšší než zahraniční\n");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY, "Nabídka VF a trh VF");
+        newQuestion.put(FIRESTORE_QUESTION_CATEGORY_ID, "11");
+        newQuestion.put(FIRESTORE_QUESTION_SUBJECT, "MI1");
+        newQuestion.put(FIRESTORE_QUESTION_CORRECT_ANSWER, 2);
 
         addQuestionToFirestore(newQuestion);
         newQuestion.clear();
