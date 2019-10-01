@@ -54,7 +54,7 @@ public class InfoListAdapter extends RecyclerView.Adapter<InfoListAdapter.MyView
         if (Build.VERSION.SDK_INT >= 26){
             // supported from API 26  - otherwise crash
             holder.infoText.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
-        }else{
+        } else if (Build.VERSION.SDK_INT >= 23) {
             holder.infoText.setBreakStrategy(Layout.BREAK_STRATEGY_HIGH_QUALITY);
         }
         holder.infoText.setText(item.get(2));

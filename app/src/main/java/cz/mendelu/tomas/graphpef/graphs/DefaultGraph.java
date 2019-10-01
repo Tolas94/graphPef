@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
 import cz.mendelu.tomas.graphpef.MainAppClass;
 import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
@@ -32,6 +33,7 @@ import static java.lang.Math.abs;
 
 public abstract class DefaultGraph implements GraphIfc,Serializable{
     private static final String TAG = "DeafultGraph";
+
     private ArrayList<String> graphTexts;
     private ArrayList<MainScreenControllerActivity.LineEnum> movableObjects;
     private MainScreenControllerActivity.LineEnum movableEnum;
@@ -468,11 +470,11 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     @Override
     public int getColorOf(MainScreenControllerActivity.LineEnum lineEnum) {
         if (lineEnum == MainScreenControllerActivity.LineEnum.Equilibrium){
-            return MainAppClass.getContext().getColor(R.color.colorPrimary);
+            return ContextCompat.getColor(MainAppClass.getContext(), R.color.colorPrimary);
         } else if ( lineEnum == getMovableEnum() ){
-            return MainAppClass.getContext().getColor(R.color.colorPrimary);
+            return ContextCompat.getColor(MainAppClass.getContext(), R.color.colorPrimary);
         }
-        return MainAppClass.getContext().getColor(R.color.black);
+        return ContextCompat.getColor(MainAppClass.getContext(), R.color.black);
     }
 
     public Boolean getLabelOnstartOfCurve() {

@@ -23,6 +23,7 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -302,54 +303,6 @@ public class GraphFragment extends Fragment  implements Serializable {
         // possible solution is to draw backgroung with color on curve and white on the lower one
             //will overdraw grid??
     }
-/*
-    private void updateMenuTitles() {
-        Log.d(TAG,"UpdateMenuTitles");
-        menu.clear();
-        for (final MainScreenControllerActivity.LineEnum line:graphIfc.getMovableObjects()) {
-            Log.d(TAG, "updateMenuTitles: " + line);
-            MenuItem menuItem = menu.add(getContext().getString(getResources().getIdentifier(line.toString(),"string",getContext().getPackageName())));
-            menuItem.setIcon(R.drawable.ic_multiline_chart_black_24dp);
-            menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    Log.d(TAG, "onMenuItemClick: " + line.toString());
-
-                    graph.removeSeries(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()));
-                    graph.removeSeries(labelSeries.get(graphIfc.getMovableEnum()));
-
-                    //nastav farbu starej movable na default
-                    if(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()) != null){
-                        graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
-                        graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()).setThickness(5);
-                        if (labelSeries.get(graphIfc.getMovableEnum()) != null){
-                            labelSeries.get(graphIfc.getMovableEnum()).setColor(graphIfc.getColorOf(line));
-                        }
-
-                        graph.addSeries(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()));
-                        if (labelSeries.get(graphIfc.getMovableEnum()) != null) {
-                            graph.addSeries(labelSeries.get(graphIfc.getMovableEnum()));
-                        }
-                    }
-
-                    graphIfc.setMovable(line);
-
-                    graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
-                    //vybratu krivku vyfarbi na modro
-                    graphIfc.getLineGraphSeries().get(line).setColor(getContext().getColor(R.color.colorPrimary));
-                    //vybratu krivku hrubo
-                    graphIfc.getLineGraphSeries().get(line).setThickness(10);
-                    LineGraphSeries lineGraphSeries = graphIfc.calculateData(line,getContext().getColor(R.color.colorPrimary));
-                    if(lineGraphSeries != null){
-                        graph.addSeries(lineGraphSeries);
-                    }
-
-                    graphIfc.refreshInfoTexts();
-                    return false;
-                }
-            });
-        }
-    }*/
 
     public void setChosenCurve(MainScreenControllerActivity.LineEnum line) {
         Log.d(TAG, "setChosenCurve: " + line.toString());
@@ -374,13 +327,14 @@ public class GraphFragment extends Fragment  implements Serializable {
 
         graphIfc.setMovable(line);
 
-        //remove new movable from graph to recreateit after
+        //remove new movable from graph to recreate it after
         graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
         //set chosen curve to blue color
-        graphIfc.getLineGraphSeries().get(line).setColor(getContext().getColor(R.color.colorPrimary));
+
+        graphIfc.getLineGraphSeries().get(line).setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         //chosen curve set to thickness 10
         graphIfc.getLineGraphSeries().get(line).setThickness(10);
-        LineGraphSeries lineGraphSeries = graphIfc.calculateData(line, getContext().getColor(R.color.colorPrimary));
+        LineGraphSeries lineGraphSeries = graphIfc.calculateData(line, ContextCompat.getColor(getContext(), R.color.colorPrimary));
         if (lineGraphSeries != null) {
             graph.addSeries(lineGraphSeries);
         }

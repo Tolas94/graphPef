@@ -20,6 +20,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

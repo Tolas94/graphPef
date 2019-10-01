@@ -9,8 +9,10 @@ import android.widget.ToggleButton;
 import java.io.Serializable;
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import cz.mendelu.tomas.graphpef.MainAppClass;
 import cz.mendelu.tomas.graphpef.R;
 import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
 import cz.mendelu.tomas.graphpef.fragments.GraphFragment;
@@ -37,11 +39,10 @@ public class GraphCurveChooseAdapter extends RecyclerView.Adapter<GraphCurveChoo
         Log.d(TAG, "onCreateViewHolder");
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.graph_curve_toggle_button, parent, false);
-        colorPrimary = itemView.getResources().getColor(R.color.colorPrimary, itemView.getContext().getTheme());
-        colorWhite = itemView.getResources().getColor(R.color.white, itemView.getContext().getTheme());
-        colorGrey = itemView.getResources().getColor(R.color.grey3, itemView.getContext().getTheme());
-        colorBlack = itemView.getResources().getColor(R.color.black, itemView.getContext().getTheme());
-
+        colorPrimary = ContextCompat.getColor(MainAppClass.getContext(), R.color.colorPrimary);
+        colorWhite = ContextCompat.getColor(MainAppClass.getContext(), R.color.white);
+        colorGrey = ContextCompat.getColor(MainAppClass.getContext(), R.color.grey3);
+        colorBlack = ContextCompat.getColor(MainAppClass.getContext(), R.color.black);
         return new MyViewHolder(itemView);
     }
 
