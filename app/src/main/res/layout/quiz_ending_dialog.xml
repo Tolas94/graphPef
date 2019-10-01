@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+
     <RelativeLayout
         android:id="@+id/quizEndindDialogScoreLayout"
         android:layout_width="match_parent"
@@ -27,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/quizEndindDialogScoreValueLogo"
-            android:gravity="right"></TextView>
+            android:gravity="right" />
 
         <TextView
             android:id="@+id/quizEndindDialogScoreTitle"
@@ -60,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/quizEndindDialogBonusValueLogo"
-            android:gravity="right"></TextView>
+            android:gravity="right" />
 
         <TextView
             android:id="@+id/quizEndindDialogBonusTitle"
@@ -70,6 +71,16 @@
             android:layout_centerVertical="true"
             android:text="@string/quizEndingBonus" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/quizEndindDialogTitle"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="12dp"
+        android:text="@string/quizEndingTitle"
+        android:textColor="@color/white" />
 
     <RelativeLayout
         android:id="@+id/quizEndindDialogScoreSumLayout"
@@ -106,17 +117,6 @@
             android:text="@string/quizEndingSum"
             android:textColor="@color/colorPrimary" />
     </RelativeLayout>
-
-
-    <TextView
-        android:id="@+id/quizEndindDialogTitle"
-        style="@style/TextAppearance.MaterialComponents.Headline5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:padding="12dp"
-        android:text="@string/quizEndingTitle"
-        android:textColor="@color/white" />
 
 
 </LinearLayout>

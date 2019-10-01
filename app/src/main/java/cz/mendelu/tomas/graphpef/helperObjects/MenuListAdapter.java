@@ -103,10 +103,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyView
                 v.getContext().startActivity(intent);
             }
         });
-
     }
-
-
 
     @Override
     public int getItemCount() {

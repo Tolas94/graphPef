@@ -189,11 +189,11 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
         Log.d(TAG, "finishQuiz");
         Integer bonus = 0;
 
-        if (score > dbHelper.getHighScore()) {
+        if (score > dbHelper.getHighPointsScore()) {
             // + 50 percent if score is highscore
             bonus += score / 2;
         }
-        if (questionCounter > dbHelper.getHighScoreStreak()) {
+        if (questionCounter > dbHelper.getHighAnswersScoreStreak()) {
             // + 50 percent if score is highScoreStreak
             bonus += score / 2;
         }
@@ -292,7 +292,7 @@ public class TestingControllerActivity extends AppCompatActivity  implements Ser
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (questionCounter != 0) {
-                            dbHelper.addQuizAnsered(score + bonus, questionCounter);
+                            dbHelper.addQuizAnswered(score + bonus, questionCounter);
                         }
                         Intent results = new Intent();
                         results.putExtra(INTENT_EXTRA_SCORE, score);

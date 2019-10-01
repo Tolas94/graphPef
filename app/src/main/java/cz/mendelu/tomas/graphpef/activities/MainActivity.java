@@ -24,6 +24,7 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.LoginEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +35,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,7 +51,7 @@ import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 
-public class MainActivity extends AppCompatActivity implements Serializable {
+public class MainActivity extends AppCompatActivity implements Serializable, Observer {
 
     private static final String TAG = "MainActivity";
     private static final int QUIZ_REQUEST_CODE = 1;
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     private QuizDBHelper dbHelper;
 
     private TextView categoriesUnlockedValue, questionsAnsweredValue, questionsHighScoreStreakValue, questionsHighScoreValue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         });
 
         dbHelper = new QuizDBHelper(this);
+        dbHelper.addObserver(this);
 
         updateCategories();
     }
@@ -225,12 +230,23 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     }
 
     private void logUser() {
+        Log.d(TAG, "logUser");
         if (mAuth != null) {
             FirebaseUser user = mAuth.getCurrentUser();
             if (user != null) {
                 Crashlytics.setUserIdentifier(user.getUid());
                 Crashlytics.setUserEmail(user.getEmail());
+                if (dbHelper == null) {
+                    Log.e(TAG, "dbHelper == null");
+                    dbHelper = new QuizDBHelper(this);
+                    dbHelper.addObserver(this);
+                }
+                dbHelper.createUserRef(user.getUid(), user.getEmail());
+            } else {
+                Log.d(TAG, "user == null");
             }
+        } else {
+            Log.d(TAG, "mAuth == null");
         }
     }
 
@@ -258,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == QUIZ_REQUEST_CODE) {
-            //TODO
+            dbHelper.updateUserStats();
         }
     }
 
@@ -286,7 +302,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             updateScore();
             updateCategories();
 
-            //cahnge position of startAppLayout to be directly under score
+            //change position of startAppLayout to be directly under score
             RelativeLayout startAppLayout = findViewById(R.id.startAppLayout);
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) startAppLayout.getLayoutParams();
             params.addRule(RelativeLayout.BELOW, R.id.mainScreenScore);
@@ -352,7 +368,6 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     }
 
     private void updateScore() {
-
         TextView scoreTextView = findViewById(R.id.mainScreenScoreText);
         TextView emailTextView = findViewById(R.id.mainScreenScoreEmail);
         String email = mAuth.getCurrentUser().getEmail();
@@ -405,17 +420,17 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         recyclerView.setAdapter(progressBarListAdapter);
         recyclerView.setNestedScrollingEnabled(false);
 
-        String questionsAnswered = dbHelper.getNumCorrectlyAnsweredQuestion() + "/" + dbHelper.getNumAllQuestions();
+        String questionsAnswered = dbHelper.getNumCorrectlyAnsweredQuestion() + "/" + dbHelper.getNumUnlockedQuestions();
         Log.d(TAG, "questionsAnswered [" + questionsAnswered + "]");
         questionsAnsweredValue.setText(questionsAnswered);
         String categoriesUnlocked = dbHelper.getNumUnlockedCategories() + "/" + dbHelper.getNumAllCategories();
         Log.d(TAG, "categoriesUnlocked [" + categoriesUnlocked + "]");
         categoriesUnlockedValue.setText(categoriesUnlocked);
 
-        String questionsHighScoreStreakValueString = dbHelper.getHighScoreStreak().toString();
+        String questionsHighScoreStreakValueString = dbHelper.getHighAnswersScoreStreak().toString();
         questionsHighScoreStreakValue.setText(questionsHighScoreStreakValueString);
         Log.d(TAG, "questionsHighScoreStreakValue [" + questionsHighScoreStreakValueString + "]");
-        String questionsHighScoreValueString = dbHelper.getHighScore().toString();
+        String questionsHighScoreValueString = dbHelper.getHighPointsScore().toString();
         questionsHighScoreValue.setText(questionsHighScoreValueString);
         Log.d(TAG, "questionsHighScoreValue [" + questionsHighScoreValueString + "]");
     }
@@ -504,7 +519,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         signInButoon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Log.d(TAG,"onClick: Clicked button mainScreen");
+                Log.d(TAG, "onClick: Clicked SignIn mainScreen");
                 if (validateXname()) {
                     if (MainActivity.this.getPassword() != null && !MainActivity.this.getPassword().isEmpty()) {
                         SimpleDateFormat s = new SimpleDateFormat("dd.MM.yyyy//hh:mm:ss");
@@ -519,6 +534,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                                             // Sign in success, update UI with the signed-in user's information
                                             Log.d(TAG, "signInWithEmail:success");
                                             FirebaseUser user = mAuth.getCurrentUser();
+                                            logUser();
                                             updateUI(user, registationSequenceStarted);
                                         } else {
                                             // If sign in fails, display a message to the user.
@@ -528,7 +544,12 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                                             updateUI(null, registationSequenceStarted);
                                         }
                                     }
-                                });
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e(TAG, "login faile with:" + e);
+                            }
+                        });
                     } else {
                         Toast.makeText(MainActivity.this, "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
@@ -544,6 +565,7 @@ public class MainActivity extends AppCompatActivity implements Serializable {
             public void onClick(View view) {
                 //Log.d(TAG,"onClick: Clicked button mainScreen");
                 mAuth.signOut();
+                dbHelper.onLogout();
                 updateUI(null, registationSequenceStarted);
             }
         });
@@ -644,17 +666,22 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         intent.setType("plain/text");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"tolas94@gmail.com"});
         String textOfMail = ((EditText) findViewById(R.id.contactAuthorInput)).getText().toString();
-        if (textOfMail.isEmpty()) {
-            textOfMail = mAuth.getCurrentUser().getEmail() + " - Mám problém se ";
-        } else {
-            textOfMail = mAuth.getCurrentUser().getEmail() + " - " + textOfMail;
-        }
+
         if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().getEmail() != null) {
             intent.putExtra(Intent.EXTRA_SUBJECT, "graphPef problem [" + mAuth.getUid() + "]");
+            if (textOfMail.isEmpty()) {
+                textOfMail = mAuth.getCurrentUser().getEmail() + " - Mám problém se ";
+            } else {
+                textOfMail = mAuth.getCurrentUser().getEmail() + " - " + textOfMail;
+            }
             intent.putExtra(Intent.EXTRA_TEXT, textOfMail);
         } else {
             intent.putExtra(Intent.EXTRA_SUBJECT, "graphPef problem - not logged in");
-            intent.putExtra(Intent.EXTRA_TEXT, "Mám problém se ");
+            if (textOfMail.isEmpty()) {
+                intent.putExtra(Intent.EXTRA_TEXT, "Mám problém se ");
+            } else {
+                intent.putExtra(Intent.EXTRA_TEXT, textOfMail);
+            }
         }
         startActivity(Intent.createChooser(intent, ""));
     }
@@ -683,6 +710,17 @@ public class MainActivity extends AppCompatActivity implements Serializable {
                 });
 
         builderSingle.show();
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        Log.d(TAG, "Observer update called");
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            updateUI(user, registationSequenceStarted);
+        } else {
+            Log.e(TAG, "update - user == null");
+        }
     }
 }
 

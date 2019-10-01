@@ -11,31 +11,40 @@ public class QuizQuestion {
     private int correctAnswerId;
     private String questionID;
     private boolean answered;
+    private String subject;
+    private String categoryId;
 
     public QuizQuestion() {
     }
 
-    public QuizQuestion(String question, String option1, String option2, String option3, String option4, String category, int correctAnswerId) {
+    public QuizQuestion(String question, String firestoreID, String option1, String option2, String option3, String option4, String category, int correctAnswerId, String subject, String categoryId) {
         this.question = question;
+        this.firestoreID = firestoreID;
         this.option1 = option1;
         this.option2 = option2;
         this.option3 = option3;
         this.option4 = option4;
         this.category = category;
         this.correctAnswerId = correctAnswerId;
+        this.subject = subject;
+        this.categoryId = categoryId;
         answered = false;
     }
 
-    public QuizQuestion(String question, String option1, String option2, String option3, String option4, String category, int correctAnswerId, String firestoreID) {
-        this.question = question;
-        this.option1 = option1;
-        this.option2 = option2;
-        this.option3 = option3;
-        this.option4 = option4;
-        this.category = category;
-        this.correctAnswerId = correctAnswerId;
-        answered = false;
-        this.firestoreID = firestoreID;
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public String getFirestoreID() {
@@ -108,13 +117,6 @@ public class QuizQuestion {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    private int getAnsweredBoolean() {
-        if (answered) {
-            return 1;
-        }
-        return 0;
     }
 
     public boolean isAnswered() {
