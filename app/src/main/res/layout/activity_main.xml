@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context="cz.mendelu.tomas.graphpef.activities.MainActivity">
+    tools:context="cz.mendelu.tomas.graphpef.activities.SplashScreenActivity">
     <!-- Top bar -->
     <RelativeLayout
         android:id="@+id/MainScreenTopBar"
@@ -81,7 +81,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentTop="true"
-                        app:srcCompat="@drawable/mendelu_pef_logo_rgb" />
+                        app:srcCompat="@drawable/mendelu_pef_logo_rgb_png" />
                 </androidx.cardview.widget.CardView>
 
             </RelativeLayout>

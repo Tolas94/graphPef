@@ -12,12 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import cz.mendelu.tomas.graphpef.R;
-import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.activities.GraphControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
 import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
 
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.BudgetLine;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.IndifferentCurve;
+import static cz.mendelu.tomas.graphpef.activities.GraphControllerActivity.LineEnum.BudgetLine;
 
 /**
  * Created by tomas on 12.09.2018.
@@ -26,28 +25,29 @@ import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.
 public class IndifferentAnalysis extends DefaultGraph  implements Serializable {
     private static final String TAG = "IndifferentAnalysis";
     private int numOfEqPoints;
-    public IndifferentAnalysis(ArrayList<String> graphTexts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
+
+    public IndifferentAnalysis(ArrayList<String> graphTexts, ArrayList<GraphControllerActivity.LineEnum> movableObjects, GraphControllerActivity.LineEnum movableEnum, HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         super(graphTexts, movableObjects, movableEnum, series, optionsLabels, graphHelperObject);
         setMovableDirections(new ArrayList<>(Arrays.asList(
-                MainScreenControllerActivity.Direction.up,
-                MainScreenControllerActivity.Direction.down,
-                MainScreenControllerActivity.Direction.left,
-                MainScreenControllerActivity.Direction.right)));
+                GraphControllerActivity.Direction.up,
+                GraphControllerActivity.Direction.down,
+                GraphControllerActivity.Direction.left,
+                GraphControllerActivity.Direction.right)));
         numOfEqPoints = 0;
     }
 
 
     @Override
-    public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color) {
+    public LineGraphSeries<DataPoint> calculateData(GraphControllerActivity.LineEnum line, int color) {
         if (getLineGraphSeries().get(line) == null) {
-            double precision = MainScreenControllerActivity.getPrecision();
-            int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints();
+            double precision = GraphControllerActivity.getPrecision();
+            int maxDataPoints = GraphControllerActivity.getMaxDataPoints();
             Double x,y;
             x = 0.0;
             y = 0.0;
             int arg0,arg1, counter;
             counter = 0;
-            HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
+            HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
 
 
             arg0 = seriesSource.get(line).get(0);
@@ -55,7 +55,7 @@ public class IndifferentAnalysis extends DefaultGraph  implements Serializable {
 
             LineGraphSeriesSerialisable seriesLocal = new LineGraphSeriesSerialisable();
 
-            if (line == MainScreenControllerActivity.LineEnum.IndifferentCurve) {
+            if (line == GraphControllerActivity.LineEnum.IndifferentCurve) {
                 precision = precision/50;
                 maxDataPoints = maxDataPoints*50;
                 for (int i = 0; i < maxDataPoints; i++) {
@@ -72,7 +72,7 @@ public class IndifferentAnalysis extends DefaultGraph  implements Serializable {
                     }
                 }
                 Log.d(TAG,"calculateData: IndifferentCurve points - " + counter);
-            } else if (line == MainScreenControllerActivity.LineEnum.BudgetLine) {
+            } else if (line == GraphControllerActivity.LineEnum.BudgetLine) {
 
                 //http://www.coolmath.com/algebra/08-lines/12-finding-equation-two-points-01
                 float m = ( - arg0 )/arg1;
@@ -98,39 +98,39 @@ public class IndifferentAnalysis extends DefaultGraph  implements Serializable {
     }
 
     @Override
-    public void moveObject(MainScreenControllerActivity.Direction dir) {
+    public void moveObject(GraphControllerActivity.Direction dir) {
 
-        if (getMovableEnum() == MainScreenControllerActivity.LineEnum.IndifferentCurve){
-            if (dir == MainScreenControllerActivity.Direction.up
-                || dir == MainScreenControllerActivity.Direction.right){
-                super.moveObject(MainScreenControllerActivity.Direction.up,getMovableEnum(),100);
-                super.moveObject(MainScreenControllerActivity.Direction.right,getMovableEnum(),100);
-            }else if (dir == MainScreenControllerActivity.Direction.down
-                || dir == MainScreenControllerActivity.Direction.left){
-                super.moveObject(MainScreenControllerActivity.Direction.down,getMovableEnum(),100);
-                super.moveObject(MainScreenControllerActivity.Direction.left,getMovableEnum(),100);
+        if (getMovableEnum() == GraphControllerActivity.LineEnum.IndifferentCurve) {
+            if (dir == GraphControllerActivity.Direction.up
+                    || dir == GraphControllerActivity.Direction.right) {
+                super.moveObject(GraphControllerActivity.Direction.up, getMovableEnum(), 100);
+                super.moveObject(GraphControllerActivity.Direction.right, getMovableEnum(), 100);
+            } else if (dir == GraphControllerActivity.Direction.down
+                    || dir == GraphControllerActivity.Direction.left) {
+                super.moveObject(GraphControllerActivity.Direction.down, getMovableEnum(), 100);
+                super.moveObject(GraphControllerActivity.Direction.left, getMovableEnum(), 100);
             }
-        }else if (getMovableEnum() == MainScreenControllerActivity.LineEnum.BudgetLine) {
+        } else if (getMovableEnum() == GraphControllerActivity.LineEnum.BudgetLine) {
             LineGraphSeriesSerialisable seriesLocal = new LineGraphSeriesSerialisable();
             ArrayList<Integer> identChanges = getGraphHelperObject().getLineChangeIdentificatorByLineEnum(getMovableEnum());
             float arg0 = getSeries().get(BudgetLine).get(0);
             float arg1 = getSeries().get(BudgetLine).get(1);
-            if (dir == MainScreenControllerActivity.Direction.up){
+            if (dir == GraphControllerActivity.Direction.up) {
                 identChanges.set(0,identChanges.get(0) + 1);
-            } else if (dir == MainScreenControllerActivity.Direction.down){
+            } else if (dir == GraphControllerActivity.Direction.down) {
                 identChanges.set(0,identChanges.get(0) - 1);
 
-            } else if (dir == MainScreenControllerActivity.Direction.left){
+            } else if (dir == GraphControllerActivity.Direction.left) {
                 identChanges.set(1,identChanges.get(1) - 1);
 
-            } else if (dir == MainScreenControllerActivity.Direction.right){
+            } else if (dir == GraphControllerActivity.Direction.right) {
                 identChanges.set(1,identChanges.get(1) + 1);
             }
             Log.d(TAG,"moveObject: arg0["+arg0+"] arg1[" + arg1 + "]");
             Log.d(TAG,"moveObject: ident0["+identChanges.get(0)+"] ident1[" + identChanges.get(1) + "]");
 
-            double precision = MainScreenControllerActivity.getPrecision() /100;
-            int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints()*100;
+            double precision = GraphControllerActivity.getPrecision() / 100;
+            int maxDataPoints = GraphControllerActivity.getMaxDataPoints() * 100;
             float m = ( -(float)identChanges.get(0) - arg0 )/(arg1 + (float)identChanges.get(1));
             double x = 0, y;
             Log.d(TAG,"moveObject: m =" + m);
@@ -165,7 +165,7 @@ public class IndifferentAnalysis extends DefaultGraph  implements Serializable {
         Log.d(TAG,"populateTexts");
         refreshInfoTexts();
         ArrayList texts = new ArrayList();
-        for(MainScreenControllerActivity.LineEnum line:getMovableObjects()){
+        for (GraphControllerActivity.LineEnum line : getMovableObjects()) {
             texts.add(getStringFromLineEnum(line) + " " + getResources().getString(R.string.changed_by) + " " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
             if (line == BudgetLine){
                 texts.add(getStringFromLineEnum(line) + " " + getResources().getString(R.string.changed_by) + " " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(1));

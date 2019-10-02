@@ -14,13 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import cz.mendelu.tomas.graphpef.R;
-import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.activities.GraphControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
 import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
-
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Demand;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Supply;
-import static java.lang.Math.abs;
 
 /**
  * Created by tomas on 25.08.2018.
@@ -29,22 +25,22 @@ import static java.lang.Math.abs;
 public class MarketDS extends DefaultGraph  implements Serializable {
     private static final String TAG = "MarketDS";
 
-    public MarketDS(ArrayList<String> texts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
+    public MarketDS(ArrayList<String> texts, ArrayList<GraphControllerActivity.LineEnum> movableObjects, GraphControllerActivity.LineEnum movableEnum, HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         super(texts, movableObjects, movableEnum, series, optionsLabels, graphHelperObject);
 
-        setMovableDirections(new ArrayList<>(Arrays.asList(MainScreenControllerActivity.Direction.up, MainScreenControllerActivity.Direction.down)));
+        setMovableDirections(new ArrayList<>(Arrays.asList(GraphControllerActivity.Direction.up, GraphControllerActivity.Direction.down)));
     }
 
     @Override
-        public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color) {
+    public LineGraphSeries<DataPoint> calculateData(GraphControllerActivity.LineEnum line, int color) {
         if (getLineGraphSeries().get(line) == null) {
-            double precision = MainScreenControllerActivity.getPrecision();
-            int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints();
+            double precision = GraphControllerActivity.getPrecision();
+            int maxDataPoints = GraphControllerActivity.getMaxDataPoints();
             double x,y;
             x = 1;
             y = 0;
             int x0,x1;
-            HashMap<MainScreenControllerActivity.LineEnum,ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
+            HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
 
             x0 = seriesSource.get(line).get(1);
             x1 = seriesSource.get(line).get(0);
@@ -60,7 +56,7 @@ public class MarketDS extends DefaultGraph  implements Serializable {
                 y = x1 * x + x0 + identChanges.get(0);
                 seriesLocal.appendData( new DataPoint(x,y), true, maxDataPoints );
             }
-            if (line == MainScreenControllerActivity.LineEnum.SupplyDefault || line == MainScreenControllerActivity.LineEnum.DemandDefault){
+            if (line == GraphControllerActivity.LineEnum.SupplyDefault || line == GraphControllerActivity.LineEnum.DemandDefault) {
                 Paint paint = new Paint();
                 paint.setStyle(Paint.Style.STROKE);
                 paint.setStrokeWidth(3);
@@ -103,7 +99,7 @@ public class MarketDS extends DefaultGraph  implements Serializable {
         }else{
             texts.add(getResources().getString(R.string.equilibrium_cannot));
         }
-        for(MainScreenControllerActivity.LineEnum line:getMovableObjects()){
+        for (GraphControllerActivity.LineEnum line : getMovableObjects()) {
             texts.add(getStringFromLineEnum(line) + " " + getResources().getString(R.string.changed_by) + " " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
         }
         setGraphTexts(texts);

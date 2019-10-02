@@ -15,8 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import cz.mendelu.tomas.graphpef.R;
+import cz.mendelu.tomas.graphpef.adapters.InfoListAdapter;
 import cz.mendelu.tomas.graphpef.graphs.DefaultGraph;
-import cz.mendelu.tomas.graphpef.helperObjects.InfoListAdapter;
 import cz.mendelu.tomas.graphpef.interfaces.GraphIfc;
 
 /**

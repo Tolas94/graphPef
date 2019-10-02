@@ -1,28 +1,26 @@
 package cz.mendelu.tomas.graphpef.helperObjects;
 
 
-import android.util.Pair;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.activities.GraphControllerActivity;
 
 /**
  * Created by tomas on 12.08.2018.
  */
 
 public class GraphHelperObject implements Serializable{
-    private MainScreenControllerActivity.GraphEnum graphEnum;
-    private HashMap<MainScreenControllerActivity.LineEnum,ArrayList<Integer>> series;
+    private GraphControllerActivity.GraphEnum graphEnum;
+    private HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> series;
     private String title, labelX, labelY;
     private Boolean calculateEqulibrium;
-    private ArrayList<MainScreenControllerActivity.LineEnum> equilibriumCurves;
-    private ArrayList<MainScreenControllerActivity.LineEnum> dependantCurveOnEquilibrium;
-    private HashMap<MainScreenControllerActivity.LineEnum, ArrayList<MainScreenControllerActivity.LineEnum>> dependantCurveOnCurve;
-    private HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> lineChangeIdentificator;
-    private HashMap<MainScreenControllerActivity.LineEnum, PositionPair> lineLabelPosition;
+    private ArrayList<GraphControllerActivity.LineEnum> equilibriumCurves;
+    private ArrayList<GraphControllerActivity.LineEnum> dependantCurveOnEquilibrium;
+    private HashMap<GraphControllerActivity.LineEnum, ArrayList<GraphControllerActivity.LineEnum>> dependantCurveOnCurve;
+    private HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> lineChangeIdentificator;
+    private HashMap<GraphControllerActivity.LineEnum, PositionPair> lineLabelPosition;
     private Boolean showEquilibrium = false;
 
 
@@ -37,27 +35,27 @@ public class GraphHelperObject implements Serializable{
         lineLabelPosition = new HashMap<>();
     }
 
-    public MainScreenControllerActivity.GraphEnum getGraphEnum() {
+    public GraphControllerActivity.GraphEnum getGraphEnum() {
         return graphEnum;
     }
 
-    public void setGraphEnum(MainScreenControllerActivity.GraphEnum graphEnum) {
+    public void setGraphEnum(GraphControllerActivity.GraphEnum graphEnum) {
         this.graphEnum = graphEnum;
     }
 
-    public ArrayList<Integer> getSeriesByLine(MainScreenControllerActivity.LineEnum line) {
+    public ArrayList<Integer> getSeriesByLine(GraphControllerActivity.LineEnum line) {
         return series.get(line);
     }
 
-    public HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> getSeries() {
+    public HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> getSeries() {
         return series;
     }
 
-    public void setSeries(HashMap<MainScreenControllerActivity.LineEnum,ArrayList<Integer>> series) {
+    public void setSeries(HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> series) {
         this.series = series;
     }
 
-    public void addToSeries(MainScreenControllerActivity.LineEnum lineEnum, ArrayList<Integer> array){
+    public void addToSeries(GraphControllerActivity.LineEnum lineEnum, ArrayList<Integer> array) {
         series.put(lineEnum,array);
     }
 
@@ -94,19 +92,19 @@ public class GraphHelperObject implements Serializable{
         showEquilibrium = calculateEqulibrium;
     }
 
-    public ArrayList<MainScreenControllerActivity.LineEnum> getEquilibriumCurves() {
+    public ArrayList<GraphControllerActivity.LineEnum> getEquilibriumCurves() {
         return equilibriumCurves;
     }
 
-    public void setEquilibriumCurves(ArrayList<MainScreenControllerActivity.LineEnum> equilibriumCurves) {
+    public void setEquilibriumCurves(ArrayList<GraphControllerActivity.LineEnum> equilibriumCurves) {
         this.equilibriumCurves = equilibriumCurves;
     }
 
-    public ArrayList<Integer> getLineChangeIdentificatorByLineEnum(MainScreenControllerActivity.LineEnum lineEnum) {
+    public ArrayList<Integer> getLineChangeIdentificatorByLineEnum(GraphControllerActivity.LineEnum lineEnum) {
         return lineChangeIdentificator.get(lineEnum);
     }
 
-    public void addLineChangeIdentificator(MainScreenControllerActivity.LineEnum lineEnum, ArrayList<Integer> identificators) {
+    public void addLineChangeIdentificator(GraphControllerActivity.LineEnum lineEnum, ArrayList<Integer> identificators) {
         lineChangeIdentificator.put(lineEnum,identificators);
     }
 
@@ -114,7 +112,7 @@ public class GraphHelperObject implements Serializable{
         lineChangeIdentificator.clear();
     }
 
-    public void changeLineChangeIdentificator(MainScreenControllerActivity.LineEnum lineEnum, ArrayList<Integer> identificators) {
+    public void changeLineChangeIdentificator(GraphControllerActivity.LineEnum lineEnum, ArrayList<Integer> identificators) {
         lineChangeIdentificator.get(lineEnum).clear();
         lineChangeIdentificator.put(lineEnum,identificators);
     }
@@ -123,35 +121,35 @@ public class GraphHelperObject implements Serializable{
         return lineChangeIdentificator.isEmpty();
     }
 
-    public ArrayList<MainScreenControllerActivity.LineEnum> getDependantCurveOnEquilibrium() {
+    public ArrayList<GraphControllerActivity.LineEnum> getDependantCurveOnEquilibrium() {
         return dependantCurveOnEquilibrium;
     }
 
-    public void setDependantCurveOnEquilibrium(ArrayList<MainScreenControllerActivity.LineEnum> dependantCurveOnequilibrium) {
+    public void setDependantCurveOnEquilibrium(ArrayList<GraphControllerActivity.LineEnum> dependantCurveOnequilibrium) {
         this.dependantCurveOnEquilibrium = dependantCurveOnequilibrium;
     }
 
-    public HashMap<MainScreenControllerActivity.LineEnum, ArrayList<MainScreenControllerActivity.LineEnum>> getDependantCurveOnCurve() {
+    public HashMap<GraphControllerActivity.LineEnum, ArrayList<GraphControllerActivity.LineEnum>> getDependantCurveOnCurve() {
         return dependantCurveOnCurve;
     }
 
-    public void setDependantCurveOnCurve(HashMap<MainScreenControllerActivity.LineEnum, ArrayList<MainScreenControllerActivity.LineEnum>> dependantCurveOnCurve) {
+    public void setDependantCurveOnCurve(HashMap<GraphControllerActivity.LineEnum, ArrayList<GraphControllerActivity.LineEnum>> dependantCurveOnCurve) {
         this.dependantCurveOnCurve = dependantCurveOnCurve;
     }
 
-    public HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> getLineChangeIdentificator() {
+    public HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> getLineChangeIdentificator() {
         return lineChangeIdentificator;
     }
 
-    public void setLineChangeIdentificator(HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> lineChangeIdentificator) {
+    public void setLineChangeIdentificator(HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> lineChangeIdentificator) {
         this.lineChangeIdentificator = lineChangeIdentificator;
     }
 
-    public PositionPair getLineLabelPosition(MainScreenControllerActivity.LineEnum line) {
+    public PositionPair getLineLabelPosition(GraphControllerActivity.LineEnum line) {
         return lineLabelPosition.get(line);
     }
 
-    public void setLineLabelPosition(MainScreenControllerActivity.LineEnum line, PositionPair position) {
+    public void setLineLabelPosition(GraphControllerActivity.LineEnum line, PositionPair position) {
         lineLabelPosition.remove(line);
         lineLabelPosition.put(line,position);
     }

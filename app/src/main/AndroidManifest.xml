@@ -8,7 +8,7 @@
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:logo="@drawable/mendelu_pef_logo_rgb"
+        android:logo="@drawable/mendelu_pef_logo_rgb_png"
         android:supportsRtl="true"
         android:appComponentFactory="androidx"
         android:theme="@style/AppTheme"
@@ -16,7 +16,7 @@
         tools:replace="android:appComponentFactory">
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
@@ -28,12 +28,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.MainScreenControllerActivity"
+            android:name=".activities.GraphControllerActivity"
             android:screenOrientation="portrait">
 
         </activity>
         <activity
-            android:name=".activities.TestingControllerActivity"
+            android:name=".activities.QuizControllerActivity"
             android:screenOrientation="portrait" />
 
         <activity

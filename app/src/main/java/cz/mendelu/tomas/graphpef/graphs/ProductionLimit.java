@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cz.mendelu.tomas.graphpef.R;
-import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.activities.GraphControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
 import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
 
@@ -22,18 +22,18 @@ import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
  */
 
 public class ProductionLimit extends DefaultGraph  implements Serializable {
-    public ProductionLimit(ArrayList<String> texts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject ) {
+    public ProductionLimit(ArrayList<String> texts, ArrayList<GraphControllerActivity.LineEnum> movableObjects, GraphControllerActivity.LineEnum movableEnum, HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         super(texts, movableObjects, movableEnum, series, optionsLabels, graphHelperObject);
 
         setMovableDirections(new ArrayList<>(Arrays.asList(
-                MainScreenControllerActivity.Direction.up,
-                MainScreenControllerActivity.Direction.down,
-                MainScreenControllerActivity.Direction.left,
-                MainScreenControllerActivity.Direction.right)));
+                GraphControllerActivity.Direction.up,
+                GraphControllerActivity.Direction.down,
+                GraphControllerActivity.Direction.left,
+                GraphControllerActivity.Direction.right)));
     }
 
     @Override
-    public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color) {
+    public LineGraphSeries<DataPoint> calculateData(GraphControllerActivity.LineEnum line, int color) {
         double precision = 0.1;
         int maxDataPoints = 500;
         double x = 1,y = 1;
@@ -41,7 +41,7 @@ public class ProductionLimit extends DefaultGraph  implements Serializable {
         int x0, y0;
         LineGraphSeriesSerialisable seriesLocal = new LineGraphSeriesSerialisable();
 
-        HashMap<MainScreenControllerActivity.LineEnum,ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
+        HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
 
         x0 = seriesSource.get(line).get(0);
         y0 = seriesSource.get(line).get(1);
@@ -56,7 +56,7 @@ public class ProductionLimit extends DefaultGraph  implements Serializable {
         }
         seriesLocal.setColor(color);
 
-        if (line == MainScreenControllerActivity.LineEnum.ProductionCapabilitiesDefault){
+        if (line == GraphControllerActivity.LineEnum.ProductionCapabilitiesDefault) {
             Paint paint = new Paint();
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(3);
@@ -74,7 +74,7 @@ public class ProductionLimit extends DefaultGraph  implements Serializable {
     }
 
     @Override
-    public void moveObject(MainScreenControllerActivity.Direction dir) {
+    public void moveObject(GraphControllerActivity.Direction dir) {
         //Log.d(TAG, "moveObject");
         ArrayList<Integer> identChanges = getGraphHelperObject().getLineChangeIdentificatorByLineEnum(getMovableEnum());
         switch(dir){
@@ -97,15 +97,15 @@ public class ProductionLimit extends DefaultGraph  implements Serializable {
     }
 
     private double getMaxX(){
-        if (getLineGraphSeries().get(MainScreenControllerActivity.LineEnum.ProductionCapabilities) != null)
-            return getLineGraphSeries().get(MainScreenControllerActivity.LineEnum.ProductionCapabilities).getHighestValueX();
+        if (getLineGraphSeries().get(GraphControllerActivity.LineEnum.ProductionCapabilities) != null)
+            return getLineGraphSeries().get(GraphControllerActivity.LineEnum.ProductionCapabilities).getHighestValueX();
         else
             return 0.0;
     }
 
     private double getMaxY(){
-        if (getLineGraphSeries().get(MainScreenControllerActivity.LineEnum.ProductionCapabilities) != null)
-            return getLineGraphSeries().get(MainScreenControllerActivity.LineEnum.ProductionCapabilities).getHighestValueY();
+        if (getLineGraphSeries().get(GraphControllerActivity.LineEnum.ProductionCapabilities) != null)
+            return getLineGraphSeries().get(GraphControllerActivity.LineEnum.ProductionCapabilities).getHighestValueY();
         else
             return 0.0;
     }

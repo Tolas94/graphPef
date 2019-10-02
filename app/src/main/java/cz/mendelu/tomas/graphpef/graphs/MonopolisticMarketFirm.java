@@ -9,21 +9,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
+import androidx.core.content.ContextCompat;
 import cz.mendelu.tomas.graphpef.MainAppClass;
 import cz.mendelu.tomas.graphpef.R;
-import cz.mendelu.tomas.graphpef.activities.MainActivity;
-import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.activities.GraphControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
 import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
 
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.AverageCost;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Equilibrium;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.IndividualDemand;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.MarginalCost;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.PriceLevel;
+import static cz.mendelu.tomas.graphpef.activities.GraphControllerActivity.LineEnum.AverageCost;
+import static cz.mendelu.tomas.graphpef.activities.GraphControllerActivity.LineEnum.Equilibrium;
+import static cz.mendelu.tomas.graphpef.activities.GraphControllerActivity.LineEnum.IndividualDemand;
+import static cz.mendelu.tomas.graphpef.activities.GraphControllerActivity.LineEnum.MarginalCost;
+import static cz.mendelu.tomas.graphpef.activities.GraphControllerActivity.LineEnum.PriceLevel;
 
 /**
  * Created by tomas on 02.09.2018.
@@ -32,18 +31,18 @@ import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.
 public class MonopolisticMarketFirm extends DefaultGraph  implements Serializable {
     private static final String TAG = "MonopolisticMarketFirm";
 
-    public MonopolisticMarketFirm(ArrayList<String> graphTexts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject ) {
+    public MonopolisticMarketFirm(ArrayList<String> graphTexts, ArrayList<GraphControllerActivity.LineEnum> movableObjects, GraphControllerActivity.LineEnum movableEnum, HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         super(graphTexts, movableObjects, movableEnum, series, optionsLabels, graphHelperObject);
 
         setLabelOnstartOfCurve(false);
-        setMovableDirections(new ArrayList<>(Arrays.asList(MainScreenControllerActivity.Direction.up, MainScreenControllerActivity.Direction.down)));
+        setMovableDirections(new ArrayList<>(Arrays.asList(GraphControllerActivity.Direction.up, GraphControllerActivity.Direction.down)));
     }
 
     @Override
-    public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color) {
+    public LineGraphSeries<DataPoint> calculateData(GraphControllerActivity.LineEnum line, int color) {
         if (getLineGraphSeries().get(line) == null) {
-            double precision = MainScreenControllerActivity.getPrecision();
-            int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints();
+            double precision = GraphControllerActivity.getPrecision();
+            int maxDataPoints = GraphControllerActivity.getMaxDataPoints();
             double x, y;
             x = 1;
             y = 0;
@@ -72,7 +71,7 @@ public class MonopolisticMarketFirm extends DefaultGraph  implements Serializabl
                     //Log.d(TAG, "IndividualDemand");
                     y = ( 0.06 ) * ((x-20)*(x-20))+2;
                     //Log.d(TAG, "[x,y] [" + x + ","  + y + "]" );
-                } else if (line == MainScreenControllerActivity.LineEnum.MarginalRevenue) {
+                } else if (line == GraphControllerActivity.LineEnum.MarginalRevenue) {
                     //Log.d(TAG, "MarginalRevenue");
                     y = (0.07) * ((x - 17) * (x - 20));
                     //Log.d(TAG, "[x,y] [" + x + ","  + y + "]" );
@@ -95,27 +94,27 @@ public class MonopolisticMarketFirm extends DefaultGraph  implements Serializabl
     }
 
     @Override
-    public void moveObject(MainScreenControllerActivity.Direction dir) {
+    public void moveObject(GraphControllerActivity.Direction dir) {
         super.moveObject(dir);
-        if (getMovableEnum() == MainScreenControllerActivity.LineEnum.AverageCost){
-            if (dir == MainScreenControllerActivity.Direction.up){
-                super.moveObject(MainScreenControllerActivity.Direction.right);
-                super.moveObject(MainScreenControllerActivity.Direction.up,MarginalCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.right,MarginalCost, 1);
-            }else if (dir == MainScreenControllerActivity.Direction.down){
-                super.moveObject(MainScreenControllerActivity.Direction.left);
-                super.moveObject(MainScreenControllerActivity.Direction.down,MarginalCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.left,MarginalCost, 1);
+        if (getMovableEnum() == GraphControllerActivity.LineEnum.AverageCost) {
+            if (dir == GraphControllerActivity.Direction.up) {
+                super.moveObject(GraphControllerActivity.Direction.right);
+                super.moveObject(GraphControllerActivity.Direction.up, MarginalCost, 1);
+                super.moveObject(GraphControllerActivity.Direction.right, MarginalCost, 1);
+            } else if (dir == GraphControllerActivity.Direction.down) {
+                super.moveObject(GraphControllerActivity.Direction.left);
+                super.moveObject(GraphControllerActivity.Direction.down, MarginalCost, 1);
+                super.moveObject(GraphControllerActivity.Direction.left, MarginalCost, 1);
             }
-        } else if (getMovableEnum() == MainScreenControllerActivity.LineEnum.MarginalRevenue){
-            if (dir == MainScreenControllerActivity.Direction.up){
-                super.moveObject(MainScreenControllerActivity.Direction.right);
-                super.moveObject(MainScreenControllerActivity.Direction.up,IndividualDemand, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.right,IndividualDemand, 1);
-            }else if (dir == MainScreenControllerActivity.Direction.down){
-                super.moveObject(MainScreenControllerActivity.Direction.left);
-                super.moveObject(MainScreenControllerActivity.Direction.down,IndividualDemand, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.left,IndividualDemand, 1);
+        } else if (getMovableEnum() == GraphControllerActivity.LineEnum.MarginalRevenue) {
+            if (dir == GraphControllerActivity.Direction.up) {
+                super.moveObject(GraphControllerActivity.Direction.right);
+                super.moveObject(GraphControllerActivity.Direction.up, IndividualDemand, 1);
+                super.moveObject(GraphControllerActivity.Direction.right, IndividualDemand, 1);
+            } else if (dir == GraphControllerActivity.Direction.down) {
+                super.moveObject(GraphControllerActivity.Direction.left);
+                super.moveObject(GraphControllerActivity.Direction.down, IndividualDemand, 1);
+                super.moveObject(GraphControllerActivity.Direction.left, IndividualDemand, 1);
             }
         }
     }
@@ -149,7 +148,7 @@ public class MonopolisticMarketFirm extends DefaultGraph  implements Serializabl
             texts.add(getResources().getString(R.string.equilibrium_cannot));
         }
 
-        for(MainScreenControllerActivity.LineEnum line:getMovableObjects()){
+        for (GraphControllerActivity.LineEnum line : getMovableObjects()) {
             texts.add(getStringFromLineEnum(line) + " " + getResources().getString(R.string.changed_by) + " " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
         }
         setGraphTexts(texts);
@@ -200,15 +199,16 @@ public class MonopolisticMarketFirm extends DefaultGraph  implements Serializabl
     }
 
     @Override
-    public int getColorOf(MainScreenControllerActivity.LineEnum lineEnum) {
+    public int getColorOf(GraphControllerActivity.LineEnum lineEnum) {
         if (lineEnum == Equilibrium){
             double profit = round(getProfit(),1);
             if (profit > 0){
-                return MainAppClass.getContext().getColor(R.color.colorGreenComplementary);
+                ContextCompat.getColor(MainAppClass.getContext(), R.color.colorGreenComplementary);
+                return ContextCompat.getColor(MainAppClass.getContext(), R.color.colorGreenComplementary);
             }else if (profit < 0){
-                return MainAppClass.getContext().getColor(R.color.red);
+                return ContextCompat.getColor(MainAppClass.getContext(), R.color.red);
             }else{
-                return MainAppClass.getContext().getColor(R.color.black);
+                return ContextCompat.getColor(MainAppClass.getContext(), R.color.black);
             }
         }
         return super.getColorOf(lineEnum);

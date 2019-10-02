@@ -1,6 +1,6 @@
 <resources>
     <!-- https://stackoverflow.com/questions/2397613/are-parameters-in-strings-xml-possible -->
-    <string name="app_name">Virtuálni průvodce ekonomií</string>
+    <string name="app_name">Virtuální průvodce ekonomií</string>
 
     <!-- Name of Graphs -->
     <string name="MarketDS">Trh</string>
@@ -35,11 +35,11 @@
     <string name="IndifferentCurve">Indiferenční křivka</string>
 
     //labels
-    <string name="DemandLabel">D`</string>
+    <string name="DemandLabel">D‘</string>
     <string name="DemandDefaultLabel">D</string>
     <string name="IndividualDemandLabel">d</string>
     <string name="SupplyDefaultLabel">S</string>
-    <string name="SupplyLabel">S`</string>
+    <string name="SupplyLabel">S‘</string>
 
 
     <string name="PriceLevelLabel">P</string>
@@ -52,7 +52,7 @@
     <string name="MarginalRevenueLabel">MR</string>
     <string name="AverageRevenueLabel">AR</string>
     <string name="QuantityLabel">Q</string>
-    <string name="ProductionCapabilitiesLabel">PPF`</string>
+    <string name="ProductionCapabilitiesLabel">PPF’</string>
     <string name="ProductionCapabilitiesDefaultLabel">PPF</string>
     <string name="TaxesLabel">Tx</string>
     <string name="EquilibriumLabel">E</string>
@@ -264,8 +264,8 @@
     <string name="disclaimer_main_page">Aplikace doposud nebyla vydaná v plné verzi. V případe nejasností kontaktujte autora aplikace.</string>
     <string name="start_app_showcase">start app</string>
     <string name="graph_list_showcase">Na téhle obrazovce si zvolíte graf o kterém se chcete dozvědět více</string>
-    <string name="down_button_showcase">Pomocí tohole tlačítka posunete vybranou křivku dolů / zmenšíte hodnoty</string>
-    <string name="up_button_showcase">Pomocí tohole tlačítka posunute vybranou křivku nahoru / zvětšíte hodnoty</string>
+    <string name="down_button_showcase">Pomocí tohohle tlačítka posunete vybranou křivku dolů / zmenšíte hodnoty</string>
+    <string name="up_button_showcase">Pomocí tohohle tlačítka posunete vybranou křivku nahoru / zvětšíte hodnoty</string>
     <string name="choose_curve_showcase">Pomocí spodního baru můžete vybrat křivku(nebo skupinu křivek), kterou budete ovládat a získáte k ní doplňující informace na obrazovce vpravo</string>
     <string name="graph_showcase">Graf zobrazuje křivky, které se posunují dle vaší chuti. Vpravo můžete vidět legendu. Pomoci barev je možné jednotlivé křivky rozeznat</string>
     <string name="graph_values_showcase">Zde můžete vidět dodatečné informace ku grafu. Zejména jde o rovnovážné body a jejich souřadnice a hodnoty o které byli křivky posunuté.</string>
@@ -284,7 +284,7 @@
     <string name="mi1">Mikroekonomie 1</string>
     <string name="lecture">Cvičení</string>
     <string name="password">Heslo (min. 6 znaků)</string>
-    <string name="passwordReset">Zapoměl jsem heslo</string>
+    <string name="passwordReset">Zapomněl jsem heslo</string>
     <string name="xname">xJméno</string>
     <string name="verificationEmail">Potvrzovací email poslán na </string>
     <string name="verificationEmailError">Potvrzovací email nebylo možné poslat.</string>
@@ -299,7 +299,7 @@
     <string name="passwordResetDialogNegativeAnswer">Ne, děkuji</string>
     <string name="passwordResetToastMessage">Email s instrukcemi odeslán</string>
 
-    <string name="signInHint">Pro plnou funkcionalitu se prosím přihlašte</string>
+    <string name="signInHint">Pro plnou funkcionalitu se prosím přihlaste</string>
 
     <string name="startAppTitleText">Interaktivní grafy</string>
 
@@ -307,12 +307,13 @@
     <string name="quizFinish">Ukončit</string>
     <string name="quizAnswered">Zodpovězených v sérii: </string>
     <string name="quizPoints">Získaných bodů: </string>
-    <string name="quizConfirmAnswer">Odpověďet</string>
+    <string name="quizConfirmAnswer">Odpovědět</string>
     <string name="quizAnswerTitle">Označte jednu správnou odpověď</string>
-    <string name="quizTwoBackpress">Pro vrácení se, potvrďte stlačením tlačidla zpet</string>
-    <string name="quizAnsweredAllQuestions">Úpešne jste zodpovědeli všechny odemčené otázky gratulujeme</string>
+    <string name="quizTwoBackpress">Pro vrácení se, potvrďte stlačením tlačítka zpět</string>
+    <string name="quizAnsweredAllQuestions">Úspěšné jste zodpověděli všechny odemčené otázky gratulujeme</string>
 
-    <string name="quizStartQuizButton">Spustit test</string>
+    <string name="quizStartQuizButton">Spustit test se všemi otázkami</string>
+    <string name="quizStartQuizButtonUnansweredQuestions">Spustit test s doposud správné nezodpovězenými otázkami</string>
     <string name="mainScreenPointsNeededToUnlock">zůstava</string>
 
     <string name="mainScreenQuestionAnswered">Zodpovězených otázek</string>
@@ -322,13 +323,19 @@
 
     <string name="quizEndingTitle">Výsledek testu</string>
     <string name="quizEndingScore">Získaných bodů:</string>
-    <string name="quizEndingBonus">Získan bonus:</string>
+    <string name="quizEndingBonus">Získán bonus:</string>
 
-    <string name="quizEndingSum">Bodů v soućtu</string>
+    <string name="quizEndingSum">Bodů v součtu</string>
 
     <string name="categoryUnlockTitle">Odemčení kategorie</string>
     <string name="categoryUnlockedPriceText">Cena:</string>
-    <string name="categoryUnlockTextStart">Gratulujeme odemkly ste kategorii</string>
+    <string name="categoryUnlockTextStart">Gratulujeme odemkly jste kategorii</string>
     <string name="categoryUnlockedAcknowledge">Rozumím</string>
 
+    <string name="firebaseUserOptInTitle">GDPR souhlas</string>
+    <string name="firebaseUserOptInText">V této aplikaci jsou anonymně shromažďována data o jejím používání. Tyto data slouží na další rozvoj aplikace. Bez těchto informací nebude možné ověřit vaše skóre.</string>
+    <string name="firebaseUserOptInAllow">Souhlasím</string>
+    <string name="firebaseUserOptInForbid">Nesouhlasím</string>
+
 </resources>
+

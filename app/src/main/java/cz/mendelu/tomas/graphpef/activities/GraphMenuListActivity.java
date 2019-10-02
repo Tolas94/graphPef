@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import cz.mendelu.tomas.graphpef.R;
-import cz.mendelu.tomas.graphpef.helperObjects.MenuListAdapter;
+import cz.mendelu.tomas.graphpef.adapters.MenuListAdapter;
 import cz.mendelu.tomas.graphpef.helperObjects.StringIntegerPair;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;

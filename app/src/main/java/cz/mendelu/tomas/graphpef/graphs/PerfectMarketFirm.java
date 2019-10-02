@@ -13,15 +13,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import cz.mendelu.tomas.graphpef.R;
-import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.activities.GraphControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
 import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
 
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.AverageCost;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.AverageVariableCost;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.Equilibrium;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.MarginalCost;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.PriceLevel;
+import static cz.mendelu.tomas.graphpef.activities.GraphControllerActivity.LineEnum.AverageCost;
+import static cz.mendelu.tomas.graphpef.activities.GraphControllerActivity.LineEnum.AverageVariableCost;
+import static cz.mendelu.tomas.graphpef.activities.GraphControllerActivity.LineEnum.Equilibrium;
+import static cz.mendelu.tomas.graphpef.activities.GraphControllerActivity.LineEnum.MarginalCost;
+import static cz.mendelu.tomas.graphpef.activities.GraphControllerActivity.LineEnum.PriceLevel;
 
 /**
  * Created by tomas on 02.09.2018.
@@ -30,18 +30,18 @@ import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.
 public class PerfectMarketFirm extends DefaultGraph  implements Serializable {
     private static final String TAG = "PerfectMarketFirm";
 
-    public PerfectMarketFirm(ArrayList<String> graphTexts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject ) {
+    public PerfectMarketFirm(ArrayList<String> graphTexts, ArrayList<GraphControllerActivity.LineEnum> movableObjects, GraphControllerActivity.LineEnum movableEnum, HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         super(graphTexts, movableObjects, movableEnum, series, optionsLabels, graphHelperObject);
 
         setLabelOnstartOfCurve(true);
-        setMovableDirections(new ArrayList<>(Arrays.asList(MainScreenControllerActivity.Direction.up, MainScreenControllerActivity.Direction.down)));
+        setMovableDirections(new ArrayList<>(Arrays.asList(GraphControllerActivity.Direction.up, GraphControllerActivity.Direction.down)));
     }
 
     @Override
-    public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color) {
+    public LineGraphSeries<DataPoint> calculateData(GraphControllerActivity.LineEnum line, int color) {
         if (getLineGraphSeries().get(line) == null) {
-            double precision = MainScreenControllerActivity.getPrecision();
-            int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints();
+            double precision = GraphControllerActivity.getPrecision();
+            int maxDataPoints = GraphControllerActivity.getMaxDataPoints();
             double x, y;
             x = 1;
             y = 0;
@@ -49,7 +49,7 @@ public class PerfectMarketFirm extends DefaultGraph  implements Serializable {
                 x = 0;
             }
             int x0, x1, x2, x3, x_1;
-            HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
+            HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> seriesSource = getGraphHelperObject().getSeries();
 
             x_1 = seriesSource.get(line).get(4);
             x0 = seriesSource.get(line).get(3);
@@ -96,21 +96,21 @@ public class PerfectMarketFirm extends DefaultGraph  implements Serializable {
     }
 
     @Override
-    public void moveObject(MainScreenControllerActivity.Direction dir) {
+    public void moveObject(GraphControllerActivity.Direction dir) {
         super.moveObject(dir);
-        if (getMovableEnum() == MainScreenControllerActivity.LineEnum.AverageCost){
-            if (dir == MainScreenControllerActivity.Direction.up){
-                super.moveObject(MainScreenControllerActivity.Direction.right);
-                super.moveObject(MainScreenControllerActivity.Direction.up,MarginalCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.right,MarginalCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.up,AverageVariableCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.right,AverageVariableCost, 1);
-            }else if (dir == MainScreenControllerActivity.Direction.down){
-                super.moveObject(MainScreenControllerActivity.Direction.left);
-                super.moveObject(MainScreenControllerActivity.Direction.down,MarginalCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.left,MarginalCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.down,AverageVariableCost, 1);
-                super.moveObject(MainScreenControllerActivity.Direction.left,AverageVariableCost, 1);
+        if (getMovableEnum() == GraphControllerActivity.LineEnum.AverageCost) {
+            if (dir == GraphControllerActivity.Direction.up) {
+                super.moveObject(GraphControllerActivity.Direction.right);
+                super.moveObject(GraphControllerActivity.Direction.up, MarginalCost, 1);
+                super.moveObject(GraphControllerActivity.Direction.right, MarginalCost, 1);
+                super.moveObject(GraphControllerActivity.Direction.up, AverageVariableCost, 1);
+                super.moveObject(GraphControllerActivity.Direction.right, AverageVariableCost, 1);
+            } else if (dir == GraphControllerActivity.Direction.down) {
+                super.moveObject(GraphControllerActivity.Direction.left);
+                super.moveObject(GraphControllerActivity.Direction.down, MarginalCost, 1);
+                super.moveObject(GraphControllerActivity.Direction.left, MarginalCost, 1);
+                super.moveObject(GraphControllerActivity.Direction.down, AverageVariableCost, 1);
+                super.moveObject(GraphControllerActivity.Direction.left, AverageVariableCost, 1);
             }
         }
     }
@@ -165,7 +165,7 @@ public class PerfectMarketFirm extends DefaultGraph  implements Serializable {
             texts.add(getResources().getString(R.string.equilibrium_cannot));
         }
 
-        for(MainScreenControllerActivity.LineEnum line:getMovableObjects()){
+        for (GraphControllerActivity.LineEnum line : getMovableObjects()) {
             texts.add(getStringFromLineEnum(line) + " " + getResources().getString(R.string.changed_by) + " " + getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line).get(0));
         }
         setGraphTexts(texts);
@@ -175,8 +175,8 @@ public class PerfectMarketFirm extends DefaultGraph  implements Serializable {
         ArrayList<Double> eqPoints = getEquiPoints();
         double cost, price, retVal = 0;
         if (!eqPoints.isEmpty()){
-            Iterator<DataPoint> itPrice = getLineGraphSeries().get(PriceLevel).getValues(eqPoints.get(0),eqPoints.get(0) + MainScreenControllerActivity.getPrecision());
-            Iterator<DataPoint> itCost = getLineGraphSeries().get(AverageCost).getValues(eqPoints.get(0),eqPoints.get(0) + MainScreenControllerActivity.getPrecision());
+            Iterator<DataPoint> itPrice = getLineGraphSeries().get(PriceLevel).getValues(eqPoints.get(0), eqPoints.get(0) + GraphControllerActivity.getPrecision());
+            Iterator<DataPoint> itCost = getLineGraphSeries().get(AverageCost).getValues(eqPoints.get(0), eqPoints.get(0) + GraphControllerActivity.getPrecision());
             if(itCost.hasNext() && itPrice.hasNext()) {
                 price = itPrice.next().getY();
                 cost = itCost.next().getY();
@@ -208,7 +208,7 @@ public class PerfectMarketFirm extends DefaultGraph  implements Serializable {
     }
 
     @Override
-    public int getColorOf(MainScreenControllerActivity.LineEnum lineEnum) {
+    public int getColorOf(GraphControllerActivity.LineEnum lineEnum) {
         if (lineEnum == Equilibrium){
             double profit = round(getProfit(),1);
                 if (profit > 0){

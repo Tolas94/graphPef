@@ -18,7 +18,7 @@ import java.util.List;
 import androidx.core.content.ContextCompat;
 import cz.mendelu.tomas.graphpef.MainAppClass;
 import cz.mendelu.tomas.graphpef.R;
-import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.activities.GraphControllerActivity;
 import cz.mendelu.tomas.graphpef.fragments.InfoFragment;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
 import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
@@ -35,18 +35,18 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     private static final String TAG = "DeafultGraph";
 
     private ArrayList<String> graphTexts;
-    private ArrayList<MainScreenControllerActivity.LineEnum> movableObjects;
-    private MainScreenControllerActivity.LineEnum movableEnum;
-    private HashMap<MainScreenControllerActivity.LineEnum,ArrayList<Integer> > series;
+    private ArrayList<GraphControllerActivity.LineEnum> movableObjects;
+    private GraphControllerActivity.LineEnum movableEnum;
+    private HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> series;
     private ArrayList<String> optionsLabels;
     private ArrayList<String> infoTexts;
     private GraphHelperObject graphHelperObject;
-    private HashMap<MainScreenControllerActivity.LineEnum,LineGraphSeriesSerialisable> lineGraphSeriesMap;
-    private ArrayList<MainScreenControllerActivity.Direction> movableDirections;
+    private HashMap<GraphControllerActivity.LineEnum, LineGraphSeriesSerialisable> lineGraphSeriesMap;
+    private ArrayList<GraphControllerActivity.Direction> movableDirections;
     private ArrayList<Double> equiPoints;
     private Boolean labelOnstartOfCurve;
 
-    public DefaultGraph(ArrayList<String> graphTexts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
+    public DefaultGraph(ArrayList<String> graphTexts, ArrayList<GraphControllerActivity.LineEnum> movableObjects, GraphControllerActivity.LineEnum movableEnum, HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         this.graphTexts = graphTexts;
         this.movableObjects = movableObjects;
         this.movableEnum = movableEnum;
@@ -55,7 +55,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
         this.graphHelperObject = graphHelperObject;
         this.lineGraphSeriesMap = new HashMap<>();
         labelOnstartOfCurve = false;
-        for (MainScreenControllerActivity.LineEnum line:graphHelperObject.getSeries().keySet()) {
+        for (GraphControllerActivity.LineEnum line : graphHelperObject.getSeries().keySet()) {
             graphHelperObject.addLineChangeIdentificator(line,new ArrayList<>(Arrays.asList(0,0)));
             if (graphHelperObject.getDependantCurveOnCurve() != null){
                 if (graphHelperObject.getDependantCurveOnCurve().get(line) != null) {
@@ -68,7 +68,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
             getGraphHelperObject().setLineLabelPosition(line,new PositionPair(0.0,0.0));
         }
         if (graphHelperObject.getDependantCurveOnEquilibrium() != null) {
-            for (MainScreenControllerActivity.LineEnum line: graphHelperObject.getDependantCurveOnEquilibrium()) {
+            for (GraphControllerActivity.LineEnum line : graphHelperObject.getDependantCurveOnEquilibrium()) {
                 graphHelperObject.addLineChangeIdentificator(line, new ArrayList<>(Arrays.asList(0, 0)));
             }
         }
@@ -81,7 +81,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     }
 
     @Override
-    public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color) {
+    public LineGraphSeries<DataPoint> calculateData(GraphControllerActivity.LineEnum line, int color) {
         return new LineGraphSeries<>();
     }
 
@@ -91,8 +91,8 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
         Log.d(TAG, "calculateEqulibrium:");
         ArrayList<Double> equiPoints = new ArrayList<>();
         if(graphHelperObject.getCalculateEqulibrium() ){
-            MainScreenControllerActivity.LineEnum curve1 = graphHelperObject.getEquilibriumCurves().get(0);
-            MainScreenControllerActivity.LineEnum curve2 = graphHelperObject.getEquilibriumCurves().get(1);
+            GraphControllerActivity.LineEnum curve1 = graphHelperObject.getEquilibriumCurves().get(0);
+            GraphControllerActivity.LineEnum curve2 = graphHelperObject.getEquilibriumCurves().get(1);
             Log.d(TAG, "calculateEqulibrium: curve 1 [" + curve1 + "] curve2{" + curve2 + "]");
             LineGraphSeries<DataPoint> data1 = getLineGraphSeries().get(curve1);
             LineGraphSeries<DataPoint> data2 = getLineGraphSeries().get(curve2);
@@ -100,7 +100,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
                data2 != null){
                 Log.d(TAG, "calculateEqulibrium: data not null");
 
-                double precision = MainScreenControllerActivity.getPrecision() ;
+                double precision = GraphControllerActivity.getPrecision();
                 double pointX, pointY, diff, diff2, pointX2, pointY2;
                 Log.d(TAG, "calculateEqulibrium: " + data1.getHighestValueX()
                         + " " + data1.getLowestValueX()
@@ -225,35 +225,35 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     }
 
     @Override
-    public ArrayList<MainScreenControllerActivity.LineEnum> getMovableObjects() {
+    public ArrayList<GraphControllerActivity.LineEnum> getMovableObjects() {
         return movableObjects;
     }
 
     @Override
-    public void moveObject(MainScreenControllerActivity.Direction dir) {
+    public void moveObject(GraphControllerActivity.Direction dir) {
         moveObject(dir,movableEnum, 1);
     }
 
     @Override
-    public void moveObject(MainScreenControllerActivity.Direction dir, MainScreenControllerActivity.LineEnum line, int precisionModificator) {
+    public void moveObject(GraphControllerActivity.Direction dir, GraphControllerActivity.LineEnum line, int precisionModificator) {
         Log.d(TAG,"line " + line.toString() + " dir " + dir.toString());
         int changeX = 0;
         int changeY = 0;
-        int maxDataPoints = MainScreenControllerActivity.getMaxDataPoints() * precisionModificator;
+        int maxDataPoints = GraphControllerActivity.getMaxDataPoints() * precisionModificator;
         double originX = 0;
         double originY = 0;
         ArrayList<Integer> identChanges = getGraphHelperObject().getLineChangeIdentificatorByLineEnum(line);
 
-        if(dir == MainScreenControllerActivity.Direction.up){
+        if (dir == GraphControllerActivity.Direction.up) {
             changeY++;
             identChanges.set(0,identChanges.get(0) + 1);
-        }else if(dir == MainScreenControllerActivity.Direction.down){
+        } else if (dir == GraphControllerActivity.Direction.down) {
             changeY--;
             identChanges.set(0,identChanges.get(0) - 1);
-        }else if (dir == MainScreenControllerActivity.Direction.left){
+        } else if (dir == GraphControllerActivity.Direction.left) {
             changeX--;
             identChanges.set(0,identChanges.get(0) - 1);
-        }else if (dir == MainScreenControllerActivity.Direction.right){
+        } else if (dir == GraphControllerActivity.Direction.right) {
             changeX++;
             identChanges.set(0,identChanges.get(0) + 1);
         }
@@ -282,12 +282,12 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     }
 
     @Override
-    public HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer> > getSeries() {
+    public HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> getSeries() {
         return series;
     }
 
     @Override
-    public HashMap<MainScreenControllerActivity.LineEnum, LineGraphSeriesSerialisable> getLineGraphSeries(){
+    public HashMap<GraphControllerActivity.LineEnum, LineGraphSeriesSerialisable> getLineGraphSeries() {
         return lineGraphSeriesMap;
     }
     @Override
@@ -301,7 +301,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     }
 
     @Override
-    public void setMovable(MainScreenControllerActivity.LineEnum movableEnum) {
+    public void setMovable(GraphControllerActivity.LineEnum movableEnum) {
         this.movableEnum = movableEnum;
     }
 
@@ -338,21 +338,21 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
         this.graphHelperObject = graphHelperObject;
     }
 
-    public void setLineGraphSeriesMap(HashMap<MainScreenControllerActivity.LineEnum, LineGraphSeriesSerialisable> lineGraphSeriesMap) {
+    public void setLineGraphSeriesMap(HashMap<GraphControllerActivity.LineEnum, LineGraphSeriesSerialisable> lineGraphSeriesMap) {
         this.lineGraphSeriesMap = lineGraphSeriesMap;
     }
 
     @Override
-    public MainScreenControllerActivity.LineEnum getMovableEnum() {
+    public GraphControllerActivity.LineEnum getMovableEnum() {
         return movableEnum;
     }
 
     @Override
-    public ArrayList<MainScreenControllerActivity.Direction> getMovableDirections() {
+    public ArrayList<GraphControllerActivity.Direction> getMovableDirections() {
         return movableDirections;
     }
 
-    void setMovableDirections(ArrayList<MainScreenControllerActivity.Direction> movableDir){
+    void setMovableDirections(ArrayList<GraphControllerActivity.Direction> movableDir) {
         movableDirections = movableDir;
     }
 
@@ -365,7 +365,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     }
 
     @Override
-    public ArrayList<MainScreenControllerActivity.LineEnum> getEqDependantCurves() {
+    public ArrayList<GraphControllerActivity.LineEnum> getEqDependantCurves() {
         if (graphHelperObject.getCalculateEqulibrium())
             return graphHelperObject.getDependantCurveOnEquilibrium();
         else
@@ -383,7 +383,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     }
 
     @Override
-    public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color, Double limit, boolean vertical, ArrayList<Double> equilibrium) {
+    public LineGraphSeries<DataPoint> calculateData(GraphControllerActivity.LineEnum line, int color, Double limit, boolean vertical, ArrayList<Double> equilibrium) {
 
         LineGraphSeriesSerialisable seriesLocal = new LineGraphSeriesSerialisable();
         Log.d(TAG,"calculateData eq line[" + line.toString() + "] limit [" + limit + "]");
@@ -409,7 +409,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     }
 
     @Override
-    public ArrayList<MainScreenControllerActivity.LineEnum> getDependantCurves(MainScreenControllerActivity.LineEnum line) {
+    public ArrayList<GraphControllerActivity.LineEnum> getDependantCurves(GraphControllerActivity.LineEnum line) {
         if (graphHelperObject.getDependantCurveOnCurve() != null){
             return graphHelperObject.getDependantCurveOnCurve().get(line);
         }
@@ -437,20 +437,20 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
         return MainAppClass.getContext().getResources();
     }
 
-    public String getStringFromLineEnum(MainScreenControllerActivity.LineEnum lineEnum){
+    public String getStringFromLineEnum(GraphControllerActivity.LineEnum lineEnum) {
         return getResources().getString(getResources().getIdentifier(lineEnum.toString(),"string", MainAppClass.getContext().getPackageName()));
     }
 
-    public String getStringFromGraphEnum(MainScreenControllerActivity.GraphEnum graphEnum){
+    public String getStringFromGraphEnum(GraphControllerActivity.GraphEnum graphEnum) {
         return getResources().getString(getResources().getIdentifier(graphEnum.toString(),"string", MainAppClass.getContext().getPackageName()));
     }
 
     @Override
-    public PositionPair getLineLabelPosition(MainScreenControllerActivity.LineEnum line) {
+    public PositionPair getLineLabelPosition(GraphControllerActivity.LineEnum line) {
         return graphHelperObject.getLineLabelPosition(line);
     }
 
-    protected void calculateLabel(MainScreenControllerActivity.LineEnum line,double x, double y){
+    protected void calculateLabel(GraphControllerActivity.LineEnum line, double x, double y) {
         Log.d(TAG, "calculateLabel: line [" + line + "] x[" + x + "] y[" + y + "]");
         if (x < 0){
             x = 0;
@@ -468,8 +468,8 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
     }
 
     @Override
-    public int getColorOf(MainScreenControllerActivity.LineEnum lineEnum) {
-        if (lineEnum == MainScreenControllerActivity.LineEnum.Equilibrium){
+    public int getColorOf(GraphControllerActivity.LineEnum lineEnum) {
+        if (lineEnum == GraphControllerActivity.LineEnum.Equilibrium) {
             return ContextCompat.getColor(MainAppClass.getContext(), R.color.colorPrimary);
         } else if ( lineEnum == getMovableEnum() ){
             return ContextCompat.getColor(MainAppClass.getContext(), R.color.colorPrimary);
@@ -487,7 +487,7 @@ public abstract class DefaultGraph implements GraphIfc,Serializable{
 
     @Override
     public void showCurvesDependantOnEquilibrium(double x,double y) {
-        ArrayList<MainScreenControllerActivity.LineEnum> lineEnumArrayList = getGraphHelperObject().getDependantCurveOnEquilibrium();
+        ArrayList<GraphControllerActivity.LineEnum> lineEnumArrayList = getGraphHelperObject().getDependantCurveOnEquilibrium();
         if (lineEnumArrayList != null){
             calculateData(lineEnumArrayList.get(0),getColorOf(lineEnumArrayList.get(0)),x,false,new ArrayList<>(Arrays.asList(x,y)));
             if(lineEnumArrayList.size()>1){

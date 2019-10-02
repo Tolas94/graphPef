@@ -28,10 +28,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import cz.mendelu.tomas.graphpef.R;
-import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.activities.GraphControllerActivity;
+import cz.mendelu.tomas.graphpef.adapters.GraphCurveChooseAdapter;
+import cz.mendelu.tomas.graphpef.adapters.InfoListAdapter;
 import cz.mendelu.tomas.graphpef.graphs.DefaultGraph;
-import cz.mendelu.tomas.graphpef.helperObjects.GraphCurveChooseAdapter;
-import cz.mendelu.tomas.graphpef.helperObjects.InfoListAdapter;
 import cz.mendelu.tomas.graphpef.interfaces.GraphIfc;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
@@ -50,7 +50,7 @@ public class GraphFragment extends Fragment  implements Serializable {
     private ImageButton up,down,left,right;
     private AppCompatTextView text1, text2, text3, text4, text5;
     private PointsGraphSeries<DataPoint> eqpoints;
-    private HashMap<MainScreenControllerActivity.LineEnum,PointsGraphSeries> labelSeries;
+    private HashMap<GraphControllerActivity.LineEnum, PointsGraphSeries> labelSeries;
     //private RelativeLayout loadingAnimation;
 
     private GraphIfc graphIfc;
@@ -121,7 +121,7 @@ public class GraphFragment extends Fragment  implements Serializable {
             if (graphIfc == null)
                 return view;
 
-            for(MainScreenControllerActivity.Direction dir: graphIfc.getMovableDirections()){
+            for (GraphControllerActivity.Direction dir : graphIfc.getMovableDirections()) {
                 switch(dir){
                     case up: up.setVisibility(View.VISIBLE);
                         break;
@@ -139,7 +139,7 @@ public class GraphFragment extends Fragment  implements Serializable {
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button Up");
                     //loadingAnimation.setVisibility(View.VISIBLE);
-                    moveCurve(MainScreenControllerActivity.Direction.up);
+                    moveCurve(GraphControllerActivity.Direction.up);
                     //loadingAnimation.setVisibility(View.INVISIBLE);
                 }
             });
@@ -150,7 +150,7 @@ public class GraphFragment extends Fragment  implements Serializable {
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button Down");
                     //loadingAnimation.setVisibility(View.VISIBLE);
-                    moveCurve(MainScreenControllerActivity.Direction.down);
+                    moveCurve(GraphControllerActivity.Direction.down);
                     //loadingAnimation.setVisibility(View.INVISIBLE);
                 }
             });
@@ -160,7 +160,7 @@ public class GraphFragment extends Fragment  implements Serializable {
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button left");
                     //loadingAnimation.setVisibility(View.VISIBLE);
-                    moveCurve(MainScreenControllerActivity.Direction.left);
+                    moveCurve(GraphControllerActivity.Direction.left);
                     //loadingAnimation.setVisibility(View.INVISIBLE);
                 }
             });
@@ -170,13 +170,13 @@ public class GraphFragment extends Fragment  implements Serializable {
                 public void onClick(View view) {
                     //Log.d(TAG,"onClick: Clicked button right");
                     //loadingAnimation.setVisibility(View.VISIBLE);
-                    moveCurve(MainScreenControllerActivity.Direction.right);
+                    moveCurve(GraphControllerActivity.Direction.right);
                     //loadingAnimation.setVisibility(View.INVISIBLE);
                 }
             });
 
 
-            HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> seriesSource = graphIfc.getSeries();
+            HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> seriesSource = graphIfc.getSeries();
             //Log.d(TAG, "Title " + graphIfc.getTitle() + " Size " + seriesSource.size());
 
             //Graph styling settings
@@ -203,15 +203,15 @@ public class GraphFragment extends Fragment  implements Serializable {
             graph.getViewport().setYAxisBoundsManual(true);
             graph.setVisibility(View.VISIBLE);
             boolean calculateQuantityLast = false;
-            for (MainScreenControllerActivity.LineEnum line:seriesSource.keySet()) {
-                if (line == MainScreenControllerActivity.LineEnum.Quantity){
+            for (GraphControllerActivity.LineEnum line : seriesSource.keySet()) {
+                if (line == GraphControllerActivity.LineEnum.Quantity) {
                     calculateQuantityLast = true;
                 }else{
                     calculateData(line, graphIfc.getColorOf(line));
                 }
             }
             if (calculateQuantityLast){
-                calculateData(MainScreenControllerActivity.LineEnum.Quantity, graphIfc.getColorOf(MainScreenControllerActivity.LineEnum.Quantity));
+                calculateData(GraphControllerActivity.LineEnum.Quantity, graphIfc.getColorOf(GraphControllerActivity.LineEnum.Quantity));
             }
 
             //menu = toolbar.getMenu();
@@ -221,7 +221,7 @@ public class GraphFragment extends Fragment  implements Serializable {
             layoutManagerCurves = new LinearLayoutManager(getContext());
             ArrayList<String> labels = new ArrayList<>();
             Log.d(TAG, "recycler line size [" + graphIfc.getMovableObjects().size() + "]");
-            for (MainScreenControllerActivity.LineEnum line : graphIfc.getMovableObjects()) {
+            for (GraphControllerActivity.LineEnum line : graphIfc.getMovableObjects()) {
                 Log.d(TAG, "recycler line [" + line.toString() + "]");
                 labels.add(getContext().getString(getResources().getIdentifier(line.toString(), "string", getContext().getPackageName())));
             }
@@ -248,7 +248,7 @@ public class GraphFragment extends Fragment  implements Serializable {
         return view;
     }
 
-    private void moveCurve(MainScreenControllerActivity.Direction dir) {
+    private void moveCurve(GraphControllerActivity.Direction dir) {
         if (labelSeries != null){
             graph.removeSeries(labelSeries.get(graphIfc.getMovableEnum()));
             //labelSeries.remove(graphIfc.getMovableEnum());
@@ -256,7 +256,7 @@ public class GraphFragment extends Fragment  implements Serializable {
         if (graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()) != null){
             graph.removeSeries(graphIfc.getLineGraphSeries().get(graphIfc.getMovableEnum()));
             if (graphIfc.getDependantCurves(graphIfc.getMovableEnum()) != null){
-                for (MainScreenControllerActivity.LineEnum line:graphIfc.getDependantCurves(graphIfc.getMovableEnum())) {
+                for (GraphControllerActivity.LineEnum line : graphIfc.getDependantCurves(graphIfc.getMovableEnum())) {
                     graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
                     graph.removeSeries(labelSeries.get(line));
                 }
@@ -265,14 +265,14 @@ public class GraphFragment extends Fragment  implements Serializable {
         graphIfc.moveObject(dir);
         calculateData(graphIfc.getMovableEnum(),graphIfc.getColorOf(graphIfc.getMovableEnum()));
         if (graphIfc.getDependantCurves(graphIfc.getMovableEnum()) != null){
-            for (MainScreenControllerActivity.LineEnum line:graphIfc.getDependantCurves(graphIfc.getMovableEnum())) {
+            for (GraphControllerActivity.LineEnum line : graphIfc.getDependantCurves(graphIfc.getMovableEnum())) {
                 calculateData(line,graphIfc.getColorOf(line));
             }
         }
         calculateEquilibrium();
     }
 
-    private void calculateData(final MainScreenControllerActivity.LineEnum line, int color) {
+    private void calculateData(final GraphControllerActivity.LineEnum line, int color) {
         LineGraphSeries lineSeries = graphIfc.calculateData(line,color);
         if (lineSeries != null){
             PointsGraphSeries labelSeries = new PointsGraphSeries();
@@ -304,7 +304,7 @@ public class GraphFragment extends Fragment  implements Serializable {
             //will overdraw grid??
     }
 
-    public void setChosenCurve(MainScreenControllerActivity.LineEnum line) {
+    public void setChosenCurve(GraphControllerActivity.LineEnum line) {
         Log.d(TAG, "setChosenCurve: " + line.toString());
 
         // remove old movable curve from GraphView
@@ -388,7 +388,7 @@ public class GraphFragment extends Fragment  implements Serializable {
 
     private void clearBeforeCalculationOfEQ(){
         if( graphIfc.getEqDependantCurves() != null){
-            for(MainScreenControllerActivity.LineEnum line: graphIfc.getEqDependantCurves()){
+            for (GraphControllerActivity.LineEnum line : graphIfc.getEqDependantCurves()) {
                 if (graphIfc.getLineGraphSeries().get(line) != null){
                     Log.d(TAG, "calculateEquilibrium: delete[" + line.toString() + "]");
                     graph.removeSeries(graphIfc.getLineGraphSeries().get(line));
@@ -404,11 +404,11 @@ public class GraphFragment extends Fragment  implements Serializable {
 
     private void addSeriesToGraphAfterEQCalculation(){
         eqpoints = new PointsGraphSeries<>();
-        eqpoints.setColor(graphIfc.getColorOf(MainScreenControllerActivity.LineEnum.Equilibrium));
+        eqpoints.setColor(graphIfc.getColorOf(GraphControllerActivity.LineEnum.Equilibrium));
         eqpoints.setTitle(getContext().getString(R.string.Equilibrium));
         if (graphIfc.getEquiPoints() != null && graphIfc.getEquiPoints().size() != 0){
             Log.d(TAG, "calculateEquilibrium: create EQ points size[" + graphIfc.getEquiPoints().size() + "]");
-            if (graphIfc.getEquiPoints().size() == 4 && MainScreenControllerActivity.getChosenGraph() == MainScreenControllerActivity.GraphEnum.IndifferentAnalysis){
+            if (graphIfc.getEquiPoints().size() == 4 && GraphControllerActivity.getChosenGraph() == GraphControllerActivity.GraphEnum.IndifferentAnalysis) {
                 eqpoints.appendData(new DataPoint(graphIfc.getEquiPoints().get(0),graphIfc.getEquiPoints().get(1)),false,4);
                 eqpoints.appendData(new DataPoint(graphIfc.getEquiPoints().get(2),graphIfc.getEquiPoints().get(3)),false,4);
             }else{
@@ -417,7 +417,7 @@ public class GraphFragment extends Fragment  implements Serializable {
             graph.addSeries(eqpoints);
         }
         if( graphIfc.getEqDependantCurves() != null) {
-            for (MainScreenControllerActivity.LineEnum line : graphIfc.getEqDependantCurves()) {
+            for (GraphControllerActivity.LineEnum line : graphIfc.getEqDependantCurves()) {
                 Log.d(TAG, "calculateEquilibrium: " + line.toString());
                 if (graphIfc.getLineGraphSeries().get(line) != null) {
                     Log.d(TAG, "calculateEquilibrium: create[" + line.toString() + "]");

@@ -9,16 +9,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import cz.mendelu.tomas.graphpef.R;
-import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.activities.GraphControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.GraphHelperObject;
-import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
-
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.AverageCost;
-import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.LineEnum.MarginalCost;
 
 /**
  * Created by tomas on 22.09.2018.
@@ -27,16 +22,16 @@ import static cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity.
 public class CostCurves extends PerfectMarketFirm implements Serializable{
     private static final String TAG = "CostCurves";
 
-    public CostCurves(ArrayList<String> graphTexts, ArrayList<MainScreenControllerActivity.LineEnum> movableObjects, MainScreenControllerActivity.LineEnum movableEnum, HashMap<MainScreenControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
+    public CostCurves(ArrayList<String> graphTexts, ArrayList<GraphControllerActivity.LineEnum> movableObjects, GraphControllerActivity.LineEnum movableEnum, HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> series, ArrayList<String> optionsLabels, GraphHelperObject graphHelperObject) {
         super(graphTexts, movableObjects, movableEnum, series, optionsLabels, graphHelperObject);
-        setMovableDirections(new ArrayList<>(Arrays.asList(MainScreenControllerActivity.Direction.left, MainScreenControllerActivity.Direction.right)));
+        setMovableDirections(new ArrayList<>(Arrays.asList(GraphControllerActivity.Direction.left, GraphControllerActivity.Direction.right)));
     }
 
     @Override
-    public LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color) {
-        if (line == MainScreenControllerActivity.LineEnum.PriceLevel || line == MainScreenControllerActivity.LineEnum.Quantity){
+    public LineGraphSeries<DataPoint> calculateData(GraphControllerActivity.LineEnum line, int color) {
+        if (line == GraphControllerActivity.LineEnum.PriceLevel || line == GraphControllerActivity.LineEnum.Quantity) {
             Log.d(TAG,"calculateData: return null");
-            line = MainScreenControllerActivity.LineEnum.PriceLevel;
+            line = GraphControllerActivity.LineEnum.PriceLevel;
             super.calculateData(line, color);
             return null;
         }else{
@@ -46,18 +41,18 @@ public class CostCurves extends PerfectMarketFirm implements Serializable{
     }
 
     @Override
-    public void moveObject(MainScreenControllerActivity.Direction dir) {
-        if (getMovableEnum() == MainScreenControllerActivity.LineEnum.AverageCost){
-            if (dir == MainScreenControllerActivity.Direction.right){
-                super.moveObject(MainScreenControllerActivity.Direction.up);
-            }else if (dir == MainScreenControllerActivity.Direction.left){
-                super.moveObject(MainScreenControllerActivity.Direction.down);
+    public void moveObject(GraphControllerActivity.Direction dir) {
+        if (getMovableEnum() == GraphControllerActivity.LineEnum.AverageCost) {
+            if (dir == GraphControllerActivity.Direction.right) {
+                super.moveObject(GraphControllerActivity.Direction.up);
+            } else if (dir == GraphControllerActivity.Direction.left) {
+                super.moveObject(GraphControllerActivity.Direction.down);
             }
-        }else if ( getMovableEnum() == MainScreenControllerActivity.LineEnum.Quantity){
-            if (dir == MainScreenControllerActivity.Direction.right){
-                super.moveObject(MainScreenControllerActivity.Direction.up,MainScreenControllerActivity.LineEnum.PriceLevel,1);
-            }else if (dir == MainScreenControllerActivity.Direction.left){
-                super.moveObject(MainScreenControllerActivity.Direction.down,MainScreenControllerActivity.LineEnum.PriceLevel,1);
+        } else if (getMovableEnum() == GraphControllerActivity.LineEnum.Quantity) {
+            if (dir == GraphControllerActivity.Direction.right) {
+                super.moveObject(GraphControllerActivity.Direction.up, GraphControllerActivity.LineEnum.PriceLevel, 1);
+            } else if (dir == GraphControllerActivity.Direction.left) {
+                super.moveObject(GraphControllerActivity.Direction.down, GraphControllerActivity.LineEnum.PriceLevel, 1);
             }
         }
     }

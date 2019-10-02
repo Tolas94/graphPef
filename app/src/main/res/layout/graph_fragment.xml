@@ -218,7 +218,7 @@
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/graphChooseCurveRecyclerView"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+                                android:layout_height="match_parent" />
                         </androidx.cardview.widget.CardView>
                     </RelativeLayout>
                 </RelativeLayout>
@@ -231,7 +231,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 android:layout_alignParentStart="true"
-                android:layout_margin="12dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
                 android:elevation="8dp">
 

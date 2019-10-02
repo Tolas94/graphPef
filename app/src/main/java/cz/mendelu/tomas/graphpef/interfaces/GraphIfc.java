@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import cz.mendelu.tomas.graphpef.activities.MainScreenControllerActivity;
+import cz.mendelu.tomas.graphpef.activities.GraphControllerActivity;
 import cz.mendelu.tomas.graphpef.helperObjects.LineGraphSeriesSerialisable;
 import cz.mendelu.tomas.graphpef.helperObjects.PositionPair;
 
@@ -19,27 +19,27 @@ public interface GraphIfc{
 
     ArrayList<String> getGraphTexts();
 
-    LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color);
+    LineGraphSeries<DataPoint> calculateData(GraphControllerActivity.LineEnum line, int color);
 
-    LineGraphSeries<DataPoint> calculateData(MainScreenControllerActivity.LineEnum line, int color, Double limit, boolean vertical, ArrayList<Double> equilibrium);
+    LineGraphSeries<DataPoint> calculateData(GraphControllerActivity.LineEnum line, int color, Double limit, boolean vertical, ArrayList<Double> equilibrium);
 
     ArrayList<Double> calculateEqulibrium();
 
-    ArrayList<MainScreenControllerActivity.LineEnum> getMovableObjects();
+    ArrayList<GraphControllerActivity.LineEnum> getMovableObjects();
 
-    ArrayList<MainScreenControllerActivity.Direction> getMovableDirections();
+    ArrayList<GraphControllerActivity.Direction> getMovableDirections();
 
-    void moveObject(MainScreenControllerActivity.Direction dir);
+    void moveObject(GraphControllerActivity.Direction dir);
 
-    void moveObject(MainScreenControllerActivity.Direction dir, MainScreenControllerActivity.LineEnum line, int precisionModificator);
+    void moveObject(GraphControllerActivity.Direction dir, GraphControllerActivity.LineEnum line, int precisionModificator);
 
-    HashMap<MainScreenControllerActivity.LineEnum,ArrayList<Integer> > getSeries();
+    HashMap<GraphControllerActivity.LineEnum, ArrayList<Integer>> getSeries();
 
-    HashMap<MainScreenControllerActivity.LineEnum, LineGraphSeriesSerialisable> getLineGraphSeries();
+    HashMap<GraphControllerActivity.LineEnum, LineGraphSeriesSerialisable> getLineGraphSeries();
 
-    ArrayList<MainScreenControllerActivity.LineEnum> getEqDependantCurves();
+    ArrayList<GraphControllerActivity.LineEnum> getEqDependantCurves();
 
-    ArrayList<MainScreenControllerActivity.LineEnum> getDependantCurves(MainScreenControllerActivity.LineEnum line);
+    ArrayList<GraphControllerActivity.LineEnum> getDependantCurves(GraphControllerActivity.LineEnum line);
 
     ArrayList<String> getOptionsLabels();
 
@@ -49,7 +49,7 @@ public interface GraphIfc{
 
     String getMovableLabel();
 
-    void setMovable(MainScreenControllerActivity.LineEnum movableEnum);
+    void setMovable(GraphControllerActivity.LineEnum movableEnum);
 
     String getTitle();
 
@@ -57,15 +57,15 @@ public interface GraphIfc{
 
     String getLabelY();
 
-    MainScreenControllerActivity.LineEnum getMovableEnum();
+    GraphControllerActivity.LineEnum getMovableEnum();
 
     ArrayList<Double> getEquiPoints();
 
     void refreshInfoTexts();
 
-    PositionPair getLineLabelPosition(MainScreenControllerActivity.LineEnum line);
+    PositionPair getLineLabelPosition(GraphControllerActivity.LineEnum line);
 
-    int getColorOf(MainScreenControllerActivity.LineEnum lineEnum);
+    int getColorOf(GraphControllerActivity.LineEnum lineEnum);
 
     void showCurvesDependantOnEquilibrium(double x,double y);
 
