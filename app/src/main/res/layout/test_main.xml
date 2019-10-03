@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -141,7 +142,7 @@
                             android:text="option 4" />
                     </RadioGroup>
 
-                    <!-- button odoslat -->
+                    <!-- button send -->
                     <Button
                         android:id="@+id/answerQuizButton"
                         style="@android:style/Widget.Material.Button.Colored"
@@ -151,7 +152,8 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="16dp"
                         android:backgroundTint="@color/colorPrimary"
-                        android:padding="10dp" />
+                        android:padding="10dp"
+                        tools:targetApi="m" />
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>

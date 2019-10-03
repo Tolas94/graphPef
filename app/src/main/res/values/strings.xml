@@ -241,9 +241,6 @@
     <string name="monopolistic_market_firm_info_text_2_title">Podmínky existence</string>
     <string name="monopolistic_market_firm_info_text_2">Je zde velký počet výrobců s výrobky, které jsou blízkými substituty - ale produkce je diferencovaná.</string>
 
-
-
-
     <string name="quantity">Množství</string>
     <string name="price">Cena</string>
     <string name="units">Jednotek</string>
@@ -260,8 +257,11 @@
     <string name="equilibrium_are">Rovnovážné body jsou</string>
     <string name="equilibrium_cannot">Rovnovážný bod není možné vypočítat</string>
     <string name="max_production">maximální produkce</string>
-    <string name="start_app">Prohlížet interaktivní grafy</string>
-    <string name="disclaimer_main_page">Aplikace doposud nebyla vydaná v plné verzi. V případe nejasností kontaktujte autora aplikace.</string>
+    <string name="show_graph_list">Prohlížet interaktivní grafy</string>
+
+    <string name="show_graph_list_showcase">Zde spustíte výběr interaktivních grafu</string>
+    <string name="disclaimer_main_page">V případe nejasností kontaktujte autora aplikace.</string>
+
     <string name="start_app_showcase">start app</string>
     <string name="graph_list_showcase">Na téhle obrazovce si zvolíte graf o kterém se chcete dozvědět více</string>
     <string name="down_button_showcase">Pomocí tohohle tlačítka posunete vybranou křivku dolů / zmenšíte hodnoty</string>
@@ -269,8 +269,11 @@
     <string name="choose_curve_showcase">Pomocí spodního baru můžete vybrat křivku(nebo skupinu křivek), kterou budete ovládat a získáte k ní doplňující informace na obrazovce vpravo</string>
     <string name="graph_showcase">Graf zobrazuje křivky, které se posunují dle vaší chuti. Vpravo můžete vidět legendu. Pomoci barev je možné jednotlivé křivky rozeznat</string>
     <string name="graph_values_showcase">Zde můžete vidět dodatečné informace ku grafu. Zejména jde o rovnovážné body a jejich souřadnice a hodnoty o které byli křivky posunuté.</string>
-    <string name="info_showcase"></string>
+    <string name="score_showcase">Tohle je vaše aktuální skóre. Body můžete získat za správné zodpovězení otázek v testu.</string>
+    <string name="unlock_category_showcase">Tady vidíte tři nejdostupnější kategorie otázek, pro odemčení je nutné dosáhnout požadovaný počet bodů.</string>
+    <string name="unlock_category_price">Tohle číslo udává počet bodů, který je nutné dosáhnout na odemčení dané kategorie.</string>
     <string name="dismiss_showcase_text">Rozumím</string>
+
     <string name="graph">Graf</string>
     <string name="info">Informace</string>
 

@@ -55,6 +55,7 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/splashScreenScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/MainScreenTopBar">
@@ -446,7 +447,7 @@
                             android:layout_marginBottom="12dp"
                             android:backgroundTint="@color/colorPrimary"
                             android:padding="12dp"
-                            android:text="@string/start_app" />
+                            android:text="@string/show_graph_list" />
 
                         <TextView
                             android:id="@+id/startAppTitle"

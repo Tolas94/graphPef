@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -48,7 +49,7 @@ import static cz.mendelu.tomas.graphpef.database.DBContractNames.FIRESTORE_USER_
 public class DBHelper extends SQLiteOpenHelper {
     private static final String TAG = "DBHelper";
     private boolean databaseInitDone = true;
-    private boolean userSuccesfullyLogged = false;
+    private boolean userSuccessfullyLogged = false;
 
     private ObservableDB observable = new ObservableDB();
 
@@ -2132,7 +2133,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     Log.i(TAG, "createUserRef - initialUserDataRead called");
                     initialUserDataRead(documentSnapshot);
                     observable.updateUI();
-                    userSuccesfullyLogged = true;
+                    userSuccessfullyLogged = true;
                 }
             } else {
                 Log.d(TAG, "createUserRef - creating new user");
@@ -2220,8 +2221,8 @@ public class DBHelper extends SQLiteOpenHelper {
             Log.e(TAG, "updateUserStats usersRef == null");
             return;
         }
-        if (!userSuccesfullyLogged) {
-            Log.d(TAG, "updateUserStats userSuccesfullyLogged == false");
+        if (!userSuccessfullyLogged) {
+            Log.d(TAG, "updateUserStats userSuccessfullyLogged == false");
             return;
         }
 
@@ -2233,7 +2234,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onLogout() {
         Log.d(TAG, "onLogout");
         usersRef = null;
-        userSuccesfullyLogged = false;
+        userSuccessfullyLogged = false;
 
         //refresh local database
         destroyDBTables();
@@ -2308,12 +2309,17 @@ public class DBHelper extends SQLiteOpenHelper {
         boolean retVal = false;
 
         db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT " + DBContractNames.UserRelatedInformation.USER_RELATED_GDPR_OPT_IN + "  as gdpr FROM " + DBContractNames.UserRelatedInformation.USER_RELATED_TABLE_NAME + " WHERE " + DBContractNames.UserRelatedInformation.USER_RELATED_UUID + " = '" + uuid + "'", null);
-        if (cursor.moveToFirst()) {
-            retVal = cursor.getInt(cursor.getColumnIndex("gdpr")) == 1;
+        try {
+            Cursor cursor = db.rawQuery("SELECT " + DBContractNames.UserRelatedInformation.USER_RELATED_GDPR_OPT_IN + "  as gdpr FROM " + DBContractNames.UserRelatedInformation.USER_RELATED_TABLE_NAME + " WHERE " + DBContractNames.UserRelatedInformation.USER_RELATED_UUID + " = '" + uuid + "'", null);
+            if (cursor.moveToFirst()) {
+                retVal = cursor.getInt(cursor.getColumnIndex("gdpr")) == 1;
+            }
+
+            cursor.close();
+        } catch (SQLiteException e) {
+            Log.d(TAG, "SQLiteException " + e.getMessage());
         }
 
-        cursor.close();
         Log.d(TAG, "getUserOptInFlag uuid[" + uuid + "] retVal[" + retVal + "]");
         return retVal;
     }
@@ -2324,12 +2330,17 @@ public class DBHelper extends SQLiteOpenHelper {
         boolean exist = false;
 
         db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT " + DBContractNames.UserRelatedInformation.USER_RELATED_GDPR_OPT_IN + "  as gdpr FROM " + DBContractNames.UserRelatedInformation.USER_RELATED_TABLE_NAME + " WHERE " + DBContractNames.UserRelatedInformation.USER_RELATED_UUID + " = '" + uuid + "'", null);
-        if (cursor.moveToFirst()) {
-            Log.d(TAG, "updateUserOptInFlag uuid[" + uuid + "] exist");
-            exist = true;
+        try {
+            Cursor cursor = db.rawQuery("SELECT " + DBContractNames.UserRelatedInformation.USER_RELATED_GDPR_OPT_IN + "  as gdpr FROM " + DBContractNames.UserRelatedInformation.USER_RELATED_TABLE_NAME + " WHERE " + DBContractNames.UserRelatedInformation.USER_RELATED_UUID + " = '" + uuid + "'", null);
+            if (cursor.moveToFirst()) {
+                Log.d(TAG, "updateUserOptInFlag uuid[" + uuid + "] exist");
+                exist = true;
+            }
+            cursor.close();
+        } catch (SQLiteException e) {
+            Log.d(TAG, "SQLiteException " + e.getMessage());
         }
-        cursor.close();
+
         updatedValue.put(DBContractNames.UserRelatedInformation.USER_RELATED_GDPR_OPT_IN, newValue);
         updatedValue.put(DBContractNames.UserRelatedInformation.USER_RELATED_UUID, uuid);
         if (exist) {

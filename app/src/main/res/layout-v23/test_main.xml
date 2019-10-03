@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- body -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- question -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/headerCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:elevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <RelativeLayout
+                        android:id="@+id/questionHeader"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <!-- number of correct answers -->
+                        <TextView
+                            android:id="@+id/questionNumberOfCorrectAnswersText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="spravne odpovede v rade: 5"
+                            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                        <!-- category -->
+                        <TextView
+                            android:id="@+id/questionCategoryText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/questionNumberOfCorrectAnswersText"
+                            android:text="Random graf"
+                            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                        <!-- points aquired via this quiz session -->
+                        <TextView
+                            android:id="@+id/questionPointsAcquired"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/questionCategoryText"
+                            android:text="points: 0"
+                            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                        <!-- Timer 30 secs -->
+                        <TextView
+                            android:id="@+id/questionTimer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="00:30"
+                            android:textAppearance="@android:style/TextAppearance.Material.Large" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- question -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/questionCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/headerCard"
+                android:layout_marginBottom="10dp"
+                android:elevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/questionText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_margin="16dp"
+                        android:text="Default otazka?"
+                        android:textAppearance="@android:style/TextAppearance.Material.Large" />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- answers -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/answerCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/questionCard"
+                android:layout_marginBottom="10dp"
+                android:elevation="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <RadioGroup
+                        android:id="@+id/quizAnswerGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:paddingLeft="8dp">
+
+                        <RadioButton
+                            android:id="@+id/quizAnswer1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="option 1" />
+
+                        <RadioButton
+                            android:id="@+id/quizAnswer2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="option 2" />
+
+                        <RadioButton
+                            android:id="@+id/quizAnswer3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="option 3" />
+
+                        <RadioButton
+                            android:id="@+id/quizAnswer4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="option 4" />
+                    </RadioGroup>
+
+                    <!-- button odoslat -->
+                    <Button
+                        android:id="@+id/answerQuizButton"
+                        style="@android:style/Widget.Material.Button.Colored"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/quizAnswerGroup"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="16dp"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:padding="10dp" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +59,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
     private boolean registrationSequenceStarted;
     private boolean userOptInFlag = false;
     private boolean userUnlockCategoryDialogOpened = false;
+    private boolean presentShowcaseStarted = false;
 
     private RecyclerView recyclerView;
     private DBHelper dbHelper;
@@ -123,7 +125,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
         setUpPassworResetButton(passwordResetButton);
         passwordResetButton.setText(R.string.passwordReset);
         startRegisterButton.setText(R.string.register);
-        startGraphSection.setText(R.string.start_app);
+        startGraphSection.setText(R.string.show_graph_list);
         categoriesUnlockedTitle.setText(R.string.mainScreenCategoriesUnlocked);
         questionsAnsweredTitle.setText(R.string.mainScreenQuestionAnswered);
         questionsHighScoreStreakTitle.setText(R.string.mainScreenHighScoreStreak);
@@ -152,9 +154,10 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
 
         //TextView appNameText = findViewById(R.id.mainScreenDisclaimer);
         //appNameText.setText(getText(R.string.disclaimer_main_page));
-
-        dbHelper = new DBHelper(this);
-        dbHelper.addObserver(this);
+        if (dbHelper == null) {
+            dbHelper = new DBHelper(this);
+            dbHelper.addObserver(this);
+        }
         logUser();
         if (!userOptInFlag) {
             checkOptInValue();
@@ -181,21 +184,62 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
     }
 
     private void presentShowcaseSequence() {
+        Log.d(TAG, "presentShowcaseSequence started");
+        if (presentShowcaseStarted) {
+            Log.e(TAG, "presentShowcaseStarted true");
+            return;
+        }
+        presentShowcaseStarted = true;
+
+        RelativeLayout score = findViewById(R.id.mainScreenScoreLayout);
+        RelativeLayout category = findViewById(R.id.mainScreenScoreUnlockableCategoriesRecycleViewLayout);
+
+
         ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(200); // half second between each showcase view
+        config.setDelay(500); // half second between each showcase view
         MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, TAG);
         sequence.setOnItemShownListener((itemView, position) -> {
         });
         sequence.setConfig(config);
         sequence.addSequenceItem(
                 new MaterialShowcaseView.Builder(this)
-                        .setTarget(startGraphSection)
-                        .setDismissText(getString(R.string.disclaimer_main_page))
+                        .setTarget(score)
+                        .setDismissText(getString(R.string.score_showcase))
                         .setContentText(getString(R.string.dismiss_showcase_text))
                         .withRectangleShape(true)
                         .setDismissOnTouch(true)
                         .build()
         );
+
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(category)
+                        .setDismissText(getString(R.string.unlock_category_showcase))
+                        .setContentText(getString(R.string.dismiss_showcase_text))
+                        .withRectangleShape(true)
+                        .setDismissOnTouch(true)
+                        .build()
+        );
+
+        sequence.addSequenceItem(
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(startGraphSection)
+                        .setDismissText(getString(R.string.show_graph_list_showcase))
+                        .setContentText(getString(R.string.dismiss_showcase_text))
+                        .withRectangleShape(true)
+                        .setDismissOnTouch(true)
+                        .build()
+        );
+
+        int pos = findViewById(R.id.startAppLayout).getTop();
+        ScrollView scrollView = findViewById(R.id.splashScreenScrollView);
+        sequence.setOnItemDismissedListener((itemView, position) -> {
+
+            if (position == 1) {
+                scrollView.scrollTo(0, pos);
+            }
+
+        });
         sequence.start();
     }
 
@@ -591,8 +635,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
                     if (dataProtectionDialog) {
                         Log.d(TAG, "onClick: dataprotectionDialog true");
                         changeGDPRpolicy(true);
-                    }
-                    if (!dataProtection) {
+                    } else if (!dataProtection) {
                         Log.d(TAG, "onClick: sendResetPassword() Called.");
                         sendResetPassword();
                     }
