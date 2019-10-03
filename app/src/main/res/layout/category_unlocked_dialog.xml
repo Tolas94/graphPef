@@ -4,6 +4,17 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/categoryUnlockedTitle"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="12sp"
+        android:text="@string/categoryUnlockTitle"
+        android:textColor="@color/white" />
+
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,15 +53,4 @@
         android:layout_height="wrap_content"
         android:padding="12dp"
         android:textStyle="normal" />
-
-    <TextView
-        android:id="@+id/categoryUnlockedTitle"
-        style="@style/TextAppearance.MaterialComponents.Headline5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:padding="12sp"
-        android:text="@string/categoryUnlockTitle"
-        android:textColor="@color/white" />
-
 </LinearLayout>

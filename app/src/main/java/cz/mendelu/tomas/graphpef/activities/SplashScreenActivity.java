@@ -2,13 +2,11 @@ package cz.mendelu.tomas.graphpef.activities;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -24,9 +22,6 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.LoginEvent;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -35,10 +30,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,7 +56,8 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
     private Button startGraphSection;
     //TODO: check startSignInButton directly in update UI and not as parameter
     private boolean registrationSequenceStarted;
-    private boolean userOptInFlag;
+    private boolean userOptInFlag = false;
+    private boolean userUnlockCategoryDialogOpened = false;
 
     private RecyclerView recyclerView;
     private DBHelper dbHelper;
@@ -135,63 +131,52 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
         startSignInButton.setText(R.string.signIn);
         EditText passwordText = findViewById(R.id.signInPassword);
 
-        startRegisterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registrationSequenceStarted = true;
-                updateUI(null, registrationSequenceStarted);
-            }
+        startRegisterButton.setOnClickListener(v -> {
+            registrationSequenceStarted = true;
+            updateUI(null, registrationSequenceStarted);
         });
 
-        startSignInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registrationSequenceStarted = false;
-                updateUI(null, registrationSequenceStarted);
-            }
+        startSignInButton.setOnClickListener(v -> {
+            registrationSequenceStarted = false;
+            updateUI(null, registrationSequenceStarted);
         });
 
-        passwordText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    signInButton.performClick();
-                    return true;
-                }
-                return false;
+        passwordText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                signInButton.performClick();
+                return true;
             }
+            return false;
         });
 
 
         //TextView appNameText = findViewById(R.id.mainScreenDisclaimer);
         //appNameText.setText(getText(R.string.disclaimer_main_page));
 
-        logUser();
-
-        startGraphSection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Clicked button mainScreen");
-                if (mAuth.getCurrentUser() != null) {
-                    mAuth.getCurrentUser().reload();
-                    if (mAuth.getCurrentUser().isEmailVerified()) {
-                        Log.d(TAG, "onClick: Clicked button mainScreen - email verified");
-                    } else {
-                        Log.d(TAG, "onClick: Clicked button mainScreen - email NOT verified");
-                        Toast.makeText(SplashScreenActivity.this, getResources().getString(R.string.emailNotVerified),
-                                Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    toastMessage(getResources().getString(R.string.signInHint));
-                }
-                Intent intent = new Intent(SplashScreenActivity.this, GraphMenuListActivity.class);
-                startActivity(intent);
-            }
-        });
-
         dbHelper = new DBHelper(this);
         dbHelper.addObserver(this);
+        logUser();
+        if (!userOptInFlag) {
+            checkOptInValue();
+        }
 
+        startGraphSection.setOnClickListener(view -> {
+            Log.d(TAG, "onClick: Clicked button mainScreen");
+            if (mAuth.getCurrentUser() != null) {
+                mAuth.getCurrentUser().reload();
+                if (mAuth.getCurrentUser().isEmailVerified()) {
+                    Log.d(TAG, "onClick: Clicked button mainScreen - email verified");
+                } else {
+                    Log.d(TAG, "onClick: Clicked button mainScreen - email NOT verified");
+                    Toast.makeText(SplashScreenActivity.this, getResources().getString(R.string.emailNotVerified),
+                            Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                toastMessage(getResources().getString(R.string.signInHint));
+            }
+            Intent intent = new Intent(SplashScreenActivity.this, GraphMenuListActivity.class);
+            startActivity(intent);
+        });
         updateCategories();
     }
 
@@ -199,10 +184,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(200); // half second between each showcase view
         MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, TAG);
-        sequence.setOnItemShownListener(new MaterialShowcaseSequence.OnSequenceItemShownListener() {
-            @Override
-            public void onShow(MaterialShowcaseView itemView, int position) {
-            }
+        sequence.setOnItemShownListener((itemView, position) -> {
         });
         sequence.setConfig(config);
         sequence.addSequenceItem(
@@ -229,6 +211,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
                     dbHelper = new DBHelper(this);
                     dbHelper.addObserver(this);
                 }
+                userOptInFlag = dbHelper.getUserOptInFlag(user.getUid());
                 dbHelper.createUserRef(user.getUid(), user.getEmail());
             } else {
                 Log.d(TAG, "user == null");
@@ -238,12 +221,13 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
         }
     }
 
-    void CheckOptInValue() {
+    private void checkOptInValue() {
         customDialog(getString(R.string.firebaseUserOptInTitle),
                 getString(R.string.firebaseUserOptInText),
-                getString(R.string.firebaseUserOptInAllow),
                 getString(R.string.firebaseUserOptInForbid),
-                false);
+                getString(R.string.firebaseUserOptInAllow),
+                false,
+                true);
     }
 
     @Override
@@ -269,7 +253,7 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
     }
 
     /**
-     * update UI changes main splash screenthe
+     * update UI changes main splash screen the
      * possible flow is
      * 1. From Unsigned -> to logged in when user != null
      * 2. From Unsigned -> to register sequence
@@ -349,18 +333,15 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
     private void startCountAnimation(TextView textView, Integer maxPoints, String preText) {
         ValueAnimator animator = ValueAnimator.ofInt(0, maxPoints);
         animator.setDuration(1500);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                textView.setText(preText + animation.getAnimatedValue().toString());
-            }
-        });
+        animator.addUpdateListener(animation -> textView.setText(preText + animation.getAnimatedValue().toString()));
         animator.start();
     }
 
     private void updateScore() {
         TextView scoreTextView = findViewById(R.id.mainScreenScoreText);
         TextView emailTextView = findViewById(R.id.mainScreenScoreEmail);
-        String email = mAuth.getCurrentUser().getEmail();
+        String email = Objects.requireNonNull(mAuth.getCurrentUser()).getEmail();
+        assert email != null;
         email = email.substring(0, email.indexOf('@')) + ": ";
         emailTextView.setText(email);
         String scoreText = String.valueOf(dbHelper.getAvailablePoints());
@@ -384,20 +365,21 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
         }
         for (List<String> entryList : list) {
             ArrayList<Integer> tempList = new ArrayList<>();
-            Integer price = new Integer(entryList.get(1));
+            Integer price = Integer.valueOf(entryList.get(1));
             // price - points
             int absoluteDifference = price - points;
             tempList.add(absoluteDifference);
             // how much points of price we do have
-            Double percentage = 0.00;
+            double percentage = 0.00;
             if (points != 0) {
                 percentage = ((double) points) / (double) (price) * 100;
             }
-            tempList.add(percentage.intValue());
+            tempList.add((int) percentage);
 
-            if (percentage >= 100.00) {
+            if (percentage >= 100.00 && !userUnlockCategoryDialogOpened) {
+                userUnlockCategoryDialogOpened = true;
                 unlockCategoryDialog(price, entryList.get(2), entryList.get(0));
-                points -= price;
+                points = dbHelper.getAvailablePoints();
             } else {
                 priceList.add(tempList);
                 stringsList.add(entryList.get(0));
@@ -454,141 +436,107 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
 
     @SuppressWarnings("unchecked")
     private void sendVerificationEmail() {
-        mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(this, new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(SplashScreenActivity.this,
-                            getResources().getString(R.string.verificationEmail) + " " + SplashScreenActivity.this.getEmail(),
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.e(TAG, "sendEmailVerification", task.getException());
-                    Toast.makeText(SplashScreenActivity.this,
-                            getResources().getString(R.string.verificationEmailError),
-                            Toast.LENGTH_SHORT).show();
-                }
+        Objects.requireNonNull(mAuth.getCurrentUser()).sendEmailVerification().addOnCompleteListener(this, (OnCompleteListener) task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(SplashScreenActivity.this,
+                        getResources().getString(R.string.verificationEmail) + " " + SplashScreenActivity.this.getEmail(),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Log.e(TAG, "sendEmailVerification", task.getException());
+                Toast.makeText(SplashScreenActivity.this,
+                        getResources().getString(R.string.verificationEmailError),
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void setUpRegisterButton(Button registerButoon) {
-        registerButoon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Log.d(TAG,"onClick: Clicked button mainScreen");
-                if (validateXname()) {
-                    if (SplashScreenActivity.this.getPassword() != null && !SplashScreenActivity.this.getPassword().isEmpty()) {
-                        mAuth.createUserWithEmailAndPassword(SplashScreenActivity.this.getEmail(), SplashScreenActivity.this.getPassword())
-                                .addOnCompleteListener(SplashScreenActivity.this, new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (task.isSuccessful()) {
-                                            // Sign in success, update UI with the signed-in user's information
-                                            Log.d(TAG, "createUserWithEmail:success");
-                                            FirebaseUser user = mAuth.getCurrentUser();
-                                            SplashScreenActivity.this.sendVerificationEmail();
-                                        } else {
-                                            // If sign in fails, display a message to the user.
-                                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                            Toast.makeText(SplashScreenActivity.this, getResources().getString(R.string.accountCreationFailed),
-                                                    Toast.LENGTH_SHORT).show();
-                                            updateUI(null, registrationSequenceStarted);
-                                        }
-                                    }
-                                });
-                    } else {
-                        Toast.makeText(SplashScreenActivity.this, "Account creation failed.",
-                                Toast.LENGTH_SHORT).show();
-                    }
+        registerButoon.setOnClickListener(view -> {
+            //Log.d(TAG,"onClick: Clicked button mainScreen");
+            if (validateXname()) {
+                SplashScreenActivity.this.getPassword();
+                if (!SplashScreenActivity.this.getPassword().isEmpty()) {
+                    mAuth.createUserWithEmailAndPassword(SplashScreenActivity.this.getEmail(), SplashScreenActivity.this.getPassword())
+                            .addOnCompleteListener(SplashScreenActivity.this, task -> {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "createUserWithEmail:success");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    SplashScreenActivity.this.sendVerificationEmail();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                                    Toast.makeText(SplashScreenActivity.this, getResources().getString(R.string.accountCreationFailed),
+                                            Toast.LENGTH_SHORT).show();
+                                    updateUI(null, registrationSequenceStarted);
+                                }
+                            });
+                } else {
+                    Toast.makeText(SplashScreenActivity.this, "Account creation failed.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
     private void setUpSignInButton(Button signInButoon) {
-        signInButoon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "onClick: Clicked SignIn mainScreen");
-                if (validateXname()) {
-                    if (SplashScreenActivity.this.getPassword() != null && !SplashScreenActivity.this.getPassword().isEmpty()) {
-                        SimpleDateFormat s = new SimpleDateFormat("dd.MM.yyyy//hh:mm:ss");
-                        String ts = s.format(new Date());
-                        Answers.getInstance().logLogin(new LoginEvent().putMethod("Login")
-                                .putCustomAttribute("DateTime", ts));
-                        mAuth.signInWithEmailAndPassword(SplashScreenActivity.this.getEmail(), SplashScreenActivity.this.getPassword())
-                                .addOnCompleteListener(SplashScreenActivity.this, new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (task.isSuccessful()) {
-                                            // Sign in success, update UI with the signed-in user's information
-                                            Log.d(TAG, "signInWithEmail:success");
-                                            FirebaseUser user = mAuth.getCurrentUser();
-                                            logUser();
-                                            updateUI(user, registrationSequenceStarted);
-                                        } else {
-                                            // If sign in fails, display a message to the user.
-                                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                            Toast.makeText(SplashScreenActivity.this, getResources().getString(R.string.signInFailed),
-                                                    Toast.LENGTH_SHORT).show();
-                                            updateUI(null, registrationSequenceStarted);
-                                        }
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.e(TAG, "login faile with:" + e);
-                            }
-                        });
-                    } else {
-                        Toast.makeText(SplashScreenActivity.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                    }
+        signInButoon.setOnClickListener(view -> {
+            Log.d(TAG, "onClick: Clicked SignIn mainScreen");
+            if (validateXname()) {
+                SplashScreenActivity.this.getPassword();
+                if (!SplashScreenActivity.this.getPassword().isEmpty()) {
+                    SimpleDateFormat s = new SimpleDateFormat("dd.MM.yyyy//hh:mm:ss");
+                    String ts = s.format(new Date());
+                    Answers.getInstance().logLogin(new LoginEvent().putMethod("Login")
+                            .putCustomAttribute("DateTime", ts));
+                    mAuth.signInWithEmailAndPassword(SplashScreenActivity.this.getEmail(), SplashScreenActivity.this.getPassword())
+                            .addOnCompleteListener(SplashScreenActivity.this, task -> {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "signInWithEmail:success");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    logUser();
+                                    updateUI(user, registrationSequenceStarted);
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                    Toast.makeText(SplashScreenActivity.this, getResources().getString(R.string.signInFailed),
+                                            Toast.LENGTH_SHORT).show();
+                                    updateUI(null, registrationSequenceStarted);
+                                }
+                            }).addOnFailureListener(e -> Log.e(TAG, "login faile with:" + e));
+                } else {
+                    Toast.makeText(SplashScreenActivity.this, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
     private void setUpSignOutButton(Button signOutButoon) {
-        signOutButoon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Log.d(TAG,"onClick: Clicked button mainScreen");
-                mAuth.signOut();
-                dbHelper.onLogout();
-                updateUI(null, registrationSequenceStarted);
-            }
+        signOutButoon.setOnClickListener(view -> {
+            //Log.d(TAG,"onClick: Clicked button mainScreen");
+            mAuth.signOut();
+            dbHelper.onLogout();
+            updateUI(null, registrationSequenceStarted);
         });
     }
 
     private void setUpSendEmailButton(Button sendEmailButton) {
-        sendEmailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: start Email Called.");
-                startEmail();
-            }
+        sendEmailButton.setOnClickListener(v -> {
+            Log.d(TAG, "onClick: start Email Called.");
+            startEmail();
         });
     }
 
     private void setUpPassworResetButton(Button passwordResetButton) {
-        passwordResetButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: reset Password Called.");
-                passwordResetConfirmation();
-            }
+        passwordResetButton.setOnClickListener(v -> {
+            Log.d(TAG, "onClick: reset Password Called.");
+            passwordResetConfirmation();
         });
     }
 
     private void passwordResetConfirmation() {
-
-        PackageInfo pInfo = null;
-        try {
-            pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
         customDialog(getResources().getString(R.string.passwordResetDialogTitle)
                 , getResources().getString(R.string.passwordResetDialogText)
                 , getResources().getString(R.string.passwordResetDialogNegativeAnswer)
@@ -605,12 +553,13 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
     private void showInfo() {
 
         PackageInfo pInfo = null;
+        String version = "";
         try {
             pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
+            version = pInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        String version = pInfo.versionName;
         customDialog(getResources().getString(R.string.infoOnMainscreenTitle)
                 , getResources().getString(R.string.infoOnMainscreenText) + " " + version
                 , getResources().getString(R.string.firebaseUserOptInTitle)
@@ -623,38 +572,38 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
         final androidx.appcompat.app.AlertDialog.Builder builderSingle = new androidx.appcompat.app.AlertDialog.Builder(this);
         builderSingle.setTitle(title);
         builderSingle.setMessage(message);
-        builderSingle.setNeutralButton(cancelMethod, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (dataProtectionDialog) {
-                    changeGDPRpolicy(false);
-                }
-                if (dataProtection) {
-                    Log.d(TAG, "onClick: CheckOptInValueCalled.");
-                    CheckOptInValue();
-                }
+        builderSingle.setNeutralButton(cancelMethod, (dialog, which) -> {
+            Log.d(TAG, "customDialog: neutral button");
+            if (dataProtectionDialog) {
+                Log.d(TAG, "onClick: dataprotectionDialog false");
+                changeGDPRpolicy(false);
+            }
+            if (dataProtection) {
+                Log.d(TAG, "onClick: CheckOptInValueCalled.");
+                checkOptInValue();
             }
         });
 
         builderSingle.setPositiveButton(
                 okMethod,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (dataProtectionDialog) {
-                            changeGDPRpolicy(true);
-                        }
-                        if (!dataProtection) {
-                            Log.d(TAG, "onClick: sendResetPassword() Called.");
-                            sendResetPassword();
-                        }
-
+                (dialogInterface, i) -> {
+                    Log.d(TAG, "customDialog: positive button");
+                    if (dataProtectionDialog) {
+                        Log.d(TAG, "onClick: dataprotectionDialog true");
+                        changeGDPRpolicy(true);
                     }
+                    if (!dataProtection) {
+                        Log.d(TAG, "onClick: sendResetPassword() Called.");
+                        sendResetPassword();
+                    }
+
                 });
         builderSingle.show();
     }
 
     private void changeGDPRpolicy(boolean allow) {
+
+        dbHelper.updateUserOptInFlag(Objects.requireNonNull(mAuth.getCurrentUser()).getUid(), allow);
         if (allow) {
             //Only initialize Fabric is user opt-in is true
             Fabric.with(this, new Crashlytics());
@@ -712,15 +661,13 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
 
         builderSingle.setPositiveButton(
                 getString(R.string.categoryUnlockedAcknowledge),
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dbHelper.unlockCategory(categoryID, price);
-                        updateScore();
-                        updateCategories();
-                    }
+                (dialogInterface, i) -> {
+                    userUnlockCategoryDialogOpened = false;
+                    dbHelper.unlockCategory(categoryID, price);
+                    updateScore();
+                    updateCategories();
                 });
-
+        builderSingle.setOnCancelListener(dialogInterface -> userUnlockCategoryDialogOpened = false);
         builderSingle.show();
     }
 

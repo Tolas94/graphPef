@@ -1881,7 +1881,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         updatedValue.put(CategoryTable.COLUMN_UNLOCKED, price);
 
-        db.update(CategoryTable.CATEGORY_TABLE_NAME, updatedValue, CategoryTable._ID + " = " + categoryID, null);
+        db.update(CategoryTable.CATEGORY_TABLE_NAME, updatedValue, CategoryTable.COLUMN_FIRESTORE_ID + " = '" + categoryID + "'", null);
     }
 
     private int getScore() {
@@ -2277,9 +2277,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 QuizAnswerTable.COLUMN_QUESTIONS_ANSWERED + " INTEGER " +
                 ")";
 
+        final String SQL_CREATE_USER_RELATED_TABLE = "CREATE TABLE IF NOT EXISTS " +
+                DBContractNames.UserRelatedInformation.USER_RELATED_TABLE_NAME + " ( " +
+                DBContractNames.UserRelatedInformation._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DBContractNames.UserRelatedInformation.USER_RELATED_GDPR_OPT_IN + " INTEGER, " +
+                DBContractNames.UserRelatedInformation.USER_RELATED_UUID + " TEXT" +
+                ")";
+
         db.execSQL(SQL_CREATE_ANSWERS_TABLE);
         db.execSQL(SQL_CREATE_QUESTIONS_TABLE);
         db.execSQL(SQL_CREATE_CATEGORY_TABLE);
+        db.execSQL(SQL_CREATE_USER_RELATED_TABLE);
     }
 
     //used to delete data after logout
@@ -2296,11 +2304,41 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     //GDPR opt in flag
-    private boolean getUserOptInFlag() {
+    public boolean getUserOptInFlag(String uuid) {
         boolean retVal = false;
 
-        //TODO check from database
+        db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + DBContractNames.UserRelatedInformation.USER_RELATED_GDPR_OPT_IN + "  as gdpr FROM " + DBContractNames.UserRelatedInformation.USER_RELATED_TABLE_NAME + " WHERE " + DBContractNames.UserRelatedInformation.USER_RELATED_UUID + " = '" + uuid + "'", null);
+        if (cursor.moveToFirst()) {
+            retVal = cursor.getInt(cursor.getColumnIndex("gdpr")) == 1;
+        }
+
+        cursor.close();
+        Log.d(TAG, "getUserOptInFlag uuid[" + uuid + "] retVal[" + retVal + "]");
         return retVal;
     }
+
+    public void updateUserOptInFlag(String uuid, boolean newValue) {
+        Log.d(TAG, "updateUserOptInFlag uuid[" + uuid + "] newValue[" + newValue + "]");
+        ContentValues updatedValue = new ContentValues();
+        boolean exist = false;
+
+        db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT " + DBContractNames.UserRelatedInformation.USER_RELATED_GDPR_OPT_IN + "  as gdpr FROM " + DBContractNames.UserRelatedInformation.USER_RELATED_TABLE_NAME + " WHERE " + DBContractNames.UserRelatedInformation.USER_RELATED_UUID + " = '" + uuid + "'", null);
+        if (cursor.moveToFirst()) {
+            Log.d(TAG, "updateUserOptInFlag uuid[" + uuid + "] exist");
+            exist = true;
+        }
+        cursor.close();
+        updatedValue.put(DBContractNames.UserRelatedInformation.USER_RELATED_GDPR_OPT_IN, newValue);
+        updatedValue.put(DBContractNames.UserRelatedInformation.USER_RELATED_UUID, uuid);
+        if (exist) {
+            db.update(DBContractNames.UserRelatedInformation.USER_RELATED_TABLE_NAME, updatedValue, DBContractNames.UserRelatedInformation.USER_RELATED_UUID + " = '" + uuid + "'", null);
+        } else {
+            db.insert(DBContractNames.UserRelatedInformation.USER_RELATED_TABLE_NAME, null, updatedValue);
+        }
+    }
+
+
 
 }

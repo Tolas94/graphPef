@@ -74,8 +74,10 @@ public class QuizControllerActivity extends AppCompatActivity implements Seriali
         super.onCreate(savedInstanceState);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
 
         setContentView(R.layout.test_main);
 
@@ -187,7 +189,7 @@ public class QuizControllerActivity extends AppCompatActivity implements Seriali
 
     private void finishQuiz(){
         Log.d(TAG, "finishQuiz");
-        Integer bonus = 0;
+        int bonus = 0;
 
         if (score > dbHelper.getHighPointsScore()) {
             // + 50 percent if score is highscore

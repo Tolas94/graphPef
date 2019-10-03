@@ -77,5 +77,11 @@ class DBContractNames {
         static final String COLUMN_QUESTIONS_ANSWERED = "questions_answered";
     }
 
+    static class UserRelatedInformation implements BaseColumns {
+        static final String USER_RELATED_TABLE_NAME = "user_related_info";
+        static final String USER_RELATED_GDPR_OPT_IN = "gdpr_ack";
+        static final String USER_RELATED_UUID = "user_firebase_uuid";
+    }
+
 
 }

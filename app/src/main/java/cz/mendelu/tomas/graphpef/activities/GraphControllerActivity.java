@@ -7,7 +7,9 @@ import android.view.MenuItem;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -35,9 +37,7 @@ public class GraphControllerActivity extends AppCompatActivity implements Serial
 
     private static final String TAG = "MainScreenController";
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    private ViewPager mViewPager;
+    //private SectionsPagerAdapter mSectionsPagerAdapter;
 
     private HashMap<GraphEnum, DefaultGraph> graphsDatabase;
 
@@ -50,11 +50,11 @@ public class GraphControllerActivity extends AppCompatActivity implements Serial
         CostCurves,
         IndifferentAnalysis,
         MonopolisticMarket,
-        MonopolisticMarketLongTerm,
+        /*MonopolisticMarketLongTerm,
         Oligopol,
         Monopol,
         AdmMonopol,
-        Utility
+        Utility*/
     }
     public enum LineEnum {
         Demand,
@@ -64,25 +64,25 @@ public class GraphControllerActivity extends AppCompatActivity implements Serial
         Price,
         SupplyDefault,
         Supply,
-        TotalCost,
+        //TotalCost,
         MarginalCost,
         AverageCost,
-        FixedCost,
-        VariableCost,
-        TotalRevenue,
+        //FixedCost,
+        //VariableCost,
+        //TotalRevenue,
         MarginalRevenue,
-        AverageRevenue,
+        //AverageRevenue,
         Quantity,
         ProductionCapabilities,
         ProductionCapabilitiesDefault,
-        Taxes,
+        //Taxes,
         Equilibrium,
-        TotalUtility,
+        //TotalUtility,
         AverageVariableCost,
         BudgetLine,
         IndifferentCurve,
     }
-    public static HashMap<LineEnum,LineEnum> lineLabels;
+    //public static HashMap<LineEnum,LineEnum> lineLabels;
 
     public enum Direction {
         up,
@@ -109,16 +109,17 @@ public class GraphControllerActivity extends AppCompatActivity implements Serial
         graphsDatabase = new HashMap<>();
         populateGraphDatabase();
 
-        setChosenGraph(getIntent().getExtras().getString("GRAPH_KEY"));
+        setChosenGraph(Objects.requireNonNull(getIntent().getExtras()).getString("GRAPH_KEY"));
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(graphsDatabase.get(chosenGraph).getTitle());
+        assert actionBar != null;
+        actionBar.setTitle(Objects.requireNonNull(graphsDatabase.get(chosenGraph)).getTitle());
         //actionBar.setTitle(getIntent().getExtras().getString("GRAPH_KEY"));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        //mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        mViewPager = findViewById(R.id.container);
+        ViewPager mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
 
 
@@ -153,7 +154,7 @@ public class GraphControllerActivity extends AppCompatActivity implements Serial
         GraphHelperObject marketDS = new GraphHelperObject();
         GraphHelperObject productionLimit = new GraphHelperObject();
         GraphHelperObject perfectMarketFirm = new GraphHelperObject();
-        GraphHelperObject indiferrentAnalysis = new GraphHelperObject();
+        GraphHelperObject indifferentAnalysis = new GraphHelperObject();
         GraphHelperObject costCurveHelper = new GraphHelperObject();
         GraphHelperObject monopolisticMarketFirm = new GraphHelperObject();
 
@@ -171,11 +172,11 @@ public class GraphControllerActivity extends AppCompatActivity implements Serial
         marketDS.setDependantCurveOnEquilibrium(new ArrayList<>(Arrays.asList(LineEnum.Price, LineEnum.Quantity)));
 
         graphsDatabase.put(GraphEnum.MarketDS, new MarketDS(
-                new ArrayList<String>(),
+                new ArrayList<>(),
                 new ArrayList<>(Arrays.asList(LineEnum.Supply,LineEnum.Demand)),
                 LineEnum.Supply,
                 marketDS.getSeries(),
-                new ArrayList<String>(),
+                new ArrayList<>(),
                 marketDS));
 
         // ProductionLimit
@@ -188,11 +189,11 @@ public class GraphControllerActivity extends AppCompatActivity implements Serial
         productionLimit.addToSeries(LineEnum.ProductionCapabilitiesDefault, new ArrayList<>(Arrays.asList(8,8)));
         productionLimit.setCalculateEqulibrium(false);
         graphsDatabase.put(GraphEnum.ProductionLimit,new ProductionLimit(
-                new ArrayList<String>(),
-                new ArrayList<>(Arrays.asList(LineEnum.ProductionCapabilities)),
+                new ArrayList<>(),
+                new ArrayList<>(Collections.singletonList(LineEnum.ProductionCapabilities)),
                 LineEnum.ProductionCapabilities,
                 productionLimit.getSeries(),
-                new ArrayList<String>(),
+                new ArrayList<>(),
                 productionLimit));
 
         // Perfect Market competition
@@ -215,11 +216,11 @@ public class GraphControllerActivity extends AppCompatActivity implements Serial
         perfectMarketFirm.setDependantCurveOnCurve(hashMap);
 
         graphsDatabase.put(GraphEnum.PerfectMarket,new PerfectMarketFirm(
-                new ArrayList<String>(),
+                new ArrayList<>(),
                 new ArrayList<>(Arrays.asList(LineEnum.PriceLevel,LineEnum.AverageCost)),
                 LineEnum.PriceLevel,
                 perfectMarketFirm.getSeries(),
-                new ArrayList<String>(),
+                new ArrayList<>(),
                 perfectMarketFirm));
 
         //costcurves
@@ -236,62 +237,62 @@ public class GraphControllerActivity extends AppCompatActivity implements Serial
         costCurveHelper.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.PriceLevel, LineEnum.MarginalCost)));
 
         costCurveHelper.setDependantCurveOnEquilibrium(new ArrayList<>(Arrays.asList(LineEnum.Price, LineEnum.Quantity)));
-        hashMap.put(LineEnum.PriceLevel, new ArrayList<LineEnum>(Arrays.asList(LineEnum.MarginalCost,LineEnum.AverageVariableCost,LineEnum.AverageCost)));
+        hashMap.put(LineEnum.PriceLevel, new ArrayList<>(Arrays.asList(LineEnum.MarginalCost, LineEnum.AverageVariableCost, LineEnum.AverageCost)));
         costCurveHelper.setDependantCurveOnCurve(hashMap);
 
         graphsDatabase.put(GraphEnum.CostCurves,new CostCurves(
-                new ArrayList<String>(),
+                new ArrayList<>(),
                 new ArrayList<>(Arrays.asList(LineEnum.Quantity,LineEnum.AverageCost)),
                 LineEnum.Quantity,
                 costCurveHelper.getSeries(),
-                new ArrayList<String>(),
+                new ArrayList<>(),
                 costCurveHelper));
 
         //indiferent analysis
-        indiferrentAnalysis.setTitle(getString(R.string.IndifferentAnalysis));
-        indiferrentAnalysis.setLabelX(getString(R.string.estate) + " X [" + getString(R.string.units) + "]");
-        indiferrentAnalysis.setLabelY(getString(R.string.estate) + " Y [" + getString(R.string.units) + "]");
-        indiferrentAnalysis.setGraphEnum(GraphEnum.IndifferentAnalysis);
-        indiferrentAnalysis.addToSeries(LineEnum.BudgetLine, new ArrayList<>(Arrays.asList(8,8)));
-        indiferrentAnalysis.addToSeries(LineEnum.IndifferentCurve, new ArrayList<>(Arrays.asList(3,-3)));
+        indifferentAnalysis.setTitle(getString(R.string.IndifferentAnalysis));
+        indifferentAnalysis.setLabelX(getString(R.string.estate) + " X [" + getString(R.string.units) + "]");
+        indifferentAnalysis.setLabelY(getString(R.string.estate) + " Y [" + getString(R.string.units) + "]");
+        indifferentAnalysis.setGraphEnum(GraphEnum.IndifferentAnalysis);
+        indifferentAnalysis.addToSeries(LineEnum.BudgetLine, new ArrayList<>(Arrays.asList(8, 8)));
+        indifferentAnalysis.addToSeries(LineEnum.IndifferentCurve, new ArrayList<>(Arrays.asList(3, -3)));
 
-        indiferrentAnalysis.setCalculateEqulibrium(true);
-        indiferrentAnalysis.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.BudgetLine, LineEnum.IndifferentCurve)));
+        indifferentAnalysis.setCalculateEqulibrium(true);
+        indifferentAnalysis.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.BudgetLine, LineEnum.IndifferentCurve)));
 
         graphsDatabase.put(GraphEnum.IndifferentAnalysis, new IndifferentAnalysis(
-                new ArrayList<String>(),//texty
+                new ArrayList<>(),
                 new ArrayList<>(Arrays.asList(LineEnum.BudgetLine,LineEnum.IndifferentCurve)), //krivky na posun
                 LineEnum.BudgetLine,
-                indiferrentAnalysis.getSeries(),
-                new ArrayList<String>(),
-                indiferrentAnalysis));
+                indifferentAnalysis.getSeries(),
+                new ArrayList<>(),
+                indifferentAnalysis));
 
         //monopolistic market firm
         monopolisticMarketFirm.setTitle(getString(R.string.MonopolisticMarket));
         monopolisticMarketFirm.setLabelX(getString(R.string.quantity) + " [" + getString(R.string.units) + "]");
         monopolisticMarketFirm.setLabelY(getString(R.string.price)  + " [" + getString(R.string.currency) + "]");
         monopolisticMarketFirm.setGraphEnum(GraphEnum.MonopolisticMarket);
-        monopolisticMarketFirm.addToSeries(LineEnum.AverageCost, new ArrayList<Integer>());
-        monopolisticMarketFirm.addToSeries(LineEnum.MarginalCost, new ArrayList<Integer>());
+        monopolisticMarketFirm.addToSeries(LineEnum.AverageCost, new ArrayList<>());
+        monopolisticMarketFirm.addToSeries(LineEnum.MarginalCost, new ArrayList<>());
         //monopolisticMarketFirm.addToSeries(LineEnum.PriceLevel, new ArrayList<Integer>());
-        monopolisticMarketFirm.addToSeries(LineEnum.IndividualDemand, new ArrayList<Integer>());
-        monopolisticMarketFirm.addToSeries(LineEnum.MarginalRevenue, new ArrayList<Integer>());
+        monopolisticMarketFirm.addToSeries(LineEnum.IndividualDemand, new ArrayList<>());
+        monopolisticMarketFirm.addToSeries(LineEnum.MarginalRevenue, new ArrayList<>());
 
         monopolisticMarketFirm.setEquilibriumCurves(new ArrayList<>(Arrays.asList(LineEnum.MarginalCost,LineEnum.MarginalRevenue)));
         monopolisticMarketFirm.setCalculateEqulibrium(true);
 
         monopolisticMarketFirm.setDependantCurveOnEquilibrium(new ArrayList<>(Arrays.asList(LineEnum.Price, LineEnum.Quantity)));
         HashMap<GraphControllerActivity.LineEnum, ArrayList<GraphControllerActivity.LineEnum>> hashMap2 = new HashMap<>();
-        hashMap2.put(LineEnum.MarginalRevenue, new ArrayList<LineEnum>(Arrays.asList(LineEnum.IndividualDemand,LineEnum.AverageCost)));
-        hashMap2.put(LineEnum.AverageCost, new ArrayList<>(Arrays.asList(LineEnum.MarginalCost)));
+        hashMap2.put(LineEnum.MarginalRevenue, new ArrayList<>(Arrays.asList(LineEnum.IndividualDemand, LineEnum.AverageCost)));
+        hashMap2.put(LineEnum.AverageCost, new ArrayList<>(Collections.singletonList(LineEnum.MarginalCost)));
         monopolisticMarketFirm.setDependantCurveOnCurve(hashMap2);
 
         graphsDatabase.put(GraphEnum.MonopolisticMarket, new MonopolisticMarketFirm(
-                new ArrayList<String>(),
+                new ArrayList<>(),
                 new ArrayList<>(Arrays.asList(LineEnum.MarginalRevenue,LineEnum.AverageCost)),
                 LineEnum.MarginalRevenue,
                 monopolisticMarketFirm.getSeries(),
-                new ArrayList<String>(),
+                new ArrayList<>(),
                 monopolisticMarketFirm
         ));
     }
@@ -300,9 +301,9 @@ public class GraphControllerActivity extends AppCompatActivity implements Serial
         return chosenGraph;
     }
 
-    public ViewPager getViewPager() {
+    /*public ViewPager getViewPager() {
         return mViewPager;
-    }
+    }*/
 
     public static void setChosenGraph(String string){
         Log.d(TAG, "setChosenGraph " + string);

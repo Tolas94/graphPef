@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,8 +29,6 @@ import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 public class GraphMenuListActivity extends AppCompatActivity implements Serializable {
 
     private static final String TAG = "GraphMenuListActivity";
-    private RecyclerView graphMenu;
-    private MenuListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
     public enum GraphEnum {
@@ -49,6 +48,7 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
         super.onCreate(savedInstanceState);
         setContentView(R.layout.graph_list);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setTitle(getString(R.string.choose_graph));
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
@@ -56,7 +56,7 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
         popuplateImages();
         populateStrings();
 
-        graphMenu = findViewById(R.id.listOfGraphs);
+        RecyclerView graphMenu = findViewById(R.id.listOfGraphs);
 
         ArrayList<StringIntegerPair> graphNames = new ArrayList<>();
         Log.d(TAG, "graphNames init");
@@ -64,7 +64,7 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
             Log.d(TAG, "graphNames " + graphEnum.toString());
             graphNames.add(new StringIntegerPair(grapLookupStringsPair.get(graphEnum), grapLookupImagePair.get(graphEnum)));
         }
-        mAdapter = new MenuListAdapter(graphNames);
+        MenuListAdapter mAdapter = new MenuListAdapter(graphNames);
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
         graphMenu.setLayoutManager(mLayoutManager);
         graphMenu.setAdapter(mAdapter);
@@ -82,10 +82,7 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(200); // half second between each showcase view
         MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, TAG);
-        sequence.setOnItemShownListener(new MaterialShowcaseSequence.OnSequenceItemShownListener() {
-            @Override
-            public void onShow(MaterialShowcaseView itemView, int position) {
-            }
+        sequence.setOnItemShownListener((itemView, position) -> {
         });
         sequence.setConfig(config);
         Log.d(TAG, "showcase");
@@ -94,7 +91,7 @@ public class GraphMenuListActivity extends AppCompatActivity implements Serializ
             if (mLayoutManager.getChildCount() > 2) {
                 sequence.addSequenceItem(
                         new MaterialShowcaseView.Builder(this)
-                                .setTarget(mLayoutManager.findViewByPosition(1).findViewById(R.id.menu_item_relative_parent))
+                                .setTarget(Objects.requireNonNull(mLayoutManager.findViewByPosition(1)).findViewById(R.id.menu_item_relative_parent))
                                 .setDismissText(getString(R.string.graph_list_showcase))
                                 .setContentText(getString(R.string.dismiss_showcase_text))
                                 .withRectangleShape(true)
