@@ -266,12 +266,15 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
     }
 
     private void checkOptInValue() {
-        customDialog(getString(R.string.firebaseUserOptInTitle),
-                getString(R.string.firebaseUserOptInText),
-                getString(R.string.firebaseUserOptInForbid),
-                getString(R.string.firebaseUserOptInAllow),
-                false,
-                true);
+
+        if (mAuth != null && mAuth.getCurrentUser() != null && mAuth.getCurrentUser().getUid() != null) {
+            customDialog(getString(R.string.firebaseUserOptInTitle),
+                    getString(R.string.firebaseUserOptInText),
+                    getString(R.string.firebaseUserOptInForbid),
+                    getString(R.string.firebaseUserOptInAllow),
+                    false,
+                    true);
+        }
     }
 
     @Override
