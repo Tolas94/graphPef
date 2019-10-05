@@ -266,7 +266,6 @@ public class SplashScreenActivity extends AppCompatActivity implements Serializa
     }
 
     private void checkOptInValue() {
-
         if (mAuth != null && mAuth.getCurrentUser() != null && mAuth.getCurrentUser().getUid() != null) {
             customDialog(getString(R.string.firebaseUserOptInTitle),
                     getString(R.string.firebaseUserOptInText),

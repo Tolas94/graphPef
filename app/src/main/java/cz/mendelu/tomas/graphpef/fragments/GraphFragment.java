@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,6 +53,7 @@ public class GraphFragment extends Fragment  implements Serializable {
     private AppCompatTextView text1, text2, text3, text4, text5;
     private PointsGraphSeries<DataPoint> eqpoints;
     private HashMap<GraphControllerActivity.LineEnum, PointsGraphSeries> labelSeries;
+    private CardView graphChoose;
     //private RelativeLayout loadingAnimation;
 
     private GraphIfc graphIfc;
@@ -108,6 +111,7 @@ public class GraphFragment extends Fragment  implements Serializable {
             labelSeries = new HashMap<>();
             //loadingAnimation = view.findViewById(R.id.loadingPanelGraph);
             //loadingAnimation.setVisibility(View.INVISIBLE);
+            graphChoose = this.getActivity().findViewById(R.id.graphChooseCurveCardViewViewLayout);
 
 
             text1 = view.findViewById(R.id.graphText1);
@@ -439,15 +443,6 @@ public class GraphFragment extends Fragment  implements Serializable {
         });
         sequence.setConfig(config);
         //sequence.addSequenceItem(graph,getString(R.string.graph_showcase),getString(R.string.dismiss_showcase_text));
-        sequence.addSequenceItem(
-                new MaterialShowcaseView.Builder(this.getActivity())
-                        .setTarget(text1)
-                        .setDismissText(getString(R.string.graph_values_showcase))
-                        .setContentText(getString(R.string.dismiss_showcase_text))
-                        .withRectangleShape()
-                        .setDismissOnTouch(true)
-                        .build()
-        );
         ImageButton showcaseBtn;
         if (up.getVisibility() == View.VISIBLE) {
             showcaseBtn = up;
@@ -477,15 +472,42 @@ public class GraphFragment extends Fragment  implements Serializable {
                         .setDismissOnTouch(true)
                         .build()
         );
-       /* sequence.addSequenceItem(
-                new MaterialShowcaseView.Builder(this.getActivity())
-                        .setTarget(toolbar)
-                        .setDismissText(getString(R.string.choose_curve_showcase))
-                        .setContentText(getString(R.string.dismiss_showcase_text))
-                        .withRectangleShape(true)
-                        .setDismissOnTouch(true)
-                        .build()
-        );*/
+        try {
+            if (graphChoose != null) {
+                sequence.addSequenceItem(
+                        new MaterialShowcaseView.Builder(this.getActivity())
+                                .setTarget(graphChoose)
+                                .setDismissText(getString(R.string.choose_curve_showcase))
+                                .setContentText(getString(R.string.dismiss_showcase_text))
+                                .withRectangleShape(true)
+                                .setDismissOnTouch(true)
+                                .build()
+                );
+            }
+
+            ScrollView scrollView = this.getActivity().findViewById(R.id.graphScrollView);
+            if (text1 != null && scrollView != null) {
+                int pos = text1.getTop();
+                sequence.setOnItemDismissedListener((itemView, position) -> {
+
+                    if (position == 2) {
+                        scrollView.scrollTo(0, pos);
+                    }
+
+                });
+                sequence.addSequenceItem(
+                        new MaterialShowcaseView.Builder(this.getActivity())
+                                .setTarget(text1)
+                                .setDismissText(getString(R.string.graph_values_showcase))
+                                .setContentText(getString(R.string.dismiss_showcase_text))
+                                .withRectangleShape()
+                                .setDismissOnTouch(true)
+                                .build()
+                );
+            }
+        } catch (NullPointerException e) {
+            Log.e(TAG, e.getMessage());
+        }
         sequence.start();
     }
 }
