@@ -25,9 +25,7 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/SplashScreenActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/activities/SplashScreenActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/GraphFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/GraphFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/graph_fragment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/graph_fragment.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -163,8 +161,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/GraphFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="477" column="52" selection-start-line="477" selection-start-column="52" selection-end-line="477" selection-end-column="52" />
+            <state relative-caret-position="323">
+              <caret line="56" column="46" lean-forward="true" selection-start-line="56" selection-start-column="46" selection-end-line="56" selection-end-column="46" />
               <folding>
                 <element signature="e#21528#21569#0" expanded="true" />
                 <element signature="e#21619#21660#0" expanded="true" />
@@ -265,8 +263,8 @@
       <find>showcase</find>
       <find>text1</find>
       <find>getActivity</find>
-      <find>graphchoose</find>
       <find>present</find>
+      <find>graphchoose</find>
     </findStrings>
     <replaceStrings>
       <replace>newQuestion.put(FIRESTORE_SUBJECT, &quot;MI1&quot;\); \n newQuestion.put\(FIRESTORE_CORRECT_ANSWER</replace>
@@ -957,7 +955,14 @@
       <option name="project" value="LOCAL" />
       <updated>1570272106752</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="version 1.0.1 build">
+      <created>1570277691913</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1570277691914</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1463,8 +1468,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/cz/mendelu/tomas/graphpef/fragments/GraphFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="477" column="52" selection-start-line="477" selection-start-column="52" selection-end-line="477" selection-end-column="52" />
+        <state relative-caret-position="323">
+          <caret line="56" column="46" lean-forward="true" selection-start-line="56" selection-start-column="46" selection-end-line="56" selection-end-column="46" />
           <folding>
             <element signature="e#21528#21569#0" expanded="true" />
             <element signature="e#21619#21660#0" expanded="true" />

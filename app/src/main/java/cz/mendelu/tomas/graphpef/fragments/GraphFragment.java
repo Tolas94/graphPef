@@ -59,6 +59,7 @@ public class GraphFragment extends Fragment  implements Serializable {
     private GraphIfc graphIfc;
     private final static String GRAPH_KEY = "GRAPH_KEY";
     private static boolean init = false;
+    private static GraphFragment instance = null;
 
 
     private RecyclerView infoTextView;
@@ -80,7 +81,6 @@ public class GraphFragment extends Fragment  implements Serializable {
         Bundle bundle = new Bundle();
         bundle.putSerializable("GRAPH_KEY",defaultGraph);
         graphFragment.setArguments(bundle);
-
         return  graphFragment;
     }
 
@@ -473,10 +473,10 @@ public class GraphFragment extends Fragment  implements Serializable {
                         .build()
         );
         try {
-            if (graphChoose != null) {
+            if (recyclerViewCurves != null) {
                 sequence.addSequenceItem(
                         new MaterialShowcaseView.Builder(this.getActivity())
-                                .setTarget(graphChoose)
+                                .setTarget(recyclerViewCurves)
                                 .setDismissText(getString(R.string.choose_curve_showcase))
                                 .setContentText(getString(R.string.dismiss_showcase_text))
                                 .withRectangleShape(true)
